@@ -287,7 +287,7 @@ async function updateTasks(newTasksArray) {
 async function fetchTasks() {
     const response = await fetch(`${BASE_URL}/tasks.json`);
     const data = await response.json();
-    return data || []; // Return an empty array if no data is found
+    return data || []; 
 }
 
 /**

@@ -12,10 +12,10 @@ actStatus = "";
 async function initAddTask() {
     contacts = await loadData('/contacts');
     await includeHTML();
-    checkForCurrentUser() ? "": redirectToLogin();
+    checkForCurrentUser() ? "" : redirectToLogin();
     highlightAddTask();
     updateHeaderProfileInitials();
-    filterContacts(); 
+    filterContacts();
     showMenu();
     changeSvgOnHover();
     changePrioBtn();
