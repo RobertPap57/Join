@@ -12,10 +12,10 @@ actStatus = "";
 async function initAddTask() {
     contacts = await loadData('/contacts');
     await includeHTML();
-    checkForCurrentUser() ? "": redirectToLogin();
+    checkForCurrentUser() ? "" : redirectToLogin();
     highlightAddTask();
     updateHeaderProfileInitials();
-    filterContacts(); 
+    filterContacts();
     showMenu();
     changeSvgOnHover();
     changePrioBtn();
@@ -59,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
         actStatus = status;
         console.log('Status:', actStatus);
     } else {
-        actStatus = 'toDo'; 
-        console.log('Status parameter is missing. Default value:', actStatus);
+        actStatus = 'toDo';
     }
 });
