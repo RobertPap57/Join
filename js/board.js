@@ -18,9 +18,19 @@ async function initBoard() {
    
 }
 
+/**
+ * Filter contacts assigned to tasks based on the provided contacts list.
+ *
+ * @param {Array} contacts - The list of contacts available.
+ * @param {Array} tasks - The list of tasks to filter contacts for.
+ */
 function filterContactsInTasks(contacts, tasks) {
     tasks.forEach(task => {
-        task.assignedTo = task.assignedTo.filter(contactId => contacts.some(contact => contact.id === contactId));
+        if (Array.isArray(task.assignedTo)) {
+            task.assignedTo = task.assignedTo.filter(contactId => contacts.some(contact => contact.id === contactId));
+        } else {
+            task.assignedTo = []; // Initialize as an empty array if it doesn't exist or isn't an array
+        }
     });
 }
 /**

@@ -1,7 +1,3 @@
-/**
- * @constant {string} BASE_URL - The base URL for the Firebase database.
- */
-const BASE_URL = "https://join-230-default-rtdb.europe-west1.firebasedatabase.app/";
 
 /**
  * @constant {Array} selectedContacts - Array to store selected contacts.

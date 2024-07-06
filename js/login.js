@@ -9,8 +9,6 @@
  * @constant
  * @type {string}
  */
-const BASE_URL = "https://join-230-default-rtdb.europe-west1.firebasedatabase.app/";
-
 
 /**
  * Initializes the login page by executing various setup functions asynchronously.
@@ -510,7 +508,7 @@ async function addUserToContacts() {
  * @returns {Promise<void>} A promise that resolves when the update is complete.
  */
 async function updateDataBase(array, arrayName) {
-    await fetch(`${teamBASE_URL}/${arrayName}.json`, {
+    await fetch(`${BASE_URL}/${arrayName}.json`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

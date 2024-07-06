@@ -1,5 +1,4 @@
-const teamBASE_URL = "https://join-230-default-rtdb.europe-west1.firebasedatabase.app/";
-// const myBASE_URL = "https://join-database-6441e-default-rtdb.europe-west1.firebasedatabase.app/";
+
 
 
 let highestId = 0;
@@ -22,13 +21,13 @@ async function initContacts() {
 
 
 /**
- * Asynchronously fetches data from the specified path in the teamBASE_URL and returns the parsed JSON response.
+ * Asynchronously fetches data from the specified path in the BASE_URL and returns the parsed JSON response.
  *
  * @param {string} [path=""] - The path to fetch data from. Defaults to an empty string.
  * @return {Promise<object>} A Promise that resolves to the parsed JSON response from the server.
  */
 async function loadData(path = "") {
-    let response = await fetch(teamBASE_URL + path + ".json");
+    let response = await fetch(BASE_URL + path + ".json");
     let responseToJson = await response.json();
     return responseToJson;
 }
@@ -331,7 +330,7 @@ async function updateUIAfterAddingContact(newContact) {
  * @return {Promise<void>} A Promise that resolves when the database update is complete.
  */
 async function updateDataBase(array, arrayName) {
-    await fetch(`${teamBASE_URL}/${arrayName}.json`, {
+    await fetch(`${BASE_URL}/${arrayName}.json`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
