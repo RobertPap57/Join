@@ -1,20 +1,7 @@
-
 "use strict";
 
 
-/* 
-NEU für das PROJEKT
-https://join-230-default-rtdb.europe-west1.firebasedatabase.app/
-
-*/
-
-
-const BASE_URL = "https://join-230-default-rtdb.europe-west1.firebasedatabase.app/";
-
-
-
-
-let contacts = [
+let  dummyContacts = [
 	{
 		"id" : 0,
 		"name" : "Anton Mayer",
@@ -108,8 +95,7 @@ let contacts = [
 ];
 
 
-
-let tasks = [
+let dummyTasks = [
 	{
 		"id" : 0,
 		"title" : "Kochwelt Page & Recipe Recommender",
@@ -206,9 +192,7 @@ let tasks = [
 ]
 
 
-
-
-let users = [
+let dummyUsers = [
 	{
 		"id" : 0,
 		"name" : "Anton Mayer",
@@ -262,27 +246,18 @@ let users = [
 ];
 
 
-
-function resetDatabase() {
-	checkIfDatabaseIsEmpty("/contacts");
-	checkIfDatabaseIsEmpty("/tasks");
-	checkIfDatabaseIsEmpty("/users");
-	putData("/contacts", contacts);
-	putData("/tasks", tasks);
-	putData("/users", users);
+async function resetDummyData() {
+	await putData("/contacts", dummyContacts);
+	await putData("/tasks", dummyTasks);
+	await putData("/users", dummyUsers);
+	await readData();
 }
 
 
-
-async function checkIfDatabaseIsEmpty(path="") {
-	let result = await loadData(path);
-	if (!result) {
-		console.warn("Datenbank bzw. angegebener Pfad innerhalb der Datenbank ist leer");
-		return true;
-	} else {
-		console.log(result);
-		return result;
-	}
+async function readData() {
+	console.log(await loadData("/contacts"));
+	console.log(await loadData("/tasks"));
+	console.log(await loadData("/users"));
 }
 
 
@@ -304,29 +279,3 @@ async function putData(path="", data={}) {
 	let responseToJson = await response.json();
 	return responseToJson;
 }
-
-
-async function readData() {
-	console.log(await loadData("/contacts"));
-	console.log(await loadData("/tasks"));
-	console.log(await loadData("/users"));
-}
-
-
-
-
-// Um neue Collections bzw. Pfade anzulegen, nutzt man PUT wie hier gesehen:
-// setData("/users", users);
-async function setData(path="", data={}) {
-	let response = await fetch(BASE_URL + path + ".json", {
-		method: "PUT",
-		header: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(data),
-	});
-	let responseToJson = await response.json();
-	return responseToJson;
-}
-
-

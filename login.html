@@ -1,92 +1,99 @@
 <!DOCTYPE html>
-
 <html lang="de">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="robots" content="noindex, nofollow" />
-        <meta name="description" content="This is a trainingswebside from Developers Akademie" />
-        <link id="favicon" rel="shortcut icon" href="./assets/img/favicon/logo_black.png" type="image/x-icon" />
-        <link rel="stylesheet" type="text/css" href="./styles.css" />
-        <link rel="stylesheet" type="text/css" href="./styles/login.css" />
-        <link rel="stylesheet" type="text/css" href="./styles/loginResponsive.css" />
-        <script defer src="./script.js" type="text/javascript"></script>
-        <script defer src="./js/login.js" type="text/javascript"></script>
-        <title>Log in</title>
-    </head>
 
-    <body onload="initLogin()">
-        <div class="content__container">
-            <header class="header">
-                <div class="header__logo__container">
-                    <img id="header__logo" class="header__logo" src="./assets/img/icons_login/logo.svg" alt="Logo" />
-                    <img id="header__logo-mobile" class="header__logo-mobile d-none" src="./assets/img/icons_login/logomobile.svg" alt="Logo" />
-                </div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log in</title>
+    <link id="favicon" rel="shortcut icon" href="./assets/img/favicon/logo_black.png" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/login.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/loginResponsive.css" />
+    <script src="./script.js" defer></script>
+    <script src="./js/login.js" defer></script>
+</head>
 
-                <nav class="login__nav">
-                    <p>Not a Join User?</p>
-                    <a href="#">
-                        <div class="login__signUp" onclick="redirectToSignUp()">Sign Up</div>
-                    </a>
-                </nav>
-            </header>
+<body onload="initLogin()">
+    <div class="content__container">
 
-            <div class="logIn__container">
-                <h1>Log in</h1>
-                <img class="logIn__separator" src="./assets/img/icons_login/separator.png" alt="separator" />
-
-                <form id="login" class="logIn__form" onsubmit="loginSubmit(event)" onkeyup="disableLoginButtonIfFormIsEmpty()">
-
-                    <div class="form__wrongMail__container">
-                        <div class="form__wrongMail__message" id="form__wrongMail__message"></div>
-                    </div>
-
-                    <div id="mail__container" class="inputField__container inputField__container-margin32">
-                        <input id="email" type="email" placeholder="Email" autocomplete="email" required  onkeypress="logInIsCorrected()"/>
-                        <img class="inputField__username__icon" src="./assets/img/icons_login/mail.png" alt="mail" />
-                    </div>
-
-                    <div id="password__container" class="inputField__container">
-                        <input id="password" type="password" placeholder="Password" autocomplete="current-password" required onkeyup="changePasswordIcon()" onkeypress="logInIsCorrected()" />
-                        <img id="password__icon" class="inputField__password__icon pointerEvents__none" src="./assets/img/icons_login/lock.png" alt="lock" onclick="showPassword()" />
-                    </div>
-
-                    <div class="form__wrongPassword__container">
-                        <div class="form__wrongPassword__message" id="form__wrongPassword__message"></div>
-                    </div>
-
-                    <div class="check-box">
-                        <img id="checkbox" onclick="checkBoxClicked()" data-checked="false" class="" src="./assets/img/icons_login/checkbox_unchecked.png" />
-                        <p>Remember me</p>
-                    </div>
-
-                    <div class="logIn__btn__container">
-                        <button type="submit" id="btn__logIn" class="btn__logIn" onclick="">Log in</button>
-                        <button id="btn__guest" class="btn__guest" onclick="loginAsGuest()">Guest Log in</button>
-                    </div>
-                </form>
+        <header class="header">
+            <div class="header__logo__container">
+                <img id="header__logo" class="header__logo" src="./assets/img/icons_login/logo.svg" alt="Logo" />
+                <img id="header__logo-mobile" class="header__logo-mobile d-none"
+                    src="./assets/img/icons_login/logomobile.svg" alt="Logo" />
             </div>
 
-            <footer class="login__footer">
-                <nav class="login__nav-mobile">
-                    <p>Not a Join User?</p>
-                    <a href="#">
-                        <div class="login__signUp-mobile" onclick="redirectToSignUp()">Sign Up</div>
-                    </a>
-                </nav>
+            <nav class="login__nav">
+                <p>Not a Join User?</p>
+                <a href="#">
+                    <div class="login__signUp" onclick="redirectToSignUp()">Sign Up</div>
+                </a>
+            </nav>
+        </header>
 
-                <div class="footer__legacys">
-                    <a href="./privacyPolicy.html">Privacy policy</a>
-                    <a href="./legalNotice.html">Legal notice</a>
+        <div class="logIn__container">
+            <h1>Log in</h1>
+            <img class="logIn__separator" src="./assets/img/icons_login/separator.png" alt="separator" />
+
+            <form id="login" class="logIn__form" onsubmit="loginSubmit(event)"
+                onkeyup="disableLoginButtonIfFormIsEmpty()">
+
+                <div class="form__wrongMail__container">
+                    <div class="form__wrongMail__message" id="form__wrongMail__message"></div>
                 </div>
-            </footer>
 
-            <div id="overlay" class="overlay__container">
-                <div class="overlay__logo"></div>
-            </div>
+                <div id="mail__container" class="inputField__container inputField__container-margin32">
+                    <input id="email" type="email" placeholder="Email" autocomplete="email" required
+                        onkeypress="logInIsCorrected()" />
+                    <img class="inputField__username__icon" src="./assets/img/icons_login/mail.png" alt="mail" />
+                </div>
+
+                <div id="password__container" class="inputField__container">
+                    <input id="password" type="password" placeholder="Password" autocomplete="current-password" required
+                        onkeyup="changePasswordIcon()" onkeypress="logInIsCorrected()" />
+                    <img id="password__icon" class="inputField__password__icon pointerEvents__none"
+                        src="./assets/img/icons_login/lock.png" alt="lock" onclick="showPassword()" />
+                </div>
+
+                <div class="form__wrongPassword__container">
+                    <div class="form__wrongPassword__message" id="form__wrongPassword__message"></div>
+                </div>
+
+                <div class="check-box">
+                    <img id="checkbox" onclick="checkBoxClicked()" data-checked="false" class=""
+                        src="./assets/img/icons_login/checkbox_unchecked.png" />
+                    <p>Remember me</p>
+                </div>
+
+                <div class="logIn__btn__container">
+                    <button type="submit" id="btn__logIn" class="btn__logIn" onclick="">Log in</button>
+                    <button id="btn__guest" class="btn__guest" onclick="loginAsGuest()">Guest Log in</button>
+                </div>
+            </form>
         </div>
 
-        <div class="landscape-warning" id="landscapeWarning">Bitte drehen Sie Ihr Gerät in den Hochformatmodus.</div>
-    </body>
+        <footer class="login__footer">
+            <nav class="login__nav-mobile">
+                <p>Not a Join User?</p>
+                <a href="#">
+                    <div class="login__signUp-mobile" onclick="redirectToSignUp()">Sign Up</div>
+                </a>
+            </nav>
+
+            <div class="footer__legacys">
+                <a href="./privacyPolicy.html">Privacy policy</a>
+                <a href="./legalNotice.html">Legal notice</a>
+            </div>
+        </footer>
+
+        <div id="overlay" class="overlay__container">
+            <div class="overlay__logo"></div>
+        </div>
+    </div>
+
+    <div class="landscape-warning" id="landscapeWarning">
+        Bitte drehen Sie Ihr Gerät in den Hochformatmodus.
+    </div>
+</body>
+
 </html>

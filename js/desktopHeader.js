@@ -7,10 +7,10 @@ function openSubMenu() {
     let subModal = document.getElementById('sub-menu-modal');
     subModal.classList.remove('d-none');
     subMenu.classList.remove('d-none');
-    setTimeout(() => {
+
         subMenu.classList.remove('sub-menu-close');
         subMenu.classList.add('sub-menu-open');
-    }, 10);
+
 }
 
 
@@ -23,10 +23,10 @@ function closeSubMenu() {
     let subModal = document.getElementById('sub-menu-modal');
     subMenu.classList.remove('sub-menu-open');
     subMenu.classList.add('sub-menu-close');
-    setTimeout(() => {
+
         subModal.classList.add('d-none');
         subMenu.classList.add('d-none');
-    }, 100);
+
 }
 
 

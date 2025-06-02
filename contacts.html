@@ -4,21 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link id="favicon" rel="shortcut icon" href="./assets/img/favicon/logo_black.png" type="image/x-icon">
     <title>Contacts</title>
+    <link id="favicon" rel="shortcut icon" href="./assets/img/favicon/logo_black.png" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="./styles/contacts.css">
     <link rel="stylesheet" href="./styles/contactsResposive.css">
     <link rel="stylesheet" href="./styles/contactsPopUp.css">
     <link rel="stylesheet" href="./styles/desktopHeader.css">
     <link rel="stylesheet" href="./styles/desktopNav.css">
-    <script src="script.js"></script>
-    <script src="./js/contactsTemplates.js"></script>
-    <script src="./js/contacts.js"></script>
-    <script src="./js/contacts2.js"></script>
-    <script src="./js/desktopNav.js"></script>
-    <script src="./js/desktopHeader.js"></script>
-
+    <script src="script.js" defer></script>
+    <script src="./js/contactsTemplates.js" defer></script>
+    <script src="./js/contacts.js" defer></script>
+    <script src="./js/contacts2.js" defer></script>
+    <script src="./js/desktopNav.js" defer></script>
+    <script src="./js/desktopHeader.js" defer></script>
 </head>
 
 <body onload="initContacts()">
@@ -27,7 +26,8 @@
 
     <div id="contacts-container" class="contacts-container">
         <div class="add-contact-btn-container d-flex-center">
-            <div onclick="openPopUpWindow('add-contact', 'modal', 'pop-up-open', 'pop-up-close')" class="add-contact-btn d-flex-center">
+            <div onclick="openPopUpWindow('add-contact', 'modal', 'pop-up-open', 'pop-up-close')"
+                class="add-contact-btn d-flex-center">
                 <p>
                     <b>Add new contact</b>
                 </p>
@@ -36,7 +36,6 @@
         </div>
         <div class="contacts-list" id="contacts-list"></div>
     </div>
-
 
     <div id="main-container" class="main-container">
         <div onclick="closeMobileContact()" class="back-arrow">
@@ -51,7 +50,8 @@
         <div id="toast-msg" class="toast-msg d-flex-center toast-msg-slide-out">
             Contact succesfully created
         </div>
-        <div onclick="openPopUpWindow('contact-sub-menu', 'mobile-modal', 'sub-menu-open', 'sub-menu-close')" class="d-flex-center contact-sub-menu-btn">
+        <div onclick="openPopUpWindow('contact-sub-menu', 'mobile-modal', 'sub-menu-open', 'sub-menu-close')"
+            class="d-flex-center contact-sub-menu-btn">
             <img src="./assets/img/contacts_img/contacts_sub_menu.svg" alt="">
         </div>
     </div>
@@ -69,7 +69,8 @@
                 </div>
             </div>
             <div class="pop-up-content">
-                <div onclick="closePopUpWindow('add-contact', 'modal', 'pop-up-open', 'pop-up-close')" class="close-pop-up d-flex-center">
+                <div onclick="closePopUpWindow('add-contact', 'modal', 'pop-up-open', 'pop-up-close')"
+                    class="close-pop-up d-flex-center">
                     <img src="./assets/img/contacts_img/close_pop_up.svg" alt="">
                 </div>
                 <div class="contact-img pop-up-img d-flex-center ">
@@ -84,22 +85,24 @@
                             </div>
                         </div>
                         <div class="input">
-                            <input id="new-email" type="email" placeholder="Email" required oninput="validateEmail('new-email')">
+                            <input id="new-email" type="email" placeholder="Email" required
+                                oninput="validateEmail('new-email')">
                             <div class="icon-container">
                                 <img src="./assets/img/contacts_img/mail_icon.svg" alt="">
                             </div>
                         </div>
                         <div class="input">
-                            <input id="new-phone" type="number" pattern="^[0-9-+\s()]{6,16}" placeholder="Phone" required>
+                            <input id="new-phone" type="number" pattern="^[0-9-+\s()]{6,16}" placeholder="Phone"
+                                required>
                             <div class="icon-container">
                                 <img src="./assets/img/contacts_img/phone_icon.svg" alt="">
                             </div>
                         </div>
-
                     </form>
                 </div>
                 <div class="pop-up-btns">
-                    <button onclick="closePopUpWindow('add-contact', 'modal', 'pop-up-open', 'pop-up-close')" class="cancel-btn">
+                    <button onclick="closePopUpWindow('add-contact', 'modal', 'pop-up-open', 'pop-up-close')"
+                        class="cancel-btn">
                         <p>Cancel</p>
                         <div class="icon-container">
                             <img src="./assets/img/contacts_img/close_pop_up.svg" alt="">
@@ -115,15 +118,11 @@
             </div>
         </div>
         <div id="edit-contact" class="pop-up-container pop-up-close d-none"></div>
-
     </div>
 
-
-   <!-- ---------- landscape ---------- -->
-   <div class="landscape-warning" id="landscapeWarning">
-    Bitte drehen Sie Ihr Gerät in den Hochformatmodus.
-</div>
-
+    <div class="landscape-warning" id="landscapeWarning">
+        Bitte drehen Sie Ihr Gerät in den Hochformatmodus.
+    </div>
 </body>
 
 </html>

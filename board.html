@@ -14,16 +14,20 @@
     <link rel="stylesheet" href="styles/boardDialogs.css">
     <link rel="stylesheet" href="styles/board.css">
     <link rel="stylesheet" href="styles/boardAddTask.css">
-    <script src="script.js"></script>
-
-
-
+    <script src="script.js" defer></script>
+    <script src="js/addTaskTemplates.js" defer></script>
+    <script src="js/addTaskTemplates2.js" defer></script>
+    <script src="js/board.js" defer></script>
+    <script src="js/boardDialogs.js" defer></script>
+    <script src="js/boardDialogEdit.js" defer></script>
+    <script src="js/desktopHeader.js" defer></script>
+    <script src="js/desktopNav.js" defer></script>
+    <script src="js/boardReturnHtml.js" defer></script>
 </head>
 
 <body class="body " onload="initBoard()">
     <div w3-include-html="./assets/templates/desktopHeader.html"></div>
     <div w3-include-html="./assets/templates/desktopNav.html"></div>
-
 
     <section class="board boardFlex">
         <div class="boardHeader boardFlex">
@@ -115,18 +119,10 @@
             </div>
         </div>
     </div>
+    
     <div class="landscape-warning" id="landscapeWarning">
         Bitte drehen Sie Ihr Gerät in den Hochformatmodus.
     </div>
-
-    <script src="js/addTaskTemplates.js"></script>
-    <script src="js/addTaskTemplates2.js"></script>
-    <script src="js/board.js"></script>
-    <script src="js/boardDialogs.js"></script>
-    <script src="js/boardDialogEdit.js"></script>
-    <script src="js/desktopHeader.js"></script>
-    <script src="js/desktopNav.js"></script>
-    <script src="js/boardReturnHtml.js"></script>
 </body>
 
 </html>

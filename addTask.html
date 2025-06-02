@@ -12,11 +12,18 @@
     <link rel="stylesheet" href="./styles/desktopHeader.css">
     <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="./styles/addTask2.css">
+    <script src="./script.js" defer></script>
+    <script src="./js/desktopHeader.js" defer></script>
+    <script src="./js/desktopNav.js" defer></script>
+    <script src="./js/addTask.js" defer></script>
+    <script src="./js/addTaskTemplates.js" defer></script>
+    <script src="./js/addTaskTemplates2.js" defer></script>
 </head>
 
 <body onload="initAddTask()">
     <div w3-include-html="./assets/templates/desktopHeader.html"></div>
     <div w3-include-html="./assets/templates/desktopNav.html"></div>
+    
     <div class="add-task-container">
         <form id="add-task-form" action="">
             <div class="form-container">
@@ -127,19 +134,15 @@
             </div>
         </form>
     </div>
+
     <div class="task-added-msg">
         <p>Task added to board</p>
         <img src="assets/img/nav_img/board_icon_active.svg" alt="">
     </div>
+
     <div class="landscape-warning" id="landscapeWarning">
         Bitte drehen Sie Ihr Gerät in den Hochformatmodus.
     </div>
-    <script src="./script.js"></script>
-    <script src="./js/desktopHeader.js"></script>
-    <script src="./js/desktopNav.js"></script>
-    <script src="./js/addTask.js"></script>
-    <script src="./js/addTaskTemplates.js"></script>
-    <script src="./js/addTaskTemplates2.js"></script>
 </body>
 
 </html>
