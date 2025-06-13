@@ -7,7 +7,7 @@ function initHelp() {
         hideHelpIcon();
         updateHeaderProfileInitials();
     });
-    checkForCurrentUser() ? null : redirectToLogin();
+    checkForCurrentUser() ? null : redirectTo('login.html');
 }
 
 

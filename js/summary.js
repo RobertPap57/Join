@@ -15,7 +15,7 @@ async function initSummary() {
     highlightSummary();
     updateHeaderProfileInitials();
   })
-  checkForCurrentUser() ? checkForGreeting() : redirectToLogin();
+  checkForCurrentUser() ? checkForGreeting() : redirectTo('login.html');
   await getDataFromFirebase();
   renderSummary();
 }

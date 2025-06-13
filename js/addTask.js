@@ -12,7 +12,7 @@ actStatus = "";
 async function initAddTask() {
     contacts = await loadData('/contacts');
     await includeHTML();
-    checkForCurrentUser() ? "" : redirectToLogin();
+    checkForCurrentUser() ? "" : redirectTo('login.html');
     highlightAddTask();
     updateHeaderProfileInitials();
     filterContacts();
@@ -40,7 +40,7 @@ function showTaskAddedMessage() {
         messageElement.classList.add('task-added-msg-slide-in');
     }, 100);
     setTimeout(() => {
-        redirectToBoard()
+        redirectTo('board.html');
     }, 2000);
 
 }

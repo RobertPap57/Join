@@ -274,7 +274,7 @@ function saveUserData(newUser, newContact) {
 function performSignUpActions() {
     clearSignUpForm();
     successfullSignUp();
-    setTimeout(redirectToLogin, 1750);
+    setTimeout(redirectTo('login.html'), 1750);
 }
 
 
@@ -286,13 +286,6 @@ function successfullSignUp() {
     element.classList.remove('d-none');
 }
 
-
-/**
- * Redirects the user to the login.html page.
- */
-function redirectToLogin() {
-    window.location.href = 'login.html';
-}
 
 
 /**

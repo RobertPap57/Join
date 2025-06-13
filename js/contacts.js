@@ -11,7 +11,7 @@ let highestId = 0;
  */
 async function initContacts() {
     await includeHTML();
-    checkForCurrentUser() ? "": redirectToLogin();
+    checkForCurrentUser() ? "": redirectTo('login.html');
     highlightContacts();
     await readData();
     tasks = loadData("/tasks");

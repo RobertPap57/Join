@@ -192,7 +192,7 @@ function showTaskAddedMessage() {
     const messageElement = document.querySelector('.task-added-msg');
     messageElement.classList.add('d-flex-visible');
     setTimeout(() => {
-        redirectToBoard()
+        redirectTo('board.html');
     }, 2000);
 }
 

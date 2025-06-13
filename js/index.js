@@ -8,5 +8,5 @@
  * Otherwise, redirects to the login page.
  */
 function initIndex() {
-    checkForCurrentUser() ? redirectToSummary() : redirectToLogin();
+    checkForCurrentUser() ? redirectTo('summary.html') : redirectTo('login.html');
 }

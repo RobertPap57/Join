@@ -1,6 +1,3 @@
-"use strict";
-
-
 /**
  * Base URL for Firebase Realtime Database API.
  * 
@@ -49,30 +46,6 @@ function changeOfDisplayNoneAfterAnimation() {
             logo.classList.remove('d-none');
         }, 2000);
     }
-}
-
-
-/**
- * Redirects the browser to the summary page.
- * 
- * This function changes the current location of the browser to 'summary.html', effectively
- * navigating the user to the summary page.
- *
- */
-function redirectToSummary() {
-    window.location.href = 'summary.html';
-}
-
-
-/**
- * Redirects the browser to the signup page.
- * 
- * This function changes the current location of the browser to 'signup.html', effectively
- * navigating the user to the signup page.
- *
- */
-function redirectToSignUp() {
-    window.location.href = 'signup.html';
 }
 
 
@@ -254,7 +227,7 @@ function loginAsGuest() {
     clearForm('email', 'password');
     localStorage.removeItem('currentUser');
     checkbox.src = './assets/img/icons_login/checkbox_unchecked.png';
-    redirectToSummary();
+    redirectTo('summary.html');
 }
 
 
@@ -304,7 +277,7 @@ async function login() {
         } else {
             localStorage.removeItem('currentUser');
         }
-        redirectToSummary();
+        redirectTo('summary.html');
         await addUserToContacts();
     } else {
         localStorage.removeItem('currentUser');

@@ -290,10 +290,3 @@ async function fetchTasks() {
     return data || []; 
 }
 
-/**
- * Redirects the user to the board.html page.
- *
- */
-function redirectToBoard() {
-    window.location.href = 'board.html';
-}
