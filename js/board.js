@@ -5,8 +5,8 @@
  */
 async function initBoard() {
     await includeHTML();
-    highlightLink('board');
     checkForCurrentUser() ? "" : redirectTo('login.html');
+    highlightLink('board');
     let taskData = await loadData("/tasks")
     tasks = taskData;
     tasks = tasks.filter(task => task !== null);

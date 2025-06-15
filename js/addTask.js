@@ -11,9 +11,9 @@ actStatus = "";
  */
 async function initAddTask() {
     await includeHTML();
+    checkForCurrentUser() ? "" : redirectTo('login.html');
     highlightLink('add-task');
     contacts = await loadData('/contacts');
-    checkForCurrentUser() ? "" : redirectTo('login.html');
     updateHeaderProfileInitials();
     filterContacts();
     showMenu();
