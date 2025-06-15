@@ -11,7 +11,7 @@ let highestId = 0;
  */
 async function initContacts() {
     await includeHTML();
-    checkForCurrentUser() ? "": redirectTo('login.html');
+    checkForCurrentUser() ? "" : redirectTo('login.html');
     displayProfileIconInitials();
     highlightLink('contacts');
     await getContacts();
@@ -30,7 +30,7 @@ function checkIfArrayIsEmpty() {
         const contactsListContainer = document.getElementById('contacts-list');
         contactsListContainer.innerHTML = '<p class="no-contacts">No contacts</p>';
         return;
-    } 
+    }
 }
 
 
@@ -39,10 +39,11 @@ function checkIfArrayIsEmpty() {
  *
  * @return {void} This function does not return anything.
  */
-async function renderContacts() {
+function renderContacts() {
     checkIfArrayIsEmpty();
     const sortedContacts = contacts.sort((a, b) => a.name.localeCompare(b.name));
     renderSortedContacts(sortedContacts);
+
 }
 
 
@@ -103,26 +104,12 @@ function selectedContact(id) {
 
 
 /**
- * Creates initials from the given name.
- *
- * @param {string} name - The full name to create initials from.
- * @returns {string} Initials generated from the first letters of each word in the name.
- */
-function createUserInitials(name) {
-    const names = name.split(' ');
-    const firstNameInitial = names[0].charAt(0).toUpperCase();
-    const lastNameInitial = names.length > 1 ? names[names.length - 1].charAt(0).toUpperCase() : '';
-    return firstNameInitial + lastNameInitial;
-}
-
-
-/**
  * Displays the contact with the given ID.
  *
- * @param {number} id - The ID of the contact to display.
+ * @param {string} id - The ID of the contact to display.
  * @return {Promise<void>} A promise that resolves when the contact is displayed.
  */
-async function displayContact(id) {
+function displayContact(id) {
     const contact = contacts.find(contact => contact.id === id);
     if (contact) {
         const contactDetailsContainer = document.getElementById('contact-displayed');
@@ -177,18 +164,14 @@ function slideToastMsg() {
 
 
 /**
- * Asynchronously adds a new contact to the database and updates the UI after successful addition.
+ * Adds a new contact to the list of contacts by creating a new contact object, saving the contact to the database, and updating the UI after adding the contact.
  *
- * @return {Promise<void>} A Promise that resolves when the contact is successfully added and the UI is updated.
- *                       
- * @throws {Error} If an error occurs during the process of creating a new contact or saving it to the database.
+ * @return {Promise<void>} A promise that resolves when the contact is successfully added.
  */
 async function addContact() {
-  
-        const newContact = await createNewContact();
-        await saveContactToDatabase(newContact);
-        await updateUIAfterAddingContact(newContact);
-    
+    const newContact = createNewContactObject();
+    await saveContactToDatabase(newContact);
+    await updateUIAfterAddingContact(newContact);
 }
 
 
@@ -197,20 +180,16 @@ async function addContact() {
  *
  * @return {object} The newly created contact object containing id, name, email, phone, color, and initials.
  */
-async function createNewContact() {
+function createNewContactObject() {
     const name = document.getElementById('new-name').value;
     const email = document.getElementById('new-email').value;
     const phone = document.getElementById('new-phone').value;
-    const initials = createUserInitials(name);
-    highestId += 1;
-    
+
     return {
-        id: highestId,
         name: name,
         email: email,
         phone: phone,
         color: randomColors(),
-        initials: initials,
     };
 }
 
@@ -222,8 +201,8 @@ async function createNewContact() {
  * @return {Promise<void>} A Promise that resolves after the contact is successfully saved.
  */
 async function saveContactToDatabase(newContact) {
+    await addData('contacts', newContact);
     contacts.push(newContact);
-    await updateDataBase(contacts, 'contacts');
 }
 
 
@@ -234,30 +213,13 @@ async function saveContactToDatabase(newContact) {
  * @return {Promise<void>} A Promise that resolves after updating the UI.
  */
 async function updateUIAfterAddingContact(newContact) {
-    await renderContacts();
-    await displayContact(newContact.id);
+    renderContacts();
+    displayContact(newContact.id);
     closePopUpWindow('add-contact', 'modal', 'pop-up-open', 'pop-up-close');
     scrollToContact(newContact.id);
     slideToastMsg();
 }
 
-
-/**
- * Updates the database with the given array and array name.
- *
- * @param {Array} array - The array to be updated in the database.
- * @param {string} arrayName - The name of the array in the database.
- * @return {Promise<void>} A Promise that resolves when the database update is complete.
- */
-async function updateDataBase(array, arrayName) {
-    await fetch(`${BASE_URL}/${arrayName}.json`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(array)
-    }); 
-}
 
 
 /**
@@ -276,55 +238,62 @@ function editContact(id) {
 }
 
 
+
 /**
- * Updates a contact in the database with the given ID.
+ * Updates a contact by finding the contact with the given ID, updating the contact's information locally and in the database, rendering the updated contact in the UI, and closing the edit contact pop-up window.
  *
  * @param {number} id - The ID of the contact to update.
- * @return {Promise<void>} A Promise that resolves when the contact is successfully updated.
+ * @return {Promise<void>} A Promise that resolves after updating the contact.
  */
 async function updateContact(id) {
-        const updatedValues = getUpdatedContactValues();
-        if (!updatedValues) return;
-        updateContactLocally(id, updatedValues);
-        await updateDataBase(contacts, 'contacts');
-        await renderContacts();
-        await displayContact(id);
-        closePopUpWindow('edit-contact', 'modal', 'pop-up-open', 'pop-up-close');
-  
+    const updatedValues = getUpdatedContactValues();
+    if (!updatedValues) return;
+    updateContactLocally(id, updatedValues);
+    await updateData("contacts", id, updatedValues);
+    renderContacts();
+    displayContact(id);
+    closePopUpWindow('edit-contact', 'modal', 'pop-up-open', 'pop-up-close');
+
 }
 
 
+
 /**
- * Retrieves the updated values of a contact from the HTML form.
+ * Retrieves the updated values of a contact from the edit contact pop-up window form.
  *
- * @return {Object} An object containing the updated values of the contact, including the name, email, phone, and initials.
+ * @return {Object} An object containing the updated values of the contact.
+ *                  The object has the following properties:
+ *                  - name {string} - The updated name of the contact.
+ *                  - email {string} - The updated email of the contact.
+ *                  - phone {string} - The updated phone number of the contact.
  */
 function getUpdatedContactValues() {
     const name = document.getElementById('edit-name').value;
     const email = document.getElementById('edit-email').value;
     const phone = document.getElementById('edit-phone').value;
-    const initials = createUserInitials(name);
-    return { name, email, phone, initials };
+    return { name, email, phone };
 }
 
 
+
 /**
- * Updates the contact locally based on the provided id and new contact details.
+ * Updates the contact information locally in the contacts array by matching
+ * the given ID and modifying the contact's name, email, and phone properties.
  *
- * @param {type} id - Description of the id parameter
- * @param {type} name - Description of the name parameter
- * @param {type} email - Description of the email parameter
- * @param {type} phone - Description of the phone parameter
- * @param {type} initials - Description of the initials parameter
- * @return {type} Description of the return value
+ * @param {number} id - The ID of the contact to be updated.
+ * @param {Object} updatedValues - An object containing the updated contact values.
+ * @param {string} updatedValues.name - The updated name of the contact.
+ * @param {string} updatedValues.email - The updated email of the contact.
+ * @param {string} updatedValues.phone - The updated phone number of the contact.
+ * @return {void} This function does not return anything.
  */
-function updateContactLocally(id, { name, email, phone, initials }) {
+
+function updateContactLocally(id, { name, email, phone }) {
     const contact = contacts.find(contact => contact.id === id);
     if (contact) {
         contact.name = name;
         contact.email = email;
         contact.phone = phone;
-        contact.initials = initials;
     }
 }
 

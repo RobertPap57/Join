@@ -1,17 +1,12 @@
 
-/**
- * Deletes a contact from the contacts array and updates the UI.
- *
- * @param {number} id - The ID of the contact to be deleted.
- * @return {Promise<void>} A Promise that resolves when the contact is successfully deleted and the UI is updated.
- */
+
 async function deleteContact(id) {
     contacts = contacts.filter(contact => contact.id !== id);
     const container = document.getElementById('contact-displayed');
     await hideContactDisplay(container);
     closePopUpWindow('edit-contact', 'modal', 'pop-up-open', 'pop-up-close');
-    await updateDataBase(contacts, 'contacts');
-    await renderContacts();
+    await deleteData("contacts", id);
+    renderContacts();
 
 }
 
@@ -26,14 +21,14 @@ async function deleteContact(id) {
 * @return {Promise<void>} - A promise that resolves when the contact display is hidden.
 */
 async function hideContactDisplay(container) {
-if (window.innerWidth <= 768) {
-    container.classList.remove('contact-slide-out');
-    closeMobileContact();
-} else {
-    container.classList.remove('contact-slide-in');
-    container.classList.add('contact-slide-out');
-}
-await clearContainerContent(container);
+    if (window.innerWidth <= 768) {
+        container.classList.remove('contact-slide-out');
+        closeMobileContact();
+    } else {
+        container.classList.remove('contact-slide-in');
+        container.classList.add('contact-slide-out');
+    }
+    await clearContainerContent(container);
 }
 
 
@@ -44,12 +39,12 @@ await clearContainerContent(container);
 * @return {Promise<void>} - A promise that resolves when the content is cleared.
 */
 function clearContainerContent(container) {
-return new Promise(resolve => {
-    setTimeout(() => {
-        container.innerHTML = '';
-        resolve();
-    }, 75);
-});
+    return new Promise(resolve => {
+        setTimeout(() => {
+            container.innerHTML = '';
+            resolve();
+        }, 75);
+    });
 }
 
 
@@ -59,21 +54,21 @@ return new Promise(resolve => {
 * @param {string} id - The id of the contact element to scroll to.
 */
 function scrollToContact(id) {
-const contactsContainer = document.querySelector('.contacts-container');
-const contactElement = document.getElementById(`${id}`);
+    const contactsContainer = document.querySelector('.contacts-container');
+    const contactElement = document.getElementById(`${id}`);
 
-if (contactElement && contactsContainer) {
-    const { contactTopRelativeToContainer, contactBottomRelativeToContainer, containerHeight } = calculatePositions(contactsContainer, contactElement);
+    if (contactElement && contactsContainer) {
+        const { contactTopRelativeToContainer, contactBottomRelativeToContainer, containerHeight } = calculatePositions(contactsContainer, contactElement);
 
-    if (contactTopRelativeToContainer < 0) {
-        scrollToSmooth(contactsContainer, contactsContainer.scrollTop + contactTopRelativeToContainer);
-    } else if (contactBottomRelativeToContainer > containerHeight) {
-        scrollToSmooth(contactsContainer, contactsContainer.scrollTop + (contactBottomRelativeToContainer - containerHeight) + 14);
-    } else {
-        const offset = (containerHeight - contactElement.clientHeight) / 2;
-        scrollToSmooth(contactsContainer, contactTopRelativeToContainer - offset);
+        if (contactTopRelativeToContainer < 0) {
+            scrollToSmooth(contactsContainer, contactsContainer.scrollTop + contactTopRelativeToContainer);
+        } else if (contactBottomRelativeToContainer > containerHeight) {
+            scrollToSmooth(contactsContainer, contactsContainer.scrollTop + (contactBottomRelativeToContainer - containerHeight) + 14);
+        } else {
+            const offset = (containerHeight - contactElement.clientHeight) / 2;
+            scrollToSmooth(contactsContainer, contactTopRelativeToContainer - offset);
+        }
     }
-}
 }
 
 
@@ -85,14 +80,14 @@ if (contactElement && contactsContainer) {
 * @return {Object} An object containing the top position relative to the container, the bottom position relative to the container, and the container height.
 */
 function calculatePositions(container, element) {
-const contactRect = element.getBoundingClientRect();
-const containerRect = container.getBoundingClientRect();
+    const contactRect = element.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
 
-const contactTopRelativeToContainer = contactRect.top - containerRect.top;
-const contactBottomRelativeToContainer = contactTopRelativeToContainer + contactRect.height;
-const containerHeight = containerRect.height;
+    const contactTopRelativeToContainer = contactRect.top - containerRect.top;
+    const contactBottomRelativeToContainer = contactTopRelativeToContainer + contactRect.height;
+    const containerHeight = containerRect.height;
 
-return { contactTopRelativeToContainer, contactBottomRelativeToContainer, containerHeight };
+    return { contactTopRelativeToContainer, contactBottomRelativeToContainer, containerHeight };
 }
 
 
@@ -103,7 +98,7 @@ return { contactTopRelativeToContainer, contactBottomRelativeToContainer, contai
 * @param {number} top - The top position to scroll to.
 */
 function scrollToSmooth(element, top) {
-element.scrollTo({ top: top, behavior: 'smooth' });
+    element.scrollTo({ top: top, behavior: 'smooth' });
 }
 
 
@@ -113,19 +108,19 @@ element.scrollTo({ top: top, behavior: 'smooth' });
 * @return {void}
 */
 function addInputEventListeners() {
-const inputs = document.querySelectorAll('.input input');
-inputs.forEach(function (input) {
-    const container = input.parentElement;
-    input.addEventListener('focus', function () {
-        container.classList.add('input-active');
+    const inputs = document.querySelectorAll('.input input');
+    inputs.forEach(function (input) {
+        const container = input.parentElement;
+        input.addEventListener('focus', function () {
+            container.classList.add('input-active');
+        });
+        input.addEventListener('blur', function () {
+            container.classList.remove('input-active');
+        });
+        input.addEventListener('input', function () {
+            container.classList.add('input-active');
+        });
     });
-    input.addEventListener('blur', function () {
-        container.classList.remove('input-active');
-    });
-    input.addEventListener('input', function () {
-        container.classList.add('input-active');
-    });
-});
 }
 
 
@@ -136,7 +131,7 @@ inputs.forEach(function (input) {
 * @return {void}
 */
 document.addEventListener('DOMContentLoaded', function () {
-addInputEventListeners();
+    addInputEventListeners();
 });
 
 
@@ -146,10 +141,10 @@ addInputEventListeners();
 * @return {void}
 */
 function clearInputs() {
-const inputs = document.querySelectorAll('.input input');
-inputs.forEach(function (input) {
-    input.value = '';
-});
+    const inputs = document.querySelectorAll('.input input');
+    inputs.forEach(function (input) {
+        input.value = '';
+    });
 }
 
 
@@ -159,12 +154,12 @@ inputs.forEach(function (input) {
 * @return {string} A random hexadecimal color code.
 */
 function randomColors() {
-const letters = '0123456789ABCDEF';
-let color = '#';
-for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-}
-return color;
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
 
 
@@ -178,14 +173,14 @@ return color;
 * @return {void}
 */
 function openPopUpWindow(windowId, modalId, classOpen, classClose) {
-let popUpWindow = document.getElementById(windowId);
-let modal = document.getElementById(modalId);
-modal.classList.remove('d-none');
-popUpWindow.classList.remove('d-none');
-setTimeout(() => {
-    popUpWindow.classList.remove(classClose);
-    popUpWindow.classList.add(classOpen);
-}, 10);
+    let popUpWindow = document.getElementById(windowId);
+    let modal = document.getElementById(modalId);
+    modal.classList.remove('d-none');
+    popUpWindow.classList.remove('d-none');
+    setTimeout(() => {
+        popUpWindow.classList.remove(classClose);
+        popUpWindow.classList.add(classOpen);
+    }, 10);
 }
 
 
@@ -199,15 +194,15 @@ setTimeout(() => {
 * @return {void} No return value.
 */
 function closePopUpWindow(windowId, modalId, classOpen, classClose) {
-let popUpWindow = document.getElementById(windowId);
-let modal = document.getElementById(modalId);
-popUpWindow.classList.remove(classOpen);
-popUpWindow.classList.add(classClose);
-setTimeout(() => {
-    modal.classList.add('d-none');
-    popUpWindow.classList.add('d-none');
-}, 110);
-clearInputs();
+    let popUpWindow = document.getElementById(windowId);
+    let modal = document.getElementById(modalId);
+    popUpWindow.classList.remove(classOpen);
+    popUpWindow.classList.add(classClose);
+    setTimeout(() => {
+        modal.classList.add('d-none');
+        popUpWindow.classList.add('d-none');
+    }, 110);
+    clearInputs();
 
 }
 
@@ -219,24 +214,24 @@ clearInputs();
 * @return {void} This function does not return anything.
 */
 function closeModalOnClick(event) {
-const modal = document.getElementById('modal');
-const mobileModal = document.getElementById('mobile-modal');
-const addContactContent = document.getElementById('add-contact');
-const editContactContent = document.getElementById('edit-contact');
-const subMenuContent = document.getElementById('contact-sub-menu');
-if (event.target === modal) {
-    if (!addContactContent.classList.contains('d-none')) {
-        closePopUpWindow('add-contact', 'modal', 'pop-up-open', 'pop-up-close');
+    const modal = document.getElementById('modal');
+    const mobileModal = document.getElementById('mobile-modal');
+    const addContactContent = document.getElementById('add-contact');
+    const editContactContent = document.getElementById('edit-contact');
+    const subMenuContent = document.getElementById('contact-sub-menu');
+    if (event.target === modal) {
+        if (!addContactContent.classList.contains('d-none')) {
+            closePopUpWindow('add-contact', 'modal', 'pop-up-open', 'pop-up-close');
+        }
+        if (!editContactContent.classList.contains('d-none')) {
+            closePopUpWindow('edit-contact', 'modal', 'pop-up-open', 'pop-up-close');
+        }
     }
-    if (!editContactContent.classList.contains('d-none')) {
-        closePopUpWindow('edit-contact', 'modal', 'pop-up-open', 'pop-up-close');
+    if (event.target === mobileModal) {
+        if (!subMenuContent.classList.contains('d-none')) {
+            closePopUpWindow('contact-sub-menu', 'mobile-modal', 'sub-menu-open', 'sub-menu-close');
+        }
     }
-}
-if (event.target === mobileModal) {
-    if (!subMenuContent.classList.contains('d-none')) {
-        closePopUpWindow('contact-sub-menu', 'mobile-modal', 'sub-menu-open', 'sub-menu-close');
-    }
-}
 
 }
 
@@ -245,12 +240,12 @@ if (event.target === mobileModal) {
 * Deselects all mobile contact elements by removing the 'contact-selected' class.
 */
 function deselectContactOnMobile() {
-const selectedContact = document.querySelectorAll('.contact');
-if (window.innerWidth <= 768) {
-    selectedContact.forEach(contactElement => {
-        contactElement.classList.remove('contact-selected');
-    })
-}
+    const selectedContact = document.querySelectorAll('.contact');
+    if (window.innerWidth <= 768) {
+        selectedContact.forEach(contactElement => {
+            contactElement.classList.remove('contact-selected');
+        })
+    }
 }
 
 
@@ -260,12 +255,12 @@ if (window.innerWidth <= 768) {
 * @return {void} This function does not return anything.
 */
 function adjustMainContainerDisplay() {
-const mainContainer = document.getElementById('main-container');
-if (window.innerWidth > 768) {
-    mainContainer.style.display = 'flex';
-} else {
-    mainContainer.style.display = 'none';
-}
+    const mainContainer = document.getElementById('main-container');
+    if (window.innerWidth > 768) {
+        mainContainer.style.display = 'flex';
+    } else {
+        mainContainer.style.display = 'none';
+    }
 }
 
 
@@ -276,17 +271,17 @@ if (window.innerWidth > 768) {
 * @return {void} This function does not return anything.
 */
 function validateEmail(id) {
-const emailElement = document.getElementById(id);
-const email = emailElement.value;
-const validations = [
-    { condition: email.indexOf('@') < 1, message: 'Die E-Mail-Adresse muss ein @-Symbol enthalten.\n' },
-    { condition: email.lastIndexOf('.') <= email.indexOf('@') + 1, message: 'Die E-Mail-Adresse muss einen Punkt (.) nach dem @-Symbol enthalten.\n' },
-    { condition: email.lastIndexOf('.') === email.length - 1, message: 'Die E-Mail-Adresse darf nicht mit einem Punkt (.) enden.\n' },
-    { condition: !/^[a-zA-Z0-9._%+-]+@/.test(email), message: 'Der lokale Teil der E-Mail-Adresse enthält ungültige Zeichen.\n' },
-    { condition: !/[a-zA-Z]{2,}$/.test(email.split('.').pop()), message: 'Die Top-Level-Domain muss mindestens zwei Buchstaben lang sein.\n' }
-];
-const errorMessage = validations.reduce((msg, val) => val.condition ? msg + val.message : msg, '');
-emailElement.setCustomValidity(errorMessage);
+    const emailElement = document.getElementById(id);
+    const email = emailElement.value;
+    const validations = [
+        { condition: email.indexOf('@') < 1, message: 'Die E-Mail-Adresse muss ein @-Symbol enthalten.\n' },
+        { condition: email.lastIndexOf('.') <= email.indexOf('@') + 1, message: 'Die E-Mail-Adresse muss einen Punkt (.) nach dem @-Symbol enthalten.\n' },
+        { condition: email.lastIndexOf('.') === email.length - 1, message: 'Die E-Mail-Adresse darf nicht mit einem Punkt (.) enden.\n' },
+        { condition: !/^[a-zA-Z0-9._%+-]+@/.test(email), message: 'Der lokale Teil der E-Mail-Adresse enthält ungültige Zeichen.\n' },
+        { condition: !/[a-zA-Z]{2,}$/.test(email.split('.').pop()), message: 'Die Top-Level-Domain muss mindestens zwei Buchstaben lang sein.\n' }
+    ];
+    const errorMessage = validations.reduce((msg, val) => val.condition ? msg + val.message : msg, '');
+    emailElement.setCustomValidity(errorMessage);
 }
 
 
