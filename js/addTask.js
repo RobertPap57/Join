@@ -10,10 +10,10 @@ actStatus = "";
  * @return {Promise<void>} A promise that resolves when the initialization is complete.
  */
 async function initAddTask() {
-    contacts = await loadData('/contacts');
     await includeHTML();
+    highlightLink('add-task');
+    contacts = await loadData('/contacts');
     checkForCurrentUser() ? "" : redirectTo('login.html');
-    highlightAddTask();
     updateHeaderProfileInitials();
     filterContacts();
     showMenu();

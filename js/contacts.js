@@ -12,7 +12,7 @@ let highestId = 0;
 async function initContacts() {
     await includeHTML();
     checkForCurrentUser() ? "": redirectTo('login.html');
-    highlightContacts();
+    highlightLink('contacts');
     await readData();
     tasks = loadData("/tasks");
     updateHeaderProfileInitials();

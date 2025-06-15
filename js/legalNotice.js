@@ -3,12 +3,12 @@
  * Initializes the legal notice section by including HTML content,
  * hides the navigation bar, header icons, and highlights the legal notice link.
  */
-function initLegalNotice() {
-    includeHTML().then(() => {
-        hideNavBar();
-        hideHeaderIcons();
-        highlightLegalNotice();
-    });
+async function initLegalNotice() {
+    await includeHTML()
+    hideNavBar();
+    hideHeaderIcons();
+    highlightLink('legal-notice');
+
 }
 
 

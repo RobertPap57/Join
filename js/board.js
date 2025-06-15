@@ -5,7 +5,8 @@
  */
 async function initBoard() {
     await includeHTML();
-    checkForCurrentUser() ? "": redirectTo('login.html');
+    highlightLink('board');
+    checkForCurrentUser() ? "" : redirectTo('login.html');
     let taskData = await loadData("/tasks")
     tasks = taskData;
     tasks = tasks.filter(task => task !== null);
@@ -15,7 +16,7 @@ async function initBoard() {
     closeContactListEditOnOutsideClick();
     filterContactsInTasks(contacts, tasks);
     initAddTaskBoard();
-   
+
 }
 
 /**
@@ -39,7 +40,6 @@ function filterContactsInTasks(contacts, tasks) {
  * buttons, and form behaviors.
  */
 function initAddTaskBoard() {
-    highlightBoard();
     renderCards();
     updateHeaderProfileInitials();
     pushSubtaskEdit();

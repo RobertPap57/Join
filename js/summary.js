@@ -12,7 +12,7 @@ currentUser = loadCurrentUser();
  */
 async function initSummary() {
   includeHTML().then(() => {
-    highlightSummary();
+    highlightLink('summary');
     updateHeaderProfileInitials();
   })
   checkForCurrentUser() ? checkForGreeting() : redirectTo('login.html');

@@ -1,9 +1,9 @@
- function initPrivacyPolicy(){
-    includeHTML().then(() => {
-        hideNavBar()
-        hideHeaderIcons();
-        highlightPrivacyPolicy();
-    });
+async function initPrivacyPolicy() {
+    await includeHTML()
+    hideNavBar()
+    hideHeaderIcons();
+    highlightLink('privacy-policy');
+
 }
 
 function goBack() {
