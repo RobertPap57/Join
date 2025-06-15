@@ -1,9 +1,5 @@
 
 
-
-let highestId = 0;
-
-
 /**
  * Initializes the contacts by including HTML, highlighting contacts, reading data, loading tasks, updating header profile initials, and rendering contacts.
  *
@@ -221,7 +217,6 @@ async function updateUIAfterAddingContact(newContact) {
 }
 
 
-
 /**
  * Edits a contact by finding the contact with the given ID, populating the edit contact container with the contact's details, opening the edit contact pop-up window, and adding input event listeners.
  *
@@ -236,7 +231,6 @@ function editContact(id) {
     openPopUpWindow('edit-contact', 'modal', 'pop-up-open', 'pop-up-close');
     addInputEventListeners()
 }
-
 
 
 /**
@@ -257,7 +251,6 @@ async function updateContact(id) {
 }
 
 
-
 /**
  * Retrieves the updated values of a contact from the edit contact pop-up window form.
  *
@@ -273,7 +266,6 @@ function getUpdatedContactValues() {
     const phone = document.getElementById('edit-phone').value;
     return { name, email, phone };
 }
-
 
 
 /**

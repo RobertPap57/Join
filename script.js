@@ -15,7 +15,6 @@ let currentUser = loadCurrentUser();
 async function getUsers() {
 	users = await getData("/users");
 	console.log(users);
-	
 }
 
 /**
@@ -208,7 +207,6 @@ async function addData(path = "", data = {}) {
 		}
 		const responseToJson = await response.json();
 		data.id = responseToJson.name;
-		console.log(data);
 		return data;
 	} catch (error) {
 		console.error(error);
@@ -229,7 +227,10 @@ async function getData(path = "") {
 		const response = await fetch(BASE_URL + path + ".json");
 		const data = await response.json();
 		if (!data) return [];
-		return Object.entries(data).map(([id, obj]) => ({ id, ...obj }));
+		return Object.entries(data)
+			.filter(([_, obj]) => obj && typeof obj === 'object')
+			.map(([id, obj]) => ({ id, ...obj }));
+
 	} catch (error) {
 		console.error(error);
 		return [];

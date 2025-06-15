@@ -186,7 +186,7 @@
     }
 
     .pop-up-close {
-        transform: translateY(1000%) !important;
+        transform: translateY(100%) !important;
     }
 
     .pop-up-open {
