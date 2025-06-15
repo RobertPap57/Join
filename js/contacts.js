@@ -12,56 +12,12 @@ let highestId = 0;
 async function initContacts() {
     await includeHTML();
     checkForCurrentUser() ? "": redirectTo('login.html');
+    displayProfileIconInitials();
     highlightLink('contacts');
-    await readData();
-    tasks = loadData("/tasks");
-    updateHeaderProfileInitials();
+    await getContacts();
     renderContacts();
 }
 
-
-/**
- * Asynchronously fetches data from the specified path in the BASE_URL and returns the parsed JSON response.
- *
- * @param {string} [path=""] - The path to fetch data from. Defaults to an empty string.
- * @return {Promise<object>} A Promise that resolves to the parsed JSON response from the server.
- */
-async function loadData(path = "") {
-    let response = await fetch(BASE_URL + path + ".json");
-    let responseToJson = await response.json();
-    return responseToJson;
-}
-
-
-/**
- * Reads data from the "/contacts" path asynchronously and updates the contacts and highestId variables.
- *
- * @return {Promise<void>} A Promise that resolves when the data is successfully read and processed.
- */
-async function readData() {
-    const contactsData = await loadData("/contacts");
-    if (!contactsData) {
-        contacts = [];
-        highestId = 0;
-        return;
-    }
-    contacts = filterNullValues(Object.values(contactsData));
-    highestId = contacts.reduce((maxId, contact) => Math.max(maxId, contact.id), 0);
-}
-
-
-/**
- * Checks if the contacts array is empty and updates the contacts list container accordingly.
- *
- * @return {void} This function does not return anything.
- */
-function emptyContacts() {
-    if (contacts.length === 0) {
-        const contactsListContainer = document.getElementById('contacts-list');
-        contactsListContainer.innerHTML = '<p class="no-contacts">No contacts</p>';
-        return;
-    }
-}
 
 
 /**
@@ -84,34 +40,9 @@ function checkIfArrayIsEmpty() {
  * @return {void} This function does not return anything.
  */
 async function renderContacts() {
-    if (contacts.length === 0) {
-        displayNoContactsMessage();
-        return;
-    }
-
-    const sortedContacts = sortContactsByName(contacts);
+    checkIfArrayIsEmpty();
+    const sortedContacts = contacts.sort((a, b) => a.name.localeCompare(b.name));
     renderSortedContacts(sortedContacts);
-}
-
-
-/**
- * Displays a message when there are no contacts.
- *
- */
-function displayNoContactsMessage() {
-    const contactsListContainer = document.getElementById('contacts-list');
-    contactsListContainer.innerHTML = '<p class="no-contacts">No contacts</p>';
-}
-
-
-/**
- * Sorts the contacts array by name in ascending order.
- *
- * @param {Array} contacts - The array of contacts to be sorted.
- * @return {Array} The sorted contacts array.
- */
-function sortContactsByName(contacts) {
-    return contacts.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 
@@ -168,17 +99,6 @@ function selectedContact(id) {
     if (selectedContactElement) {
         selectedContactElement.classList.add('contact-selected');
     }
-}
-
-
-/**
- * Filters out null values from the given array.
- *
- * @param {Array} array - The array to filter null values from.
- * @return {Array} A new array with non-null values.
- */
-function filterNullValues(array) {
-    return array.filter(item => item !== null);
 }
 
 

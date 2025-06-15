@@ -2,12 +2,11 @@
  * Initializes the help section by including HTML content,
  * hiding the help icon, and updating the header profile initials.
  */
-function initHelp() {
-    includeHTML().then(() => {
-        hideHelpIcon();
-        updateHeaderProfileInitials();
-    });
-    checkForCurrentUser() ? null : redirectTo('login.html');
+async function initHelp() {
+   await includeHTML();
+   hideHelpIcon();
+   checkForCurrentUser() ? null : redirectTo('login.html');
+   displayProfileIconInitials();
 }
 
 

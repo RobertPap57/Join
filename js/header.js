@@ -52,23 +52,25 @@ function hideHeaderIcons() {
 }
 
 
+
 /**
  * Updates the header profile initials based on the current user's data.
  * Clears the inner HTML of the 'header-profile-icon' element, removes the 'initials-fsize' class,
  * and sets the initials content and adjusts the font size if necessary based on the currentUser's initials.
  * If currentUser or currentUser.initials is not defined, adds 'd-none' class to 'navLinks' element.
  */
-function updateHeaderProfileInitials() {
+function displayProfileIconInitials() {
     let userProfileIcon = document.getElementById('header-profile-icon');
     userProfileIcon.innerHTML = '';
-    userProfileIcon.classList.remove('initials-fsize');
-    if (currentUser && currentUser.initials) {
-        userProfileIcon.innerHTML = currentUser.initials;
-        if (currentUser.initials.length === 1) {
-            userProfileIcon.classList.add('guest-font-size');
+    userProfileIcon.classList.remove('profile-name-single-digit-fs');
+    if (currentUser && currentUser.name) {
+        const initials = createNameInitials(currentUser.name);
+        userProfileIcon.innerHTML = initials;
+        if (initials.length === 1) {
+            userProfileIcon.classList.add('profile-name-single-digit-fs');
         }
     } else {
-        navLinks.classList.add('d-none');
+        userProfileIcon.classList.add('d-none');
     }
 }
 

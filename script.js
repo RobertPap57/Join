@@ -7,19 +7,60 @@ let currentUser = loadCurrentUser();
 
 
 /**
- * Fetches all relevant data (users, contacts, tasks) from the database.
+ * Fetches the users from the database and assigns them to the global users variable.
  *
  * @async
- * @function getAllData
- * @returns {Promise<void>} Resolves when all data is fetched and assigned to global variables.
+ * @function getUsers
+ * @returns {Promise<void>} Resolves when the users are fetched and assigned to the global variable.
  */
-async function getAllData() {
+async function getUsers() {
 	users = await getData("/users");
-	contacts = await getData("/contacts");
+	console.log(users);
+	
+}
+
+/**
+ * Fetches the tasks from the database and assigns them to the global tasks variable.
+ *
+ * @async
+ * @function getTasks
+ * @returns {Promise<void>} Resolves when the tasks are fetched and assigned to the global variable.
+ */
+
+async function getTasks() {
 	tasks = await getData("/tasks");
+	console.log(tasks);
+}
+
+/**
+ * Fetches the contacts from the database and assigns them to the global contacts variable.
+*
+* @async
+* @function getContacts
+* @returns {Promise<void>} Resolves when the contacts are fetched and assigned to the global variable.
+*/
+async function getContacts() {
+	contacts = await getData("/contacts");
+	console.log(contacts);
 }
 
 
+/**
+ * Creates initials from a given name.
+ *
+ * Splits the provided name into words and generates initials by taking the first letter of the first and last words.
+ * If the name consists of only one word, only the initial of that word is returned.
+ * @function createNameInitials
+ * @param {string} name - The full name from which to create initials.
+ * @returns {string} The concatenated initials from the first and last words in uppercase.
+ */
+
+function createNameInitials(name) {
+	const names = name.split(' ');
+	const firstNameInitial = names[0].charAt(0).toUpperCase();
+	const lastNameInitial = names.length > 1 ? names[names.length - 1].charAt(0).toUpperCase() : '';
+	return firstNameInitial + lastNameInitial;
+}
 
 /**
  * Initializes the index page by checking for a logged-in user.
@@ -30,6 +71,7 @@ async function getAllData() {
 function initIndex() {
 	checkForCurrentUser() ? redirectTo('summary.html') : redirectTo('login.html');
 }
+
 
 
 /**

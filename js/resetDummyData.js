@@ -5,7 +5,6 @@ const dummyUsers = {
 		"phone": "+49 1111 11 111 1",
 		"password": "1234",
 		"color": "#FF70AA",
-		"initials": "AM",
 	},
 
 	"1": {
@@ -14,7 +13,6 @@ const dummyUsers = {
 		"phone": "+49 2222 222 22 2",
 		"password": "1234",
 		"color": "#FFC700",
-		"initials": "TW",
 	},
 
 	"2": {
@@ -23,7 +21,6 @@ const dummyUsers = {
 		"phone": "+49 3333 333 33 3",
 		"password": "1234",
 		"color": "#6E52FF",
-		"initials": "BZ",
 	},
 
 	"3": {
@@ -32,7 +29,6 @@ const dummyUsers = {
 		"phone": "+49 4444 444 44 4",
 		"password": "1234",
 		"color": "#FC71FF",
-		"initials": "DE",
 	},
 
 	"4": {
@@ -41,7 +37,6 @@ const dummyUsers = {
 		"phone": "+49 5555 555 55 5",
 		"password": "1234",
 		"color": "#FFBB2B",
-		"initials": "EF",
 	},
 
 	"5": {
@@ -50,7 +45,6 @@ const dummyUsers = {
 		"phone": "+49 6666 666 66 6",
 		"password": "1234",
 		"color": "#1FD7C1",
-		"initials": "EM",
 	},
 
 	"6": {
@@ -59,7 +53,6 @@ const dummyUsers = {
 		"phone": "+49 7777 777 77 7",
 		"password": "1234",
 		"color": "#462F8A",
-		"initials": "MB",
 	},
 
 	"7": {
@@ -68,7 +61,6 @@ const dummyUsers = {
 		"phone": "+49 8888 888 88 8",
 		"password": "1234",
 		"color": "#00BEE8",
-		"initials": "SM",
 	},
 
 	"8": {
@@ -77,7 +69,6 @@ const dummyUsers = {
 		"phone": "+49 9999 999 99 9",
 		"password": "1234",
 		"color": "#9327FF",
-		"initials": "AS",
 	},
 
 };

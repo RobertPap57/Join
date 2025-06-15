@@ -4,7 +4,7 @@
  * hides the navigation bar, header icons, and highlights the legal notice link.
  */
 async function initLegalNotice() {
-    await includeHTML()
+    await includeHTML();
     hideNavBar();
     hideHeaderIcons();
     highlightLink('legal-notice');

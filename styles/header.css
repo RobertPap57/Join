@@ -74,7 +74,7 @@ header {
     font-weight: 700;
 }
 
-.guest-font-size {
+.profile-name-single-digit-fs {
     font-size: 28px;
 }
 
@@ -204,7 +204,7 @@ body.sub-menu-bg-open {
         font-size: 14px;
     }
 
-    .guest-font-size {
+    .profile-name-single-digit-fs {
         font-size: 18px;
     }
 }

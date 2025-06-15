@@ -11,11 +11,11 @@ currentUser = loadCurrentUser();
  *
  */
 async function initSummary() {
-  includeHTML().then(() => {
-    highlightLink('summary');
-    updateHeaderProfileInitials();
-  })
+  await includeHTML();
   checkForCurrentUser() ? checkForGreeting() : redirectTo('login.html');
+  displayProfileIconInitials();
+  highlightLink('summary');
+
   await getDataFromFirebase();
   renderSummary();
 }
@@ -201,7 +201,7 @@ function resetIcon(element) {
  * @param {HTMLElement} element - The HTML element whose text content will be cleared.
  */
 function clearText(element) {
-    element.innerText = '';
+  element.innerText = '';
 }
 
 
@@ -211,14 +211,14 @@ function clearText(element) {
  * @param {HTMLElement} greetingText - The HTML element to set the greeting text into.
  */
 function setGreetingText(greetingText) {
-    const timesOfDay = {
-        morning: "Good morning,",
-        afternoon: "Good afternoon,",
-        evening: "Good evening,"
-    };
-    const currentTime = new Date().getHours();
-    const greeting = currentTime < 12 ? timesOfDay.morning : (currentTime < 18 ? timesOfDay.afternoon : timesOfDay.evening);
-    greetingText.innerText = greeting;
+  const timesOfDay = {
+    morning: "Good morning,",
+    afternoon: "Good afternoon,",
+    evening: "Good evening,"
+  };
+  const currentTime = new Date().getHours();
+  const greeting = currentTime < 12 ? timesOfDay.morning : (currentTime < 18 ? timesOfDay.afternoon : timesOfDay.evening);
+  greetingText.innerText = greeting;
 }
 
 
@@ -229,7 +229,7 @@ function setGreetingText(greetingText) {
  * @returns {string} The string with the first character capitalized.
  */
 function capitalizeFirstChar(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 
@@ -259,9 +259,9 @@ function setCurrentUserName(userName) {
  * 
  */
 async function getDataFromFirebase() {
-    tasks = await checkIfDatabaseIsEmpty("/tasks");
-    users = await checkIfDatabaseIsEmpty("/users");
-    contacts = await checkIfDatabaseIsEmpty("/contacts");
+  tasks = await checkIfDatabaseIsEmpty("/tasks");
+  users = await checkIfDatabaseIsEmpty("/users");
+  contacts = await checkIfDatabaseIsEmpty("/contacts");
 }
 
 
@@ -273,10 +273,10 @@ async function getDataFromFirebase() {
  * @param {string} [path=""] - The path to fetch data from.
  * @returns {Promise<any>} A promise that resolves with the fetched data as a JSON object.
  */
-async function loadData(path="") {
-	let response = await fetch(BASE_URL + path + ".json");
-	let responseToJson = await response.json();
-	return responseToJson;
+async function loadData(path = "") {
+  let response = await fetch(BASE_URL + path + ".json");
+  let responseToJson = await response.json();
+  return responseToJson;
 }
 
 
@@ -289,19 +289,19 @@ async function loadData(path="") {
  * 
  */
 function renderSummary() {
-    const todo = countTasksByCriteria('status', 'toDo');
-    const done = countTasksByCriteria('status', 'done');
-    const progress = countTasksByCriteria('status', 'inProgress');
-    const awaitingFeedback = countTasksByCriteria('status', 'awaitingFeedback');
-    const urgent = countTasksByCriteria('priority', 'urgent');
-    const tasksAmount = tasks.length;
-    renderDataToSummary("summary__todo", todo);
-    renderDataToSummary("summary__done", done);
-    renderDataToSummary("summary__progress", progress);
-    renderDataToSummary("summary__feedback", awaitingFeedback);
-    renderDataToSummary("summary__urgent", urgent);
-    renderDataToSummary("summary__tasks", tasksAmount);
-    renderUrgentTasksNearestDueDate();
+  const todo = countTasksByCriteria('status', 'toDo');
+  const done = countTasksByCriteria('status', 'done');
+  const progress = countTasksByCriteria('status', 'inProgress');
+  const awaitingFeedback = countTasksByCriteria('status', 'awaitingFeedback');
+  const urgent = countTasksByCriteria('priority', 'urgent');
+  const tasksAmount = tasks.length;
+  renderDataToSummary("summary__todo", todo);
+  renderDataToSummary("summary__done", done);
+  renderDataToSummary("summary__progress", progress);
+  renderDataToSummary("summary__feedback", awaitingFeedback);
+  renderDataToSummary("summary__urgent", urgent);
+  renderDataToSummary("summary__tasks", tasksAmount);
+  renderUrgentTasksNearestDueDate();
 }
 
 
@@ -314,7 +314,7 @@ function renderSummary() {
  * @returns {number} The count of tasks matching the criteria and value.
  */
 function countTasksByCriteria(criteria, value) {
-    return tasks.filter(task => task[criteria].toLowerCase() === value.toLowerCase()).length;
+  return tasks.filter(task => task[criteria].toLowerCase() === value.toLowerCase()).length;
 }
 
 
@@ -326,8 +326,8 @@ function countTasksByCriteria(criteria, value) {
  * @param {number} number - The number to render into the element.
  */
 function renderDataToSummary(id, number) {
-    let element = document.getElementById(id);
-    element.innerText = `${number}`;
+  let element = document.getElementById(id);
+  element.innerText = `${number}`;
 }
 
 
@@ -339,13 +339,13 @@ function renderDataToSummary(id, number) {
  * @returns {object|null} The most urgent task object or null if no urgent tasks exist.
  */
 function getMostUrgentTask(tasks) {
-    const urgentTasks = tasks.filter(task => task.priority.toLowerCase() === 'urgent');
-    if (urgentTasks.length === 0) {
-        return null;
-    }
-    return urgentTasks.reduce((earliestTask, currentTask) => {
-        return new Date(currentTask.dueDate) < new Date(earliestTask.dueDate) ? currentTask : earliestTask;
-    });
+  const urgentTasks = tasks.filter(task => task.priority.toLowerCase() === 'urgent');
+  if (urgentTasks.length === 0) {
+    return null;
+  }
+  return urgentTasks.reduce((earliestTask, currentTask) => {
+    return new Date(currentTask.dueDate) < new Date(earliestTask.dueDate) ? currentTask : earliestTask;
+  });
 }
 
 
@@ -357,9 +357,9 @@ function getMostUrgentTask(tasks) {
  * @returns {string} The formatted date string in the format 'Month Day, Year' (e.g., 'January 1, 2024').
  */
 function formatDateString(dateString) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', options);
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', options);
 }
 
 
@@ -374,11 +374,11 @@ function formatDateString(dateString) {
  * @function renderUrgentTasksNearestDueDate
  */
 function renderUrgentTasksNearestDueDate() {
-    const mostUrgentTask = getMostUrgentTask(tasks);
-    if (mostUrgentTask) {
-        const mostUrgentTasksDueDate = formatDateString(mostUrgentTask.dueDate);
-        renderDataToSummary("summary__date", mostUrgentTasksDueDate);
-    } else {
-        renderDataToSummary("summary__date", 'no urgent tasks');
-    }
+  const mostUrgentTask = getMostUrgentTask(tasks);
+  if (mostUrgentTask) {
+    const mostUrgentTasksDueDate = formatDateString(mostUrgentTask.dueDate);
+    renderDataToSummary("summary__date", mostUrgentTasksDueDate);
+  } else {
+    renderDataToSummary("summary__date", 'no urgent tasks');
+  }
 }

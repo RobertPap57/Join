@@ -6,6 +6,7 @@
 async function initBoard() {
     await includeHTML();
     checkForCurrentUser() ? "" : redirectTo('login.html');
+    displayProfileIconInitials();
     highlightLink('board');
     let taskData = await loadData("/tasks")
     tasks = taskData;
@@ -41,7 +42,6 @@ function filterContactsInTasks(contacts, tasks) {
  */
 function initAddTaskBoard() {
     renderCards();
-    updateHeaderProfileInitials();
     pushSubtaskEdit();
     showMenu();
     changePrioBtn();

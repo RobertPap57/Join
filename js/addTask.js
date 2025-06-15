@@ -12,9 +12,9 @@ actStatus = "";
 async function initAddTask() {
     await includeHTML();
     checkForCurrentUser() ? "" : redirectTo('login.html');
+    displayProfileIconInitials();
     highlightLink('add-task');
     contacts = await loadData('/contacts');
-    updateHeaderProfileInitials();
     filterContacts();
     showMenu();
     changeSvgOnHover();
