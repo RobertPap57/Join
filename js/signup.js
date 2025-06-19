@@ -1,45 +1,14 @@
-"use strict";
-
-
-/**
- * Base URL for the Firebase Realtime Database.
- * @type {string}
- */
-
-
-/**
- * DOM element representing the container for the password input field.
- * @type {HTMLElement}
- */
 let containerPassword = document.getElementById('password__container');
-
-
-/**
- * DOM element representing the feedback message for incorrect password input.
- * @type {HTMLElement}
- */
 let feedbackPassword = document.getElementById('form__wrongPassword__message');
 
 
-/**
- * Array of color codes representing user avatar colors.
- * @type {string[]}
- */
-const userColors = [
-    '#FF7A00', '#FF5EB3', '#6E52FF', '#9327FF', '#00BEE8', '#1FD7C1', '#FF745E', '#FFA35E', '#FC71FF',
-    '#FFC701', '#0038FF', '#C3FF2B', '#FFE62B', '#FF4646', '#FFBB2B',
-]
-
 
 /**
- * Initializes the sign-up page by performing necessary actions.
- * 
- * Calls functions to change password icons for password fields,
- * disable the sign-up button if the form is empty,
- * and delete any messages indicating that passwords do not match.
+ * Initializes the sign-up page by loading existing users, setting up the password input fields, and disabling the sign-up button if the form is empty.
+ * @returns {Promise<void>}
  */
 async function initSignUp() {
-    await getDataFromFirebase();
+    await getUsers();
     changePasswordIcon('password');
     changePasswordIcon('password__confirm');
     disableSignupButtonIfFormIsEmpty();
@@ -75,22 +44,11 @@ function checkIfCheckBoxIsClicked(checkbox) {
 function checkBoxClicked() {
     const checkbox = document.getElementById('checkbox');
     const isChecked = checkIfCheckBoxIsClicked(checkbox);
-    checkbox.src = isChecked 
-        ? './assets/img/icons_signup/checkbox_unchecked.png' 
+    checkbox.src = isChecked
+        ? './assets/img/icons_signup/checkbox_unchecked.png'
         : './assets/img/icons_signup/checkbox_checked.png';
     checkbox.dataset.checked = isChecked ? 'false' : 'true';
     disableSignupButtonIfFormIsEmpty();
-}
-
-
-/**
- * Redirects the browser to the last visited page.
- * 
- * This function changes the current location of the browser
- *
- */
-function goBack() {
-    window.history.back();
 }
 
 
@@ -101,7 +59,7 @@ function goBack() {
  */
 function showPassword(element) {
     const passwordField = document.getElementById(element);
-    const passwordIcon = document.getElementById(element+'__icon');
+    const passwordIcon = document.getElementById(element + '__icon');
     const isPasswordVisible = passwordField.type === 'password';
     passwordField.type = isPasswordVisible ? 'text' : 'password';
     passwordIcon.src = isPasswordVisible ? './assets/img/icons_signup/visibility.png' : './assets/img/icons_signup/visibility_off.png';
@@ -117,7 +75,7 @@ function showPassword(element) {
  */
 function changePasswordIcon(element) {
     const passwordField = document.getElementById(element);
-    const passwordIcon = document.getElementById(element+'__icon');
+    const passwordIcon = document.getElementById(element + '__icon');
     const isEmpty = passwordField.value.length === 0;
     passwordIcon.src = isEmpty ? './assets/img/icons_signup/lock.png' : './assets/img/icons_signup/visibility_off.png';
     passwordIcon.classList.toggle('visible__no', !isEmpty);
@@ -145,56 +103,36 @@ function disableSignupButtonIfFormIsEmpty() {
 
 
 /**
- * Prevents the default form submission action and invokes the sign-up process.
+ * Handles the form submission for signing up.
+ * Prevents the default form submission action, adds a new user,
+ * shows a successful sign-up overlay, and redirects to the login page
+ * after a delay of 1.75 seconds.
  * 
- * @param {Event} event - The event object representing the form submission.
+ * @param {Event} event - The submit event object.
  */
-function signUpSubmit(event) {
+
+async function signUpSubmit(event) {
     event.preventDefault();
-    signUp();
+    await addUser();
+    successfullSignUp();
+    setTimeout(() => {
+        redirectTo('/login.html');
+    }, 1750);
 }
 
 
 /**
- * Retrieves data from Firebase for tasks, users, and contacts.
+ * Adds a new user to the database after validating the form inputs.
  * 
- * Asynchronously retrieves data from Firebase for tasks, users, and contacts,
- * ensuring each collection is populated and not empty.
- * 
- */
-async function getDataFromFirebase() {
-    tasks = await checkIfDatabaseIsEmpty("/tasks");
-    users = await checkIfDatabaseIsEmpty("/users");
-    contacts = await checkIfDatabaseIsEmpty("/contacts");
-}
-
-
-/**
- * Checks if the database or specified path within the database is empty.
- * 
- * Asynchronously loads data from the specified path and returns a default
- * value (tasksDummy) if the result is falsy (empty or undefined).
+ * Retrieves the user's name, email, password, and confirmation password from the input fields,
+ * checks if the passwords match, and if they do, creates a new user object and adds it to the database.
+ * If the passwords do not match, displays an error message.
  * 
  * @async
- * @function checkIfDatabaseIsEmpty
- * @param {string} [path=""] - The path within the database to check for data.
- * @returns {Promise<any>} A promise that resolves with the loaded data or tasksDummy if empty.
+ * @returns {Promise<void>} A promise that resolves when the user is successfully added.
  */
-const checkIfDatabaseIsEmpty = async (path = "") => {
-    const result = await loadData(path);
-    if (!result) {
-      console.warn("Datenbank bzw. angegebener Pfad innerhalb der Datenbank ist leer");
-      return tasksDummy;
-    }
-    return result;
-};
 
-
-/**
- * Handles the sign-up process by collecting user input, validating passwords, creating a new user object,
- * saving user data, and performing subsequent sign-up actions.
- */
-function signUp() {
+async function addUser() {
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
@@ -205,76 +143,32 @@ function signUp() {
         return;
     }
     const newUser = createNewUser(name, email, password);
-    const newContact = createNewContact(newUser);
-    saveUserData(newUser, newContact);
-    performSignUpActions();
+    await addData('/users', newUser);
 }
 
 
 /**
  * Creates a new user object with the provided name, email, and password.
- * Generates a unique user ID based on the current timestamp,
- * assigns a random color from userColors array, and creates initials from the user's name.
+ * The created user object has the following properties:
+ * - name: The user's name.
+ * - email: The user's email address.
+ * - password: The user's password.
+ * - phone: An empty string (no phone number is stored for now).
+ * - color: A randomly generated color for the user's avatar.
  * 
- * @param {string} name - The name of the new user.
- * @param {string} email - The email of the new user.
- * @param {string} password - The password of the new user.
+ * @param {string} name - The user's name.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
  * @returns {object} The newly created user object.
  */
 function createNewUser(name, email, password) {
-    const date = new Date();
-    const newUserID = date.getTime();
-    const newUserColor = userColors[randomUserColors()];
-    const newUserInitials = createUserInitials(name);
     return {
         name: name,
         email: email,
         password: password,
         phone: '',
-        color: newUserColor,
-        initials: newUserInitials,
-        id: newUserID,
+        color: getRandomColor(),
     };
-}
-
-
-/**
- * Creates a new contact object based on the provided user object.
- * 
- * @param {object} user - The user object containing user information.
- * @returns {object} The newly created contact object.
- */
-function createNewContact(user) {
-    return {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        phone: '',
-        color: user.color,
-        initials: user.initials,
-    };
-}
-
-
-/**
- * Saves the new user and contact data to the database.
- * 
- * @param {object} newUser - The new user object to be added.
- */
-function saveUserData(newUser, newContact) {
-    users.push(newUser);
-    putData("/users", users);
-}
-
-
-/**
- * Performs actions after successful user sign-up:
- * clears the sign-up form, displays a success message, and redirects to the login page after a delay.
- */
-function performSignUpActions() {
-    clearSignUpForm();
-    successfullSignUp();
-    setTimeout(redirectTo('login.html'), 1750);
 }
 
 
@@ -287,7 +181,6 @@ function successfullSignUp() {
 }
 
 
-
 /**
  * Checks if the given passwords match.
  * 
@@ -298,17 +191,6 @@ function successfullSignUp() {
 function checkIfPasswordsAreMatching(password, passwordConfirm) {
     const check = password === passwordConfirm;
     return check;
-}
-
-
-/**
- * Clears the input fields of the sign-up form.
- */
-function clearSignUpForm() {
-    document.getElementById('name').value = '';
-    document.getElementById('email').value = '';
-    document.getElementById('password').value = '';
-    document.getElementById('password__confirm').value = '';
 }
 
 
@@ -331,63 +213,59 @@ function deleteMessageThatPasswordsDontMatch() {
 
 
 /**
- * Generates a random index to pick a color from the userColors array.
- *
- * @returns {number} Random index within the bounds of the userColors array.
- */
-function randomUserColors() {
-    const amount = userColors.length;
-    const randomColor = Math.floor(Math.random() * (amount + 1));
-    return randomColor;
-}
-
-
-/**
- * Creates initials from the given name.
- *
- * @param {string} name - The full name to create initials from.
- * @returns {string} Initials generated from the first letters of each word in the name.
- */
-function createUserInitials(name) {
-    const names = name.split(' ');
-    const firstNameInitial = names[0].charAt(0).toUpperCase();
-    const lastNameInitial = names.length > 1 ? names[names.length - 1].charAt(0).toUpperCase() : '';
-    return firstNameInitial + lastNameInitial;
-}
-
-
-/**
- * Validates the password based on specified criteria and sets a custom validity message.
+ * Checks if the entered password in the password input field matches the given requirements and set the custom validity of the field accordingly.
+ * 
+ * The requirements are:
+ * - At least one uppercase letter
+ * - At least one lowercase letter
+ * - At least one number
+ * - At least one special character (@$!%*?&)
+ * - At least 8 characters long
+ * 
+ * The custom validity message will be a string containing all the requirements that are not met.
  */
 function validatePassword() {
     const passwordElement = document.getElementById('password');
     const password = passwordElement.value;
     const requirements = [
-        { regex: /(?=.*[A-Z])/, message: 'Mindestens ein Großbuchstabe.\n' },
-        { regex: /(?=.*[a-z])/, message: 'Mindestens ein Kleinbuchstabe.\n' },
-        { regex: /(?=.*\d)/, message: 'Mindestens eine Zahl.\n' },
-        { regex: /(?=.*[@#$!%*?&])/, message: 'Mindestens ein Sonderzeichen (@$!%*?&).\n' },
-        { test: password.length >= 8, message: 'Mindestens 8 Zeichen lang.\n' }
+        { regex: /(?=.*[A-Z])/, message: 'At least one uppercase letter.\n' },
+        { regex: /(?=.*[a-z])/, message: 'At least one lowercase letter.\n' },
+        { regex: /(?=.*\d)/, message: 'At least one number.\n' },
+        { regex: /(?=.*[@#$!%*?&])/, message: 'At least one special character (@$!%*?&).\n' },
+        { test: password.length >= 8, message: 'At least 8 characters long.\n' }
     ];
-    const errorMessage = requirements.reduce((msg, req) => 
+    const errorMessage = requirements.reduce((msg, req) =>
         msg + ((req.regex && !req.regex.test(password)) || (req.test === false) ? req.message : ''), '');
     passwordElement.setCustomValidity(errorMessage);
 }
 
 
 /**
- * Validates the email address based on specified criteria and sets a custom validity message.
+ * Checks if the entered email address in the email input field matches the given requirements and set the custom validity of the field accordingly.
+ * 
+ * The requirements are:
+ * - The email address must contain an "@" symbol.
+ * - The email address must contain a dot (.) after the "@" symbol.
+ * - The email address cannot end with a dot (.)).
+ * - The local part of the email address contains invalid characters.
+ * - The top-level domain must be at least two letters long.
+ * - The email address must not already be taken by another user.
+ *
+ * The custom validity message will be a string containing all the requirements that are not met.
  */
-function validateEmail() {
+ function validateEmail() {
     const emailElement = document.getElementById('email');
-    const email = emailElement.value;
+    const email = emailElement.value.trim();
+
     const validations = [
-        { condition: email.indexOf('@') < 1, message: 'Die E-Mail-Adresse muss ein @-Symbol enthalten.\n' },
-        { condition: email.lastIndexOf('.') <= email.indexOf('@') + 1, message: 'Die E-Mail-Adresse muss einen Punkt (.) nach dem @-Symbol enthalten.\n' },
-        { condition: email.lastIndexOf('.') === email.length - 1, message: 'Die E-Mail-Adresse darf nicht mit einem Punkt (.) enden.\n' },
-        { condition: !/^[a-zA-Z0-9._%+-]+@/.test(email), message: 'Der lokale Teil der E-Mail-Adresse enthält ungültige Zeichen.\n' },
-        { condition: !/[a-zA-Z]{2,}$/.test(email.split('.').pop()), message: 'Die Top-Level-Domain muss mindestens zwei Buchstaben lang sein.\n' }
+        { condition: email.indexOf('@') < 1, message: 'The email address must contain an "@" symbol.\n' },
+        { condition: email.lastIndexOf('.') <= email.indexOf('@') + 1, message: 'The email address must contain a dot (.) after the "@" symbol.\n' },
+        { condition: email.lastIndexOf('.') === email.length - 1, message: 'The email address cannot end with a dot (.).\n' },
+        { condition: !/^[a-zA-Z0-9._%+-]+@/.test(email), message: 'The local part of the email address contains invalid characters.\n' },
+        { condition: !/[a-zA-Z]{2,}$/.test(email.split('.').pop()), message: 'The top-level domain must be at least two letters long.\n' },
+        { condition: users.some(user => user.email.toLowerCase() === email.toLowerCase()), message: 'This email is already taken.\n' }
     ];
+
     const errorMessage = validations.reduce((msg, val) => val.condition ? msg + val.message : msg, '');
     emailElement.setCustomValidity(errorMessage);
 }

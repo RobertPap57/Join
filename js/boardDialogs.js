@@ -97,7 +97,7 @@ function renderCardBig(i) {
         if (task.id == i) {
             renderCardBigHeader(index);
             renderCardBigTop(index);
-            renderCardBigSubTo(index);
+            renderCardBigAssignedTo(index);
             renderCardBigSubtask(index);
         }
     });
@@ -122,7 +122,7 @@ function renderCardBigHeader(i) {
  * Renders the assigned members section of a large task card.
  * @param {number} i - The index of the task.
  */
-function renderCardBigSubTo(i) {
+function renderCardBigAssignedTo(i) {
     const assignedToArray = Array.isArray(tasks[i]?.assignedTo) ? tasks[i].assignedTo : [];
     actAssignedTo = [];
     const badgeContainer = document.getElementById('badgeContainer');
@@ -136,7 +136,7 @@ function renderCardBigSubTo(i) {
                 initials: contact.initials,
                 name: contact.name
             });
-            badgeContainer.innerHTML += renderCardBigSubToHtml(contact);
+            badgeContainer.innerHTML += renderCardBigAssignedToHtml(contact);
         }
     });
 }

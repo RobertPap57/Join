@@ -185,7 +185,7 @@ function createNewContactObject() {
         name: name,
         email: email,
         phone: phone,
-        color: randomColors(),
+        color: getRandomColor(),
     };
 }
 

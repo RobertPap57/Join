@@ -41,26 +41,11 @@ async function getContacts() {
 }
 
 
-/**
- * Creates initials from a given name.
- *
- * Splits the provided name into words and generates initials by taking the first letter of the first and last words.
- * If the name consists of only one word, only the initial of that word is returned.
- * @param {string} name - The full name from which to create initials.
- * @returns {string} The concatenated initials from the first and last words in uppercase.
- */
-
-function createNameInitials(name) {
-	const names = name.split(' ');
-	const firstNameInitial = names[0].charAt(0).toUpperCase();
-	const lastNameInitial = names.length > 1 ? names[names.length - 1].charAt(0).toUpperCase() : '';
-	return firstNameInitial + lastNameInitial;
-}
 
 /**
  * Initializes the index page by checking for a logged-in user.
  * Redirects to the summary page if a user exists, otherwise to the login page.
- */
+*/
 function initIndex() {
 	checkForCurrentUser() ? redirectTo('summary.html') : redirectTo('login.html');
 }
@@ -69,7 +54,7 @@ function initIndex() {
 
 /**
  * Updates the favicon based on the user's system color scheme (light or dark).
- */
+*/
 function updateFavicon() {
 	favicon.href = './assets/img/favicon/logo_white.png';
 	const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -80,7 +65,7 @@ function updateFavicon() {
 /**
  * Adds event listeners after the DOM content is fully loaded.
  * Updates the favicon immediately and when the color scheme changes.
- */
+*/
 document.addEventListener('DOMContentLoaded', () => {
 	updateFavicon();
 	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateFavicon);
@@ -90,10 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  * Dynamically loads and injects HTML content into elements with the `w3-include-html` attribute.
  * Used for including shared HTML components like headers or sidebars.
- *
- * @async
- * @returns {Promise<void>} Resolves after all HTML includes are processed.
- */
+*
+* @async
+* @returns {Promise<void>} Resolves after all HTML includes are processed.
+*/
 async function includeHTML() {
 	let includeElements = document.querySelectorAll("[w3-include-html]");
 	for (let i = 0; i < includeElements.length; i++) {
@@ -112,16 +97,15 @@ async function includeHTML() {
 /**
  * Loads the current user from sessionStorage.
  * Returns a default user object if no user is found.
- *
- * @returns {Object} The current user object or a default fallback user object.
- */
+*
+* @returns {Object} The current user object or a default fallback user object.
+*/
 function loadCurrentUser() {
 	const defaultUser = {
 		name: '',
 		email: '',
 		id: '',
 		color: '',
-		initials: '',
 		password: '',
 	};
 	const user = sessionStorage.getItem('currentUser');
@@ -131,9 +115,9 @@ function loadCurrentUser() {
 
 /**
  * Checks if a valid current user is stored in sessionStorage.
- *
- * @returns {boolean} True if a valid user exists, false otherwise.
- */
+*
+* @returns {boolean} True if a valid user exists, false otherwise.
+*/
 function checkForCurrentUser() {
 	const userString = sessionStorage.getItem('currentUser');
 	if (!userString) {
@@ -153,15 +137,26 @@ function checkForCurrentUser() {
 /**
  * Redirects the browser to the specified page.
  * @param {string} page - The path or filename of the page to redirect to.
- */
+*/
 function redirectTo(page) {
 	window.location.href = page;
 }
 
 
 /**
- * Checks the screen orientation and toggles a warning element if in landscape on small screens.
+ * Redirects the browser to the last visited page.
+ * 
+ * This function changes the current location of the browser
+ *
  */
+function goBack() {
+    window.history.back();
+}
+
+
+/**
+ * Checks the screen orientation and toggles a warning element if in landscape on small screens.
+*/
 function checkOrientation() {
 	const warning = document.getElementById('landscapeWarning');
 	if ((window.innerWidth) < 933) {
@@ -178,7 +173,7 @@ function checkOrientation() {
 
 /**
  * Adds event listeners to check orientation on window load and resize.
- */
+*/
 document.addEventListener('DOMContentLoaded', function () {
 	window.addEventListener('load', checkOrientation);
 	window.addEventListener('resize', checkOrientation);
@@ -186,12 +181,91 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 /**
- * Sends a POST request to add new data to the database.
+ * Creates initials from a given name.
+ *
+ * Splits the provided name into words and generates initials by taking the first letter of the first and last words.
+ * If the name consists of only one word, only the initial of that word is returned.
+ * @param {string} name - The full name from which to create initials.
+ * @returns {string} The concatenated initials from the first and last words in uppercase.
+ */
+
+function createNameInitials(name) {
+	const names = name.split(' ');
+	const firstNameInitial = names[0].charAt(0).toUpperCase();
+	const lastNameInitial = names.length > 1 ? names[names.length - 1].charAt(0).toUpperCase() : '';
+	return firstNameInitial + lastNameInitial;
+}
+
+
+/**
+ * Generates a random hexadecimal color code.
+*
+* @return {string} A random hexadecimal color code.
+*/
+function getRandomColor() {
+	const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+
+
+/**
+ * Filters out any null or non-object values from the provided data object.
+ *
+ * @param {object} data - The object from which to filter null or non-object values.
+ * @return {array} An array of key-value pairs where the value is an object.
+ */
+function filterNullObjects(data) {
+  return Object.entries(data)
+    .filter(([_, obj]) => obj && typeof obj === 'object');
+}
+
+
+/**
+ * Adds an 'id' property to each object in the array of entries returned by
+ * filterNullObjects.
+ *
+ * @param {Array} entries - The array of key-value pairs from filterNullObjects.
+ * @returns {Array} The array of objects with an 'id' property added to each.
+ */
+
+function putIdInObject(entries) {
+  return entries.map(([id, obj]) => ({ id, ...obj }));
+}
+
+
+/**
+ * Fetches data from the database and returns it as an array of objects with IDs.
  *
  * @async
- * @param {string} path - The database path where the data should be stored.
- * @param {Object} data - The data object to be stored.
- * @returns {Promise<Object|null>} The saved data object with the generated `id` property, or `null` if an error occurs.
+ * @param {string} path - The database path from which to fetch data.
+ * @returns {Promise<Array<Object>>} An array of data objects, each with an `id` property. Returns an empty array if no data is found or an error occurs.
+ */
+async function getData(path = "") {
+	try {
+		const response = await fetch(BASE_URL + path + ".json");
+		const data = await response.json();
+		if (!data) return [];
+		return putIdInObject(filterNullObjects(data));
+
+	} catch (error) {
+		console.error(error);
+		return [];
+	}
+}
+
+
+/**
+ * Sends a POST request to add new data to the database.
+*
+* @async
+* @param {string} path - The database path where the data should be stored.
+* @param {Object} data - The data object to be stored.
+* @returns {Promise<Object|null>} The saved data object with the generated `id` property, or `null` if an error occurs.
  */
 async function addData(path = "", data = {}) {
 	try {
@@ -211,29 +285,6 @@ async function addData(path = "", data = {}) {
 	} catch (error) {
 		console.error(error);
 		return null;
-	}
-}
-
-
-/**
- * Fetches data from the database and returns it as an array of objects with IDs.
- *
- * @async
- * @param {string} path - The database path from which to fetch data.
- * @returns {Promise<Array<Object>>} An array of data objects, each with an `id` property. Returns an empty array if no data is found or an error occurs.
- */
-async function getData(path = "") {
-	try {
-		const response = await fetch(BASE_URL + path + ".json");
-		const data = await response.json();
-		if (!data) return [];
-		return Object.entries(data)
-			.filter(([_, obj]) => obj && typeof obj === 'object')
-			.map(([id, obj]) => ({ id, ...obj }));
-
-	} catch (error) {
-		console.error(error);
-		return [];
 	}
 }
 

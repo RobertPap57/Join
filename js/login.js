@@ -29,6 +29,23 @@ async function initLogin() {
 }
 
 
+
+
+
+async function checkIfDatabaseIsEmpty() {
+    const tasks = await getTasks();
+    const users = await getUsers();
+    const contacts = await getContacts();
+    if (!tasks || !users || !contacts) {
+        console.warn("Datenbank bzw. angegebener Pfad innerhalb der Datenbank ist leer");
+        await resetDatabase();
+    } else {
+        console.log(tasks, users, contacts);
+        return;
+    }
+};
+
+
 /**
  * Toggles the display of overlay and overlay-logo elements after an animation delay.
  * 

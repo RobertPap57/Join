@@ -84,7 +84,7 @@ function renderCardHtml(task) {
  * @returns {string} HTML markup representing the badge.
  */
 function renderBadge(contact) {
-    return `<div class="badgeImg" style="background-color: ${contact.color}">${contact.initials}</div>`;
+    return `<div class="badgeImg" style="background-color: ${contact.color}">${createNameInitials(contact.name)}</div>`;
 }
 
 /**
@@ -108,7 +108,7 @@ function renderCardBigTop(i) {
         <div class="prioContainer boardFlex">
             <p class="priority cardTextGrey">Priority:</p>
             <div class="boardFlex">
-                <p class="prioText cardTextBlack">${tasks[i].priority}</p>
+                <p class="prioText cardTextBlack">${capitalizeFirstLetter(tasks[i].priority)}</p>
                 <img src="assets/img/icons/${tasks[i].priority}.svg" alt="">
             </div>
         </div>
@@ -150,11 +150,11 @@ function renderCardBigSubHtml(subtask, taskId) {
  * @param {Object} contact - The contact object containing color, initials, and name.
  * @returns {string} - The HTML string for the badge representing the contact.
  */
-function renderCardBigSubToHtml(contact) {
+function renderCardBigAssignedToHtml(contact) {
     return `
     <li>
         <div class="badgeContainer">
-            <span class="badgeImg" style="background-color: ${contact.color}">${contact.initials}</span>
+            <span class="badgeImg" style="background-color: ${contact.color}">${createNameInitials(contact.name)}</span>
             <span>${contact.name}</span>
         </div>
     </li>`

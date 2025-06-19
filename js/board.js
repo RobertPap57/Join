@@ -1,21 +1,19 @@
 
 /**
- * Initializes the board by loading tasks and contacts data, and setting up UI interactions.
- * It calls various functions to render cards, initialize task addition, and manage UI elements.
+ * Initializes the board page by including HTML content, checking for a logged-in user, displaying the profile icon initials, highlighting the board link, retrieving tasks, retrieving contacts, closing the contact list edit on outside click, filtering contacts in tasks, and initializing the add task board.
+ *
+ * @return {Promise<void>} A promise that resolves when all the initialization steps are completed.
  */
 async function initBoard() {
     await includeHTML();
     checkForCurrentUser() ? "" : redirectTo('login.html');
     displayProfileIconInitials();
     highlightLink('board');
-    let taskData = await loadData("/tasks")
-    tasks = taskData;
-    tasks = tasks.filter(task => task !== null);
-    let contactsData = await loadData("/contacts")
-    contacts = contactsData;
-    contacts = contacts.filter(contact => contact !== null);
-    closeContactListEditOnOutsideClick();
+    await getContacts();
+    await getTasks();
     filterContactsInTasks(contacts, tasks);
+    closeContactListEditOnOutsideClick();
+    renderCards();
     initAddTaskBoard();
 
 }
@@ -30,8 +28,9 @@ function filterContactsInTasks(contacts, tasks) {
     tasks.forEach(task => {
         if (Array.isArray(task.assignedTo)) {
             task.assignedTo = task.assignedTo.filter(contactId => contacts.some(contact => contact.id === contactId));
+            
         } else {
-            task.assignedTo = []; // Initialize as an empty array if it doesn't exist or isn't an array
+            task.assignedTo = [];
         }
     });
 }
@@ -41,7 +40,6 @@ function filterContactsInTasks(contacts, tasks) {
  * buttons, and form behaviors.
  */
 function initAddTaskBoard() {
-    renderCards();
     pushSubtaskEdit();
     showMenu();
     changePrioBtn();
@@ -49,19 +47,17 @@ function initAddTaskBoard() {
     categoryMenu();
     styleSubtaskInput();
     pushSubtask();
-    renderContacts();
     closeContactListOnOutsideClick();
     categoryMenu();
     preventFormSubmitOnEnter();
     preventDefaultValidation();
-    filterContacts();
 }
 
 /**
  * Retrieves the input value from the search bar and triggers the searchTasks function.
  */
 function getSearchKeyword() {
-    let input = document.getElementById('searchBar').value;
+    const input = document.getElementById('searchBar').value.trim();
     searchTasks(input);
 }
 
@@ -70,10 +66,11 @@ function getSearchKeyword() {
  * @param {string} keyword - The input from the search bar.
  */
 function searchTasks(keyword) {
-    const filteredTasks = tasks.filter(task => {
-        return task.title.toLowerCase().includes(keyword.toLowerCase()) ||
-            task.description.toLowerCase().includes(keyword.toLowerCase());
-    });
+    const lowerKeyword = keyword.toLowerCase();
+    const filteredTasks = tasks.filter(task =>
+        task.title.toLowerCase().includes(lowerKeyword) ||
+        task.description.toLowerCase().includes(lowerKeyword)
+    );
     renderCards(filteredTasks);
 }
 
@@ -455,3 +452,12 @@ function renderDropdownOptions(taskId, currentStatus) {
 }
 
 
+/**
+ * Capitalizes the first letter of a given string.
+ * @param {string} str - The string to capitalize.
+ * @returns {string} The string with the first letter in uppercase.
+ */
+function capitalizeFirstLetter(str) {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}

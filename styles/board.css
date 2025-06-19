@@ -250,11 +250,13 @@ button {
     width: 128px;
     height: 8px;
     background: #F4F4F4;
+    border-radius: 16px;
 }
 
 .progressBar {
     height: 8px;
     background-color: #4589FF;
+    border-radius: 16px;
 }
 
 .amountSubtasks {
