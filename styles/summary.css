@@ -16,9 +16,10 @@ main {
 }
 
 .summary__container {
-    margin-left: 260px;
-    margin-top: 96px;
+    margin-left: 288px;
+    margin-top: 110px;
 }
+
 
 .summary__header {
     display: flex;

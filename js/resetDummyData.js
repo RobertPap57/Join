@@ -7,7 +7,7 @@ const dummyUsers = {
 		"password": "1234",
 		"color": "#FF70AA",
 	},
-	
+
 	"1": {
 		"name": "Tatjana Wolf",
 		"email": "wolf@gmail.com",
@@ -15,7 +15,7 @@ const dummyUsers = {
 		"password": "1234",
 		"color": "#FFC700",
 	},
-	
+
 	"2": {
 		"name": "Benedikt Ziegler",
 		"email": "benedikt@gmail.com",
@@ -23,7 +23,7 @@ const dummyUsers = {
 		"password": "1234",
 		"color": "#6E52FF",
 	},
-	
+
 	"3": {
 		"name": "David Eisenberg",
 		"email": "davidberg@gmail.com",
@@ -31,7 +31,7 @@ const dummyUsers = {
 		"password": "1234",
 		"color": "#FC71FF",
 	},
-	
+
 	"4": {
 		"name": "Eva Fischer",
 		"email": "eva@gmail.com",
@@ -39,7 +39,7 @@ const dummyUsers = {
 		"password": "1234",
 		"color": "#FFBB2B",
 	},
-	
+
 	"5": {
 		"name": "Emmanuel Mauer",
 		"email": "emmanuelma@gmail.com",
@@ -47,7 +47,7 @@ const dummyUsers = {
 		"password": "1234",
 		"color": "#1FD7C1",
 	},
-	
+
 	"6": {
 		"name": "Marcel Bauer",
 		"email": "bauer@gmail.com",
@@ -55,7 +55,7 @@ const dummyUsers = {
 		"password": "1234",
 		"color": "#462F8A",
 	},
-	
+
 	"7": {
 		"name": "Sofia Müller",
 		"email": "sofia@gmail.com",
@@ -63,7 +63,7 @@ const dummyUsers = {
 		"password": "1234",
 		"color": "#00BEE8",
 	},
-	
+
 	"8": {
 		"name": "Anja Schulz",
 		"email": "schulz@gmail.com",
@@ -71,7 +71,7 @@ const dummyUsers = {
 		"password": "1234",
 		"color": "#9327FF",
 	},
-	
+
 };
 
 
@@ -97,7 +97,7 @@ const dummyTasks = {
 		],
 		"assignedTo": ["0", "5", "6"],
 	},
-	
+
 	"1": {
 		"title": "CSS Architecture Planning",
 		"description": "Define CSS naming conventions and structure",
@@ -117,10 +117,10 @@ const dummyTasks = {
 				"completet": true,
 			},
 		],
-		
+
 		"assignedTo": ["2", "7"],
 	},
-	
+
 	"2": {
 		"title": "HTML Base Template Creation",
 		"description": "Create reusable HTML base templates",
@@ -131,7 +131,7 @@ const dummyTasks = {
 		"subTasks": [],
 		"assignedTo": ["2", "3", "8"],
 	},
-	
+
 	"3": {
 		"title": "Daily Kochwelt Recipe",
 		"description": "Implement daily recipe and portion calculator",
@@ -142,7 +142,7 @@ const dummyTasks = {
 		"subTasks": [],
 		"assignedTo": ["1", "4", "8"],
 	},
-	
+
 	"4": {
 		"title": "Contact Form & Imprint",
 		"description": "Create a contac form and imprint page",
@@ -177,8 +177,8 @@ const dummyContacts = removePasswordFromUsers(dummyUsers);
  * @returns {object} A new object with all properties of the user object except for the password property.
  */
 function removePasswordProperty(user) {
-    const { password, ...rest } = user;
-    return rest;
+	const { password, ...rest } = user;
+	return rest;
 }
 
 
@@ -211,24 +211,4 @@ async function resetDatabase() {
 }
 
 
-/**
- * Overwrites data at the specified Firebase path using HTTP PUT.
- * This is typically used to reset or replace entire collections with dummy data.
- *
- * @async
- * @function putData
- * @param {string} path - The Firebase path (e.g., "/users").
- * @param {Object|Array} data - The data to store at the specified path.
- * @returns {Promise<void>} Resolves when the operation completes and logs the response.
- */
-async function putData(path = "", data = {}) {
-	const response = await fetch(BASE_URL + path + ".json", {
-		method: "PUT",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(data),
-	});
-	const responseToJson = await response.json();
-	console.log(responseToJson);
-}
+

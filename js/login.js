@@ -1,26 +1,18 @@
-/**
- * Base URL for Firebase Realtime Database API.
- * 
- * Represents the base URL used to access the Firebase Realtime Database API.
- * 
- * @constant
- * @type {string}
- */
+let containerPassword = document.getElementById('password__container');
+let containerMail = document.getElementById('mail__container');
+let feedbackMail = document.getElementById('form__wrongMail__message');
+let feedbackPassword = document.getElementById('form__wrongPassword__message');
+
 
 /**
- * Initializes the login page by executing various setup functions asynchronously.
- * 
- * Calls multiple functions asynchronously to initialize the login page:
- * - checkForCurrentUserLogin: Checks if a current user is logged in.
- * - changeOfDisplayNoneAfterAnimation: Handles animation and display changes after login.
- * - checkLocalStorageForUserData: Checks local storage for user data.
- * - changePasswordIcon: Updates the password icon based on user interaction.
- * - disableLoginButtonIfFormIsEmpty: Disables the login button if the form is empty.
- * - logInIsCorrected: Handles corrections and validations during login process.
- * 
+ * Initializes the login page by checking if a user is already logged in, checking if the database is empty, removing display none after animation, checking if a user is stored in local storage, changing the password input field icon, disabling the login button if the form is empty, and resetting the wrong login message.
+ * @async
+ * @function initLogin
+ * @returns {Promise<void>} A promise that resolves when all the initialization steps are completed.
  */
 async function initLogin() {
     checkForCurrentUserLogin();
+    await checkIfDatabaseIsEmpty();
     changeOfDisplayNoneAfterAnimation();
     checkLocalStorageForUserData();
     changePasswordIcon();
@@ -28,31 +20,42 @@ async function initLogin() {
     logInIsCorrected();
 }
 
-
-
-
+/**
+ * Checks if the database collections are empty and resets them if necessary.
+ * 
+ * Asynchronously fetches users, contacts, and tasks from the database.
+ * If any of these collections are empty, it resets the database to the initial
+ * dummy data and refetches the collections to ensure they are populated.
+ * 
+ * @async
+ * @function checkIfDatabaseIsEmpty
+ * @returns {Promise<void>} A promise that resolves when the check and potential reset are complete.
+ */
 
 async function checkIfDatabaseIsEmpty() {
-    const tasks = await getTasks();
-    const users = await getUsers();
-    const contacts = await getContacts();
-    if (!tasks || !users || !contacts) {
-        console.warn("Datenbank bzw. angegebener Pfad innerhalb der Datenbank ist leer");
+    await getUsers();
+    await getContacts();
+    await getTasks();
+    if (tasks.length === 0 || users.length === 0 || contacts.length === 0) {
         await resetDatabase();
+    await getUsers();
+    await getContacts();
+    await getTasks();
     } else {
-        console.log(tasks, users, contacts);
         return;
     }
 };
 
 
+
 /**
- * Toggles the display of overlay and overlay-logo elements after an animation delay.
- * 
- * This function adds the 'd-none' class to the overlay element and removes the
- * 'd-none' class from the logo element after a delay of 1800 milliseconds, simulating
- * the end of an animation.
+ * Changes the display of the overlay and logo elements after the animation is finished.
  *
+ * After 2000 milliseconds (2 seconds), the overlay element is given the class 'd-none'
+ * and the logo element has the class 'd-none' removed. This causes the overlay to disappear
+ * and the logo to appear.
+ *
+ * @return {void} This function does not return anything.
  */
 function changeOfDisplayNoneAfterAnimation() {
     let overlay = document.getElementById('overlay');
@@ -67,11 +70,13 @@ function changeOfDisplayNoneAfterAnimation() {
 
 
 /**
- * Checks local storage for user data related to login.
- * 
- * Retrieves user data from local storage using the checkLocalStorageForLoginData function.
- * Updates the current user variable if user data is found and calls updateLogInForm with the appropriate parameter.
- * If no user data is found, calls updateLogInForm with false.
+ * Checks local storage for user login data, and if found, updates the current user and the login form accordingly.
+ *
+ * Retrieves the user data from local storage using the 'currentUser' key.
+ * If user data is found, sets the global currentUser variable to the parsed user object and updates the login form to show the user as logged in.
+ * If no user data is found, updates the login form to show the user as not logged in.
+ *
+ * @returns {void} This function does not return anything.
  */
 function checkLocalStorageForUserData() {
     const userInLocalStorage = checkLocalStorageForLoginData();
@@ -85,14 +90,10 @@ function checkLocalStorageForUserData() {
 
 
 /**
- * Checks local storage for user login data.
+ * Retrieves user data from local storage, parses it to a user object, and returns it.
+ * If no user data is found or if the data is invalid, returns null.
  * 
- * Retrieves the user data from local storage using the 'currentUser' key.
- * Parses the JSON string retrieved from local storage to convert it into a JavaScript object.
- * Returns the parsed user object if retrieval and parsing are successful.
- * Returns null if no user data is found in local storage or if there is an error parsing the JSON.
- * 
- * @returns {object | null} The parsed user object from local storage, or null if not found or parsing error.
+ * @returns {Object|null} The user object if data is found and valid, null otherwise.
  */
 function checkLocalStorageForLoginData() {
     const userInLocalStorageString = localStorage.getItem('currentUser');
@@ -101,7 +102,6 @@ function checkLocalStorageForLoginData() {
             const userInLocalStorage = JSON.parse(userInLocalStorageString);
             return userInLocalStorage;
         } catch (error) {
-            console.error('Error parsing JSON from Local Storage', error);
             return null;
         }
     } else {
@@ -111,15 +111,16 @@ function checkLocalStorageForLoginData() {
 
 
 /**
- * Updates the state (checked or unchecked) of a checkbox element.
+ * Updates the appearance of a checkbox element based on a boolean value.
  * 
- * Sets the source (src) attribute of the checkbox element's image based on the isChecked parameter.
- * Updates the dataset.checked attribute of the checkbox to reflect the isChecked state.
+ * This function takes a checkbox element and a boolean value as parameters.
+ * It sets the src attribute of the checkbox to either a checked or unchecked image
+ * based on the boolean value, and sets the 'data-checked' attribute of the checkbox
+ * to the boolean value as a string.
  * 
  * @param {HTMLElement} checkbox - The checkbox element to update.
- * @param {boolean} isChecked - The desired checked state:
- *                              - true: Checkbox should be checked.
- *                              - false: Checkbox should be unchecked.
+ * @param {boolean} isChecked - The boolean value indicating whether the checkbox is checked or not.
+ * @returns {void} This function does not return anything.
  */
 function updateCheckboxState(checkbox, isChecked) {
     checkbox.src = isChecked ? './assets/img/icons_login/checkbox_checked.png' : './assets/img/icons_login/checkbox_unchecked.png';
@@ -128,16 +129,14 @@ function updateCheckboxState(checkbox, isChecked) {
 
 
 /**
- * Updates the login form fields based on whether user data is stored locally.
+ * Updates the state of the login form based on whether the current user is logged in and their data is stored in local storage.
  * 
- * Sets the value of email and password fields in the login form based on the inStorage parameter:
- * - If inStorage is true, sets emailField value to currentUser.email and passwordField value to currentUser.password.
- * - If inStorage is false, clears both emailField and passwordField values.
- * Updates the checkbox state using the updateCheckboxState function based on the inStorage parameter.
+ * Retrieves the email and password fields of the login form and sets their values to the current user's email and password
+ * if the user is logged in and their data is stored in local storage, and clears their values otherwise.
+ * Also updates the state of the checkbox element in the login form to reflect whether the user is logged in or not.
  * 
- * @param {boolean} inStorage - Indicates whether user data is stored locally:
- *                              - true: User data is stored locally (currentUser object is available).
- *                              - false: No user data is stored locally (currentUser object is not available).
+ * @param {boolean} inStorage - A boolean indicating whether the user is logged in and their data is stored in local storage.
+ * @returns {void} This function does not return anything.
  */
 function updateLogInForm(inStorage) {
     const emailField = document.getElementById('email');
@@ -150,19 +149,21 @@ function updateLogInForm(inStorage) {
 
 
 /**
- * Handles the click event of a checkbox element.
+ * Toggles the state of a checkbox element when clicked.
  * 
- * Retrieves the current state of the checkbox using the checkIfCheckBoxIsClicked function.
- * Updates the state of the checkbox to the opposite of its current state using the updateCheckboxState function.
- * 
+ * This function retrieves a checkbox element by its ID, determines its current
+ * checked state using the 'checkIfCheckBoxIsClicked' function, and then toggles
+ * the checkbox state by updating its appearance and data attributes using the
+ * 'updateCheckboxState' function.
+ *
+ * @returns {void} This function does not return a value.
  */
+
 function checkBoxClicked() {
     const checkbox = document.getElementById('checkbox');
     const isChecked = checkIfCheckBoxIsClicked(checkbox);
     updateCheckboxState(checkbox, !isChecked);
 }
-
-
 
 
 /**
@@ -198,17 +199,16 @@ function checkIfCheckBoxIsClicked(checkbox) {
  */
 async function checkLoginValues(email, password) {
     try {
-        const datas = await loadData("/users");
-        const matchingContact = datas.find(data => data.email === email);
-        if (!matchingContact) {
+        const matchingUser = users.find(user => user.email === email);
+        if (!matchingUser) {
             wrongMail();
-        } else if (matchingContact.password !== password) {
+        } else if (matchingUser.password !== password) {
             wrongPassword();
         } else {
-            return matchingContact;
+            return matchingUser;
         }
     } catch (error) {
-        console.error("Error loading user data", error);
+        return null;
     }
     return null;
 }
@@ -225,7 +225,6 @@ function createGuestUser() {
         email: 'guest@join.de',
         id: 'guest',
         color: '#00BEE8',
-        initials: 'G',
         password: 'guest',
     };
 }
@@ -283,9 +282,9 @@ function loginSubmit(event) {
 async function login() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    const matchingContact = await checkLoginValues(email, password);
-    if (matchingContact) {
-        currentUser = matchingContact;
+    const matchingUser = await checkLoginValues(email, password);
+    if (matchingUser) {
+        currentUser = matchingUser;
         saveCurrentUserToSessionStorage(currentUser);
         clearForm('email', 'password');
         const checkbox = document.getElementById('checkbox');
@@ -294,8 +293,8 @@ async function login() {
         } else {
             localStorage.removeItem('currentUser');
         }
-        redirectTo('summary.html');
         await addUserToContacts();
+        redirectTo('summary.html');
     } else {
         localStorage.removeItem('currentUser');
     }
@@ -324,7 +323,6 @@ function saveCurrentUserToSessionStorage(currentUser) {
     if (currentUser) {
         sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
     } else {
-        /* console.warn("currentUser NA - save to local Storage not possible");*/
         return;
     }
 }
@@ -387,42 +385,13 @@ function disableLoginButtonIfFormIsEmpty() {
 
 
 /**
- * DOM element representing the container for the password input field.
- * @type {HTMLElement}
- */
-let containerPassword = document.getElementById('password__container');
-
-
-/**
- * DOM element representing the feedback message for incorrect password input.
- * @type {HTMLElement}
- */
-let feedbackPassword = document.getElementById('form__wrongPassword__message');
-
-
-/**
- * Adds the 'wrongPassword' class to the container of the password input field
+ * Adds the 'wrongPassword' class to the container of the password input field 
  * and updates the innerHTML of the feedback message element with an error message.
  */
 function wrongPassword() {
     containerPassword.classList.add('wrongPassword');
     feedbackPassword.innerHTML = 'Wrong password Ups! Try again.';
-}
-
-
-/**
- * DOM element representing the container for the password input field.
- * @type {HTMLElement}
- */
-let containerMail = document.getElementById('mail__container');
-
-
-/**
- * DOM element representing the feedback message for incorrect password input.
- * @type {HTMLElement}
- */
-let feedbackMail = document.getElementById('form__wrongMail__message');
-
+}    
 
 /**
  * Adds the 'wrongMail' class to the container of the mail input field
@@ -466,43 +435,31 @@ function checkForCurrentUserLogin() {
         const userJSON = JSON.parse(userString);
         return true;
     } catch (error) {
-        console.error('Error parsing JSON from Session Storage', error);
         return false;
     }
 }
 
 
 /**
- * Adds the current user to the contacts list and updates the database.
- * 
-  */
-async function addUserToContacts() {
-    const userToContacts = {
-        id: currentUser.id,
-        name: currentUser.name,
-        email: currentUser.email,
-        phone: "",
-        color: currentUser.color,
-        initials: currentUser.initials,
-    };
-    contacts.push(userToContacts);
-    await updateDataBase(contacts, 'contacts'); 
-}
-
-
-/**
- * Updates the specified array in the database.
- * 
- * @param {Array} array - The array to be updated in the database.
- * @param {string} arrayName - The name of the array in the database.
- * @returns {Promise<void>} A promise that resolves when the update is complete.
+ * Adds the current user to the contacts database if not already present.
+ *
+ * Checks if the current user is already in the contacts list by comparing
+ * their ID and email with existing contacts. If the user does not exist in
+ * the contacts, their data is sent to the database.
+ *
+ * @async
+ * @returns {Promise<void>} Resolves when the user is added to the contacts or if they already exist.
  */
-async function updateDataBase(array, arrayName) {
-    await fetch(`${BASE_URL}/${arrayName}.json`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(array)
-    }); 
+
+async function addUserToContacts() {
+	const exists = contacts.some(contact =>
+		contact.id === currentUser.id || contact.email === currentUser.email
+	);
+
+	if (!exists) {
+		const { id, ...userData } = currentUser;
+		await putData(`contacts/${id}`, userData);
+	} else {
+        return;
+	}
 }

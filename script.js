@@ -150,7 +150,7 @@ function redirectTo(page) {
  *
  */
 function goBack() {
-    window.history.back();
+	window.history.back();
 }
 
 
@@ -204,11 +204,11 @@ function createNameInitials(name) {
 */
 function getRandomColor() {
 	const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
+	let color = '#';
+	for (let i = 0; i < 6; i++) {
 		color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+	}
+	return color;
 }
 
 
@@ -220,8 +220,8 @@ function getRandomColor() {
  * @return {array} An array of key-value pairs where the value is an object.
  */
 function filterNullObjects(data) {
-  return Object.entries(data)
-    .filter(([_, obj]) => obj && typeof obj === 'object');
+	return Object.entries(data)
+		.filter(([_, obj]) => obj && typeof obj === 'object');
 }
 
 
@@ -234,7 +234,7 @@ function filterNullObjects(data) {
  */
 
 function putIdInObject(entries) {
-  return entries.map(([id, obj]) => ({ id, ...obj }));
+	return entries.map(([id, obj]) => ({ id, ...obj }));
 }
 
 
@@ -330,3 +330,23 @@ async function deleteData(path = "", id = "") {
 }
 
 
+/**
+ * Overwrites data at the specified Firebase path using HTTP PUT.
+ * This is typically used to reset or replace entire collections with dummy data.
+ *
+ * @async
+ * @function putData
+ * @param {string} path - The Firebase path (e.g., "/users").
+ * @param {Object|Array} data - The data to store at the specified path.
+ * @returns {Promise<void>} Resolves when the operation completes and logs the response.
+ */
+async function putData(path = "", data = {}) {
+	await fetch(BASE_URL + path + ".json", {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(data),
+	});
+
+}
