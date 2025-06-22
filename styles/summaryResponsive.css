@@ -9,21 +9,27 @@
         margin-left: 0px;
         margin-bottom: 74px;
     }
+
+    .main__container {
+        justify-content: center;
+        padding-left: 0;
+    }
 }
 
-/* Here final design shown in FIGMA at 428 x 926 px */
+
 @media (max-width: 730px) {
     .main__container {
         padding-top: 0px;
         padding-bottom: 0px;
         padding-left: 16px;
+
     }
 
     .summary__header {
         flex-direction: column;
         height: auto;
         align-items: flex-start;
-        padding-top: 28px;
+        gap: 8px;
     }
 
     .seperator {
@@ -31,14 +37,12 @@
     }
 
     .seperator__horizental {
-        padding-top: 16px;
-        display: flex;
+        margin-top: 8px;
+        background-color: #29ABE2;
         width: 90px;
         height: 3px;
-        background-image: url(../assets/img/icons_summary/separator.png);
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-position: center center;
+        border-radius: 10px;
+
     }
 
     .summary__first__section {
@@ -179,7 +183,7 @@
 
 
 @media (min-width: 374px) and (max-width: 376px) and (min-height: 666px) and (max-height: 668px) {
-    
+
     .main__container {
         max-height: 100vh;
     }

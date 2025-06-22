@@ -153,32 +153,9 @@ function saveEdit(i) {
     actSubtasks = [];
     closeDialogBtn();
     renderCards();
-    putDataEdit(`/tasks`, tasks)
 }
 
-/**
- * Sends a PUT request to update data at the specified path on the server.
- *
- * @param {string} path - The path to send the PUT request to.
- * @param {object} data - The data object to be sent in the PUT request body.
- * @returns {Promise<object>} A promise that resolves to the parsed JSON response from the server.
- */
-async function putDataEdit(path = "", data = {}) {
-    try {
-        const response = await fetch(`${BASE_URL}${path}.json`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
-        const responseToJson = await response.json();
-        return responseToJson;
-    } catch (error) {
 
-        throw error;
-    }
-}
 
 /**
  * deletes a task from the `tasks` array and the database.
@@ -222,7 +199,7 @@ async function drop(status) {
         removeHighlight();
         renderCards();
     }
-    await putDataEdit(`/tasks`, tasks)
+  
 }
 
 /**

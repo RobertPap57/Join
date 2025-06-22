@@ -23,7 +23,7 @@ main {
 
 .summary__header {
     display: flex;
-    justify-content: space-between;
+    gap: 30px;
     align-items: center;
     max-width: 625px;
     height: 73px;
@@ -38,10 +38,8 @@ main {
 .seperator {
     width: 3px;
     height: 59px;
-    background-image: url(../assets/img/icons_summary/seperator_blue.png);
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center center;
+    background-color: #29ABE2;
+    border-radius: 10px;
 }
 
 .summary__header-text {
@@ -170,8 +168,8 @@ main {
 .summary__greeting__container {
     display: flex;
     flex-direction: column;
-    margin-top: 220px;
-    margin-left: 78px;
+    margin-top: 240px;
+    margin-left: 80px;
 }
 
 .summary__greeting__formula {
@@ -213,7 +211,18 @@ main {
     color: white;
     transition: 100ms ease-in-out;
     box-shadow: 0px 4px 4px 0px #00000040;
-    transform: scale(1.1);
+}
+
+.summary__two_tiles:hover {
+    transform: scaleX(1.061) scaleY(1.095);
+}
+
+.summary__second__section:hover {
+    transform: scaleX(1.029) scaleY(1.095);
+}
+
+.summary__third__section-tiles:hover {
+    transform: scaleX(1.095) scaleY(1.095);
 }
 
 .second__section__first__tile {
@@ -249,6 +258,7 @@ main {
     0% {
         opacity: 1;
     }
+
     100% {
         opacity: 0;
     }

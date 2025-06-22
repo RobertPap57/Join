@@ -1,6 +1,3 @@
-"use strict";
-
-currentUser = loadCurrentUser();
 
 
 /**
@@ -15,8 +12,7 @@ async function initSummary() {
   checkForCurrentUser() ? checkForGreeting() : redirectTo('login.html');
   displayProfileIconInitials();
   highlightLink('summary');
-
-  await getDataFromFirebase();
+  await getTasks();
   renderSummary();
 }
 
@@ -29,7 +25,7 @@ const imgIdToSrcMap = {
     highlight: './assets/img/icons_summary/edit_light.png',
     reset: './assets/img/icons_summary/edit_dark.png'
   },
-  summary__done: {
+  summary__Done: {
     highlight: './assets/img/icons_summary/done_light.png',
     reset: './assets/img/icons_summary/done_dark.png'
   }
@@ -42,10 +38,13 @@ const imgIdToSrcMap = {
  * the greeting as displayed in the session storage.
  */
 const checkForGreeting = () => {
-  if (sessionStorage.getItem('greeting')) return;
-  updateGreetingText();
-  setGreetingAnimation();
-  sessionStorage.setItem('greeting', 'true');
+  if (sessionStorage.getItem('greeting')) {
+    updateGreetingText();
+  } else {
+    updateGreetingText();
+    setGreetingAnimation();
+    sessionStorage.setItem('greeting', 'true');
+  }
 };
 
 
@@ -63,30 +62,6 @@ const changeIconImage = (element, state) => {
   if (newSrc) img.src = newSrc;
 };
 
-
-/**
- * Clears the text content of multiple HTML elements.
- * 
- * @param {...HTMLElement} elements - The HTML elements whose text content will be cleared.
- */
-const clearElementsText = (...elements) => {
-  elements.forEach(element => clearText(element));
-};
-
-
-/**
- * Sets the text content of multiple HTML elements.
- * 
- * Calls functions to set greeting text and current user name for each element.
- * 
- * @param {...HTMLElement} elements - The HTML elements to set the text content.
- */
-const setElementsText = (...elements) => {
-  elements.forEach(element => {
-    setGreetingText(element);
-    setCurrentUserName(element);
-  });
-};
 
 
 /**
@@ -112,27 +87,6 @@ const updateGreetingText = () => {
 
 
 /**
- * Checks if the database or specified path within the database is empty.
- * 
- * Asynchronously loads data from the specified path and returns a default
- * value (tasksDummy) if the result is falsy (empty or undefined).
- * 
- * @async
- * @function checkIfDatabaseIsEmpty
- * @param {string} [path=""] - The path within the database to check for data.
- * @returns {Promise<any>} A promise that resolves with the loaded data or tasksDummy if empty.
- */
-const checkIfDatabaseIsEmpty = async (path = "") => {
-  const result = await loadData(path);
-  if (!result) {
-    /* console.error("Datenbank bzw. angegebener Pfad innerhalb der Datenbank ist leer"); */
-    return tasksDummy;
-  }
-  return result;
-};
-
-
-/**
  * Sets a greeting animation for mobile devices.
  * 
  * Shows and hides the overlay container to create a brief greeting animation 
@@ -145,32 +99,6 @@ function setGreetingAnimation() {
     setTimeout(function () {
       containerMobile.classList.add("d-none");
     }, 1800);
-  }
-}
-
-
-/**
- * Asynchronously loads HTML content into elements with a specified attribute.
- * 
- * This function searches for all elements with the attribute `w3-include-html`,
- * fetches the HTML content from the URL specified by the attribute value and 
- * inserts the content into the element. 
- * If the fetch operation fails, it inserts a "Page not found" message into the element.
- *
- * @returns {Promise<void>} A promise that resolves when all HTML content is loaded and inserted.
- * 
- */
-async function includeHTML() {
-  let includeElements = document.querySelectorAll("[w3-include-html]");
-  for (let i = 0; i < includeElements.length; i++) {
-    const element = includeElements[i];
-    let file = element.getAttribute("w3-include-html");
-    let resp = await fetch(file);
-    if (resp.ok) {
-      element.innerHTML = await resp.text();
-    } else {
-      element.innerHTML = "Page not found";
-    }
   }
 }
 
@@ -248,35 +176,6 @@ function setCurrentUserName(userName) {
   if (currentUser) {
     userName.innerText = capitalizeFirstChar(currentUser['name']);
   }
-}
-
-
-/**
- * Retrieves data from Firebase for tasks, users, and contacts.
- * 
- * Asynchronously retrieves data from Firebase for tasks, users, and contacts,
- * ensuring each collection is populated and not empty.
- * 
- */
-async function getDataFromFirebase() {
-  tasks = await checkIfDatabaseIsEmpty("/tasks");
-  users = await checkIfDatabaseIsEmpty("/users");
-  contacts = await checkIfDatabaseIsEmpty("/contacts");
-}
-
-
-/**
- * Loads data asynchronously from a specified path using fetch.
- * 
- * @async
- * @function loadData
- * @param {string} [path=""] - The path to fetch data from.
- * @returns {Promise<any>} A promise that resolves with the fetched data as a JSON object.
- */
-async function loadData(path = "") {
-  let response = await fetch(BASE_URL + path + ".json");
-  let responseToJson = await response.json();
-  return responseToJson;
 }
 
 
