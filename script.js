@@ -180,22 +180,23 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-/**
- * Creates initials from a given name.
- *
- * Splits the provided name into words and generates initials by taking the first letter of the first and last words.
- * If the name consists of only one word, only the initial of that word is returned.
- * @param {string} name - The full name from which to create initials.
- * @returns {string} The concatenated initials from the first and last words in uppercase.
- */
 
+/**
+ * Creates a string of initials from a name string.
+ * 
+ * The function takes a string of a user's name and returns a string of their
+ * initials. The returned string is made up of the first letter of the first
+ * name, followed by the first letter of the last name if it exists.
+ * @param {string} name - The user's name as a string.
+ * @return {string} The user's initials as a string.
+ */
 function createNameInitials(name) {
-	const names = name.split(' ');
+	const cleanName = name.replace(/\s*\(You\)$/, '').trim();
+	const names = cleanName.split(' ');
 	const firstNameInitial = names[0].charAt(0).toUpperCase();
 	const lastNameInitial = names.length > 1 ? names[names.length - 1].charAt(0).toUpperCase() : '';
 	return firstNameInitial + lastNameInitial;
 }
-
 
 /**
  * Generates a random hexadecimal color code.

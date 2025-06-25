@@ -38,9 +38,9 @@ async function checkIfDatabaseIsEmpty() {
     await getTasks();
     if (tasks.length === 0 || users.length === 0 || contacts.length === 0) {
         await resetDatabase();
-    await getUsers();
-    await getContacts();
-    await getTasks();
+        await getUsers();
+        await getContacts();
+        await getTasks();
     } else {
         return;
     }
@@ -391,7 +391,7 @@ function disableLoginButtonIfFormIsEmpty() {
 function wrongPassword() {
     containerPassword.classList.add('wrongPassword');
     feedbackPassword.innerHTML = 'Wrong password Ups! Try again.';
-}    
+}
 
 /**
  * Adds the 'wrongMail' class to the container of the mail input field
@@ -452,14 +452,15 @@ function checkForCurrentUserLogin() {
  */
 
 async function addUserToContacts() {
-	const exists = contacts.some(contact =>
-		contact.id === currentUser.id || contact.email === currentUser.email
-	);
+    const exists = contacts.some(contact =>
+        contact.id === currentUser.id || contact.email === currentUser.email
+    );
 
-	if (!exists) {
-		const { id, ...userData } = currentUser;
-		await putData(`contacts/${id}`, userData);
-	} else {
+    if (!exists) {
+        const { id, ...userData } = currentUser;
+        userData.name = `${userData.name} (You)`;
+        await putData(`contacts/${id}`, userData);
+    } else {
         return;
-	}
+    }
 }

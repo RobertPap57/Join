@@ -1,32 +1,8 @@
-
-/**
- * @constant {Array} selectedContacts - Array to store selected contacts.
- */
 const selectedContacts = [];
-
-/**
- * @constant {Array} subtasks - Array to store subtasks.
- */
 const subtasks = [];
-
-/**
- * @constant {Object} newTask - Object to store the new task.
- */
 let newTask = {};
-
-/**
- * @constant {Array} filteredContacts - Array to store filtered contacts.
- */
 let filteredContacts = contacts;
-
-/**
- * @constant {Array} tempTasks - Array to store temporary tasks.
- */
 let tempTasks = [];
-
-/**
- * @constant {Object} svgMappings - Object to map priority levels to their corresponding SVG file paths.
- */
 const svgMappings = {
     'urgent': './assets/img/icons_add_task/urgent.svg',
     'urgent-active': './assets/img/icons_add_task/urgent-white.svg',
@@ -60,28 +36,29 @@ function showMenu() {
  */
 function filterContacts() {
     const selectBtnInput = document.querySelector('.select-btn-input');
-    
-    selectBtnInput.addEventListener('click', handleFilter);
-    selectBtnInput.addEventListener('input', handleFilter);
 
-    /**
-     * Handle filter and render contacts based on input value.
-     */
-    function handleFilter() {
-        const filterValue = selectBtnInput.value.toLowerCase().trim();
+    selectBtnInput.addEventListener('click', () => handleFilter(selectBtnInput));
+    selectBtnInput.addEventListener('input', () => handleFilter(selectBtnInput));
 
- 
-        if (filterValue === '') {
-  
-            filteredContacts = contacts;
-        } else {
-        
-            filteredContacts = contacts.filter(contact => contact.name.toLowerCase().startsWith(filterValue));
-        }
+}
 
-       
-        renderContacts();
+/**
+ * Handle filter and render contacts based on input value.
+ */
+function handleFilter(input) {
+    const filterValue = input.value.toLowerCase().trim();
+
+
+    if (filterValue === '') {
+
+        filteredContacts = contacts;
+    } else {
+
+        filteredContacts = contacts.filter(contact => contact.name.toLowerCase().startsWith(filterValue));
     }
+
+
+    renderContacts();
 }
 
 /**
@@ -91,13 +68,13 @@ function renderContacts() {
     const assignedToList = document.querySelector('.list-items');
     assignedToList.innerHTML = '';
 
-    filteredContacts.forEach(item => {
-        const isSelected = selectedContacts.includes(item);
+    filteredContacts.forEach(contact => {
+        const isSelected = selectedContacts.includes(contact);
         assignedToList.innerHTML += `
-            <li class="list-item assigned-to ${isSelected ? 'checked' : ''}" data-id="${item.id}">
+            <li class="list-item assigned-to ${isSelected ? 'checked' : ''}" data-id="${contact.id}">
                 <div class="list-item-name">
-                    <div class="cicle" style="background-color: ${item.color}">${item.initials}</div>
-                    <span>${item.name}</span>
+                    <div class="cicle" style="background-color: ${contact.color}">${createNameInitials(contact.name)}</div>
+                    <span>${contact.name}</span>
                 </div>
                 <img class="checkbox ${isSelected ? 'checked' : ''}" src="./assets/img/icons_add_task/${isSelected ? 'checkedbox' : 'checkbox'}.svg" alt="">
             </li>
@@ -142,9 +119,9 @@ function selectListItems() {
 function renderSelectedContactsBelow() {
     const selectedContactsDiv = document.querySelector('.selected-contacts-div');
     selectedContactsDiv.innerHTML = '';
-    selectedContacts.forEach(item => {
+    selectedContacts.forEach(contact => {
         selectedContactsDiv.innerHTML += `
-            <div class="cicle" style="background-color: ${item.color}">${item.initials}</div>
+            <div class="cicle" style="background-color: ${contact.color}">${createNameInitials(contact.name)}</div>
         `;
     });
 }

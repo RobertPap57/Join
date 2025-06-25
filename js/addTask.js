@@ -1,5 +1,3 @@
-actStatus = "";
-
 
 /**
  * Initializes the addition of tasks by loading contacts data, including HTML, highlighting the add task section,
@@ -14,7 +12,7 @@ async function initAddTask() {
     checkForCurrentUser() ? "" : redirectTo('login.html');
     displayProfileIconInitials();
     highlightLink('add-task');
-    contacts = await loadData('/contacts');
+    await getContacts();
     filterContacts();
     showMenu();
     changeSvgOnHover();
@@ -45,19 +43,3 @@ function showTaskAddedMessage() {
 
 }
 
-/**
- * Retrieves the 'status' parameter from the URL and sets the global variable 'actStatus' accordingly.
- * If the 'status' parameter is missing, it sets 'actStatus' to 'toDo'.
- *
- * @return {void}
- */
-document.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const status = urlParams.get('status');
-
-    if (status) {
-        actStatus = status;
-    } else {
-        actStatus = 'toDo'; 
-    }
-});
