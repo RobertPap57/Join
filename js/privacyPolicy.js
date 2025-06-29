@@ -6,7 +6,3 @@ async function initPrivacyPolicy() {
 
 }
 
-function goBack() {
-    window.history.back();
-}
-

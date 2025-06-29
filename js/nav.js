@@ -4,7 +4,9 @@
  */
 function highlightLink(link) {
     document.getElementById(link + '-link').classList.add('link-active');
-    document.getElementById(link + '-img').src = "./assets/img/nav_img/" + link + "_icon_active.svg";
+    if (!['privacy-policy', 'legal-notice', 'login'].includes(link)) {
+        document.getElementById(link + '-img').src = "./assets/img/nav_img/" + link + "_icon_active.svg";
+    } else return;
 }
 
 
@@ -13,9 +15,12 @@ function highlightLink(link) {
  */
 function hideNavBar() {
     let navLinks = document.getElementById('nav-links');
+    let logInLink = document.getElementById('login-link');
     if (!currentUser.name) {
         navLinks.classList.add('d-none');
+        logInLink.classList.remove('d-none');
     } else {
         navLinks.classList.remove('d-none');
+        logInLink.classList.add('d-none');
     }
 }

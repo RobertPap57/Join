@@ -11,10 +11,3 @@ async function initLegalNotice() {
 
 }
 
-
-/**
- * Navigates the user back to the previous page in the browsing history.
- */
-function goBack() {
-    window.history.back();
-}

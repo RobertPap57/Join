@@ -14,12 +14,10 @@ nav {
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
 
-
 .nav-logo {
     height: 121.97px;
     width: 100.03px;
 }
-
 
 .nav-menu {
     display: flex;
@@ -29,8 +27,8 @@ nav {
     gap: 15px;
 }
 
-
 .nav-link {
+    width: 100%;
     transition: 125ms;
     display: flex;
     gap: 6px;
@@ -39,50 +37,42 @@ nav {
     cursor: pointer;
 }
 
-
 .link-active {
     background-color: rgba(9, 25, 49, 1);
     color: white;
     pointer-events: none;
 }
 
-
 .nav-link:hover {
     transition: 125ms;
     background-color: rgba(42, 61, 89, 1);
 }
-
 
 .nav-link:hover img {
     top: 2px;
     left: 3px;
 }
 
-
 .nav-link:hover .link-name p {
     top: 5px;
     left: 0.5px;
 }
-
 
 .link-name {
     position: relative;
     width: 72px;
 }
 
-
 .link-name p {
     position: absolute;
     top: 5.5px;
 }
-
 
 .link-icon {
     position: relative;
     width: 30px;
     height: 30px;
 }
-
 
 .link-icon img {
     position: absolute;
@@ -92,7 +82,6 @@ nav {
     height: 25px;
 }
 
-
 .privacy-and-legal {
     display: flex;
     flex-direction: column;
@@ -101,24 +90,20 @@ nav {
     gap: 4px;
 }
 
-
 .privacy-and-legal a {
     color: rgba(168, 168, 168, 1);
     text-align: left;
     padding: 8px 8px 8px 52px;
 }
 
-
 .privacy-and-legal a p {
     width: 110px;
     height: 19px;
 }
 
-
 .privacy-and-legal :last-child p {
     width: 100px;
 }
-
 
 .privacy-and-legal a p:hover {
     cursor: pointer;
@@ -129,23 +114,37 @@ nav {
 .link-1 {
     order: 1;
 }
+
 .link-2 {
     order: 2;
 }
+
 .link-3 {
     order: 3;
 }
+
 .link-4 {
     order: 4;
+}
+
+.mb-300 {
+    margin-bottom: 300px;
+}
+
+.login-icon {
+    width: 26px !important;
+    height: 26px !important;
 }
 
 @media (max-width: 1024px) {
     .nav-logo {
         display: none;
     }
+
     .privacy-and-legal {
         display: none;
     }
+
     nav {
         top: auto;
         bottom: 0;
@@ -154,6 +153,7 @@ nav {
         display: block;
         padding: 0px 26px;
     }
+
     .nav-menu {
         width: 100%;
         height: 100%;
@@ -161,6 +161,7 @@ nav {
         justify-content: space-between;
         align-items: center;
     }
+
     .nav-link {
         width: 96px;
         height: 86px;
@@ -171,36 +172,40 @@ nav {
         justify-content: center;
         padding: 15px 0px;
     }
- 
 
     .link-name p {
         position: static;
         text-align: center;
-        
+
     }
+
     .link-icon {
         height: 28px;
         width: 28px;
     }
+
     .link-icon img {
         position: static;
         width: auto;
         height: 28px;
 
     }
+
     .link-1 {
         order: 1;
     }
+
     .link-2 {
         order: 3;
     }
+
     .link-3 {
         order: 2;
     }
+
     .link-4 {
         order: 4;
     }
-    
 }
 
 @media (max-width: 768px) {
@@ -208,35 +213,42 @@ nav {
         height: 80px;
         padding: 0px 16px;
     }
+
     .nav-link {
         width: 80px;
         height: 76px;
         gap: 4px;
     }
-       .nav-link:hover {
+
+    .nav-link:hover {
         background-color: rgba(42, 54, 71, 1);
     }
+
     .link-name p {
         font-size: 14px;
     }
+
     .link-icon {
         height: 24px;
         width: 24px;
     }
+
     .link-icon img {
         height: 24px;
     }
 }
 
 @media (max-width: 365px) {
-nav{
-    padding: 0px 8px;
-}
-.nav-menu {
-    gap: 8px;
-}
-.nav-link {
-    width: 68px;
-    height: 70px;
-}
+    nav {
+        padding: 0px 8px;
+    }
+
+    .nav-menu {
+        gap: 8px;
+    }
+
+    .nav-link {
+        width: 68px;
+        height: 70px;
+    }
 }
