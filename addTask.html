@@ -12,51 +12,34 @@
     <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="./styles/addTask2.css">
     <script src="./script.js"></script>
+    <script src="./js/header.js"></script>
+    <script src="./js/nav.js"></script>
 </head>
 
 <body onload="initAddTask()">
     <div w3-include-html="./assets/templates/header.html"></div>
     <div w3-include-html="./assets/templates/nav.html"></div>
+
     <div class="add-task-container">
         <form id="add-task-form" action="">
             <div class="form-container">
-                <div class="heading">
-                    <h1>Add Task</h1>
-                </div>
+                <h1 class="heading">Add Task</h1>
                 <div class="form-col-container">
                     <div class="form-col-left">
                         <div class="form-group">
                             <label for="title">Title<span class="required">*</span></label>
-                            <input class="form-input" type="text" id="title" placeholder="Enter a title">
+                            <input class="form-input placeholder-color" type="text" id="title"
+                                placeholder="Enter a title">
                             <div id="title-required" class="field-required-msg">This field is required</div>
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea id="description" placeholder="Enter a description"></textarea>
+                            <textarea class="placeholder-color" id="description"
+                                placeholder="Enter a description"></textarea>
                         </div>
-                        <div class="form-group">
-                            <label class="margin-top-16" for="dropdown-container">Assigned to</label>
-                            <div class="dropdown-container">
-                                <div id="contacts-list" class="select-btn assigned-to">
-                                    <input class="select-btn-input back-placeholder" type="text"
-                                        placeholder="Select contacts to assign">
-                                    <span class="arrow-down">
-                                        <img src="./assets/img/icons_add_task/chevron.svg" alt="">
-                                    </span>
-                                </div>
-                                <ul class="list-items">
-                                </ul>
-                                <div class="selected-contacts-div">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-col-middle">
-                    </div>
-                    <div class="form-col-right gap-24">
                         <div class="form-group">
                             <label for="due-date-input">Due date<span class="required">*</span></label>
-                            <input class="form-input" type="date" id="due-date-input">
+                            <input class="form-input color-grey" type="date" id="due-date-input">
                             <div id="date-required" class="field-required-msg">This field is required</div>
                         </div>
                         <div class="form-group">
@@ -91,10 +74,15 @@
                                 </ul>
                             </div>
                         </div>
+                    </div>
+                    <div class="form-col-middle">
+                    </div>
+                    <div class="form-col-right gap-24">
                         <div class="form-group">
                             <label for="subtasks">Subtasks</label>
                             <div class="subtask-input-container">
-                                <input class="form-input subtask-input" type="text" placeholder="Add new subtask">
+                                <input class="form-input subtask-input placeholder-color" type="text"
+                                    placeholder="Add new subtask">
                                 <div class="subtask-btn add">
                                     <img src="./assets/img/icons_add_task/add.svg" alt="">
                                 </div>
@@ -108,9 +96,23 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="display-subtasks-container">
-                                <ul class="subtasks-list">
+                                <ul class="subtasks-list d-none">
                                 </ul>
+                        </div>
+                        <div class="form-group">
+                            <label for="dropdown-container">Assigned to</label>
+                            <div class="dropdown-container">
+                                <div id="contacts-list" class="select-btn assigned-to">
+                                    <input class="select-btn-input back-placeholder" type="text"
+                                        placeholder="Select contacts to assign">
+                                    <span class="arrow-down">
+                                        <img src="./assets/img/icons_add_task/chevron.svg" alt="">
+                                    </span>
+                                </div>
+                                <ul class="list-items" id="assigned-to-list">
+                                </ul>
+                                <div class="selected-contacts-div">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -134,8 +136,6 @@
     <div class="landscape-warning" id="landscapeWarning">
         Bitte drehen Sie Ihr Gerät in den Hochformatmodus.
     </div>
-    <script src="./js/header.js"></script>
-    <script src="./js/nav.js"></script>
     <script src="./js/addTask.js"></script>
     <script src="./js/addTaskTemplates.js"></script>
     <script src="./js/addTaskTemplates2.js"></script>

@@ -23,7 +23,7 @@ async function saveTask() {
     }));
 
     const newTask = {
-        id: Date.now(), 
+        id: Date.now(),
         title: title,
         description: description,
         category: category,
@@ -34,18 +34,18 @@ async function saveTask() {
         assignedTo: assignedTo,
     };
 
-   
 
-        const tasks = await fetchTasks();
-        
-   
-        tasks.push(newTask);
-        
-  
-        await updateTasks(tasks);
-        
-        showTaskAddedMessage();
-   
+
+    const tasks = await fetchTasks();
+
+
+    tasks.push(newTask);
+
+
+    await updateTasks(tasks);
+
+    showTaskAddedMessage();
+
 }
 
 /**
@@ -175,6 +175,8 @@ function resetValidationMessages(titleClicked, dueDateClicked, categoryClicked) 
         categoryContainer.classList.remove('category-required-border');
         categoryRequiredMsg.style.opacity = '0';
     }
+
+
 }
 
 /**
@@ -287,6 +289,6 @@ async function updateTasks(newTasksArray) {
 async function fetchTasks() {
     const response = await fetch(`${BASE_URL}/tasks.json`);
     const data = await response.json();
-    return data || []; 
+    return data || [];
 }
 

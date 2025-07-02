@@ -12,22 +12,78 @@ const svgMappings = {
     'low-active': './assets/img/icons_add_task/low-white.svg'
 };
 
-/**
- * Show the menu for select buttons.
- */
 function showMenu() {
-    const selectBtns = document.querySelectorAll('.select-btn.assigned-to, .select-btn.category');
+    const contactsList = document.getElementById('contacts-list');
+    const arrowDown = contactsList.querySelector('.arrow-down');
+    const assignedToList = document.getElementById('assigned-to-list');
+    const input = contactsList.querySelector('.select-btn-input');
 
-    selectBtns.forEach(selectBtn => {
-        selectBtn.addEventListener('click', () => {
-            selectBtn.classList.toggle('show-menu');
-        });
+    setupAssignedDropdownToggles(contactsList, arrowDown, input);
+    preventAssignedDropdownClose(assignedToList);
+    addAssignedDropdownOutsideListener(contactsList, assignedToList);
+}
+
+function setupAssignedDropdownToggles(contactsList, arrowDown, input) {
+    setupArrowToggle(contactsList, arrowDown, input);
+    setupInputToggle(contactsList, input);
+    setupDivToggle(contactsList, input);
+}
+
+function setupArrowToggle(contactsList, arrowDown, input) {
+    arrowDown.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const isOpen = contactsList.classList.toggle('show-menu');
+        toggleBlueBorder(contactsList, isOpen);
+        if (isOpen) input.focus();
     });
+}
 
-    selectBtns.forEach(selectBtn => {
-        selectBtn.addEventListener('focus', () => {
-            selectBtn.classList.toggle('show-menu');
+function setupInputToggle(contactsList, input) {
+    input.addEventListener('click', (event) => {
+        event.stopPropagation();
+        contactsList.classList.add('show-menu');
+        contactsList.classList.add('blue-border');
+        input.focus();
+    });
+}
+
+function setupDivToggle(contactsList, input) {
+    contactsList.addEventListener('click', (event) => {
+        if (event.target.closest('.arrow-down')) return;
+        contactsList.classList.add('show-menu');
+        contactsList.classList.add('blue-border');
+        input.focus();
+    });
+}
+
+function toggleBlueBorder(contactsList, isOpen) {
+    if (isOpen) {
+        contactsList.classList.add('blue-border');
+    } else {
+        contactsList.classList.remove('blue-border');
+    }
+}
+
+// Remove blue-border when dropdown closes
+function addAssignedDropdownOutsideListener(contactsList, assignedToList) {
+    if (!window._assignedToDropdownListenerAdded) {
+        document.addEventListener('click', (event) => {
+            if (
+                !contactsList.contains(event.target) &&
+                !assignedToList.contains(event.target)
+            ) {
+                contactsList.classList.remove('show-menu');
+                contactsList.classList.remove('blue-border');
+            }
         });
+        window._assignedToDropdownListenerAdded = true;
+    }
+}
+
+function preventAssignedDropdownClose(assignedToList) {
+    // Prevent closing when clicking inside the list
+    assignedToList.addEventListener('click', (event) => {
+        event.stopPropagation();
     });
 }
 
@@ -46,17 +102,23 @@ function filterContacts() {
  * Handle filter and render contacts based on input value.
  */
 function handleFilter(input) {
-    const filterValue = input.value.toLowerCase().trim();
-
-
-    if (filterValue === '') {
-
+    if (!input) {
         filteredContacts = contacts;
     } else {
 
-        filteredContacts = contacts.filter(contact => contact.name.toLowerCase().startsWith(filterValue));
-    }
 
+        const filterValue = input.value.toLowerCase().trim();
+
+
+        if (filterValue === '') {
+
+            filteredContacts = contacts;
+        } else {
+
+            filteredContacts = contacts.filter(contact => contact.name.toLowerCase().startsWith(filterValue));
+        }
+
+    }
 
     renderContacts();
 }
@@ -65,7 +127,7 @@ function handleFilter(input) {
  * Render the list of filtered contacts.
  */
 function renderContacts() {
-    const assignedToList = document.querySelector('.list-items');
+    const assignedToList = document.getElementById('assigned-to-list');
     assignedToList.innerHTML = '';
 
     filteredContacts.forEach(contact => {
@@ -176,7 +238,35 @@ function categoryMenu() {
     const selectBtnCategory = document.querySelector('.select-btn.category');
     const categoryDisplayed = document.getElementById('category-displayed');
     const listItems = document.querySelectorAll('.list-item.category');
+    const categoryList = document.querySelector('.list-items.category');
 
+    setupCategoryDropdownToggles(selectBtnCategory);
+    preventCategoryDropdownClose(categoryList);
+    setupCategorySelection(listItems, selectBtnCategory, categoryDisplayed);
+    addCategoryDropdownOutsideListener(selectBtnCategory, categoryList);
+}
+
+function setupCategoryDropdownToggles(selectBtnCategory) {
+    const arrowDown = selectBtnCategory.querySelector('.arrow-down');
+    arrowDown.addEventListener('click', (event) => {
+        event.stopPropagation();
+        selectBtnCategory.classList.toggle('show-menu');
+    });
+    selectBtnCategory.addEventListener('click', (event) => {
+        event.stopPropagation();
+        selectBtnCategory.classList.add('show-menu');
+    });
+}
+
+function preventCategoryDropdownClose(categoryList) {
+    if (categoryList) {
+        categoryList.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+    }
+}
+
+function setupCategorySelection(listItems, selectBtnCategory, categoryDisplayed) {
     listItems.forEach(item => {
         item.addEventListener('click', () => {
             let selectedItemText = item.getAttribute('data-value');
@@ -185,14 +275,20 @@ function categoryMenu() {
             categoryDisplayed.dataset.selected = selectedItemText;
         });
     });
+}
 
-    document.addEventListener('click', (event) => {
-        if (!selectBtnCategory.contains(event.target) &&
-            !categoryDisplayed.contains(event.target) &&
-            !Array.from(listItems).some(item => item.contains(event.target))) {
-            selectBtnCategory.classList.remove('show-menu');
-        }
-    });
+function addCategoryDropdownOutsideListener(selectBtnCategory, categoryList) {
+    if (!window._categoryDropdownListenerAdded) {
+        document.addEventListener('click', (event) => {
+            if (
+                !selectBtnCategory.contains(event.target) &&
+                !(categoryList && categoryList.contains(event.target))
+            ) {
+                selectBtnCategory.classList.remove('show-menu');
+            }
+        });
+        window._categoryDropdownListenerAdded = true;
+    }
 }
 
 /**
@@ -203,6 +299,12 @@ function styleSubtaskInput() {
     const subtaskBtnAdd = document.querySelector('.subtask-btn.add');
     const subtaskBtnCheckCancel = document.querySelector('.check-cancel-div');
     const subtaskCancelBtn = document.querySelector('.subtask-cancel');
+    const subtaskBtnCheck = document.querySelector('.subtask-check');
+
+    subtaskBtnCheck.addEventListener('click', () => {
+        subtaskBtnAdd.style.display = 'flex';
+        subtaskBtnCheckCancel.style.display = 'none';
+    });
 
     subtaskBtnAdd.addEventListener('click', () => {
         subtaskBtnAdd.style.display = 'none';
@@ -217,23 +319,25 @@ function styleSubtaskInput() {
     subtaskCancelBtn.addEventListener('click', () => {
         subtaskBtnAdd.style.display = 'flex';
         subtaskBtnCheckCancel.style.display = 'none';
+        subtaskInput.value = '';
     });
 }
 
 /**
  * Add a subtask to the list of subtasks.
  */
+function addSubtask() {
+    const subtaskInput = document.querySelector('.subtask-input');
+    if (subtaskInput.value !== '') {
+        subtasks.push(subtaskInput.value);
+        renderSubtasks();
+        subtaskInput.value = '';
+    }
+}
+
 function pushSubtask() {
     const subtaskInput = document.querySelector('.subtask-input');
     const subtaskBtnCheck = document.querySelector('.subtask-check');
-
-    function addSubtask() {
-        if (subtaskInput.value !== '') {
-            subtasks.push(subtaskInput.value);
-            renderSubtasks();
-            subtaskInput.value = '';
-        }
-    }
 
     subtaskBtnCheck.addEventListener('click', addSubtask);
 
@@ -247,23 +351,32 @@ function pushSubtask() {
 /**
  * Render the list of subtasks.
  */
+function getSubtaskListItemHTML(item, index) {
+    return `
+        <li class="subtask-list-item" data-index="${index}">
+            <div class="li-text">
+                ${item}
+            </div>
+            <div class="subtask-edit-icon-div">
+                <img class="edit-subtask-btn" src="./assets/img/icons_add_task/subtask-edit.svg" alt="">
+                <div class="subtask-divider-2"></div>
+                <img class="delete-subtask-btn" src="./assets/img/icons_add_task/subtask-delete.svg" alt="">
+            </div>
+        </li>
+    `;
+}
+
 function renderSubtasks() {
     const subtasksList = document.querySelector('.subtasks-list');
     subtasksList.innerHTML = '';
-    subtasks.forEach((item, index) => {
-        subtasksList.innerHTML += `
-            <li class="subtask-list-item" data-index="${index}">
-                <div class="li-text">
-                    ${item}
-                </div>
-                <div class="subtask-edit-icon-div">
-                    <img class="edit-subtask-btn" src="./assets/img/icons_add_task/subtask-edit.svg" alt="">
-                    <div class="subtask-divider-2"></div>
-                    <img class="delete-subtask-btn" src="./assets/img/icons_add_task/subtask-delete.svg" alt="">
-                </div>
-            </li>
-        `;
-    });
+    if (subtasks.length === 0) {
+        subtasksList.classList.add('d-none');
+    } else {
+        subtasksList.classList.remove('d-none');
+        subtasks.forEach((item, index) => {
+            subtasksList.innerHTML += getSubtaskListItemHTML(item, index);
+        });
+    }
     editSubTask();
     deleteSubtask();
 }
@@ -335,3 +448,25 @@ function confirmSubtaskEdit() {
     });
 }
 
+
+
+/**
+ * event listener for the date input to change the color of the placeholder
+ */
+
+const dateInput = document.getElementById('due-date-input');
+
+dateInput.addEventListener('focus', () => {
+    dateInput.classList.remove('color-grey');
+});
+
+dateInput.addEventListener('blur', () => {
+    if (!dateInput.value) {
+        dateInput.classList.add('color-grey');
+    }
+});
+
+const assignedToList = document.getElementById('assigned-to-list');
+assignedToList.addEventListener('click', (event) => {
+    event.stopPropagation();
+});

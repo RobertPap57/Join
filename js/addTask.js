@@ -13,11 +13,12 @@ async function initAddTask() {
     displayProfileIconInitials();
     highlightLink('add-task');
     await getContacts();
+    handleFilter();
     filterContacts();
     showMenu();
+    categoryMenu();
     changeSvgOnHover();
     changePrioBtn();
-    categoryMenu();
     styleSubtaskInput();
     pushSubtask();
     closeContactListOnOutsideClick();
@@ -42,4 +43,6 @@ function showTaskAddedMessage() {
     }, 2000);
 
 }
+
+
 

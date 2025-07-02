@@ -14,13 +14,17 @@ h1 {
 }
 
 .heading {
-    background-color: #F6F7F8;
-    padding-left: 96px;
-    padding-bottom: 48px;
+    padding-bottom: 39px;
 }
 
+.color-grey {
+    color: #D1D1D1;
+}
+
+
 .add-task-container {
-    margin-top: 96px;
+    width: 1069px;
+    padding-top: 96px;
     display: flex;
     flex-direction: column;
     margin-left: 232px;
@@ -30,38 +34,39 @@ h1 {
 .form-container {
     display: flex;
     flex-direction: column;
-    margin-top: 110px;
+    margin-top: 65px;
+    margin-left: 92px;
 }
 
 .form-col-container {
     display: flex;
     flex-wrap: wrap;
     gap: 48px;
-    margin: 0 64px 146px 96px;
 }
 
-.form-col-left, .form-col-right {
+.form-col-left,
+.form-col-right {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    width: min(440px, 100%);
+    gap: 8px;
+    width: 440px;
 }
 
 .form-col-middle {
-    height: 424px;
-    border-left: 1px solid #D1D1D1;
-    align-self: center;
+    background-color: #D1D1D1;
+    width: 1px;
+    border-radius: 10px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
 }
 
 .form-input {
     border-radius: 10px;
-    padding: 12px 21px;
+    padding: 12px 16px;
     border: 1px solid #D1D1D1;
     font-family: inherit;
     font-size: 20px;
@@ -75,9 +80,12 @@ h1 {
     border-color: #29ABE2;
 }
 
+.placeholder-color::placeholder {
+    color: #D1D1D1;
+}
+
 .dropdown-container {
     position: relative;
-    cursor: pointer;
     width: min(440px, 100%);
 }
 
@@ -86,11 +94,18 @@ h1 {
     justify-content: space-between;
     align-items: center;
     height: 48px;
-    padding: 0 16px;
+    padding: 12px 16px;
     border: 1px solid #D1D1D1;
     border-radius: 10px;
     background-color: #fff;
     font-size: 20px;
+    cursor: pointer;
+    position: relative;
+    z-index: 3;
+}
+
+.blue-border {
+    border-color: #29ABE2;
 }
 
 .select-btn-input {
@@ -101,8 +116,10 @@ h1 {
 }
 
 .select-btn-input:focus {
-    outline: unset;
+    outline: none;
+
 }
+
 
 .select-btn .arrow-down {
     display: flex;
@@ -123,7 +140,6 @@ h1 {
     width: 100%;
     max-height: 250px;
     overflow-y: scroll;
-    padding-top: 8px;
     background-color: #fff;
     border-radius: 0 0 10px 10px;
     border: 1px solid #D1D1D1;
@@ -131,16 +147,19 @@ h1 {
     display: none;
     z-index: 2;
     font-size: 20px;
-    
+    flex-direction: column;
+    gap: 2px;
+    margin-top: -6px;
+    padding-top: 6px;
+
 }
 
 .select-btn.show-menu {
-    border-bottom: none;
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px;
 }
 
-.select-btn.show-menu ~ .list-items {
-    display: block;
+.select-btn.show-menu~.list-items {
+    display: flex;
 }
 
 .list-items .list-item {
@@ -151,6 +170,7 @@ h1 {
     padding: 7px 16px;
     height: 56px;
     transition: 125ms;
+    cursor: pointer;
 }
 
 .list-items .list-item:hover {
@@ -168,7 +188,7 @@ h1 {
     padding: 8px 0;
     display: flex;
     flex-wrap: wrap;
-    gap:4px;
+    gap: 4px;
 }
 
 .cicle {
@@ -203,9 +223,10 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0px 16px;
+    padding: 12px 16px;
     height: 48px;
-    transition: 500ms;
+    transition: 125ms;
+    cursor: pointer;
 }
 
 .list-item.category:hover {
@@ -225,7 +246,7 @@ h1 {
     width: calc(100% - 48px);
 }
 
-.subtask-input:focus ~ .subtask-btn {
+.subtask-input:focus~.subtask-btn {
     outline: none;
     border-color: #29ABE2;
 }
@@ -258,8 +279,8 @@ h1 {
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    height: 32px;
-    width: 32px;
+    height: 24px;
+    width: 24px;
 }
 
 .subtask-divider {
@@ -285,20 +306,23 @@ h1 {
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    height: 32px;
-    width: 32px;
+    height: 24px;
+    width: 24px;
     transition: 125ms;
 }
 
-.subtask-cancel:hover, .subtask-check:hover {
+.subtask-cancel:hover,
+.subtask-check:hover {
     background-color: #D1D1D1;
 }
 
 .subtasks-list {
-    padding: 8px 0;
-    overflow-y: auto;
-    height: 100px;
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     max-width: 440px;
+    list-style: none;
 }
 
 .subtask-list-item {
@@ -313,7 +337,7 @@ h1 {
 }
 
 .subtask-list-item:hover {
-    background-color: #D1D1D1;
+    background-color: #EEEEEE;
 }
 
 .subtask-list-item.subtask-list-item-edit {
@@ -362,7 +386,8 @@ h1 {
     border-bottom: 1px solid #29ABE2;
 }
 
-.delete-subtask-btn.edit, .confirm-subtask-edit-btn {
+.delete-subtask-btn.edit,
+.confirm-subtask-edit-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -371,12 +396,13 @@ h1 {
     height: 24px;
 }
 
-.delete-subtask-btn:hover, .confirm-subtask-edit-btn:hover {
+.delete-subtask-btn:hover,
+.confirm-subtask-edit-btn:hover {
     background-color: #D1D1D1;
 }
 
 textarea {
-    padding: 16px;
+    padding: 18px 16px;
     height: 120px;
     border-radius: 10px;
     border: 1px solid #D1D1D1;
@@ -385,6 +411,7 @@ textarea {
     cursor: pointer;
     width: min(440px, 100%);
     resize: none;
+    margin-bottom: 16px;
 }
 
 textarea:focus {
@@ -396,6 +423,7 @@ textarea:focus {
     display: flex;
     gap: 16px;
     width: min(440px, 100%);
+    margin-bottom: 16px;
 }
 
 .prio-btn {
@@ -434,11 +462,12 @@ textarea:focus {
 }
 
 .form-bottom {
-    margin: 0 0 128px 96px;
+    padding-top: 36px;
     display: flex;
     align-items: flex-end;
+    justify-content: space-between;
     font-size: 20px;
-    max-width: 976px;
+    width: 100%;
 }
 
 .form-actions {
@@ -451,7 +480,8 @@ textarea:focus {
     color: #FFA800;
 }
 
-.clear-btn, .create-btn {
+.clear-btn,
+.create-btn {
     border: 1px solid #2A3647;
     border-radius: 10px;
     padding: 16px;
@@ -484,6 +514,7 @@ textarea:focus {
 
 label {
     font-size: 20px;
+    margin-bottom: 4px;
 }
 
 @media screen and (max-width: 1369px) {
@@ -496,7 +527,8 @@ label {
         border-style: none;
     }
 
-    .form-col-left, .form-col-right {
+    .form-col-left,
+    .form-col-right {
         width: 100%;
     }
 
@@ -540,7 +572,15 @@ label {
         padding-bottom: 32px;
     }
 
-    .form-input, textarea, .select-btn-input, .prio-btn, .prio-btn.active, .clear-btn, .create-btn, .form-bottom, .btn-text {
+    .form-input,
+    textarea,
+    .select-btn-input,
+    .prio-btn,
+    .prio-btn.active,
+    .clear-btn,
+    .create-btn,
+    .form-bottom,
+    .btn-text {
         font-size: 16px;
     }
 
@@ -555,7 +595,7 @@ label {
     }
 
     .clear-btn {
-        display: none;   
+        display: none;
     }
 
     .list-item {
