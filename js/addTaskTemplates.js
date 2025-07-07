@@ -301,25 +301,64 @@ function styleSubtaskInput() {
     const subtaskCancelBtn = document.querySelector('.subtask-cancel');
     const subtaskBtnCheck = document.querySelector('.subtask-check');
 
-    subtaskBtnCheck.addEventListener('click', () => {
-        subtaskBtnAdd.style.display = 'flex';
-        subtaskBtnCheckCancel.style.display = 'none';
-    });
+    setupSubtaskBtnAdd(subtaskBtnAdd, subtaskBtnCheckCancel, subtaskInput);
+    setupSubtaskBtnCheck(subtaskBtnCheck, subtaskBtnAdd, subtaskBtnCheckCancel, subtaskInput);
+    setupSubtaskInputFocus(subtaskInput, subtaskBtnAdd, subtaskBtnCheckCancel, subtaskBtnCheck, subtaskCancelBtn);
+    setupSubtaskCancelBtn(subtaskCancelBtn, subtaskInput);
+}
 
+function setupSubtaskBtnAdd(subtaskBtnAdd, subtaskBtnCheckCancel, subtaskInput) {
     subtaskBtnAdd.addEventListener('click', () => {
         subtaskBtnAdd.style.display = 'none';
         subtaskBtnCheckCancel.style.display = 'flex';
+        subtaskInput.focus();
     });
+}
 
+function setupSubtaskBtnCheck(subtaskBtnCheck, subtaskBtnAdd, subtaskBtnCheckCancel, subtaskInput) {
+    subtaskBtnCheck.addEventListener('click', () => {
+        if (subtaskInput.value.trim() === '') {
+            subtaskInput.focus();
+        } else {
+            subtaskBtnAdd.style.display = 'flex';
+            subtaskBtnCheckCancel.style.display = 'none';
+            subtaskInput.blur();
+        }
+    });
+}
+
+function setupSubtaskInputFocus(subtaskInput, subtaskBtnAdd, subtaskBtnCheckCancel, subtaskBtnCheck, subtaskCancelBtn) {
+    let ignoreBlur = false;
+    setupIgnoreBlur(subtaskBtnCheck, subtaskCancelBtn, () => ignoreBlur = true);
     subtaskInput.addEventListener('focus', () => {
         subtaskBtnAdd.style.display = 'none';
         subtaskBtnCheckCancel.style.display = 'flex';
     });
+    subtaskInput.addEventListener('blur', () => {
+        handleSubtaskInputBlur(ignoreBlur, () => ignoreBlur = false, subtaskInput, subtaskBtnAdd, subtaskBtnCheckCancel);
+    });
+}
 
-    subtaskCancelBtn.addEventListener('click', () => {
+function setupIgnoreBlur(subtaskBtnCheck, subtaskCancelBtn, setIgnoreBlur) {
+    [subtaskBtnCheck, subtaskCancelBtn].forEach(btn => {
+        btn.addEventListener('mousedown', setIgnoreBlur);
+    });
+}
+
+function handleSubtaskInputBlur(ignoreBlur, resetIgnoreBlur, subtaskInput, subtaskBtnAdd, subtaskBtnCheckCancel) {
+    if (ignoreBlur) {
+        resetIgnoreBlur();
+        subtaskInput.focus();
+    } else {
         subtaskBtnAdd.style.display = 'flex';
         subtaskBtnCheckCancel.style.display = 'none';
+    }
+}
+
+function setupSubtaskCancelBtn(subtaskCancelBtn, subtaskInput) {
+    subtaskCancelBtn.addEventListener('click', () => {
         subtaskInput.value = '';
+        subtaskInput.focus();
     });
 }
 
@@ -358,9 +397,13 @@ function getSubtaskListItemHTML(item, index) {
                 ${item}
             </div>
             <div class="subtask-edit-icon-div">
-                <img class="edit-subtask-btn" src="./assets/img/icons_add_task/subtask-edit.svg" alt="">
+                <div class="edit-subtask-btn">
+                    <img src="./assets/img/icons_add_task/subtask-edit.svg" alt="edit">
+                </div>
                 <div class="subtask-divider-2"></div>
-                <img class="delete-subtask-btn" src="./assets/img/icons_add_task/subtask-delete.svg" alt="">
+                <div class="delete-subtask-btn">
+                    <img src="./assets/img/icons_add_task/subtask-delete.svg" alt="delete">
+                </div>
             </div>
         </li>
     `;
