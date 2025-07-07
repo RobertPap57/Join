@@ -78,7 +78,101 @@
                     <div class="form-col-middle">
                     </div>
                     <div class="form-col-right gap-24">
-                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="form-group">
+                            <div class="section-header">
+                                <div class="attachments-hint-container">
+                                    <label for="Attachments">Attachments</label>
+                                    <span>Allowed file types are JPEG and PNG</span>
+                                </div>
+                                <div id="delete-attachments-btn" class="delete-attachments-btn">
+                                    <div class="delete-attachments-icon flex-center">
+                                        <img src="assets/img/icons/delete.svg" alt="Delete">
+                                    </div>
+                                    <span>Delete all</span>
+                                </div>
+                            </div>
+                            <div class="drag-attachment-container flex-center" onclick="attachmentsinput.click()">
+                                <span>Drag a file or browse</span>
+                                <img src="assets/img/icons_add_task/plus-attachments.svg" alt="plus">
+                                <input type="file" id="attachmentsinput" class="attachments-input"
+                                    style="display: none;" multiple>
+                            </div>
+                            <div id="attachments-preview" class="attachments-list-wrapper" 
+                                onmousedown="startDrag(event)" 
+                                ontouchstart="startDrag(event)">
+                                <ul class="attachments-list" id="attachmentsList" style="display: flex; gap: 8px; overflow-x: auto; cursor: grab;">
+                                   <li class="attachment-item">
+                                      <img src="assets/img/nav_img/logo.svg" draggable="false" alt="">
+                                      <span class="attachment-name" draggable="false" >example.jpg</span>
+                                   </li>
+                                   <li class="attachment-item">
+                                      <img src="assets/img/nav_img/logo.svg" draggable="false" alt="">
+                                      <span class="attachment-name" draggable="false" >example.jpg</span>
+                                   </li>
+                                   <li class="attachment-item">
+                                      <img src="assets/img/nav_img/logo.svg" draggable="false" alt="">
+                                      <span class="attachment-name" draggable="false" >example.jpg</span>
+                                   </li>
+                                   <li class="attachment-item">
+                                      <img src="assets/img/nav_img/logo.svg" draggable="false" alt="">
+                                      <span class="attachment-name" draggable="false" >example.jpg</span>
+                                   </li>
+                                   <li class="attachment-item">
+                                      <img src="assets/img/nav_img/logo.svg" draggable="false" alt="">
+                                      <span class="attachment-name" draggable="false" >example.jpg</span>
+                                   </li>
+                                   <li class="attachment-item">
+                                      <img src="assets/img/nav_img/logo.svg" draggable="false" alt="">
+                                      <span class="attachment-name" draggable="false" >example.jpg</span>
+                                   </li>
+                                   <li class="attachment-item">
+                                      <img src="assets/img/nav_img/logo.svg" draggable="false" alt="">
+                                      <span class="attachment-name" draggable="false" >example.jpg</span>
+                                   </li>
+                                   <li class="attachment-item">
+                                      <img src="assets/img/nav_img/logo.svg" draggable="false" alt="">
+                                      <span class="attachment-name" draggable="false" >example.jpg</span>
+                                   </li>
+                                   <li class="attachment-item">
+                                      <img src="assets/img/nav_img/logo.svg" draggable="false" alt="">
+                                      <span class="attachment-name" draggable="false" >example.jpg</span>
+                                   </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                         <div class="form-group">
                             <label for="subtasks">Subtasks</label>
@@ -98,8 +192,8 @@
                                     </div>
                                 </div>
                             </div>
-                                <ul class="subtasks-list d-none">
-                                </ul>
+                            <ul class="subtasks-list d-none">
+                            </ul>
                         </div>
                         <div class="form-group">
                             <label for="dropdown-container">Assigned to</label>
@@ -141,6 +235,7 @@
     <script src="./js/addTask.js"></script>
     <script src="./js/addTaskTemplates.js"></script>
     <script src="./js/addTaskTemplates2.js"></script>
+    <script src="./js/addTaskAttachments.js"></script>
 </body>
 
 </html>
