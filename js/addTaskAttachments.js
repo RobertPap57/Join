@@ -1,15 +1,10 @@
 let isDragging = false, startX, scrollLeft, lastX, velocity = 0, inertiaId;
-let dragThreshold = 5;
-let currentDragDistance = 0;
 let attachments = [];
 const attachmentsList = document.getElementById('attachmentsList');
-const errorMsg = document.getElementById('error-msg');
-let viewerInstance = null;
 
 
 function startDrag(e) {
     isDragging = true;
-    currentDragDistance = 0;
     startX = getPageX(e) - attachmentsList.offsetLeft;
     scrollLeft = attachmentsList.scrollLeft;
     lastX = getPageX(e);
@@ -21,27 +16,16 @@ function dragMove(e) {
     if (!isDragging) return;
     const x = getPageX(e) - attachmentsList.offsetLeft;
     const walk = (x - startX) * -1;
-    
-    currentDragDistance = Math.abs(walk);
-    
+
     velocity = getPageX(e) - lastX;
     lastX = getPageX(e);
     attachmentsList.scrollLeft = scrollLeft + walk;
 }
 
 function stopDrag() {
-    const wasDragging = currentDragDistance > dragThreshold;
     isDragging = false;
     removeDragListeners();
     startInertia();
-    
-    if (wasDragging) {
-        setTimeout(() => {
-            currentDragDistance = 0;
-        }, 50);
-    } else {
-        currentDragDistance = 0;
-    }
 }
 
 function startInertia() {
@@ -90,6 +74,38 @@ function handleDragLeave(event) {
 
 
 
+function showErrorMessage() {
+    const errorModal = document.querySelector('.error-modal');
+    const errorContainer = document.querySelector('.error-msg');
+    errorModal.classList.add('d-flex-visible');
+    setTimeout(() => {
+        errorContainer.classList.add('error-msg-slide-in');
+    }, 100);
+   
+}
+
+function closeErrorMsg() {
+    const errorModal = document.querySelector('.error-modal');
+    const errorContainer = document.querySelector('.error-msg');
+    errorContainer.classList.remove('error-msg-slide-in');
+    setTimeout(() => {
+        errorModal.classList.remove('d-flex-visible');
+    }, 100);
+}
+
+function changeErrorMsg(message) {
+    const errorParagraph = document.querySelector('.error-msg p');
+    errorParagraph.innerHTML = '';
+    const rongFormat = `This file format is not allowed!<br>
+            <span>You can only upload JPEG or PNG.</span>`;
+    const toBigSize = `This file size is too big!<br>
+            <span>You can only upload files under 10Mb.</span>`;
+    if (message === 'format') {
+        errorParagraph.innerHTML = rongFormat;
+    } else if (message === 'size') {
+        errorParagraph.innerHTML = toBigSize;
+    }
+}
 
 
 function handleDrop(event) {
@@ -105,69 +121,76 @@ function isAllowedFile(file) {
     const types = ['image/jpeg', 'image/png'];
     const exts = ['.jpg', '.jpeg', '.png'];
     const name = file.name.toLowerCase();
-    return types.includes(file.type) || exts.some(ext => name.endsWith(ext));
+    const maxSize = 10 * 1024 * 1024;
+
+    if (!types.includes(file.type) && !exts.some(ext => name.endsWith(ext))) {
+        changeErrorMsg('format');
+        showErrorMessage();
+        return false;
+    }
+
+    if (file.size > maxSize) {
+        changeErrorMsg('size');
+        showErrorMessage();
+        return false;
+    }
+
+    return true;
 }
 
 async function handleFiles(files) {
     for (const file of files) {
-        if (!file.type.startsWith('image/')) continue;
+        if (!isAllowedFile(file)) continue;
         const base64 = await compressImage(file, 800, 800, 0.7);
         const size = Math.round((base64.length * 3 / 4) / 1024);
-        attachments.push({
+        const attachment = {
             filename: file.name,
-            fileType: file.type,
             base64: base64,
             size: size
-        });
-        attachmentsList.innerHTML += attachmentItemHtml(base64, file.name);
+        };
+        attachments.push(attachment);
+        renderAttachments();
         attachmentsList.scrollLeft = attachmentsList.scrollWidth;
     }
     updateAttachmentItemClicks();
-    updateViewer();
+}
+
+function renderAttachments() {
+    attachmentsList.innerHTML = '';
+    attachments.forEach((attachment, index) => {
+        attachmentsList.innerHTML += attachmentItemHtml(attachment.base64, attachment.filename, index);
+    });
+    updateDeleteAllButtonVisibility();
+    updateAttachmentsWrapperVisibility();
+}
+
+function updateDeleteAllButtonVisibility() {
+    const deleteAllBtn = document.getElementById('delete-attachments-btn');
+    if (deleteAllBtn) {
+        deleteAllBtn.style.display = attachments.length === 0 ? 'none' : 'flex';
+    }
+}
+
+function updateAttachmentsWrapperVisibility() {
+    const wrapper = document.getElementById('attachments-list-wrapper');
+    if (wrapper) {
+        wrapper.style.display = attachments.length === 0 ? 'none' : 'block';
+    }
 }
 
 function updateAttachmentItemClicks() {
-    const items = attachmentsList.querySelectorAll('.attachment-item');
-    items.forEach((item) => {
-        item.onclick = null;
-        item.addEventListener('click', (e) => {
-            if (currentDragDistance > dragThreshold) {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }
-            // Let Viewer.js handle the click
-        });
-    });
+    // No custom click handlers needed for attachments
 }
 
-function updateViewer() {
-    if (viewerInstance) {
-        viewerInstance.destroy();
-    }
-    viewerInstance = new Viewer(attachmentsList, {
-        url(image) {
-            return image.src;
-        },
-        filter(image) {
-            return image.tagName === 'IMG';
-        },
-        title(image) {
-            const src = image.src;
-            const att = attachments.find(a => a.base64 === src);
-            if (att) {
-                return `${att.filename} | ${att.fileType} | ${att.size} KB`;
-            }
-            return '';
-        },
-        ready() {}
-    });
-}
 
-function attachmentItemHtml(base64, filename) {
+
+function attachmentItemHtml(base64, filename, index) {
     return `
         <li class="attachment-item">
-            <img src="${base64}" draggable="false" alt="">
+            <img class="attachment-img" src="${base64}" draggable="false" alt="">
+            <button class="delete-attachment-btn" onclick="deleteAttachment(${index})">
+                <img src="assets/img/icons_add_task/delete-white.svg" alt="Delete">
+            </button>
             <span class="attachment-name" draggable="false">${filename}</span>
         </li>
     `;
@@ -215,7 +238,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (allowed.length) {
                 handleFiles(allowed);
             }
-            // Reset input so same file can be selected again if needed
             input.value = '';
         });
     }
@@ -223,16 +245,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function deleteAttachment(index) {
     attachments.splice(index, 1);
-    attachmentsList.innerHTML = '';
-    attachments.forEach(attachment => {
-        attachmentsList.innerHTML += attachmentItemHtml(attachment.base64, attachment.filename);
-    });
+    renderAttachments();
     updateAttachmentItemClicks();
-    updateViewer();
 }
 
 function deleteAllAttachments() {
     attachments = [];
     attachmentsList.innerHTML = '';
-    updateViewer();
+    updateDeleteAllButtonVisibility();
+    updateAttachmentsWrapperVisibility();
 }

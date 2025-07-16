@@ -11,9 +11,6 @@
     <link rel="stylesheet" href="./styles/addTask.css">
     <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="./styles/addTask2.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.css"
-        integrity="sha512-9NawOLzuLE2GD22PJ6IPWXEjPalb/FpdH1qMpgXdaDM+0OfxEV75ZCle6KhZi0vM6ZWvMrNnIZv6YnsL+keVmA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="./script.js"></script>
     <script src="./js/header.js"></script>
     <script src="./js/nav.js"></script>
@@ -119,7 +116,7 @@
                                 <input type="file" id="attachmentsinput" class="attachments-input"
                                     style="display: none;" multiple accept=".jpg,.jpeg,.png,image/jpeg,image/png">
                             </div>
-                            <div id="attachments-preview" class="attachments-list-wrapper"
+                            <div id="attachments-list-wrapper" class="attachments-list-wrapper"
                                 onmousedown="startDrag(event)" ontouchstart="startDrag(event)">
                                 <ul class="attachments-list" id="attachmentsList">
 
@@ -195,18 +192,27 @@
             </div>
         </form>
     </div>
+
     <div class="task-added-msg">
         <p>Task added to board</p>
-        <img src="assets/img/nav_img/board_icon_active.svg" alt="">
+        <img src="assets/img/nav_img/board_icon_active.svg" alt="board icon">
     </div>
+
     <div class="landscape-warning" id="landscapeWarning">
         Bitte drehen Sie Ihr Gerät in den Hochformatmodus.
     </div>
-    <div class="error-msg" id="error-msg">
+
+    <div class="error-modal" id="error-modal">
+        <div class="error-msg" id="error-msg">
+            <p>This file format is not allowed!<br>
+                <span>You cann only upload JPEG or PNG.</span>
+            </p>
+            <button class="close-error-btn" onclick="closeErrorMsg()">
+                <img src="assets/img/icons_add_task/close.svg" alt="close">
+            </button>
+        </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.js"
-        integrity="sha512-lZD0JiwhtP4UkFD1mc96NiTZ14L7MjyX5Khk8PMxJszXMLvu7kjq1sp4bb0tcL6MY+/4sIuiUxubOqoueHrW4w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script src="./js/addTask.js"></script>
     <script src="./js/addTaskTemplates.js"></script>
     <script src="./js/addTaskTemplates2.js"></script>

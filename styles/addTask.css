@@ -293,7 +293,7 @@ h1 {
 }
 
 .delete-attachments-btn {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     gap: 8px;
@@ -318,6 +318,7 @@ h1 {
 }
 
 .attachments-list-wrapper {
+    display: none;
     width: 100%;
     overflow-y: hidden;
     overflow-x: hidden;
@@ -332,6 +333,7 @@ h1 {
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    cursor: grab;
 
 }
 
@@ -344,6 +346,7 @@ h1 {
 }
 
 .attachment-item {
+    position:relative;
     display: flex;
     flex-direction: column;
     border: 1px solid #D1D1D1;
@@ -352,14 +355,42 @@ h1 {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    cursor: pointer;
 }
 
-.attachment-item:hover img {
+.delete-attachment-btn {
+    all:unset;
+    position: absolute;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    right: calc(50% - 12px);
+    top: calc(50% - 22px);
+    border-radius: 50%;
+    transition: all 0.125s ease;
+   
+}
+
+.delete-attachment-btn img {
+    width: 16px;
+    height: 16px;
+}
+.delete-attachment-btn:hover {
+    background-color: #29ABE2;
+
+}
+.attachment-item:hover .delete-attachment-btn {
+    display: flex;
+}
+
+
+.attachment-item:hover .attachment-img {
     filter: brightness(0.6);
 }
 
-.attachment-item img {
+.attachment-img {
     width: 112px;
     height: 56px;
     border-radius: 10px 10px 0 0;

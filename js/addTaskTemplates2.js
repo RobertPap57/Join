@@ -27,11 +27,12 @@ async function saveTask() {
         title: title,
         description: description,
         category: category,
-        status: actStatus,
+        status: 'todo',
         dueDate: dueDate,
         priority: priority,
         subTasks: newSubtasks,
         assignedTo: assignedTo,
+        attachments: attachments
     };
 
 

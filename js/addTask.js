@@ -37,10 +37,10 @@ function showTaskAddedMessage() {
     messageElement.classList.add('d-flex-visible');
     setTimeout(() => {
         messageElement.classList.add('task-added-msg-slide-in');
-    }, 100);
+    }, 50);
     setTimeout(() => {
         redirectTo('board.html');
-    }, 2000);
+    }, 1200);
 
 }
 
