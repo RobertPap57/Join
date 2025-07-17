@@ -64,6 +64,9 @@ function clearTask() {
     renderContacts();
     selectMediumPriority();
     resetCategory();
+    clearValidationMessage('title');
+    clearValidationMessage('date');
+    clearValidationMessage('category');
 }
 
 /**
@@ -150,111 +153,96 @@ function preventFormSubmitOnEnter() {
 }
 
 /**
- * Resets the validation messages for the form fields.
- *
- * @param {boolean} titleClicked - Indicates if the title input was clicked.
- * @param {boolean} dueDateClicked - Indicates if the due date input was clicked.
- * @param {boolean} categoryClicked - Indicates if the category container was clicked.
+ * Clears validation messages for a specific field.
  */
-function resetValidationMessages(titleClicked, dueDateClicked, categoryClicked) {
-    const titleInput = document.getElementById('title');
-    const dueDateInput = document.getElementById('due-date-input');
-    const categoryContainer = document.getElementById('category-container');
-    const titleRequiredMsg = document.getElementById('title-required');
-    const dateRequiredMsg = document.getElementById('date-required');
-    const categoryRequiredMsg = document.getElementById('category-required');
+function clearValidationMessage(fieldType) {
+    const fieldConfig = {
+        title: {
+            input: document.getElementById('title'),
+            message: document.getElementById('title-required'),
+            errorClass: 'field-required'
+        },
+        date: {
+            input: document.getElementById('due-date-input'),
+            message: document.getElementById('date-required'),
+            errorClass: 'field-required'
+        },
+        category: {
+            input: document.getElementById('category-container'),
+            message: document.getElementById('category-required'),
+            errorClass: 'category-required-border'
+        }
+    };
 
-    if (titleClicked) {
-        titleInput.classList.remove('field-required');
-        titleRequiredMsg.style.opacity = '0';
+    const config = fieldConfig[fieldType];
+    if (config) {
+        config.input.classList.remove(config.errorClass);
+        config.message.style.opacity = '0';
     }
-    if (dueDateClicked) {
-        dueDateInput.classList.remove('field-required');
-        dateRequiredMsg.style.opacity = '0';
-    }
-    if (categoryClicked) {
-        categoryContainer.classList.remove('category-required-border');
-        categoryRequiredMsg.style.opacity = '0';
-    }
-
-
 }
 
 /**
- * Adds event listeners to the form fields to handle validation messages.
+ * Adds event listeners to form fields to clear validation messages on focus/click.
  */
 function addValidationEventListeners() {
-    let titleClicked = false;
-    let dueDateClicked = false;
-    let categoryClicked = false;
-
     const titleInput = document.getElementById('title');
     const dueDateInput = document.getElementById('due-date-input');
     const categoryContainer = document.getElementById('category-container');
+    const categoryBtn = document.getElementById('category-btn');
 
-    titleInput.addEventListener('click', () => {
-        titleClicked = true;
-        resetValidationMessages(titleClicked, dueDateClicked, categoryClicked);
-    });
-
-    dueDateInput.addEventListener('click', () => {
-        dueDateClicked = true;
-        resetValidationMessages(titleClicked, dueDateClicked, categoryClicked);
-    });
-
-    categoryContainer.addEventListener('click', () => {
-        categoryClicked = true;
-        resetValidationMessages(titleClicked, dueDateClicked, categoryClicked);
-    });
+    titleInput.addEventListener('focus', () => clearValidationMessage('title'));
+    dueDateInput.addEventListener('focus', () => clearValidationMessage('date'));
+    categoryContainer.addEventListener('click', () => clearValidationMessage('category'));
+    
+    if (categoryBtn) {
+        categoryBtn.addEventListener('click', () => clearValidationMessage('category'));
+    }
 }
 
 /**
  * Validates the form fields and shows error messages if necessary.
- *
- * @returns {boolean} - Returns true if the form is valid, otherwise false.
  */
 function validateForm() {
-    const titleInput = document.getElementById('title');
-    const dueDateInput = document.getElementById('due-date-input');
-    const categoryDisplayed = document.getElementById('category-displayed');
-    const titleRequiredMsg = document.getElementById('title-required');
-    const dateRequiredMsg = document.getElementById('date-required');
-    const categoryRequiredMsg = document.getElementById('category-required');
-    const categoryContainer = document.getElementById('category-container');
+    const fields = [
+        {
+            element: document.getElementById('title'),
+            message: document.getElementById('title-required'),
+            errorClass: 'field-required',
+            isEmpty: () => document.getElementById('title').value.trim() === ''
+        },
+        {
+            element: document.getElementById('due-date-input'),
+            message: document.getElementById('date-required'),
+            errorClass: 'field-required',
+            isEmpty: () => document.getElementById('due-date-input').value.trim() === ''
+        },
+        {
+            element: document.getElementById('category-container'),
+            message: document.getElementById('category-required'),
+            errorClass: 'category-required-border',
+            isEmpty: () => document.getElementById('category-displayed').textContent === 'Select task category'
+        }
+    ];
 
     let isValid = true;
-    if (titleInput.value.trim() === '') {
-        titleInput.classList.add('field-required');
-        titleRequiredMsg.style.opacity = '1';
-        isValid = false;
-    }
-    if (dueDateInput.value.trim() === '') {
-        dueDateInput.classList.add('field-required');
-        dateRequiredMsg.style.opacity = '1';
-        isValid = false;
-    }
-    if (categoryDisplayed.textContent === 'Select task category') {
-        categoryContainer.classList.add('category-required-border');
-        categoryRequiredMsg.style.opacity = '1';
-        isValid = false;
-    }
+    
+    fields.forEach(field => {
+        if (field.isEmpty()) {
+            field.element.classList.add(field.errorClass);
+            field.message.style.opacity = '1';
+            isValid = false;
+        }
+    });
 
     return isValid;
 }
 
 /**
  * Handles the form submit event, prevents default submission and performs validation.
- *
- * @param {Event} event - The submit event object.
  */
 function handleFormSubmit(event) {
     event.preventDefault();
-
-    let titleClicked = true;
-    let dueDateClicked = true;
-    let categoryClicked = true;
-    resetValidationMessages(titleClicked, dueDateClicked, categoryClicked);
-
+    
     if (validateForm()) {
         saveTask();
     }
