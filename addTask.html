@@ -8,9 +8,10 @@
     <link id="favicon" rel="shortcut icon" href="./assets/img/favicon/logo_black.png" type="image/x-icon">
     <link rel="stylesheet" href="./styles/header.css">
     <link rel="stylesheet" href="./styles/nav.css">
-    <link rel="stylesheet" href="./styles/addTask.css">
+    <link rel="stylesheet" href="./styles/addTaskLayout.css">
+    <link rel="stylesheet" href="./styles/addTaskComponents.css">
+    <link rel="stylesheet" href="./styles/addTaskInteractive.css">
     <link rel="stylesheet" href="./styles.css">
-    <link rel="stylesheet" href="./styles/addTask2.css">
     <script src="./script.js"></script>
     <script src="./js/header.js"></script>
     <script src="./js/nav.js"></script>
@@ -28,7 +29,7 @@
                     <div class="form-col-left">
                         <div class="form-group">
                             <label for="title">Title<span class="required">*</span></label>
-                            <input class="form-input placeholder-color" type="text" id="title"
+                            <input class="form-input placeholder-color title-input-padding" type="text" id="title"
                                 placeholder="Enter a title">
                             <div id="title-required" class="field-required-msg">This field is required</div>
                         </div>
@@ -39,7 +40,7 @@
                         </div>
                         <div class="form-group">
                             <label for="due-date-input">Due date<span class="required">*</span></label>
-                            <input class="form-input color-grey" type="date" id="due-date-input">
+                            <input class="form-input color-grey due-date-input-mobile" type="date" id="due-date-input">
                             <div id="date-required" class="field-required-msg">This field is required</div>
                         </div>
                         <div class="form-group">
@@ -58,13 +59,13 @@
                             <div class="dropdown-container">
                                 <div id="category-container" class="select-btn category">
                                     <span id="category-displayed" class="btn-text">Select task category</span>
-                                    <span class="arrow-down">
+                                    <span id="category-btn" class="arrow-down">
                                         <img src="./assets/img/icons_add_task/chevron.svg" alt="">
-                                    </span>
+                                    </s>
                                 </div>
                                 <div id="category-required" class="field-required-msg category-required-msg">This field
                                     is required</div>
-                                <ul class="list-items category scoll-disabled">
+                                <ul class="list-items category category-m-top">
                                     <li data-value="Technical stack" class="list-item category">
                                         <span>Technical stack</span>
                                     </li>
@@ -78,22 +79,6 @@
                     <div class="form-col-middle">
                     </div>
                     <div class="form-col-right gap-24">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         <div class="form-group">
                             <div class="section-header">
                                 <div class="attachments-hint-container">
@@ -111,7 +96,7 @@
                             <div class="drag-attachment-container flex-center" onclick="attachmentsinput.click()"
                                 ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"
                                 ondrop="handleDrop(event)">
-                                <span>Drag a file or browse</span>
+                                <span></span>
                                 <img src="assets/img/icons_add_task/plus-attachments.svg" alt="plus">
                                 <input type="file" id="attachmentsinput" class="attachments-input"
                                     style="display: none;" multiple accept=".jpg,.jpeg,.png,image/jpeg,image/png">
@@ -119,28 +104,9 @@
                             <div id="attachments-list-wrapper" class="attachments-list-wrapper"
                                 onmousedown="startDrag(event)" ontouchstart="startDrag(event)">
                                 <ul class="attachments-list" id="attachmentsList">
-
                                 </ul>
                             </div>
                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         <div class="form-group">
                             <label for="subtasks">Subtasks</label>
                             <div class="subtask-input-container">
@@ -172,7 +138,7 @@
                                         <img src="./assets/img/icons_add_task/chevron.svg" alt="">
                                     </span>
                                 </div>
-                                <ul class="list-items" id="assigned-to-list">
+                                <ul class="list-items margin-bot-8" id="assigned-to-list">
                                 </ul>
                                 <div class="selected-contacts-div">
                                 </div>
@@ -180,6 +146,7 @@
                         </div>
                     </div>
                 </div>
+                <p class="required-p-mobile"><span class="required">*</span> This Field is required</p>
                 <div class="form-bottom">
                     <p class="required-p"><span class="required">*</span> This Field is required</p>
                     <div class="form-actions">

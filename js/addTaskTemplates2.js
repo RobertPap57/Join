@@ -59,6 +59,8 @@ function clearTask() {
     });
     selectedContacts.length = 0;
     subtasks.length = 0;
+    attachments.length = 0;
+    attachmentsList.innerHTML = '';
     deselectListItems();
     renderSubtasks();
     renderContacts();
@@ -67,6 +69,8 @@ function clearTask() {
     clearValidationMessage('title');
     clearValidationMessage('date');
     clearValidationMessage('category');
+    console.log(attachments);
+    
 }
 
 /**

@@ -1,0 +1,195 @@
+/* Layout, Container, Grid, and Form Structure */
+
+.heading {
+    font-size: 61px;
+    font-weight: 700;
+    padding-bottom: 39px;
+}
+
+.color-grey {
+    color: #D1D1D1;
+}
+
+.add-task-container {
+    width: 100vw;
+    min-height: 100vh;
+    padding: 96px 0 0 232px;
+    background-color: #F6F7F8;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1161px;
+    height: 100%;
+    padding: 65px 92px 0 92px;
+}
+
+.form-col-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+}
+
+.form-col-left,
+.form-col-right {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 440px;
+}
+
+.form-col-middle {
+    background-color: #D1D1D1;
+    width: 1px;
+    border-radius: 10px;
+    height: 580px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.form-bottom {
+    padding-block: 36px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    font-size: 20px;
+    width: 100%;
+}
+
+.form-actions {
+    display: flex;
+    gap: 16px;
+    margin-left: auto;
+}
+
+.required-p-mobile {
+    display: none;
+}
+
+/* Utility Classes */
+.margin-top-16 {
+    margin-top: 16px;
+}
+
+.gap-24 {
+    gap: 24px;
+}
+
+.margin-bot-8 {
+    margin-bottom: 8px;
+}
+
+.d-flex-visible {
+    display: flex;
+}
+
+.transform-none {
+    transform: none;
+}
+
+/* Media Queries */
+@media screen and (min-width: 1441px) {
+    .form-container {
+        margin-inline: auto;
+    }
+}
+
+@media screen and (max-width: 1393px) {
+    .form-container {
+        margin-inline: auto;
+        padding-inline: 16px;
+        width: 700px;
+    }
+
+    .form-col-container {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .form-col-left,
+    .form-col-right {
+        width: 100%;
+    }
+
+    .form-col-middle {
+        display: none;
+    }
+
+    .required-p {
+        display: none;
+    }
+
+    .required-p-mobile {
+        display: block;
+        margin-top: 20px;
+        margin-bottom: 64px;
+    }
+
+    .form-bottom {
+        padding-block: 16px 32px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .add-task-container {
+        padding-left: 0;
+        padding-bottom: 96px;
+    }
+
+    .form-bottom {
+        width: 100%;
+        position: sticky;
+        bottom: 96px;
+        left: 0;
+        z-index: 10;
+        background-color: #F6F7F8;
+        padding-block: 16px 24px;
+    }
+
+    .form-actions {
+        gap: 32px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .add-task-container {
+        padding: 80px 0 80px 0px;
+    }
+
+    .form-container {
+        padding: 48px 36px 0 36px;
+        width: 100%;
+    }
+
+    .form-bottom {
+        bottom: 80px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .form-container {
+        padding: 48px 16px 0 16px;
+    }
+
+    .heading {
+        font-size: 47px;
+    }
+
+    .form-col-left,
+    .form-col-right {
+        gap: 16px;
+    }
+
+    .form-bottom {
+        padding-block: 12px;
+    }
+
+    .form-col-container {
+        gap: 16px;
+    }
+}

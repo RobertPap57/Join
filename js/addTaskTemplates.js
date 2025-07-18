@@ -29,12 +29,36 @@ function setupAssignedDropdownToggles(contactsList, arrowDown, input) {
     setupDivToggle(contactsList, input);
 }
 
+function scrollToDropdown(contactsList) {
+    setTimeout(() => {
+        const rect = contactsList.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const targetY = rect.top + scrollTop - 100; // 100px offset from top
+        
+        window.scrollTo({
+            top: targetY,
+            behavior: 'smooth'
+        });
+    }, 100);
+}
+
+function toggleSelectedContactsDiv(isOpen) {
+    const selectedContactsDiv = document.querySelector('.selected-contacts-div');
+    if (selectedContactsDiv) {
+        selectedContactsDiv.style.display = isOpen ? 'none' : 'flex';
+    }
+}
+
 function setupArrowToggle(contactsList, arrowDown, input) {
     arrowDown.addEventListener('click', (event) => {
         event.stopPropagation();
         const isOpen = contactsList.classList.toggle('show-menu');
         toggleBlueBorder(contactsList, isOpen);
-        if (isOpen) input.focus();
+        toggleSelectedContactsDiv(isOpen);
+        if (isOpen) {
+            input.focus();
+            scrollToDropdown(contactsList);
+        }
     });
 }
 
@@ -43,7 +67,9 @@ function setupInputToggle(contactsList, input) {
         event.stopPropagation();
         contactsList.classList.add('show-menu');
         contactsList.classList.add('blue-border');
+        toggleSelectedContactsDiv(true);
         input.focus();
+        scrollToDropdown(contactsList);
     });
 }
 
@@ -52,7 +78,9 @@ function setupDivToggle(contactsList, input) {
         if (event.target.closest('.arrow-down')) return;
         contactsList.classList.add('show-menu');
         contactsList.classList.add('blue-border');
+        toggleSelectedContactsDiv(true);
         input.focus();
+        scrollToDropdown(contactsList);
     });
 }
 
@@ -74,6 +102,7 @@ function addAssignedDropdownOutsideListener(contactsList, assignedToList) {
             ) {
                 contactsList.classList.remove('show-menu');
                 contactsList.classList.remove('blue-border');
+                toggleSelectedContactsDiv(false);
             }
         });
         window._assignedToDropdownListenerAdded = true;
@@ -254,7 +283,7 @@ function setupCategoryDropdownToggles(selectBtnCategory) {
     });
     selectBtnCategory.addEventListener('click', (event) => {
         event.stopPropagation();
-        selectBtnCategory.classList.add('show-menu');
+        selectBtnCategory.classList.toggle('show-menu');
     });
 }
 
@@ -393,9 +422,9 @@ function pushSubtask() {
 function getSubtaskListItemHTML(item, index) {
     return `
         <li class="subtask-list-item" data-index="${index}">
-            <div class="li-text">
-                ${item}
-            </div>
+            <p class="li-text"> 
+              <span>•</span> ${item}
+            </p>
             <div class="subtask-edit-icon-div">
                 <div class="edit-subtask-btn">
                     <img src="./assets/img/icons_add_task/subtask-edit.svg" alt="edit">
