@@ -145,30 +145,6 @@ function pushSubtask() {
     });
 }
 
-/**
- * Generates HTML for a subtask list item.
- * @param {string} item - Subtask text
- * @param {number} index - Index in subtasks array
- * @returns {string} HTML string for subtask list item
- */
-function getSubtaskListItemHTML(item, index) {
-    return `
-        <li class="subtask-list-item" data-index="${index}">
-            <p class="li-text"> 
-            ${item}
-            </p>
-            <div class="subtask-edit-icon-div">
-                <div class="edit-subtask-btn">
-                    <img src="./assets/img/icons_add_task/subtask-edit.svg" alt="edit">
-                </div>
-                <div class="subtask-divider-2"></div>
-                <div class="delete-subtask-btn">
-                    <img src="./assets/img/icons_add_task/subtask-delete.svg" alt="delete">
-                </div>
-            </div>
-        </li>
-    `;
-}
 
 /**
  * Renders the list of subtasks.
@@ -216,21 +192,7 @@ function editSubtaskItem(item) {
     }
 }
 
-/**
- * Generates HTML for editing a subtask.
- * @param {string} text - Current subtask text
- * @returns {string} HTML string for edit mode
- */
-function getEditSubtaskHTML(text) {
-    return `
-        <input class="edit-subtask-input" type="text" value="${text}">
-        <div class="edit-subtask-button-div">
-            <span class="delete-subtask-btn edit"><img src="./assets/img/icons_add_task/subtask-delete.svg"></span>
-            <div class="subtask-divider"></div>
-            <span class="confirm-subtask-edit-btn"><img src="./assets/img/icons_add_task/subtask-check.svg"></span>
-        </div>
-    `;
-}
+
 
 /**
  * Delete a subtask from the list.

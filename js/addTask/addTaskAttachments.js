@@ -194,25 +194,6 @@ function updateAttachmentsWrapperVisibility() {
 }
 
 /**
- * Returns HTML for an attachment item.
- * @param {string} base64 - Base64 encoded image data
- * @param {string} filename - Original filename
- * @param {number} index - Index in attachments array
- * @returns {string} HTML string for attachment item
- */
-function getAttachmentHtml(base64, filename, index) {
-    return `
-        <li class="attachment-item">
-            <img class="attachment-img" src="${base64}" draggable="false" alt="">
-            <button class="delete-attachment-btn" onclick="deleteAttachment(${index})">
-                <img src="assets/img/icons_add_task/delete-white.svg" alt="Delete">
-            </button>
-            <span class="attachment-name" draggable="false">${filename}</span>
-        </li>
-    `;
-}
-
-/**
  * Compresses an image file to specified dimensions and quality.
  * @param {File} file - The image file to compress
  * @param {number} maxWidth - Maximum width for the compressed image
@@ -318,23 +299,6 @@ function closeErrorMsg() {
 function changeErrorMsg(message) {
     const errorParagraph = document.querySelector('.error-msg p');
     errorParagraph.innerHTML = getErrorMsgHtml(message);
-}
-
-/**
- * Returns the error message HTML based on error type.
- * @param {string} message - Error type ('format' or 'size')
- * @returns {string} Error message HTML
- */
-function getErrorMsgHtml(message) {
-    if (message === 'format') {
-        return `This file format is not allowed!<br>
-            <span>You can only upload JPEG or PNG.</span>`;
-    }
-    if (message === 'size') {
-        return `This file size is too big!<br>
-            <span>You can only upload files under 10Mb.</span>`;
-    }
-    return '';
 }
 
 /**

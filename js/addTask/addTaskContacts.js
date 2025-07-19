@@ -199,28 +199,6 @@ function renderContacts() {
 }
 
 /**
- * Generates an HTML string for a contact list item, including selection state.
- *
- * @param {Object} contact - The contact object containing details.
- * @param {number|string} contact.id - The unique identifier for the contact.
- * @param {string} contact.name - The name of the contact.
- * @param {string} contact.color - The color used for the contact's avatar.
- * @param {boolean} isSelected - Indicates if the contact is selected.
- * @returns {string} The HTML string representing the contact list item.
- */
-function getContactHTML(contact, isSelected) {
-    return `
-        <li class="list-item assigned-to ${isSelected ? 'checked' : ''}" data-id="${contact.id}">
-            <div class="list-item-name">
-                <div class="cicle" style="background-color: ${contact.color}">${createNameInitials(contact.name)}</div>
-                <span>${contact.name}</span>
-            </div>
-            <img class="checkbox ${isSelected ? 'checked' : ''}" src="./assets/img/icons_add_task/${isSelected ? 'checkedbox' : 'checkbox'}.svg" alt="">
-        </li>
-    `;
-}
-
-/**
  * Add event listeners to list items for selection.
  */
 function selectListItems() {
@@ -282,16 +260,7 @@ function renderSelectedContactsBelow() {
     });
 }
 
-/**
- * Returns HTML for a selected contact avatar.
- * @param {Object} contact
- * @returns {string}
- */
-function getSelectedContactHTML(contact) {
-    return `
-        <div class="cicle" style="background-color: ${contact.color}">${createNameInitials(contact.name)}</div>
-    `;
-}
+
 
 /**
  * Deselect all list items and update the display.

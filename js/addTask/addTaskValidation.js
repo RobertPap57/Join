@@ -264,7 +264,6 @@ function clearTask() {
     document.getElementById('due-date-input').classList.add('color-grey');
 }
 
-
 /**
  * Resets all form fields to their default state.
  */
