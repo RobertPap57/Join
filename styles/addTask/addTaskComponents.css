@@ -95,6 +95,11 @@
     height: 24px;
     width: 24px;
     transition: 125ms;
+     border-radius: 50%;
+}
+
+.select-btn .arrow-down:hover {
+    background-color: #EEEEEE;
 }
 
 .select-btn.show-menu .arrow-down {

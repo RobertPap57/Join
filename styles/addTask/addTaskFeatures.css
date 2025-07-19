@@ -183,6 +183,20 @@
     border: 1px solid #D1D1D1;
     border-left: 0;
     border-radius: 0 10px 10px 0;
+    height: 48px;
+}
+
+.subtask-add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+.subtask-add:hover {
+    background-color: #EEEEEE;
 }
 
 .subtask-btn img {
