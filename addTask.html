@@ -8,9 +8,11 @@
     <link id="favicon" rel="shortcut icon" href="./assets/img/favicon/logo_black.png" type="image/x-icon">
     <link rel="stylesheet" href="./styles/header.css">
     <link rel="stylesheet" href="./styles/nav.css">
-    <link rel="stylesheet" href="./styles/addTaskLayout.css">
-    <link rel="stylesheet" href="./styles/addTaskComponents.css">
-    <link rel="stylesheet" href="./styles/addTaskInteractive.css">
+    <link rel="stylesheet" href="./styles/addTask/addTaskLayout.css">
+    <link rel="stylesheet" href="./styles/addTask/addTaskComponents.css">
+    <link rel="stylesheet" href="./styles/addTask/addTaskButtons.css">
+    <link rel="stylesheet" href="./styles/addTask/addTaskFeatures.css">
+    <link rel="stylesheet" href="./styles/addTask/addTaskModals.css">
     <link rel="stylesheet" href="./styles.css">
     <script src="./script.js"></script>
     <script src="./js/header.js"></script>
@@ -22,7 +24,7 @@
     <div w3-include-html="./assets/templates/nav.html"></div>
 
     <div class="add-task-container">
-        <form id="add-task-form" action="">
+        <form id="add-task-form" action="" novalidate>
             <div class="form-container">
                 <h1 class="heading">Add Task</h1>
                 <div class="form-col-container">
@@ -180,10 +182,12 @@
         </div>
     </div>
 
-    <script src="./js/addTask.js"></script>
-    <script src="./js/addTaskTemplates.js"></script>
-    <script src="./js/addTaskTemplates2.js"></script>
-    <script src="./js/addTaskAttachments.js"></script>
+    <script src="./js/addTask/addTaskContacts.js"></script>
+    <script src="./js/addTask/addTaskPriorityCategory.js"></script>
+    <script src="./js/addTask/addTaskSubtasks.js"></script>
+    <script src="./js/addTask/addTaskAttachments.js"></script>
+    <script src="./js/addTask/addTaskValidation.js"></script>
+    <script src="./js/addTask/addTaskCore.js"></script>
 </body>
 
 </html>

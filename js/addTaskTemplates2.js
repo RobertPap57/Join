@@ -2,83 +2,121 @@
  * Save the task and push it to the database.
  */
 async function saveTask() {
+    const taskData = gatherTaskData();
+    const newTask = createTaskObject(taskData);
+    await addData('tasks', newTask);
+    showTaskAddedMessage();
+}
+
+/**
+ * Gathers all task data from the form.
+ * @returns {Object} Object containing all task form data
+ */
+function gatherTaskData() {
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
     const dueDate = document.getElementById('due-date-input').value;
     const category = document.getElementById('category-displayed').textContent;
+    const priority = getSelectedPriority();
+    const assignedTo = selectedContacts.map(item => item.id);
+    const newSubtasks = subtasks.map((item) => ({
+        content: item,
+        completed: false,
+    }));
+
+    return { title, description, dueDate, category, priority, assignedTo, newSubtasks };
+}
+
+/**
+ * Gets the selected priority from priority buttons.
+ * @returns {string} Selected priority value
+ */
+function getSelectedPriority() {
     const priorityBtns = document.querySelectorAll('.prio-btn');
     let priority;
-
     priorityBtns.forEach(item => {
         if (item.classList.contains('active')) {
             priority = item.id;
         }
     });
+    return priority;
+}
 
-    const assignedTo = selectedContacts.map(item => item.id);
-    const newSubtasks = subtasks.map((item, index) => ({
-        id: index,
-        content: item,
-        completed: false,
-    }));
-
-    const newTask = {
+/**
+ * Creates a new task object from task data.
+ * @param {Object} taskData - Task form data
+ * @returns {Object} New task object
+ */
+function createTaskObject(taskData) {
+    return {
         id: Date.now(),
-        title: title,
-        description: description,
-        category: category,
+        title: taskData.title,
+        description: taskData.description,
+        category: taskData.category,
         status: 'todo',
-        dueDate: dueDate,
-        priority: priority,
-        subTasks: newSubtasks,
-        assignedTo: assignedTo,
+        dueDate: taskData.dueDate,
+        priority: taskData.priority,
+        subTasks: taskData.newSubtasks,
+        assignedTo: taskData.assignedTo,
         attachments: attachments
     };
-
-
-
-    const tasks = await fetchTasks();
-
-
-    tasks.push(newTask);
-
-
-    await updateTasks(tasks);
-
-    showTaskAddedMessage();
-
 }
 
 /**
  * Clear the task form and reset all fields.
  */
 function clearTask() {
+    resetFormFields();
+    clearArrays();
+    resetUIElements();
+    clearValidationMessages();
+}
+
+/**
+ * Resets all form fields to their default state.
+ */
+function resetFormFields() {
     document.querySelector('form').reset();
     document.querySelectorAll('.checked').forEach(item => {
         item.classList.remove('checked');
     });
+}
+
+/**
+ * Clears all data arrays.
+ */
+function clearArrays() {
     selectedContacts.length = 0;
     subtasks.length = 0;
     attachments.length = 0;
+}
+
+/**
+ * Resets UI elements to their default state.
+ */
+function resetUIElements() {
     attachmentsList.innerHTML = '';
-    deselectListItems();
+    deselectContacts();
     renderSubtasks();
     renderContacts();
     selectMediumPriority();
     resetCategory();
+}
+
+/**
+ * Clears all validation messages.
+ */
+function clearValidationMessages() {
     clearValidationMessage('title');
     clearValidationMessage('date');
     clearValidationMessage('category');
-    console.log(attachments);
-    
 }
 
 /**
  * Deselect all list items and update the display.
  */
-function deselectListItems() {
+function deselectContacts() {
     const listItems = document.querySelectorAll('.list-item.assigned-to');
-
     listItems.forEach((item, i) => {
         if (item.classList.contains('checked')) {
             const img = item.querySelector('.checkbox');
@@ -158,9 +196,22 @@ function preventFormSubmitOnEnter() {
 
 /**
  * Clears validation messages for a specific field.
+ * @param {string} fieldType - Type of field ('title', 'date', 'category')
  */
 function clearValidationMessage(fieldType) {
-    const fieldConfig = {
+    const fieldConfig = getFieldConfig();
+    const config = fieldConfig[fieldType];
+    if (config) {
+        clearFieldError(config, fieldType);
+    }
+}
+
+/**
+ * Gets field configuration object for validation.
+ * @returns {Object} Configuration object with field settings
+ */
+function getFieldConfig() {
+    return {
         title: {
             input: document.getElementById('title'),
             message: document.getElementById('title-required'),
@@ -177,11 +228,19 @@ function clearValidationMessage(fieldType) {
             errorClass: 'category-required-border'
         }
     };
+}
 
-    const config = fieldConfig[fieldType];
-    if (config) {
-        config.input.classList.remove(config.errorClass);
-        config.message.style.opacity = '0';
+/**
+ * Clears error styling and messages for a field.
+ * @param {Object} config - Field configuration object
+ * @param {string} fieldType - Type of field
+ */
+function clearFieldError(config, fieldType) {
+    config.input.classList.remove(config.errorClass);
+    config.message.style.opacity = '0';
+    
+    if (fieldType === 'date') {
+        config.message.textContent = 'This field is required';
     }
 }
 
@@ -205,20 +264,43 @@ function addValidationEventListeners() {
 
 /**
  * Validates the form fields and shows error messages if necessary.
+ * @returns {boolean} True if form is valid, false otherwise
  */
 function validateForm() {
-    const fields = [
+    let isValid = true;
+    isValid = validateRequiredFields() && isValid;
+    isValid = validateDateField() && isValid;
+    return isValid;
+}
+
+/**
+ * Validates required form fields.
+ * @returns {boolean} True if all required fields are valid
+ */
+function validateRequiredFields() {
+    const fields = getValidationFields();
+    let isValid = true;
+    
+    fields.forEach(field => {
+        if (field.isEmpty()) {
+            setFieldError(field);
+            isValid = false;
+        }
+    });
+    return isValid;
+}
+
+/**
+ * Gets array of validation field configurations.
+ * @returns {Array} Array of field validation objects
+ */
+function getValidationFields() {
+    return [
         {
             element: document.getElementById('title'),
             message: document.getElementById('title-required'),
             errorClass: 'field-required',
             isEmpty: () => document.getElementById('title').value.trim() === ''
-        },
-        {
-            element: document.getElementById('due-date-input'),
-            message: document.getElementById('date-required'),
-            errorClass: 'field-required',
-            isEmpty: () => document.getElementById('due-date-input').value.trim() === ''
         },
         {
             element: document.getElementById('category-container'),
@@ -227,22 +309,65 @@ function validateForm() {
             isEmpty: () => document.getElementById('category-displayed').textContent === 'Select task category'
         }
     ];
+}
 
-    let isValid = true;
+/**
+ * Sets error state for a validation field.
+ * @param {Object} field - Field configuration object
+ */
+function setFieldError(field) {
+    field.element.classList.add(field.errorClass);
+    field.message.style.opacity = '1';
+}
+
+/**
+ * Validates the date field for required and future date.
+ * @returns {boolean} True if date field is valid
+ */
+function validateDateField() {
+    const dueDateInput = document.getElementById('due-date-input');
+    const dateMessage = document.getElementById('date-required');
     
-    fields.forEach(field => {
-        if (field.isEmpty()) {
-            field.element.classList.add(field.errorClass);
-            field.message.style.opacity = '1';
-            isValid = false;
-        }
-    });
+    if (dueDateInput.value.trim() === '') {
+        setDateError(dueDateInput, dateMessage, 'This field is required');
+        return false;
+    }
+    
+    if (!isFutureDate(dueDateInput.value)) {
+        setDateError(dueDateInput, dateMessage, 'This field requires a future date.');
+        return false;
+    }
+    
+    return true;
+}
 
-    return isValid;
+/**
+ * Checks if the given date is in the future.
+ * @param {string} dateValue - Date value to check
+ * @returns {boolean} True if date is in the future
+ */
+function isFutureDate(dateValue) {
+    const selectedDate = new Date(dateValue);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return selectedDate >= today;
+}
+
+/**
+ * Sets error state for date field.
+ * @param {Element} dueDateInput - Date input element
+ * @param {Element} dateMessage - Date error message element
+ * @param {string} message - Error message text
+ */
+function setDateError(dueDateInput, dateMessage, message) {
+    dueDateInput.classList.add('field-required');
+    dateMessage.textContent = message;
+    dateMessage.style.opacity = '1';
 }
 
 /**
  * Handles the form submit event, prevents default submission and performs validation.
+ * @param {Event} event - Form submit event
  */
 function handleFormSubmit(event) {
     event.preventDefault();
@@ -261,27 +386,4 @@ function preventDefaultValidation() {
     form.addEventListener('submit', handleFormSubmit);
 }
 
-/**
- * Send the new task data to the Firebase database.
- */
-async function updateTasks(newTasksArray) {
-    await fetch(`${BASE_URL}/tasks.json`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newTasksArray)
-    });
-}
-
-/**
- * Fetches tasks from the Firebase database.
- *
- * @return {Promise<Array>} A promise that resolves to an array of tasks. If no data is found, an empty array is returned.
- */
-async function fetchTasks() {
-    const response = await fetch(`${BASE_URL}/tasks.json`);
-    const data = await response.json();
-    return data || [];
-}
 

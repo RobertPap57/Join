@@ -1,0 +1,108 @@
+/* Priority and Action Buttons */
+
+/* Priority Buttons */
+.prio-buttons {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.prio-btn {
+    padding: 16px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    gap: 8px;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+    flex: 1;
+    cursor: pointer;
+}
+
+.prio-btn:hover {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.prio-btn.active {
+    background-color: #FFA800;
+    color: white;
+    outline: none;
+    box-shadow: none;
+    font-weight: 700;
+    font-size: 21px;
+}
+
+.prio-btn.active.urgent {
+    background-color: #FF3D00;
+}
+
+.prio-btn.active.low {
+    background-color: #7AE229;
+}
+
+/* Action Buttons */
+.clear-btn,
+.create-btn {
+    border: 1px solid #2A3647;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 20px;
+    background-color: white;
+}
+
+.create-btn {
+    background-color: #2A3647;
+    color: white;
+    font-weight: 700;
+}
+
+.clear-btn:hover {
+    border: 1px solid #29ABE2;
+    color: #29ABE2;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.create-btn:hover {
+    background-color: #29ABE2;
+    border: 1px solid #29ABE2;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+/* Mobile Responsive for Buttons */
+@media screen and (max-width: 425px) {
+    .prio-buttons {
+        padding-block: 11px;
+        margin-bottom: 0;
+    }
+
+    .prio-buttons img {
+        width: 20px;
+        height: 14.5px;
+    }
+
+    .prio-btn {
+        padding: 11px;
+    }
+
+    .prio-btn,
+    .prio-btn.active,
+    .clear-btn,
+    .create-btn,
+    .form-bottom {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 355px) {
+    .prio-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+}

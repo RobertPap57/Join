@@ -12,7 +12,10 @@ const svgMappings = {
     'low-active': './assets/img/icons_add_task/low-white.svg'
 };
 
-function showMenu() {
+/**
+ * Sets up the assigned to dropdown functionality.
+ */
+function showAssignedToDropdown() {
     const contactsList = document.getElementById('contacts-list');
     const arrowDown = contactsList.querySelector('.arrow-down');
     const assignedToList = document.getElementById('assigned-to-list');
@@ -23,17 +26,27 @@ function showMenu() {
     addAssignedDropdownOutsideListener(contactsList, assignedToList);
 }
 
+/**
+ * Sets up all toggle events for the assigned dropdown.
+ * @param {Element} contactsList - Contacts list container element
+ * @param {Element} arrowDown - Arrow down element
+ * @param {Element} input - Input element
+ */
 function setupAssignedDropdownToggles(contactsList, arrowDown, input) {
     setupArrowToggle(contactsList, arrowDown, input);
     setupInputToggle(contactsList, input);
     setupDivToggle(contactsList, input);
 }
 
+/**
+ * Scrolls to dropdown position when opened.
+ * @param {Element} contactsList - Contacts list container element
+ */
 function scrollToDropdown(contactsList) {
     setTimeout(() => {
         const rect = contactsList.getBoundingClientRect();
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const targetY = rect.top + scrollTop - 100; // 100px offset from top
+        const targetY = rect.top + scrollTop - 100; 
         
         window.scrollTo({
             top: targetY,
@@ -42,6 +55,10 @@ function scrollToDropdown(contactsList) {
     }, 100);
 }
 
+/**
+ * Toggles the visibility of selected contacts div.
+ * @param {boolean} isOpen - Whether dropdown is open
+ */
 function toggleSelectedContactsDiv(isOpen) {
     const selectedContactsDiv = document.querySelector('.selected-contacts-div');
     if (selectedContactsDiv) {
@@ -49,6 +66,12 @@ function toggleSelectedContactsDiv(isOpen) {
     }
 }
 
+/**
+ * Sets up arrow toggle functionality for dropdown.
+ * @param {Element} contactsList - Contacts list container element
+ * @param {Element} arrowDown - Arrow down element
+ * @param {Element} input - Input element
+ */
 function setupArrowToggle(contactsList, arrowDown, input) {
     arrowDown.addEventListener('click', (event) => {
         event.stopPropagation();
@@ -62,6 +85,11 @@ function setupArrowToggle(contactsList, arrowDown, input) {
     });
 }
 
+/**
+ * Sets up input click toggle functionality.
+ * @param {Element} contactsList - Contacts list container element
+ * @param {Element} input - Input element
+ */
 function setupInputToggle(contactsList, input) {
     input.addEventListener('click', (event) => {
         event.stopPropagation();
@@ -73,6 +101,11 @@ function setupInputToggle(contactsList, input) {
     });
 }
 
+/**
+ * Sets up div click toggle functionality.
+ * @param {Element} contactsList - Contacts list container element
+ * @param {Element} input - Input element
+ */
 function setupDivToggle(contactsList, input) {
     contactsList.addEventListener('click', (event) => {
         if (event.target.closest('.arrow-down')) return;
@@ -84,6 +117,11 @@ function setupDivToggle(contactsList, input) {
     });
 }
 
+/**
+ * Toggles blue border class based on dropdown state.
+ * @param {Element} contactsList - Contacts list container element
+ * @param {boolean} isOpen - Whether dropdown is open
+ */
 function toggleBlueBorder(contactsList, isOpen) {
     if (isOpen) {
         contactsList.classList.add('blue-border');
@@ -92,7 +130,12 @@ function toggleBlueBorder(contactsList, isOpen) {
     }
 }
 
-// Remove blue-border when dropdown closes
+
+/**
+ * Adds outside click listener for assigned dropdown.
+ * @param {Element} contactsList - Contacts list container element
+ * @param {Element} assignedToList - Assigned to list element
+ */
 function addAssignedDropdownOutsideListener(contactsList, assignedToList) {
     if (!window._assignedToDropdownListenerAdded) {
         document.addEventListener('click', (event) => {
@@ -109,8 +152,11 @@ function addAssignedDropdownOutsideListener(contactsList, assignedToList) {
     }
 }
 
+/**
+ * Prevents assigned dropdown from closing when clicked inside.
+ * @param {Element} assignedToList - Assigned to list element
+ */
 function preventAssignedDropdownClose(assignedToList) {
-    // Prevent closing when clicking inside the list
     assignedToList.addEventListener('click', (event) => {
         event.stopPropagation();
     });
@@ -134,21 +180,13 @@ function handleFilter(input) {
     if (!input) {
         filteredContacts = contacts;
     } else {
-
-
         const filterValue = input.value.toLowerCase().trim();
-
-
         if (filterValue === '') {
-
             filteredContacts = contacts;
         } else {
-
             filteredContacts = contacts.filter(contact => contact.name.toLowerCase().startsWith(filterValue));
         }
-
     }
-
     renderContacts();
 }
 
@@ -207,6 +245,9 @@ function selectListItems() {
 /**
  * Render the selected contacts below the input field.
  */
+/**
+ * Renders the selected contacts below the input field.
+ */
 function renderSelectedContactsBelow() {
     const selectedContactsDiv = document.querySelector('.selected-contacts-div');
     selectedContactsDiv.innerHTML = '';
@@ -224,24 +265,53 @@ function changePrioBtn() {
     const buttons = document.querySelectorAll('.prio-btn');
     buttons.forEach(button => {
         button.addEventListener('click', () => {
-            buttons.forEach(btn => {
-                const prio = btn.id;
-                const img = btn.querySelector('img');
-                if (btn === button) {
-                    if (btn.classList.contains('active')) {
-                        btn.classList.remove('active');
-                        img.src = svgMappings[prio];
-                    } else {
-                        btn.classList.add('active');
-                        img.src = svgMappings[`${prio}-active`];
-                    }
-                } else {
-                    btn.classList.remove('active');
-                    img.src = svgMappings[prio];
-                }
-            });
+            handlePriorityButtonClick(button, buttons);
         });
     });
+}
+
+/**
+ * Handles individual priority button click.
+ * @param {Element} button - Clicked button element
+ * @param {NodeList} buttons - All priority buttons
+ */
+function handlePriorityButtonClick(button, buttons) {
+    buttons.forEach(btn => {
+        const prio = btn.id;
+        const img = btn.querySelector('img');
+        if (btn === button) {
+            toggleButtonState(btn, prio, img);
+        } else {
+            deactivateButton(btn, prio, img);
+        }
+    });
+}
+
+/**
+ * Toggles button active state.
+ * @param {Element} btn - Button element
+ * @param {string} prio - Priority type
+ * @param {Element} img - Image element
+ */
+function toggleButtonState(btn, prio, img) {
+    if (btn.classList.contains('active')) {
+        btn.classList.remove('active');
+        img.src = svgMappings[prio];
+    } else {
+        btn.classList.add('active');
+        img.src = svgMappings[`${prio}-active`];
+    }
+}
+
+/**
+ * Deactivates a priority button.
+ * @param {Element} btn - Button element
+ * @param {string} prio - Priority type
+ * @param {Element} img - Image element
+ */
+function deactivateButton(btn, prio, img) {
+    btn.classList.remove('active');
+    img.src = svgMappings[prio];
 }
 
 /**
@@ -261,9 +331,9 @@ function changeSvgOnHover() {
 }
 
 /**
- * Show and handle the category menu.
+ * Show and handle the category dropdown.
  */
-function categoryMenu() {
+function showCategoryDropdown() {
     const selectBtnCategory = document.querySelector('.select-btn.category');
     const categoryDisplayed = document.getElementById('category-displayed');
     const listItems = document.querySelectorAll('.list-item.category');
@@ -275,6 +345,10 @@ function categoryMenu() {
     addCategoryDropdownOutsideListener(selectBtnCategory, categoryList);
 }
 
+/**
+ * Sets up category dropdown toggle functionality.
+ * @param {Element} selectBtnCategory - Category select button element
+ */
 function setupCategoryDropdownToggles(selectBtnCategory) {
     const arrowDown = selectBtnCategory.querySelector('.arrow-down');
     arrowDown.addEventListener('click', (event) => {
@@ -287,6 +361,10 @@ function setupCategoryDropdownToggles(selectBtnCategory) {
     });
 }
 
+/**
+ * Prevents category dropdown from closing when clicked inside.
+ * @param {Element} categoryList - Category list element
+ */
 function preventCategoryDropdownClose(categoryList) {
     if (categoryList) {
         categoryList.addEventListener('click', (event) => {
@@ -295,6 +373,12 @@ function preventCategoryDropdownClose(categoryList) {
     }
 }
 
+/**
+ * Sets up category selection functionality.
+ * @param {NodeList} listItems - Category list items
+ * @param {Element} selectBtnCategory - Category select button
+ * @param {Element} categoryDisplayed - Category display element
+ */
 function setupCategorySelection(listItems, selectBtnCategory, categoryDisplayed) {
     listItems.forEach(item => {
         item.addEventListener('click', () => {
@@ -306,6 +390,11 @@ function setupCategorySelection(listItems, selectBtnCategory, categoryDisplayed)
     });
 }
 
+/**
+ * Adds outside click listener for category dropdown.
+ * @param {Element} selectBtnCategory - Category select button
+ * @param {Element} categoryList - Category list element
+ */
 function addCategoryDropdownOutsideListener(selectBtnCategory, categoryList) {
     if (!window._categoryDropdownListenerAdded) {
         document.addEventListener('click', (event) => {
@@ -336,6 +425,12 @@ function styleSubtaskInput() {
     setupSubtaskCancelBtn(subtaskCancelBtn, subtaskInput);
 }
 
+/**
+ * Sets up subtask add button functionality.
+ * @param {Element} subtaskBtnAdd - Add button element
+ * @param {Element} subtaskBtnCheckCancel - Check/cancel buttons container
+ * @param {Element} subtaskInput - Subtask input element
+ */
 function setupSubtaskBtnAdd(subtaskBtnAdd, subtaskBtnCheckCancel, subtaskInput) {
     subtaskBtnAdd.addEventListener('click', () => {
         subtaskBtnAdd.style.display = 'none';
@@ -344,18 +439,33 @@ function setupSubtaskBtnAdd(subtaskBtnAdd, subtaskBtnCheckCancel, subtaskInput) 
     });
 }
 
+/**
+ * Sets up subtask check button functionality.
+ * @param {Element} subtaskBtnCheck - Check button element
+ * @param {Element} subtaskBtnAdd - Add button element
+ * @param {Element} subtaskBtnCheckCancel - Check/cancel buttons container
+ * @param {Element} subtaskInput - Subtask input element
+ */
 function setupSubtaskBtnCheck(subtaskBtnCheck, subtaskBtnAdd, subtaskBtnCheckCancel, subtaskInput) {
     subtaskBtnCheck.addEventListener('click', () => {
         if (subtaskInput.value.trim() === '') {
-            subtaskInput.focus();
-        } else {
             subtaskBtnAdd.style.display = 'flex';
             subtaskBtnCheckCancel.style.display = 'none';
             subtaskInput.blur();
+        } else {
+            subtaskInput.focus();
         }
     });
 }
 
+/**
+ * Sets up subtask input focus functionality.
+ * @param {Element} subtaskInput - Subtask input element
+ * @param {Element} subtaskBtnAdd - Add button element
+ * @param {Element} subtaskBtnCheckCancel - Check/cancel buttons container
+ * @param {Element} subtaskBtnCheck - Check button element
+ * @param {Element} subtaskCancelBtn - Cancel button element
+ */
 function setupSubtaskInputFocus(subtaskInput, subtaskBtnAdd, subtaskBtnCheckCancel, subtaskBtnCheck, subtaskCancelBtn) {
     let ignoreBlur = false;
     setupIgnoreBlur(subtaskBtnCheck, subtaskCancelBtn, () => ignoreBlur = true);
@@ -368,12 +478,26 @@ function setupSubtaskInputFocus(subtaskInput, subtaskBtnAdd, subtaskBtnCheckCanc
     });
 }
 
+/**
+ * Sets up ignore blur functionality for buttons.
+ * @param {Element} subtaskBtnCheck - Check button element
+ * @param {Element} subtaskCancelBtn - Cancel button element
+ * @param {Function} setIgnoreBlur - Function to set ignore blur flag
+ */
 function setupIgnoreBlur(subtaskBtnCheck, subtaskCancelBtn, setIgnoreBlur) {
     [subtaskBtnCheck, subtaskCancelBtn].forEach(btn => {
         btn.addEventListener('mousedown', setIgnoreBlur);
     });
 }
 
+/**
+ * Handles subtask input blur event.
+ * @param {boolean} ignoreBlur - Whether to ignore blur
+ * @param {Function} resetIgnoreBlur - Function to reset ignore blur flag
+ * @param {Element} subtaskInput - Subtask input element
+ * @param {Element} subtaskBtnAdd - Add button element
+ * @param {Element} subtaskBtnCheckCancel - Check/cancel buttons container
+ */
 function handleSubtaskInputBlur(ignoreBlur, resetIgnoreBlur, subtaskInput, subtaskBtnAdd, subtaskBtnCheckCancel) {
     if (ignoreBlur) {
         resetIgnoreBlur();
@@ -384,6 +508,11 @@ function handleSubtaskInputBlur(ignoreBlur, resetIgnoreBlur, subtaskInput, subta
     }
 }
 
+/**
+ * Sets up subtask cancel button functionality.
+ * @param {Element} subtaskCancelBtn - Cancel button element
+ * @param {Element} subtaskInput - Subtask input element
+ */
 function setupSubtaskCancelBtn(subtaskCancelBtn, subtaskInput) {
     subtaskCancelBtn.addEventListener('click', () => {
         subtaskInput.value = '';
@@ -403,6 +532,9 @@ function addSubtask() {
     }
 }
 
+/**
+ * Sets up subtask push functionality with event listeners.
+ */
 function pushSubtask() {
     const subtaskInput = document.querySelector('.subtask-input');
     const subtaskBtnCheck = document.querySelector('.subtask-check');
@@ -417,13 +549,16 @@ function pushSubtask() {
 }
 
 /**
- * Render the list of subtasks.
+ * Generates HTML for a subtask list item.
+ * @param {string} item - Subtask text
+ * @param {number} index - Index in subtasks array
+ * @returns {string} HTML string for subtask list item
  */
 function getSubtaskListItemHTML(item, index) {
     return `
         <li class="subtask-list-item" data-index="${index}">
             <p class="li-text"> 
-              <span>•</span> ${item}
+            ${item}
             </p>
             <div class="subtask-edit-icon-div">
                 <div class="edit-subtask-btn">
@@ -438,6 +573,9 @@ function getSubtaskListItemHTML(item, index) {
     `;
 }
 
+/**
+ * Renders the list of subtasks.
+ */
 function renderSubtasks() {
     const subtasksList = document.querySelector('.subtasks-list');
     subtasksList.innerHTML = '';
@@ -458,32 +596,43 @@ function renderSubtasks() {
  */
 function editSubTask() {
     const subtaskListItems = document.querySelectorAll('.subtask-list-item');
-
     subtaskListItems.forEach(item => {
         const editSubtaskBtn = item.querySelector('.edit-subtask-btn');
-
-        const handleEdit = () => {
-            let input = item.querySelector('.edit-subtask-input');
-            if (!input) {
-                let liText = item.querySelector('.li-text');
-                item.innerHTML = `
-                    <input class="edit-subtask-input" type="text" value="${liText.textContent.trim()}">
-                    <div class="edit-subtask-button-div">
-                        <span class="delete-subtask-btn edit"><img src="./assets/img/icons_add_task/subtask-delete.svg"></span>
-                        <div class="subtask-divider"></div>
-                        <span class="confirm-subtask-edit-btn"><img src="./assets/img/icons_add_task/subtask-check.svg"></span>
-                    </div>
-                `;
-                item.classList.add('subtask-list-item-edit');
-                deleteSubtask();
-                confirmSubtaskEdit();
-            }
-        };
-
+        const handleEdit = () => editSubtaskItem(item);
         editSubtaskBtn.addEventListener('click', handleEdit);
-
         item.addEventListener('dblclick', handleEdit);
     });
+}
+
+/**
+ * Edits a specific subtask item.
+ * @param {Element} item - Subtask list item element
+ */
+function editSubtaskItem(item) {
+    let input = item.querySelector('.edit-subtask-input');
+    if (!input) {
+        let liText = item.querySelector('.li-text');
+        item.innerHTML = getEditSubtaskHTML(liText.textContent.trim());
+        item.classList.add('subtask-list-item-edit');
+        deleteSubtask();
+        confirmSubtaskEdit();
+    }
+}
+
+/**
+ * Generates HTML for editing a subtask.
+ * @param {string} text - Current subtask text
+ * @returns {string} HTML string for edit mode
+ */
+function getEditSubtaskHTML(text) {
+    return `
+        <input class="edit-subtask-input" type="text" value="${text}">
+        <div class="edit-subtask-button-div">
+            <span class="delete-subtask-btn edit"><img src="./assets/img/icons_add_task/subtask-delete.svg"></span>
+            <div class="subtask-divider"></div>
+            <span class="confirm-subtask-edit-btn"><img src="./assets/img/icons_add_task/subtask-check.svg"></span>
+        </div>
+    `;
 }
 
 /**
@@ -528,6 +677,17 @@ function confirmSubtaskEdit() {
 
 const dateInput = document.getElementById('due-date-input');
 
+/**
+ * Sets minimum date to today for date picker.
+ */
+function setMinDateToToday() {
+    const today = new Date();
+    const todayString = today.toISOString().split('T')[0];
+    dateInput.setAttribute('min', todayString);
+}
+
+
+
 dateInput.addEventListener('focus', () => {
     dateInput.classList.remove('color-grey');
 });
@@ -542,3 +702,21 @@ const assignedToList = document.getElementById('assigned-to-list');
 assignedToList.addEventListener('click', (event) => {
     event.stopPropagation();
 });
+
+/**
+ * Shows a task added message by adding a CSS class to the element with the class 'task-added-msg'.
+ * After 3 seconds, it adds another CSS class to slide in the message. After another 2 seconds, it redirects to the board.
+ *
+ * @return {void} 
+ */
+function showTaskAddedMessage() {
+    const messageElement = document.querySelector('.task-added-msg');
+    messageElement.classList.add('d-flex-visible');
+    setTimeout(() => {
+        messageElement.classList.add('task-added-msg-slide-in');
+    }, 50);
+    setTimeout(() => {
+        redirectTo('board.html');
+    }, 1200);
+
+}

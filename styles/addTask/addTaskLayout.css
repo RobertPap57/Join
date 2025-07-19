@@ -85,7 +85,7 @@
 }
 
 .d-flex-visible {
-    display: flex;
+    display: flex !important;
 }
 
 .transform-none {

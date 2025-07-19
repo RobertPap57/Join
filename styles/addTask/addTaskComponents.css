@@ -49,7 +49,7 @@
 }
 
 .category-m-top {
-    margin-top: -22px;
+    margin-top: -22px !important;
 }
 
 /* Dropdown Styles */
@@ -257,13 +257,13 @@ label {
 
 .subtasks-list::-webkit-scrollbar-button:single-button:vertical:decrement,
 .list-items::-webkit-scrollbar-button:single-button:vertical:decrement {
-    background-image: url('../assets/img/contacts_img/scroll_up.svg');
+    background-image: url('../../assets/img/contacts_img/scroll_up.svg');
     background-position: center bottom;
 }
 
 .subtasks-list::-webkit-scrollbar-button:single-button:vertical:increment,
 .list-items::-webkit-scrollbar-button:single-button:vertical:increment {
-    background-image: url('../assets/img/contacts_img/scroll_down.svg');
+    background-image: url('../../assets/img/contacts_img/scroll_down.svg');
     background-position: center top;
 }
 
