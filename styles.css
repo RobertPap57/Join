@@ -1,5 +1,3 @@
-/*-----------  ALLGEMEINES (Meik) ---------- */
-
 @charset "UTF-8";
 
 * {
@@ -7,13 +5,11 @@
   padding: 0;
 }
 
-
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
-
 
 html {
   color-scheme: light;
@@ -42,17 +38,14 @@ body {
   display: none !important;
 }
 
-
 a {
   text-decoration: none;
   cursor: pointer;
 }
 
-
 a:focus {
   text-decoration: none;
 }
-
 
 a:link,
 a:visited,
@@ -60,10 +53,6 @@ a:active,
 a:hover {
   text-decoration: none;
 }
-
-
-
-/* -------- FONTS (Meik) ------------ */
 
 @font-face {
   font-family: "Inter";
@@ -73,30 +62,61 @@ a:hover {
   src: url("./assets/fonts/Inter-VariableFont_slnt\,wght.ttf") format("ttf");
 }
 
+.scroll-container {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
 
+.scroll-container::-webkit-scrollbar {
+  width: 24px;
+}
 
+.scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(168, 168, 168, 1);
+  border-radius: 100px;
+  border: 8px solid white;
+}
 
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgb(150, 150, 150);
+}
 
+.scroll-container::-webkit-scrollbar-track {
+  background: white;
+}
 
-/* ---------- landscape ---------- */
+.scroll-container::-webkit-scrollbar-button:single-button {
+  background-repeat: no-repeat;
+  width: 4px;
+  height: 24px;
+}
+
+.scroll-container::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background-image: url('../assets/images/components/scrollbar/scroll-up.svg');
+  background-position: center bottom;
+}
+
+.scroll-container::-webkit-scrollbar-button:single-button:vertical:increment {
+  background-image: url('../assets/images/components/scrollbar/scroll-down.svg');
+  background-position: center top;
+}
 
 .landscape-warning {
   display: none;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
+  width: 100vw;
+  height: 100vh;
+  background-color: #2A3647;
   color: white;
   font-size: 2em;
   text-align: center;
   z-index: 9999;
   justify-content: center;
   align-items: center;
-  padding: 20px;
 }
 
 .landscape-warning.visible {
-  /* display: flex; */
+  display: flex;
 }

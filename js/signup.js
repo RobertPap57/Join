@@ -8,6 +8,8 @@ let feedbackPassword = document.getElementById('form__wrongPassword__message');
  * @returns {Promise<void>}
  */
 async function initSignUp() {
+      await includeHTML();
+    checkOrientation();
     await getUsers();
     changePasswordIcon('password');
     changePasswordIcon('password__confirm');

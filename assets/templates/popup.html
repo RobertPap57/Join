@@ -1,0 +1,61 @@
+<div id="modal" class="modal d-flex-center d-none">
+        <div id="add-contact" class="pop-up-container pop-up-close d-none">
+            <div class="pop-up-banner">
+                <div class="pop-up-banner-content">
+                    <div>
+                        <img src="./assets/img/contacts_img/banner_logo.svg" alt="">
+                        <h1>Add contact</h1>
+                        <p>Tasks are better with a team!</p>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="pop-up-content">
+                <div onclick="closePopUpWindow('add-contact', 'modal', 'pop-up-open', 'pop-up-close')" class="close-pop-up d-flex-center">
+                    <img src="./assets/img/contacts_img/close_pop_up.svg" alt="">
+                </div>
+                <div class="contact-img pop-up-img d-flex-center ">
+                    <img src="./assets/img/contacts_img/new_contact_icon.svg" alt="">
+                </div>
+                <div class="form">
+                    <form id="add-contact-form" onsubmit="addContact(); return false">
+                        <div class="input">
+                            <input id="new-name" type="text" placeholder="Name" required>
+                            <div class="icon-container">
+                                <img src="./assets/img/contacts_img/name_icon.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="input">
+                            <input id="new-email" type="email" placeholder="Email" required oninput="validateEmail('new-email')">
+                            <div class="icon-container">
+                                <img src="./assets/img/contacts_img/mail_icon.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="input">
+                            <input id="new-phone" type="number" pattern="^[0-9-+\s()]{6,16}" placeholder="Phone" required>
+                            <div class="icon-container">
+                                <img src="./assets/img/contacts_img/phone_icon.svg" alt="">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="pop-up-btns">
+                    <button onclick="closePopUpWindow('add-contact', 'modal', 'pop-up-open', 'pop-up-close')" class="cancel-btn">
+                        <p>Cancel</p>
+                        <div class="icon-container">
+                            <img src="./assets/img/contacts_img/close_pop_up.svg" alt="">
+                        </div>
+                    </button>
+                    <button type="submit" form="add-contact-form" class="approve-btn">
+                        <p><b>Create contact</b></p>
+                        <div class="icon-container">
+                            <img src="./assets/img/contacts_img/check_icon.svg" alt="">
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="edit-contact" class="pop-up-container pop-up-close d-none"></div>
+
+    </div>

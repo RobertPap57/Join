@@ -9,6 +9,7 @@
  */
 async function initSummary() {
   await includeHTML();
+  checkOrientation();
   checkForCurrentUser() ? checkForGreeting() : redirectTo('login.html');
   displayProfileIconInitials();
   highlightLink('summary');

@@ -11,6 +11,8 @@ let feedbackPassword = document.getElementById('form__wrongPassword__message');
  * @returns {Promise<void>} A promise that resolves when all the initialization steps are completed.
  */
 async function initLogin() {
+    await includeHTML();
+    checkOrientation();
     checkForCurrentUserLogin();
     await checkIfDatabaseIsEmpty();
     changeOfDisplayNoneAfterAnimation();

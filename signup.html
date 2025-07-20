@@ -7,16 +7,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="robots" content="noindex, nofollow" />
         <meta name="description" content="This is a trainingswebside from Developers Akademie" />
-        <link id="favicon" rel="shortcut icon" href="./assets/img/favicon/logo_black.png" type="image/x-icon" />
+        <link id="favicon" rel="shortcut icon" href="./assets/img/logos/logo-black.svg" type="image/x-icon" />
         <link rel="stylesheet" type="text/css" href="./styles.css" />
-        <link rel="stylesheet" type="text/css" href="./styles/signup.css" />
-        <link rel="stylesheet" type="text/css" href="./styles/signupResponsive.css" />
+        <link rel="stylesheet" type="text/css" href="./css/signup.css" />
+        <link rel="stylesheet" type="text/css" href="./css/signupResponsive.css" />
         <script defer src="./script.js" type="text/javascript"></script>
         <script defer src="./js/signup.js" type="text/javascript"></script>
         <title>Sign up</title>
     </head>
 
     <body onload="initSignUp()">
+         <div w3-include-html="./assets/templates/landscape-warning.html"></div> 
+
         <div class="content__container">
             <header class="header">
                 <div class="header__logo__container">
@@ -110,6 +112,6 @@
         </div>
 
         <!-- ---------- landscape ---------- -->
-        <div class="landscape-warning" id="landscapeWarning">Bitte drehen Sie Ihr Gerät in den Hochformatmodus.</div>
+        <div class="landscape-warning" id="landscapeWarning">Please rotate your device to portrait mode for the best experience.</div>
     </body>
 </html>

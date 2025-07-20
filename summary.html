@@ -8,23 +8,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
     <meta name="description" content="This is a trainingswebside from Developers Akademie" />
-    <link id="favicon" rel="shortcut icon" href="./assets/img/favicon/logo_black.png" type="image/x-icon" />
+    <link id="favicon" rel="shortcut icon" href="./assets/img/logos/logo-black.svg" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="./styles.css" />
-    <link rel="stylesheet" type="text/css" href="./styles/header.css" />
-    <link rel="stylesheet" type="text/css" href="./styles/nav.css" />
-    <link rel="stylesheet" type="text/css" href="./styles/summary.css" />
-    <link rel="stylesheet" type="text/css" href="./styles/summaryResponsive.css" />
+    <link rel="stylesheet" type="text/css" href="./css/templates/header.css" />
+    <link rel="stylesheet" type="text/css" href="./css/templates/nav.css" />
+    <link rel="stylesheet" type="text/css" href="./css/summary.css" />
+    <link rel="stylesheet" type="text/css" href="./css/summary-responsive.css" />
     <script src="./script.js" type="text/javascript"></script>
-    <script src="./js/header.js" type="text/javascript"></script>
-    <script src="./js/nav.js" type="text/javascript"></script>
+    <script src="./js/templates/header.js" type="text/javascript"></script>
+    <script src="./js/templates/nav.js" type="text/javascript"></script>
     <script src="./js/summary.js" type="text/javascript"></script>
-    <script src="./js/resetDummyData.js" type="text/javascript"></script>
+    <script src="./js/templates/reset-dummydata.js" type="text/javascript"></script>
     <title>Summary</title>
 </head>
 
 <body onload="initSummary()">
     <div w3-include-html="assets/templates/header.html"></div>
     <div w3-include-html="assets/templates/nav.html"></div>
+    <div w3-include-html="./assets/templates/landscape-warning.html"></div>
+
     <div class="main__container">
         <!-- GREETING Mobile Version -->
         <div id="overlay" class="summary__overlay__container d-none">
@@ -132,8 +134,6 @@
 
     <footer></footer>
 
-    <!-- ---------- landscape ---------- -->
-    <div class="landscape-warning" id="landscapeWarning">Bitte drehen Sie Ihr Gerät in den Hochformatmodus.</div>
 </body>
 
 </html>

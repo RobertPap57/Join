@@ -56,9 +56,9 @@ function initIndex() {
  * Updates the favicon based on the user's system color scheme (light or dark).
 */
 function updateFavicon() {
-	favicon.href = './assets/img/favicon/logo_white.png';
+	favicon.href = 'assets/images/logos/logo-black.svg';
 	const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-	favicon.href = isDarkMode ? './assets/img/favicon/logo_white.png' : './assets/img/favicon/logo_black.png';
+	favicon.href = isDarkMode ? 'assets/images/logos/logo-white.svg' : 'assets/images/logos/logo-black.svg';
 }
 
 
@@ -142,6 +142,13 @@ function redirectTo(page) {
 	window.location.href = page;
 }
 
+/**
+ * Hides the help icon element.
+ */
+function hideHelpIcon() {
+	document.getElementById('hide-help-icon').classList.add('d-none');
+}
+
 
 /**
  * Redirects the browser to the last visited page.
@@ -158,7 +165,7 @@ function goBack() {
  * Checks the screen orientation and toggles a warning element if in landscape on small screens.
 */
 function checkOrientation() {
-	const warning = document.getElementById('landscapeWarning');
+	const warning = document.getElementById('landscape-warning');
 	if ((window.innerWidth) < 933) {
 		if (window.innerHeight < window.innerWidth) {
 			warning.classList.add('visible');
@@ -175,7 +182,6 @@ function checkOrientation() {
  * Adds event listeners to check orientation on window load and resize.
 */
 document.addEventListener('DOMContentLoaded', function () {
-	window.addEventListener('load', checkOrientation);
 	window.addEventListener('resize', checkOrientation);
 });
 
