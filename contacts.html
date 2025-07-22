@@ -9,15 +9,16 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="css/contacts/contacts.css">
     <link rel="stylesheet" href="css/contacts/contactsResposive.css">
-    <link rel="stylesheet" href="css/contacts/contactsPopUp.css">
     <link rel="stylesheet" href="css/templates/header.css">
     <link rel="stylesheet" href="css/templates/nav.css">
+    <link rel="stylesheet" href="css/templates/popup.css">
     <script src="script.js"></script>
+    <script src="./js/contacts/core.js"></script>
+    <script src="./js/templates/popup.js"></script>
     <script src="./js/contacts/display.js"></script>
     <script src="./js/contacts/templates.js"></script>
     <script src="./js/contacts/crud.js"></script>
     <script src="./js/contacts/popup.js"></script>
-    <script src="./js/contacts/core.js"></script>
     <script src="./js/templates/header.js"></script>
     <script src="./js/templates/nav.js"></script>
 
@@ -32,8 +33,7 @@
 
     <div id="contacts-container" class="contacts-container scroll-container">
         <div class="add-contact-btn-container d-flex-center">
-            <div onclick="openPopUpWindow('add-contact', 'modal', 'pop-up-open', 'pop-up-close')"
-                class="add-contact-btn d-flex-center">
+            <div onclick="openPopUpWindow()"class="add-contact-btn d-flex-center">
                 <p>
                     <b>Add new contact</b>
                 </p>
@@ -57,14 +57,14 @@
             <p>Better with a team</p>
         </div>
         <div id="contact-displayed" class="contact-displayed"></div>
-        <div id="toast-msg" class="toast-msg d-flex-center toast-msg-slide-out">
-            Contact succesfully created
-        </div>
         <div onclick="openPopUpWindow('contact-sub-menu', 'mobile-modal', 'sub-menu-open', 'sub-menu-close')"
-            class="d-flex-center contact-sub-menu-btn">
-            <img src="./assets/images/pages/contacts/more.svg" alt="">
-        </div>
+        class="d-flex-center contact-sub-menu-btn">
+        <img src="./assets/images/pages/contacts/more.svg" alt="">
     </div>
+</div>
+<div id="toast-msg" class="toast-msg d-flex-center toast-msg-slide-out">
+    Contact succesfully created
+</div>
 
 </body>
 

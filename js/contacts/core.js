@@ -15,6 +15,7 @@ async function initContacts() {
     highlightLink('contacts');
     await getContacts();
     renderContacts();
+    initPopup();
 }
 
 /**
@@ -59,3 +60,19 @@ function renderSortedContacts(sortedContacts) {
         contactsListContainer.innerHTML += getContactsListHtml(contact);
     });
 }
+
+/**
+ * Slides the toast message notification.
+ */
+function slideToastMsg() {
+    let container = document.getElementById('toast-msg')
+    setTimeout(() => {
+        container.classList.remove('toast-msg-slide-out');
+        container.classList.add('toast-msg-slide-in');
+    }, 500);
+    setTimeout(() => {
+        container.classList.remove('toast-msg-slide-in');
+        container.classList.add('toast-msg-slide-out');
+    }, 2000);
+}
+

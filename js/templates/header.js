@@ -52,6 +52,13 @@ function hideHeaderIcons() {
 }
 
 
+/**
+ * Hides the help icon element.
+ */
+function hideHelpIcon() {
+	document.getElementById('hide-help-icon').classList.add('d-none');
+}
+
 
 /**
  * Updates the header profile initials based on the current user's data.

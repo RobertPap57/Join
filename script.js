@@ -143,14 +143,6 @@ function redirectTo(page) {
 }
 
 /**
- * Hides the help icon element.
- */
-function hideHelpIcon() {
-	document.getElementById('hide-help-icon').classList.add('d-none');
-}
-
-
-/**
  * Redirects the browser to the last visited page.
  * 
  * This function changes the current location of the browser

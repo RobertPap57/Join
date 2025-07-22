@@ -22,12 +22,6 @@
     padding-bottom: 24px;
 }
 
-.d-flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .no-contacts {
     text-align: center;
     padding-top: 20px;
@@ -347,16 +341,6 @@ body {
 
 .toast-msg-slide-out {
     transform: translateX(2000%);
-}
-
-.modal {
-    position: fixed;
-    z-index: 3;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.25);
 }
 
 .contact-sub-menu {
