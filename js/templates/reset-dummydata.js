@@ -1,10 +1,10 @@
 
-const dummyUsers = {
+const dummyContacts = {
 	"0": {
+		"id": "0",
 		"name": "Anton Mayer",
 		"email": "antom@gmail.com",
 		"phone": "+49 1111 11 111 1",
-		"password": "1234",
 		"color": "#FF70AA",
 	},
 
@@ -12,7 +12,7 @@ const dummyUsers = {
 		"name": "Tatjana Wolf",
 		"email": "wolf@gmail.com",
 		"phone": "+49 2222 222 22 2",
-		"password": "1234",
+		"id": "1",
 		"color": "#FFC700",
 	},
 
@@ -20,7 +20,7 @@ const dummyUsers = {
 		"name": "Benedikt Ziegler",
 		"email": "benedikt@gmail.com",
 		"phone": "+49 3333 333 33 3",
-		"password": "1234",
+		"id": "2",
 		"color": "#6E52FF",
 	},
 
@@ -28,7 +28,7 @@ const dummyUsers = {
 		"name": "David Eisenberg",
 		"email": "davidberg@gmail.com",
 		"phone": "+49 4444 444 44 4",
-		"password": "1234",
+		"id": "3",
 		"color": "#FC71FF",
 	},
 
@@ -36,7 +36,7 @@ const dummyUsers = {
 		"name": "Eva Fischer",
 		"email": "eva@gmail.com",
 		"phone": "+49 5555 555 55 5",
-		"password": "1234",
+		"id": "4",
 		"color": "#FFBB2B",
 	},
 
@@ -44,7 +44,7 @@ const dummyUsers = {
 		"name": "Emmanuel Mauer",
 		"email": "emmanuelma@gmail.com",
 		"phone": "+49 6666 666 66 6",
-		"password": "1234",
+		"id": "5",
 		"color": "#1FD7C1",
 	},
 
@@ -52,7 +52,7 @@ const dummyUsers = {
 		"name": "Marcel Bauer",
 		"email": "bauer@gmail.com",
 		"phone": "+49 7777 777 77 7",
-		"password": "1234",
+		"id": "6",
 		"color": "#462F8A",
 	},
 
@@ -60,7 +60,7 @@ const dummyUsers = {
 		"name": "Sofia Müller",
 		"email": "sofia@gmail.com",
 		"phone": "+49 8888 888 88 8",
-		"password": "1234",
+		"id": "7",
 		"color": "#00BEE8",
 	},
 
@@ -68,7 +68,7 @@ const dummyUsers = {
 		"name": "Anja Schulz",
 		"email": "schulz@gmail.com",
 		"phone": "+49 9999 999 99 9",
-		"password": "1234",
+		"id": "8",
 		"color": "#9327FF",
 	},
 
@@ -77,6 +77,7 @@ const dummyUsers = {
 
 const dummyTasks = {
 	"0": {
+		"id": "0",
 		"title": "Kochwelt Page & Recipe Recommender",
 		"description": "Build start page with recipe recommendation.",
 		"category": "User Story",
@@ -99,6 +100,7 @@ const dummyTasks = {
 	},
 
 	"1": {
+		"id": "1",
 		"title": "CSS Architecture Planning",
 		"description": "Define CSS naming conventions and structure",
 		"category": "Technical Tasks",
@@ -122,6 +124,7 @@ const dummyTasks = {
 	},
 
 	"2": {
+		"id": "2",
 		"title": "HTML Base Template Creation",
 		"description": "Create reusable HTML base templates",
 		"category": "Technical Tasks",
@@ -133,6 +136,7 @@ const dummyTasks = {
 	},
 
 	"3": {
+		"id": "3",
 		"title": "Daily Kochwelt Recipe",
 		"description": "Implement daily recipe and portion calculator",
 		"category": "User Story",
@@ -144,6 +148,7 @@ const dummyTasks = {
 	},
 
 	"4": {
+		"id": "4",
 		"title": "Contact Form & Imprint",
 		"description": "Create a contac form and imprint page",
 		"category": "User Story",
@@ -166,36 +171,15 @@ const dummyTasks = {
 	},
 };
 
-
-const dummyContacts = removePasswordFromUsers(dummyUsers);
-
-
-/**
- * Removes the password property from the user object and returns the resulting object.
- * This function is used to prevent the password from being stored in the database.
- * @param {object} user - The user object to have its password removed.
- * @returns {object} A new object with all properties of the user object except for the password property.
- */
-function removePasswordProperty(user) {
-	const { password, ...rest } = user;
-	return rest;
-}
-
-
-/**
- * Creates a new object with the same keys as the provided users object, but removes the password property from each user.
- * 
- * @param {Object} users - The object containing user data.
- * @returns {Object} A new object containing the same user data, but without passwords.
- */
-function removePasswordFromUsers(users) {
-	const cleanedUsers = {};
-	for (const key in users) {
-		cleanedUsers[key] = removePasswordProperty(users[key]);
+const dummyUsers = {
+	"guest": {
+		name: 'guest',
+		email: 'guest@join.de',
+		id: 'guest',
+		color: '#00BEE8',
+		password: 'guest'
 	}
-	return cleanedUsers;
 }
-
 
 /**
  * Resets the Firebase database to initial dummy data for tasks, users, and contacts.

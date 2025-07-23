@@ -210,53 +210,24 @@ function getRandomColor() {
 	return color;
 }
 
-
-
 /**
- * Filters out any null or non-object values from the provided data object.
- *
- * @param {object} data - The object from which to filter null or non-object values.
- * @return {array} An array of key-value pairs where the value is an object.
- */
-function filterNullObjects(data) {
-	return Object.entries(data)
-		.filter(([_, obj]) => obj && typeof obj === 'object');
-}
-
-
-/**
- * Adds an 'id' property to each object in the array of entries returned by
- * filterNullObjects.
- *
- * @param {Array} entries - The array of key-value pairs from filterNullObjects.
- * @returns {Array} The array of objects with an 'id' property added to each.
- */
-
-function putIdInObject(entries) {
-	return entries.map(([id, obj]) => ({ id, ...obj }));
-}
-
-
-/**
- * Fetches data from the database and returns it as an array of objects with IDs.
+ * Fetches data from the database and returns it as an array of objects.
  *
  * @async
  * @param {string} path - The database path from which to fetch data.
- * @returns {Promise<Array<Object>>} An array of data objects, each with an `id` property. Returns an empty array if no data is found or an error occurs.
+ * @returns {Promise<Array<Object>>} An array of data objects. Returns an empty array if no data is found or an error occurs.
  */
 async function getData(path = "") {
 	try {
 		const response = await fetch(BASE_URL + path + ".json");
 		const data = await response.json();
 		if (!data) return [];
-		return putIdInObject(filterNullObjects(data));
-
+		return Object.values(data).filter(obj => obj && typeof obj === 'object');
 	} catch (error) {
 		console.error(error);
 		return [];
 	}
 }
-
 
 /**
  * Sends a POST request to add new data to the database.
@@ -279,8 +250,9 @@ async function addData(path = "", data = {}) {
 			throw new Error("Network response was not ok");
 		}
 		const responseToJson = await response.json();
-		data.id = responseToJson.name;
-		return data;
+		const generatedId = responseToJson.name;
+		await updateData(path, generatedId, { id: generatedId });
+		return { ...data, id: generatedId };
 	} catch (error) {
 		console.error(error);
 		return null;
