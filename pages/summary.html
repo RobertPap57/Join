@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link id="favicon" rel="icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="../css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/components/header.css" />
+    <link rel="stylesheet" type="text/css" href="../css/components/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../css/pages/summary/summary.css" />
+    <link rel="stylesheet" type="text/css" href="../css/pages/summary/summary-responsive.css" />
+    <script src="../js/script.js" type="text/javascript"></script>
+    <script src="../js/components/header.js" type="text/javascript"></script>
+    <script src="../js/components/nav.js" type="text/javascript"></script>
+    <script src="../js/pages/summary.js" type="text/javascript"></script>
+    <script src="../js/utils/reset-dummydata.js" type="text/javascript"></script>
+    <title>Summary</title>
+</head>
+
+<body onload="initSummary()">
+    <div w3-include-html="../templates/header.html"></div>
+    <div w3-include-html="../templates/nav.html"></div>
+
+    <div class="main__container">
+        <!-- GREETING Mobile Version -->
+        <div id="overlay" class="summary__overlay__container d-none">
+            <div class="summary__greeting__container-mobile">
+                <div id="greeting__text-mobile" class="summary__greeting__formula-mobile"></div>
+                <div id="user__name-mobile" class="summary__greeting__name-mobile"></div>
+            </div>
+        </div>
+
+        <!--  SUMMARY Container --> 
+        <div class="summary__container">
+            <div class="summary__header">
+                <h2>Join 360</h2>
+                <div class="seperator"></div>
+                <div class="summary__header-text">Key Metrics at a Glance</div>
+                <div class="seperator__horizental"></div>
+            </div>
+
+            <div class="summary__tiles__container">
+                <div class="summary__tiles">
+                    <!-- two tiles  -->
+                    <div class="summary__first__section">
+                        <a href="./board.html">
+                            <div class="summary__two_tiles" onmouseover="changeIcon(this)" onmouseout="resetIcon(this)">
+                                <img class="summary__icons" id="summary__toDo"
+                                    src="../assets/images/pages/summary/todo-black.svg" alt="edit" />
+                                <div class="summary__tiles__text">
+                                    <div id="summary__todo" class="summary__tiles__number"></div>
+                                    <div class="summary__text__top-and-bottom">To-do</div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="./board.html">
+                            <div class="summary__two_tiles" onmouseover="changeIcon(this)" onmouseout="resetIcon(this)">
+                                <img class="summary__icons" id="summary__Done"
+                                    src="../assets/images/pages/summary/done-black.svg" alt="check" />
+                                <div class="summary__tiles__text">
+                                    <div id="summary__done" class="summary__tiles__number"></div>
+                                    <div class="summary__text__top-and-bottom">Done</div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- one tile/s  -->
+                    <div>
+                        <a href="./board.html">
+                            <div class="summary__second__section">
+                                <div class="second__section__first__tile">
+                                    <div>
+                                        <img class="summary__icons" src="../assets/images/pages/summary/urgent.svg"
+                                            alt="urgent" />
+                                    </div>
+                                    <div class="summary__tiles__text">
+                                        <div id="summary__urgent" class="summary__tiles__number"></div>
+                                        <div class="summary__text__middle">Urgent</div>
+                                    </div>
+                                </div>
+
+                                <span class="separator-grey"></span>
+
+                                <div>
+                                    <div id="summary__date" class="summary__deadline__date"></div>
+                                    <div class="summary__deadline__text">Upcoming deadline</div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 3 tiles  -->
+                    <div class="summary__third__section">
+                        <a href="./board.html">
+                            <div class="summary__third__section-tiles">
+                                <div id="summary__tasks" class="summary__tiles__number"></div>
+                                <div class="summary__text__top-and-bottom">Tasks in<br />Board</div>
+                            </div>
+                        </a>
+
+                        <a href="./board.html">
+                            <div class="summary__third__section-tiles">
+                                <div id="summary__progress" class="summary__tiles__number"></div>
+                                <div class="summary__text__top-and-bottom">Tasks in<br />Progress</div>
+                            </div>
+                        </a>
+
+                        <a href="./board.html">
+                            <div class="summary__third__section-tiles">
+                                <div id="summary__feedback" class="summary__tiles__number"></div>
+                                <div class="summary__text__top-and-bottom summary__text__top-and-bottom-text_align">
+                                    Awaiting<br />Feedback</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="summary__greeting__desktop" class="summary__greeting__container">
+            <div id="greeting__text" class="summary__greeting__formula"></div>
+            <div id="user__name" class="summary__greeting__name"></div>
+        </div>
+    </div>
+
+    <footer></footer>
+
+</body>
+
+</html>

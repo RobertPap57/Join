@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link id="favicon" rel="icon" href="../favicon.ico" type="image/x-icon" />
+    <title>Contacts</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/pages/contacts/contacts.css">
+    <link rel="stylesheet" href="../css/pages/contacts/contactsResposive.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/nav.css">
+    <link rel="stylesheet" href="../css/components/popup.css">
+    <script src="../js/script.js"></script>
+    <script src="../js/pages/contacts/core.js"></script>
+    <script src="../js/components/popup.js"></script>
+    <script src="../js/pages/contacts/display.js"></script>
+    <script src="../js/pages/contacts/templates.js"></script>
+    <script src="../js/pages/contacts/crud.js"></script>
+    <script src="../js/pages/contacts/popup.js"></script>
+    <script src="../js/components/header.js"></script>
+    <script src="../js/components/nav.js"></script>
+    <script src="../js/utils/form-validation.js"></script>
+
+</head>
+
+<body onload="initContacts()">
+    <div w3-include-html="../templates/header.html"></div>
+    <div w3-include-html="../templates/nav.html"></div>
+    <div w3-include-html="../templates/popup.html"></div>
+
+
+
+    <div id="contacts-container" class="contacts-container scroll-container">
+        <div class="add-contact-btn-container d-flex-center">
+            <div onclick="openPopup('add-contact')" class="add-contact-btn d-flex-center">
+                <p>
+                    <b>Add new contact</b>
+                </p>
+                <div class="add-contact-icon d-flex-center">
+                    <img src="./assets/images/pages/contacts/add-contact.svg" alt="">
+                </div>
+
+            </div>
+        </div>
+        <div class="contacts-list" id="contacts-list"></div>
+    </div>
+
+
+    <div id="main-container" class="main-container">
+        <div onclick="closeMobileContact()" class="back-arrow">
+            <img src="./assets/images/global/left-arrow.svg" alt="">
+        </div>
+        <div class="title-container">
+            <h1>Contacts</h1>
+            <div class="title-separator"></div>
+            <p>Better with a team</p>
+        </div>
+        <div id="contact-displayed" class="contact-displayed"></div>
+        <div onclick="openPopUpWindow('contact-sub-menu', 'mobile-modal', 'sub-menu-open', 'sub-menu-close')"
+            class="d-flex-center contact-sub-menu-btn">
+            <img src="./assets/images/pages/contacts/more.svg" alt="">
+        </div>
+    </div>
+    <div id="toast-msg" class="toast-msg d-flex-center toast-msg-slide-out">
+        Contact succesfully created
+    </div>
+
+</body>
+
+</html>

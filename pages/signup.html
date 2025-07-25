@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link id="favicon" rel="icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="../css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/pages/singup/signup.css" />
+    <link rel="stylesheet" type="text/css" href="../css/pages/singup/signup-responsive.css" />
+    <script defer src="../js/script.js" type="text/javascript"></script>
+    <script defer src="../js/pages/signup.js" type="text/javascript"></script>
+    <title>Sign up</title>
+</head>
+
+<body onload="initSignUp()">
+    <div class="content__container">
+        <header class="header">
+            <div class="header__logo__container">
+                <img id="header__logo" class="header__logo" src="../assets/images/logos/logo-black.svg" alt="Logo" />
+            </div>
+        </header>
+
+        <div class="signUp__container">
+            <div class="headline__container">
+                <div class="goback" onclick="goBack()">
+                    <img src="../assets/images/global/left-arrow.svg" alt="back" />
+                </div>
+
+                <h1>Sign Up</h1>
+                <span class="separator-blue"></span>
+            </div>
+
+            <form id="signup" class="signUp__form" onsubmit="signUpSubmit(event)"
+                onkeyup="disableSignupButtonIfFormIsEmpty()">
+                <div class="inputField__container inputField__container-margin24">
+                    <input id="name" type="text" placeholder="Name" autocomplete="name" required />
+                    <img class="inputField__username__icon" src="../assets/images/components/inputs/person.svg" alt="name" />
+                </div>
+
+                <div class="inputField__container inputField__container-margin24">
+                    <input id="email" type="email" placeholder="Email" autocomplete="email" required
+                        oninput="validateEmail()" />
+                    <img class="inputField__username__icon" src="../assets/images/components/inputs/mail.svg" alt="mail" />
+                </div>
+
+                <!-- Passwort -->
+                <div class="inputField__container inputField__container-margin24">
+                    <input id="password" type="password" placeholder="Password" autocomplete="current-password" required
+                        onkeyup="changePasswordIcon('password')" oninput="validatePassword()"
+                        onkeypress="deleteMessageThatPasswordsDontMatch()" />
+                    <img id="password__icon" class="inputField__password__icon pointerEvents__none"
+                        src="../assets/images/components/inputs/lock.svg" alt="lock" onclick="showPassword('password')" />
+                </div>
+
+                <!-- Confirm Passwort -->
+                <div id="password__container" class="inputField__container">
+                    <input id="password__confirm" type="password" placeholder="Confirm Password" autocomplete="off"
+                        required onkeyup="changePasswordIcon('password__confirm')"
+                        onkeypress="deleteMessageThatPasswordsDontMatch()" />
+                    <img id="password__confirm__icon" class="inputField__password__icon pointerEvents__none"
+                        src="../assets/images/components/inputs/lock.svg" alt="lock"
+                        onclick="showPassword('password__confirm')" />
+                </div>
+
+                <!-- If passwords do not match, show me -->
+                <div class="form__wrongPassword__container">
+                    <div class="form__wrongPassword__message" id="form__wrongPassword__message"></div>
+                </div>
+
+                <div class="check-box">
+                    <img id="checkbox" onclick="checkBoxClicked()" data-checked="false" class=""
+                        src="../assets/images/global/checkbox.svg" />
+                    <div>
+                        <div>
+                            I accept the
+                            <a href="./privacyPolicy.html" class="signUp__privacyPolicy">&nbspPrivacy Policy</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="signUp__btn__container">
+                    <button type="submit" id="btn__signUp" class="btn__signUp" onclick="">Sign up</button>
+                </div>
+            </form>
+        </div>
+
+        <footer class="signUp__footer footer__legacys">
+            <a href="./privacyPolicy.html">Privacy policy</a>
+            <a href="./legalNotice.html">Legal notice</a>
+        </footer>
+
+        <div id="signup__overlay" class="signup__overlay__container d-none">
+            <div class="signup__overlay__text"></div>
+            <div class="signup__overlay__img"></div>
+        </div>
+    </div>
+
+    <!-- ---------- landscape ---------- -->
+    <div class="landscape-warning" id="landscapeWarning">Please rotate your device to portrait mode for the best
+        experience.</div>
+</body>
+
+</html>
