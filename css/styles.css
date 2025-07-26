@@ -108,6 +108,21 @@ button {
   box-shadow: none;
 }
 
+.close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 30px;
+  cursor: pointer;
+  position: absolute;
+}
+
+.close-btn:hover {
+  background-color: #EEEEEE;
+}
+
 a:link,
 a:visited,
 a:active,

@@ -233,7 +233,7 @@ button {
 }
 
 .error-modal {
-    display: none;
+    display: flex;
     position: fixed;
     width: 100vw;
     height: 100vh;
@@ -275,15 +275,16 @@ button {
 }
 
 .error-msg-slide-in {
-    transform: translateY(0);
+    transform: translateY(0) !important;
 }
 
 .close-error-btn {
-    all: unset;
-    position: absolute;
-    cursor: pointer;
-    top: 14.5px;
-    right: 16.5px;
+    top: 3px;
+    right: 6px;
+}
+
+.close-error-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1) !important;
 }
 
 .warning-msg {
@@ -301,19 +302,10 @@ button {
 }
 
 .close-warning-btn {
-
-    position: absolute;
-    cursor: pointer;
     top: 5px;
     right: 6px;
-    width: 32px;
-    height: 32px;
-    border-radius: 30px;
 }
 
-.close-warning-btn:hover {
-    background-color: #EEEEEE;
-}
 
 .warning-img {
     height: 29px;

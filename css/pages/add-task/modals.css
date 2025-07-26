@@ -17,7 +17,7 @@
 }
 
 .task-added-msg-slide-in {
-    transform: translateY(0);
+    transform: translateY(0) !important;
 }
 
 .task-added-msg p {
@@ -30,7 +30,7 @@
     width: 30px;
 }
 
-.error-modal {
+/* .error-modal {
     display: none;
     position: fixed;
     width: 100vw;
@@ -82,6 +82,6 @@
     cursor: pointer;
     top: 14.5px;
     right: 16.5px;
-}
+} */
 
 

@@ -13,7 +13,6 @@
  */
 async function initAddTask() {
     await includeHTML();
-    await new Promise(resolve => requestAnimationFrame(resolve));
     checkOrientation();
     checkForCurrentUser() ? "" : redirectTo('login.html');
     displayProfileIconInitials();
@@ -33,6 +32,7 @@ async function initAddTask() {
     createCustomResizeHandle();
     initPopup();
 }
+
 
 /**
  * Save the task and push it to the database.

@@ -8,6 +8,7 @@ let popupElements = {};
 function initPopup() {
     popupElements = getPopupElements();
     closePopupOnClickOutsideListener();
+    closeErrorModalOnClickOutside();
     uploadBtnHoverListener();
     initImageHandler();
 
@@ -142,6 +143,9 @@ function getPopupElements() {
         phone: document.getElementById('phone'),
         secondaryBtn: document.getElementById('popup-secondary-btn'),
         primaryBtn: document.getElementById('popup-primary-btn'),
+        errorModal: document.getElementById('error-modal'),
+        errorMsg: document.getElementById('error-msg'),
+        warningMsg: document.getElementById('warning-msg'),
     }
 }
 
@@ -279,13 +283,13 @@ async function updateUser(user) {
 
 async function deleteUser(id) {
     await deleteData('/users', id);
-    closeErrorMsg('warning-msg');
+    closeErrorMsg('warningMsg');
     closePopup();
     logOut();
 }
 
 async function openDeleteUserMsg(id) {
-    showErrorMessage('warning-msg');
+    showErrorMessage('warningMsg');
     const deleteButton = document.getElementById('delete-acc-btn');
     deleteButton.onclick = async () => {
         await deleteUser(id);
@@ -306,30 +310,43 @@ function updatePopupProfileImage(base64Image) {
 /**
  * Shows error message modal with slide-in animation.
  */
-function showErrorMessage(id) {
-    if (id) {
-        console.log(id);
-        
-        const errorModal = document.getElementById('error-modal');
-        const errorContainer = document.getElementById(id);
-        errorModal.classList.remove('d-none');
-        setTimeout(() => {
-            errorContainer.classList.add('error-msg-slide-in');
-        }, 100);
-    }
-    };
+function showErrorMessage(key) {
+
+    const errorContainer = popupElements[key];
+    popupElements.errorModal.classList.remove('d-none');
+    setTimeout(() => {
+        errorContainer.classList.add('error-msg-slide-in');
+    }, 100);
+};
 
 /**
  * Closes error message modal with slide-out animation.
  */
-function closeErrorMsg(id) {
-    const errorModal = document.getElementById('error-modal');
-    const errorContainer = document.getElementById(id);
+function closeErrorMsg(key) {
+    const errorContainer = popupElements[key];
     errorContainer.classList.remove('error-msg-slide-in');
     setTimeout(() => {
-        errorModal.classList.add('.d-none');
+        popupElements.errorModal.classList.add('d-none');
     }, 100);
 }
+
+function closeErrorModalOnClickOutside() {
+
+    if (!popupElements.errorModal) {
+        console.error('Error modal not found in the DOM.');
+        return;
+    }
+
+    popupElements.errorModal.addEventListener('click', (event) => {
+
+        if (event.target === popupElements.errorModal) {
+            closeErrorMsg('errorMsg');
+            closeErrorMsg('warningMsg');
+        }
+    });
+}
+
+
 
 
 

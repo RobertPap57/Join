@@ -42,12 +42,12 @@ function isAllowedFile(file) {
     const maxSize = 10 * 1024 * 1024;
     if (!types.includes(file.type) && !exts.some(ext => name.endsWith(ext))) {
         changeErrorMsg('format');
-        showErrorMessage('error-msg');
+        showErrorMessage('errorMsg');
         return false;
     }
     if (file.size > maxSize) {
         changeErrorMsg('size');
-        showErrorMessage('error-msg');
+        showErrorMessage('errorMsg');
         return false;
     }
     return true;
