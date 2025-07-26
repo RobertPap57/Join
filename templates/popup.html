@@ -1,0 +1,83 @@
+<div id="popup-modal" class="popup-modal d-flex-center d-none">
+    <div id="popup-window" class="popup-window d-flex-center popup-close">
+        <div class="popup-banner">
+            <div onclick="closePopup()" class="close-popup-btn-mobile d-flex-center">
+                <img src="../assets/images/global/close-white.svg" alt="close">
+            </div>
+            <img class="popup-logo" src="../assets/images/logos/logo-white.svg" alt="logo">
+            <div class="popup-banner-content" id="popup-title">
+            </div>
+        </div>
+        <div class="popup-content">
+            <div onclick="closePopup()" class="close-popup-btn d-flex-center">
+                <img src="../assets/images/global/close.svg" alt="close">
+            </div>
+            <div class="popup-content-container">
+                <div class="popup-profile-container d-flex-center">
+                    <div class="popup-profile-img d-flex-center" id="popup-profile-img">
+                    </div>
+                    <div class="popup-upload-btn d-flex-center" id="popup-upload-btn" onclick="filepicker.click()">
+                        <img src="../assets/images/components/popup/photo.svg" alt="add photo">
+                        <input type="file" name="filepicker" id="filepicker" class="d-none"
+                            accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+                    </div>
+                </div>
+                <div class="popup-form">
+                    <form id="popup-form" onsubmit="handleSubmit(event)" action="" novalidate>
+                        <div class="popup-input">
+                            <input id="name" type="text" name="name" placeholder="Name">
+                            <div class="popup-icon-container d-flex-center">
+                                <img src="../assets/images/components/inputs/person.svg" alt="person">
+                            </div>
+                            <p class="validation-msg d-none" id="name-validation-msg">This field is requered
+                            </p>
+                        </div>
+                        <div class="popup-input">
+                            <input id="email" type="email" name="email" placeholder="Email">
+                            <div class="popup-icon-container d-flex-center">
+                                <img src="../assets/images/components/inputs/mail.svg" alt="mail">
+                            </div>
+                            <p class="validation-msg d-none" id="email-validation-msg"></p>
+                        </div>
+                        <div class="popup-input">
+                            <input id="phone" type="tel" name="phone" placeholder="Phone">
+                            <div class="popup-icon-container d-flex-center">
+                                <img src="../assets/images/components/inputs/call.svg" alt="call">
+                            </div>
+                            <p class="validation-msg d-none" id="phone-validation-msg"></p>
+                        </div>
+                    </form>
+                    <div class="popup-btns">
+                        <button class="secondary-btn" id="popup-secondary-btn">
+                        </button>
+                        <button type="submit" form="popup-form" class="primary-btn" id="popup-primary-btn">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="error-modal d-none" id="error-modal">
+    <div class="error-msg" id="error-msg">
+        <p>This file format is not allowed!<br>
+            <span>You cann only upload JPEG or PNG.</span>
+        </p>
+        <button class="close-error-btn" onclick="closeErrorMsg('error-msg')">
+            <img src="../assets/images/global/close-white.svg" alt="close">
+        </button>
+    </div>
+    <div class="warning-msg d-flex-center" id="warning-msg">
+        <button class="close-warning-btn d-flex-center" onclick="closeErrorMsg('warning-msg')">
+            <img src="../assets/images/global/close.svg" alt="close">
+        </button>
+        <img class="warning-img" src="../assets/images/components/popup/warning.svg" alt="Warning">
+        <p>Are you sure u want <br>to delete your account? </p>
+        <div class="warning-btns">
+            <button id="delete-acc-btn" class="secondary-btn warning-btn">Yes</button>
+            <button onclick="closeErrorMsg('warning-msg')" class="primary-btn warning-btn">No</button>
+        </div>
+    </div>
+</div>

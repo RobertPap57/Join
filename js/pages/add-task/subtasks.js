@@ -4,7 +4,7 @@
  */
 
 
-const subtasks = [];
+let subtasks = [];
 
 /**
  * Style the subtask input and buttons.

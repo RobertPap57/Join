@@ -56,9 +56,9 @@ function initIndex() {
  * Updates the favicon based on the user's system color scheme (light or dark).
 */
 function updateFavicon() {
-	favicon.href = 'assets/images/logos/logo-black.svg';
+	favicon.href = '/assets/images/logos/logo-black.svg';
 	const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-	favicon.href = isDarkMode ? 'assets/images/logos/logo-white.svg' : 'assets/images/logos/logo-black.svg';
+	favicon.href = isDarkMode ? '/assets/images/logos/logo-white.svg' : '/assets/images/logos/logo-black.svg';
 }
 
 
@@ -158,14 +158,13 @@ function goBack() {
 */
 function checkOrientation() {
 	const warning = document.getElementById('landscape-warning');
-	if ((window.innerWidth) < 933) {
-		if (window.innerHeight < window.innerWidth) {
-			warning.classList.add('visible');
-		} else {
-			warning.classList.remove('visible');
-		}
+	if (!warning) return;
+	const isSmallScreen = window.innerWidth < 933;
+	const isLandscape = window.innerWidth > window.innerHeight;
+	if (isSmallScreen && isLandscape) {
+		warning.classList.remove('d-none');
 	} else {
-		warning.classList.remove('visible');
+		warning.classList.add('d-none');
 	}
 }
 
@@ -173,11 +172,19 @@ function checkOrientation() {
 /**
  * Adds event listeners to check orientation on window load and resize.
 */
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
+	checkOrientation();
 	window.addEventListener('resize', checkOrientation);
 });
 
-
+/**
+ * Generates a unique identifier string based on the current timestamp and a random component.
+ *
+ * @returns {string} A unique ID string.
+ */
+function createUniqueId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+}
 
 /**
  * Creates a string of initials from a name string.

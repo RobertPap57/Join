@@ -33,7 +33,7 @@ body {
 
 .header {
     position: relative;
-    height: 20%;
+    height: 197px;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -322,7 +322,7 @@ body {
 }
 
 .signup__overlay__img {
-    position: relative;
+    position: relative; 
     top: 100%;
     left: 50%;
     height: 74px;

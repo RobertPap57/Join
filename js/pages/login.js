@@ -11,8 +11,6 @@ let feedbackPassword = document.getElementById('form__wrongPassword__message');
  * @returns {Promise<void>} A promise that resolves when all the initialization steps are completed.
  */
 async function initLogin() {
-    await includeHTML();
-    checkOrientation();
     checkForCurrentUserLogin();
     await checkIfDatabaseIsEmpty();
     changeOfDisplayNoneAfterAnimation();
@@ -20,6 +18,7 @@ async function initLogin() {
     changePasswordIcon();
     disableLoginButtonIfFormIsEmpty();
     logInIsCorrected();
+    checkOrientation();
 }
 
 /**
@@ -344,7 +343,7 @@ function showPassword() {
     const passwordIcon = document.getElementById('password__icon');
     const isPasswordVisible = passwordField.type === 'password';
     passwordField.type = isPasswordVisible ? 'text' : 'password';
-    passwordIcon.src = isPasswordVisible ? './assets/img/icons_login/visibility.png' : './assets/img/icons_login/visibility_off.png';
+    passwordIcon.src = isPasswordVisible ? '../assets/images/components/inputs/visibility.svg' : '../assets/images/components/inputs/visibility-off.svg';
     passwordIcon.classList.toggle('visible', isPasswordVisible);
     passwordField.onkeyup = isPasswordVisible ? null : 'changePasswordIcon()';
 }
@@ -363,7 +362,7 @@ function changePasswordIcon() {
     const passwordField = document.getElementById('password');
     const passwordIcon = document.getElementById('password__icon');
     const isEmpty = passwordField.value.length === 0;
-    passwordIcon.src = isEmpty ? './assets/img/icons_login/lock.png' : './assets/img/icons_login/visibility_off.png';
+    passwordIcon.src = isEmpty ? '../assets/images/components/inputs/lock.svg' : '../assets/images/components/inputs/visibility-off.svg';
     passwordIcon.classList.toggle('visible__no', !isEmpty);
     passwordIcon.classList.toggle('pointerEvents__none', isEmpty);
 }

@@ -2,7 +2,7 @@
 
 <html lang="en">
 
-<head>
+<head> 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link id="favicon" rel="icon" href="../favicon.ico" type="image/x-icon" />
@@ -11,17 +11,23 @@
     <link rel="stylesheet" type="text/css" href="../css/components/nav.css" />
     <link rel="stylesheet" type="text/css" href="../css/pages/summary/summary.css" />
     <link rel="stylesheet" type="text/css" href="../css/pages/summary/summary-responsive.css" />
+    <link rel="stylesheet" href="../css/components/popup/popup.css">
+    <link rel="stylesheet" href="../css/components/popup/popup-responsive.css">
     <script src="../js/script.js" type="text/javascript"></script>
     <script src="../js/components/header.js" type="text/javascript"></script>
     <script src="../js/components/nav.js" type="text/javascript"></script>
+    <script src="../js/components/popup.js" type="text/javascript"></script>
     <script src="../js/pages/summary.js" type="text/javascript"></script>
     <script src="../js/utils/reset-dummydata.js" type="text/javascript"></script>
+    <script src="../js/utils/image-handler.js"></script>
+
     <title>Summary</title>
 </head>
 
 <body onload="initSummary()">
     <div w3-include-html="../templates/header.html"></div>
     <div w3-include-html="../templates/nav.html"></div>
+    <div w3-include-html="../templates/popup.html"></div>
 
     <div class="main__container">
         <!-- GREETING Mobile Version -->
@@ -32,7 +38,7 @@
             </div>
         </div>
 
-        <!--  SUMMARY Container --> 
+        <!--  SUMMARY Container -->
         <div class="summary__container">
             <div class="summary__header">
                 <h2>Join 360</h2>

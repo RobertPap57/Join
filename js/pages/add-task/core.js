@@ -13,6 +13,7 @@
  */
 async function initAddTask() {
     await includeHTML();
+    await new Promise(resolve => requestAnimationFrame(resolve));
     checkOrientation();
     checkForCurrentUser() ? "" : redirectTo('login.html');
     displayProfileIconInitials();
@@ -30,15 +31,16 @@ async function initAddTask() {
     preventFormSubmitOnEnter();
     preventDefaultValidation();
     createCustomResizeHandle();
+    initPopup();
 }
 
 /**
  * Save the task and push it to the database.
  */
 async function saveTask() {
-    const taskData = gatherTaskData();
+    const taskData = getTaskData();
     const newTask = createTaskObject(taskData);
-    await addData('tasks', newTask);
+    await addData('/tasks', newTask);
     showTaskAddedMessage();
 }
 
@@ -46,19 +48,20 @@ async function saveTask() {
  * Gathers all task data from the form.
  * @returns {Object} Object containing all task form data
  */
-function gatherTaskData() {
-    const title = document.getElementById('title').value;
-    const description = document.getElementById('description').value;
-    const dueDate = document.getElementById('due-date-input').value;
-    const category = document.getElementById('category-displayed').textContent;
-    const priority = getSelectedPriority();
-    const assignedTo = selectedContacts.map(item => item.id);
-    const newSubtasks = subtasks.map((item) => ({
-        content: item,
-        completed: false,
-    }));
+function getTaskData() {
+    return {
+        id: '',
+        title: document.getElementById('title').value,
+        description: document.getElementById('description').value,
+        category: document.getElementById('category-displayed').textContent,
+        status: 'todo',
+        dueDate: document.getElementById('due-date-input').value,
+        priority: getSelectedPriority(),
+        assignedTo: selectedContacts.map(item => item.id),
+        subtasks: subtasksToFirebaseObject(subtasks),
+        attachments: attachmentsToFirebaseObject(attachments)
+    };
 
-    return { title, description, dueDate, category, priority, assignedTo, newSubtasks };
 }
 
 /**
@@ -66,19 +69,29 @@ function gatherTaskData() {
  * @param {Object} taskData - Task form data
  * @returns {Object} New task object
  */
-function createTaskObject(taskData) {
+function createTaskObject(task) {
     return {
-        title: taskData.title,
-        description: taskData.description,
-        category: taskData.category,
-        status: 'todo',
-        dueDate: taskData.dueDate,
-        priority: taskData.priority,
-        subTasks: taskData.newSubtasks,
-        assignedTo: taskData.assignedTo,
-        attachments: attachments
+        id: task.id,
+        title: task.title,
+        description: task.description,
+        category: task.category,
+        status: task.status,
+        dueDate: task.dueDate,
+        priority: task.priority,
+        assignedTo: task.assignedTo,
+        subTasks: task.subtasks,
+        attachments: task.attachments,
     };
 }
+
+function subtasksToFirebaseObject(subtasks) {
+    return subtasks.map((item) => ({
+        id: createUniqueId(),
+        content: item,
+        completed: false,
+    }));
+}
+
 
 /**
  * Shows a task added message by adding a CSS class to the element with the class 'task-added-msg'.
@@ -94,7 +107,7 @@ function showTaskAddedMessage() {
     }, 50);
     setTimeout(() => {
         redirectTo('board.html');
-    }, 1200); 
+    }, 1200);
 }
 
 /**
@@ -143,6 +156,7 @@ function handleResize(e, textarea, isResizing, startY, startHeight) {
     const deltaY = e.clientY - startY;
     const newHeight = Math.max(120, Math.min(450, startHeight + deltaY));
     textarea.style.height = newHeight + 'px';
+    adjustTextareaPadding();
 }
 
 /**
@@ -156,3 +170,14 @@ function stopResizing(resetResizing) {
     document.body.classList.remove('resizing');
 }
 
+function adjustTextareaPadding() {
+    const textarea = document.getElementById('description');
+    if (!textarea) return;
+
+    const hasVerticalScroll = textarea.scrollHeight > textarea.clientHeight;
+
+    // Add padding if vertical scrollbar is visible
+    textarea.style.paddingRight = hasVerticalScroll ? '0px' : '16px';
+}
+
+document.getElementById('description')?.addEventListener('input', adjustTextareaPadding);

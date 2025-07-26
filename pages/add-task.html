@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+ 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/components/header.css">
     <link rel="stylesheet" href="../css/components/nav.css">
+    <link rel="stylesheet" href="../css/components/popup/popup.css">
+    <link rel="stylesheet" href="../css/components/popup/popup-responsive.css">
     <link rel="stylesheet" href="../css/pages/add-task/layout.css">
     <link rel="stylesheet" href="../css/pages/add-task/components.css">
     <link rel="stylesheet" href="../css/pages/add-task/buttons.css">
@@ -17,11 +19,15 @@
     <script src="../js/script.js"></script>
     <script src="../js/components/header.js"></script>
     <script src="../js/components/nav.js"></script>
+    <script src="../js/components/popup.js"></script>
+    <script src="../js/utils/form-validation.js"></script>
+
 </head>
 
 <body onload="initAddTask()">
     <div w3-include-html="../templates/header.html"></div>
     <div w3-include-html="../templates/nav.html"></div>
+    <div w3-include-html="../templates/popup.html"></div>
 
 
     <div class="add-task-container">
@@ -38,11 +44,11 @@
                         </div>
                         <div class="form-group textarea-container">
                             <label for="description">Description</label>
-                            <textarea class="placeholder-color" id="description"
+                            <textarea class="placeholder-color scroll-container" id="description"
                                 placeholder="Enter a description"></textarea>
-                                <div class="custom-resize-handle">
-                                    <img src="../assets/images/pages/add-task/resize.svg" alt="resize" draggable="false">
-                                </div>
+                            <div class="custom-resize-handle">
+                                <img src="../assets/images/pages/add-task/resize.svg" alt="resize" draggable="false">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="due-date-input">Due date<span class="required">*</span></label>
@@ -104,7 +110,8 @@
                                 ondrop="handleDrop(event)">
                                 <span></span>
                                 <img src="../assets/images/pages/add-task/plus-grey.svg" alt="plus">
-                                <input type="file" id="attachmentsinput" class="d-none" multiple accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+                                <input type="file" id="attachmentsinput" class="d-none" multiple
+                                    accept=".jpg,.jpeg,.png,image/jpeg,image/png">
                             </div>
                             <div id="attachments-list-wrapper" class="attachments-list-wrapper"
                                 onmousedown="startDrag(event)" ontouchstart="startDrag(event)">
@@ -172,17 +179,6 @@
         <img src="../assets/images/components/nav/board-white.svg" alt="board icon">
     </div>
 
-    <div class="error-modal" id="error-modal">
-        <div class="error-msg" id="error-msg">
-            <p>This file format is not allowed!<br>
-                <span>You cann only upload JPEG or PNG.</span>
-            </p>
-            <button class="close-error-btn" onclick="closeErrorMsg()">
-                <img src="../assets/images/global/close-white.svg" alt="close">
-            </button>
-        </div>
-    </div>
-
     <script src="../js/pages/add-task/contacts.js"></script>
     <script src="../js/pages/add-task/priority-category.js"></script>
     <script src="../js/pages/add-task/subtasks.js"></script>
@@ -190,6 +186,8 @@
     <script src="../js/pages/add-task/validation.js"></script>
     <script src="../js/pages/add-task/core.js"></script>
     <script src="../js/pages/add-task/templates.js"></script>
+    <script src="../js/utils/image-handler.js"></script>
+
 </body>
 
 </html>

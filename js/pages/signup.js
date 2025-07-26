@@ -8,13 +8,12 @@ let feedbackPassword = document.getElementById('form__wrongPassword__message');
  * @returns {Promise<void>}
  */
 async function initSignUp() {
-      await includeHTML();
-    checkOrientation();
     await getUsers();
     changePasswordIcon('password');
     changePasswordIcon('password__confirm');
     disableSignupButtonIfFormIsEmpty();
     deleteMessageThatPasswordsDontMatch();
+    checkOrientation();
 }
 
 
@@ -48,7 +47,7 @@ function checkBoxClicked() {
     const isChecked = checkIfCheckBoxIsClicked(checkbox);
     checkbox.src = isChecked
         ? '../assets/images/global/checkbox.svg'
-        : '../assets/images/global/checkbox_checked.svg';
+        : '../assets/images/global/checkbox-checked.svg';
     checkbox.dataset.checked = isChecked ? 'false' : 'true';
     disableSignupButtonIfFormIsEmpty();
 }

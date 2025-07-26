@@ -80,7 +80,7 @@ button {
   display: flex;
   align-items: center;
   border-radius: 10px;
-  padding: 16px;
+  padding: 16px 24px;
   gap: 4px;
   color: rgba(42, 54, 71, 1);
   font-size: 20px;
@@ -126,7 +126,7 @@ a:hover {
 
 
 .scroll-container {
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 
@@ -165,7 +165,6 @@ a:hover {
 }
 
 .landscape-warning {
-  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -176,10 +175,4 @@ a:hover {
   font-size: 2em;
   text-align: center;
   z-index: 9999;
-  justify-content: center;
-  align-items: center;
-}
-
-.landscape-warning.visible {
-  display: flex;
 }

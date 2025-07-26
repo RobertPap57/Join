@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+ 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,16 +10,22 @@
     <link rel="stylesheet" href="../css/components/header.css">
     <link rel="stylesheet" href="../css/components/nav.css">
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/components/popup/popup.css">
+    <link rel="stylesheet" href="../css/components/popup/popup-responsive.css">
     <script src="../js/script.js"></script>
     <script src="../js/components/info-pages.js"></script>
     <script src="../js/components/header.js"></script>
     <script src="../js/components/nav.js"></script>
+    <script src="../js/components/popup.js"></script>
+    <script src="../js/utils/image-handler.js"></script>
+
 
 </head>
 
 <body onload="initHelp()">
     <div w3-include-html="../templates/header.html"></div>
     <div w3-include-html="../templates/nav.html"></div>
+    <div w3-include-html="../templates/popup.html"></div>
 
     <div onclick="goBack()" class="back-arrow">
         <img src="../assets/images/global/left-arrow.svg" alt="">

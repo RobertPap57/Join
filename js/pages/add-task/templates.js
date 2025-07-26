@@ -74,22 +74,6 @@ function getAttachmentHtml(base64, filename, index) {
     `;
 }
 
-/**
- * Returns the error message HTML based on error type.
- * @param {string} message - Error type ('format' or 'size')
- * @returns {string} Error message HTML
- */
-function getErrorMsgHtml(message) {
-    if (message === 'format') {
-        return `This file format is not allowed!<br>
-            <span>You can only upload JPEG or PNG.</span>`;
-    }
-    if (message === 'size') {
-        return `This file size is too big!<br>
-            <span>You can only upload files under 10Mb.</span>`;
-    }
-    return '';
-}
 
 /**
  * Generates an HTML string for a contact list item, including selection state.

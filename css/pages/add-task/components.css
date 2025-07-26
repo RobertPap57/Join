@@ -273,13 +273,6 @@ label {
     position: relative;
 }
 
-#description {
-    height: 120px;
-    min-height: 88px;
-    max-height: 450px;
-    resize: none;
-
-}
 
 .custom-resize-handle {
     position: absolute;
@@ -288,10 +281,13 @@ label {
     width: 18px;
     height: 18px;
     cursor: ns-resize;
-    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: white;
+    border-radius: 0 0 10px 0;
+    padding: 10px 10px 10px 10px;
+
 }
 
 .custom-resize-handle img {
