@@ -15,7 +15,7 @@ async function initAddTask() {
     await includeHTML();
     checkOrientation();
     checkForCurrentUser() ? "" : redirectTo('login.html');
-    displayProfileAvatar();
+    displayHeaderAvatar();
     highlightLink('add-task');
     await getContacts();
     handleFilter();

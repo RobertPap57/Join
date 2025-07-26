@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
  * @returns {string} A unique ID string.
  */
 function createUniqueId() {
-    return Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+	return Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
 }
 
 /**
@@ -203,18 +203,35 @@ function createNameInitials(name) {
 	return firstNameInitial + lastNameInitial;
 }
 
+
 /**
- * Generates a random hexadecimal color code.
-*
-* @return {string} A random hexadecimal color code.
-*/
+ * Returns a random color from a predefined set of hex color codes.
+ *
+ * @return {string} A random color hex code from the allowed list.
+ */
 function getRandomColor() {
-	const letters = '0123456789ABCDEF';
-	let color = '#';
-	for (let i = 0; i < 6; i++) {
-		color += letters[Math.floor(Math.random() * 16)];
+	const colors = [
+		'#9747FF', '#FF7A00', '#FF5EB3', '#6E52FF',
+		'#00BEE8', '#1FD7C1', '#FF745E', '#FFA35E',
+		'#FC71FF', '#FFC701', '#0038FF', '#C3FF2B',
+		'#FFE62B', '#FF4646', '#FFBB2B'
+	];
+	const index = Math.floor(Math.random() * colors.length);
+	return colors[index];
+}
+
+function displayProfileAvatar(user, userAvatarId) {
+	const userAvatar = document.getElementById(userAvatarId);
+	if (userAvatar) {
+		userAvatar.innerHTML = '';
+		if (user) {
+			if (user && user.image) {
+				userAvatar.innerHTML = `<img src="${user.image}" alt="Profile picture">`;
+			} if (user.name && !user.image) {
+				userAvatar.innerHTML = createNameInitials(user.name);
+			}
+		}
 	}
-	return color;
 }
 
 /**

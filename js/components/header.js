@@ -1,3 +1,5 @@
+
+
 /**
  * Opens the sub-menu by removing the 'd-none' class from the sub-menu modal and sub-menu elements,
  * and animating the sub-menu open.
@@ -5,6 +7,10 @@
 function openSubMenu() {
     let subMenu = document.getElementById('sub-menu');
     let subModal = document.getElementById('sub-menu-modal');
+    let avatar = document.getElementById('header-avatar');
+    if (avatar) {
+        avatar.classList.add('header-hovered');
+    }
     subModal.classList.remove('d-none');
     subMenu.classList.remove('d-none');
     setTimeout(() => {
@@ -21,6 +27,10 @@ function openSubMenu() {
 function closeSubMenu() {
     let subMenu = document.getElementById('sub-menu');
     let subModal = document.getElementById('sub-menu-modal');
+    let avatar = document.getElementById('header-avatar');
+    if (avatar) {
+        avatar.classList.remove('header-hovered');
+    }
     subMenu.classList.remove('sub-menu-open');
     subMenu.classList.add('sub-menu-close');
     setTimeout(() => {
@@ -66,34 +76,21 @@ function hideHelpIcon() {
  * and sets the initials content and adjusts the font size if necessary based on the currentUser's initials.
  * If currentUser or currentUser.initials is not defined, adds 'd-none' class to 'navLinks' element.
  */
-function displayProfileIconInitials(userAvatar) {
+
+function toggleInitialsClass() {
+    const userAvatar = document.getElementById('header-avatar');
+    if (!userAvatar || !currentUser) return;
     userAvatar.classList.remove('f-size-28');
     const initials = createNameInitials(currentUser.name);
-    userAvatar.innerHTML = initials;
     if (initials.length === 1) {
         userAvatar.classList.add('f-size-28');
     }
 }
 
-
-function displayProfileImage(userAvatar) {
-    userAvatar.innerHTML = `<img class="avatar-img" src="${currentUser.image}" alt="Profile picture">`;
+function displayHeaderAvatar() {
+    toggleInitialsClass();
+    displayProfileAvatar(currentUser, 'header-avatar');
 }
-
-
-function displayProfileAvatar() {
-    let userAvatar = document.getElementById('header-avatar');
-    if (userAvatar) {
-        userAvatar.innerHTML = '';
-        if (currentUser && currentUser.image) {
-            displayProfileImage(userAvatar);
-        } if (currentUser.name && !currentUser.image) {
-            displayProfileIconInitials(userAvatar);
-        }
-    }
-}
-
-
 
 
 /**

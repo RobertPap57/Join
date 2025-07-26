@@ -116,19 +116,6 @@
     margin-bottom: 132px;
 }
 
-.popup-profile-img {
-    width: 100%;
-    height: 100%;
-    border-radius: 70px;
-    overflow: hidden;
-}
-
-.popup-profile-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
 
 .person-icon {
     height: auto !important;

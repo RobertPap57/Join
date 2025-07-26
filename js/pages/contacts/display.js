@@ -236,3 +236,5 @@ function adjustMainContainerDisplay() {
 
 window.addEventListener('resize', deselectContactOnMobile);
 window.addEventListener('resize', adjustMainContainerDisplay);
+
+

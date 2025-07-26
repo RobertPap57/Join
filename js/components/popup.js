@@ -277,8 +277,7 @@ function closePopupOnClickOutsideListener() {
 
 async function updateUser(user) {
     currentUser = user;
-    userAvatar = document.getElementById('header-avatar');
-    displayProfileImage(userAvatar)
+    displayHeaderAvatar();
     sessionStorage.setItem('currentUser', JSON.stringify(user));
     await updateData('/users', user.id, user);
 }

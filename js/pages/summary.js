@@ -11,10 +11,11 @@ async function initSummary() {
   await includeHTML();
   checkOrientation();
   checkForCurrentUser() ? checkForGreeting() : redirectTo('login.html');
-  displayProfileAvatar();
+  displayHeaderAvatar();
   highlightLink('summary');
   await getTasks();
   renderSummary();
+  initPopup();
 }
 
 
