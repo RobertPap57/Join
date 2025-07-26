@@ -39,7 +39,7 @@ function closeSubMenu() {
 window.onclick = function (event) {
     const subMenu = document.getElementById('sub-menu-modal');
     if (event.target === subMenu) {
-        closeSubMenu() ;
+        closeSubMenu();
     }
 }
 
@@ -56,7 +56,7 @@ function hideHeaderIcons() {
  * Hides the help icon element.
  */
 function hideHelpIcon() {
-	document.getElementById('hide-help-icon').classList.add('d-none');
+    document.getElementById('hide-help-icon').classList.add('d-none');
 }
 
 
@@ -66,20 +66,34 @@ function hideHelpIcon() {
  * and sets the initials content and adjusts the font size if necessary based on the currentUser's initials.
  * If currentUser or currentUser.initials is not defined, adds 'd-none' class to 'navLinks' element.
  */
-function displayProfileIconInitials() {
-    let userProfileIcon = document.getElementById('header-profile-icon');
-    userProfileIcon.innerHTML = '';
-    userProfileIcon.classList.remove('profile-name-single-digit-fs');
-    if (currentUser && currentUser.name) {
-        const initials = createNameInitials(currentUser.name);
-        userProfileIcon.innerHTML = initials;
-        if (initials.length === 1) {
-            userProfileIcon.classList.add('profile-name-single-digit-fs');
-        }
-    } else {
-        userProfileIcon.classList.add('d-none');
+function displayProfileIconInitials(userAvatar) {
+    userAvatar.classList.remove('f-size-28');
+    const initials = createNameInitials(currentUser.name);
+    userAvatar.innerHTML = initials;
+    if (initials.length === 1) {
+        userAvatar.classList.add('f-size-28');
     }
 }
+
+
+function displayProfileImage(userAvatar) {
+    userAvatar.innerHTML = `<img class="avatar-img" src="${currentUser.image}" alt="Profile picture">`;
+}
+
+
+function displayProfileAvatar() {
+    let userAvatar = document.getElementById('header-avatar');
+    if (userAvatar) {
+        userAvatar.innerHTML = '';
+        if (currentUser && currentUser.image) {
+            displayProfileImage(userAvatar);
+        } if (currentUser.name && !currentUser.image) {
+            displayProfileIconInitials(userAvatar);
+        }
+    }
+}
+
+
 
 
 /**

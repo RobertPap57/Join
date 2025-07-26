@@ -1,5 +1,13 @@
 @charset "UTF-8";
 
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./assets/fonts/Inter-VariableFont_slnt\,wght.ttf") format("ttf");
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -43,6 +51,10 @@ a {
   cursor: pointer;
 }
 
+a:link,
+a:visited,
+a:active,
+a:hover,
 a:focus {
   text-decoration: none;
 }
@@ -58,8 +70,6 @@ button {
 
 .primary-btn {
   transition: 75ms;
-  display: flex;
-  align-items: center;
   gap: 4px;
   border-radius: 10px;
   padding: 16px;
@@ -77,8 +87,6 @@ button {
 
 .secondary-btn {
   transition: 75ms;
-  display: flex;
-  align-items: center;
   border-radius: 10px;
   padding: 16px 24px;
   gap: 4px;
@@ -109,9 +117,6 @@ button {
 }
 
 .close-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 32px;
   height: 32px;
   border-radius: 30px;
@@ -123,19 +128,24 @@ button {
   background-color: #EEEEEE;
 }
 
-a:link,
-a:visited,
-a:active,
-a:hover {
-  text-decoration: none;
+
+.profile-avatar {
+  font-size: 47px;
+  font-weight: 500;
+  width: 120px;
+  height: 120px;
+  border-radius: 70px;
+  overflow: hidden;
+  color: white;
+  background-color: #d1d1d1;
+  box-shadow: 0px 0px 0px 3px white, 0 0 4px 3px rgba(0, 0, 0, 0.1);
 }
 
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url("./assets/fonts/Inter-VariableFont_slnt\,wght.ttf") format("ttf");
+.profile-avatar .profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 

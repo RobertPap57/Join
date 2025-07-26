@@ -21,7 +21,7 @@ function setUpProfileImage(user) {
             popupElements.profileImg.style.backgroundColor = user.color;
             return;
         } if (user.image) {
-            popupElements.profileImg.innerHTML = `<img src="${user.image}" alt="Profile picture">`;
+            popupElements.profileImg.innerHTML = `<img class="profile-image" src="${user.image}" alt="Profile picture">`;
         }
     } else {
         popupElements.profileImg.style.backgroundColor = '#D9D9D9';
@@ -277,6 +277,8 @@ function closePopupOnClickOutsideListener() {
 
 async function updateUser(user) {
     currentUser = user;
+    userAvatar = document.getElementById('header-avatar');
+    displayProfileImage(userAvatar)
     sessionStorage.setItem('currentUser', JSON.stringify(user));
     await updateData('/users', user.id, user);
 }
@@ -302,7 +304,7 @@ async function openDeleteUserMsg(id) {
  */
 function updatePopupProfileImage(base64Image) {
     if (popupElements.profileImg && base64Image) {
-        popupElements.profileImg.innerHTML = `<img src="${base64Image}" alt="Profile picture">`;
+        popupElements.profileImg.innerHTML = `<img class="profile-image" src="${base64Image}" alt="Profile picture">`;
         popupElements.profileImg.style.backgroundColor = '';
     }
 }
