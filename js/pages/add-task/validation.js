@@ -21,7 +21,6 @@ function validateForm() {
 function validateRequiredFields() {
     const fields = getValidationFields();
     let isValid = true;
-
     fields.forEach(field => {
         if (field.isEmpty()) {
             setFieldError(field);
@@ -68,17 +67,14 @@ function setFieldError(field) {
 function validateDateField() {
     const dueDateInput = document.getElementById('due-date-input');
     const dateMessage = document.getElementById('date-required');
-
     if (dueDateInput.value.trim() === '') {
         setDateError(dueDateInput, dateMessage, 'This field is required');
         return false;
     }
-
     if (!isFutureDate(dueDateInput.value)) {
         setDateError(dueDateInput, dateMessage, 'This field requires a future date.');
         return false;
     }
-
     return true;
 }
 /**
@@ -148,7 +144,6 @@ function getFieldConfig() {
 function clearFieldError(config, fieldType) {
     config.input.classList.remove(config.errorClass);
     config.message.style.opacity = '0';
-
     if (fieldType === 'date') {
         config.message.textContent = 'This field is required';
     }
@@ -162,11 +157,9 @@ function addValidationEventListeners() {
     const dueDateInput = document.getElementById('due-date-input');
     const categoryContainer = document.getElementById('category-container');
     const categoryBtn = document.getElementById('category-btn');
-
     titleInput.addEventListener('focus', () => clearValidationMessage('title'));
     dueDateInput.addEventListener('focus', () => clearValidationMessage('date'));
     categoryContainer.addEventListener('click', () => clearValidationMessage('category'));
-
     if (categoryBtn) {
         categoryBtn.addEventListener('click', () => clearValidationMessage('category'));
     }
@@ -178,7 +171,6 @@ function addValidationEventListeners() {
  */
 function handleFormSubmit(event) {
     event.preventDefault();
-
     if (validateForm()) {
         saveTask();
     }
@@ -227,14 +219,12 @@ function addDateInputListeners(dateInput) {
     dateInput.addEventListener('focus', () => {
         dateInput.classList.remove('color-grey');
     });
-
     dateInput.addEventListener('blur', () => {
         if (!dateInput.value) {
             dateInput.classList.add('color-grey');
         }
     });
 }
-
 
 /**
  * Clear the task form and reset all fields.

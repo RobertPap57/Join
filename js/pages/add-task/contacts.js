@@ -3,7 +3,6 @@
  * Handles dropdown behavior, contact selection, and filtering
  */
 
-
 const selectedContacts = [];
 let filteredContacts = contacts;
 
@@ -15,7 +14,6 @@ function showAssignedToDropdown() {
     const arrowDown = contactsList.querySelector('.arrow-down');
     const assignedToList = document.getElementById('assigned-to-list');
     const input = contactsList.querySelector('.select-btn-input');
-
     setupAssignedDropdownToggles(contactsList, arrowDown, input);
     preventAssignedDropdownClose(assignedToList);
     addAssignedDropdownOutsideListener(contactsList, assignedToList);
@@ -42,7 +40,6 @@ function scrollToDropdown(contactsList) {
         const rect = contactsList.getBoundingClientRect();
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const targetY = rect.top + scrollTop - 100; 
-        
         window.scrollTo({
             top: targetY,
             behavior: 'smooth'
@@ -260,8 +257,6 @@ function renderSelectedContactsBelow() {
     });
 }
 
-
-
 /**
  * Deselect all list items and update the display.
  */
@@ -273,7 +268,6 @@ function deselectContacts() {
             item.classList.remove('checked');
             img.classList.remove('checked');
             img.src = '../assets/images/global/checkbox.svg';
-
             const contact = filteredContacts[i];
             const index = selectedContacts.indexOf(contact);
             if (index !== -1) {

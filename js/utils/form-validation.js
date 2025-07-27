@@ -1,6 +1,9 @@
+/**
+ * Form validation utilities and functions
+ */
+
 let validationElements = {};
 let eventListeners = {};
-
 
 const validationMessages = {
     name: {
@@ -26,18 +29,27 @@ const validationMessages = {
     }
 };
 
-
+/**
+ * Initializes form validation by setting up elements and listeners.
+ */
 function initFormValidation() {
     validationElements = getValidationElements();
     setupValidationListeners();
     restrictTelInputs();
 }
 
+/**
+ * Clears form validation by removing invalid states and stopping listeners.
+ */
 function clearFormValidation() {
     clearInvalidInputs();
     stopValidationListeners();
 }
 
+/**
+ * Gets validation elements from the DOM.
+ * @returns {Object} Object containing form validation elements.
+ */
 function getValidationElements() {
     return {
         name: document.getElementById('name'),
@@ -50,6 +62,9 @@ function getValidationElements() {
     };
 }
 
+/**
+ * Restricts telephone input fields to only allow valid phone number characters.
+ */
 function restrictTelInputs() {
     document.querySelectorAll('input[type="tel"]').forEach(input => {
         input.addEventListener('input', e => {
@@ -58,6 +73,11 @@ function restrictTelInputs() {
     });
 }
 
+/**
+ * Validates a name input field.
+ * @param {HTMLInputElement} nameInput - The name input element to validate.
+ * @returns {Object} Validation result with isValid boolean and message string.
+ */
 function validateName(nameInput) {
     const name = nameInput.value.trim();
     if (!name) {
@@ -76,6 +96,11 @@ function validateName(nameInput) {
     return { isValid: true, message: '' };
 }
 
+/**
+ * Validates an email input field.
+ * @param {HTMLInputElement} emailInput - The email input element to validate.
+ * @returns {Object} Validation result with isValid boolean and message string.
+ */
 function validateEmail(emailInput) {
     const email = emailInput.value.trim();
     if (!email) {
@@ -88,6 +113,11 @@ function validateEmail(emailInput) {
     return { isValid: true, message: '' };
 }
 
+/**
+ * Validates a phone input field.
+ * @param {HTMLInputElement} phoneInput - The phone input element to validate.
+ * @returns {Object} Validation result with isValid boolean and message string.
+ */
 function validatePhone(phoneInput) {
     const phone = phoneInput.value.trim();
     if (!phone) {
@@ -106,6 +136,11 @@ function validatePhone(phoneInput) {
     return { isValid: true, message: '' };
 }
 
+/**
+ * Validates a password input field.
+ * @param {HTMLInputElement} passwordInput - The password input element to validate.
+ * @returns {Object} Validation result with isValid boolean and message string.
+ */
 function validatePassword(passwordInput) {
     const password = passwordInput.value.trim();
     if (!password) {
@@ -117,6 +152,12 @@ function validatePassword(passwordInput) {
     return { isValid: true, message: '' };
 }
 
+/**
+ * Validates a confirm password input field against the original password.
+ * @param {HTMLInputElement} confirmPasswordInput - The confirm password input element.
+ * @param {HTMLInputElement} passwordInput - The original password input element.
+ * @returns {Object} Validation result with isValid boolean and message string.
+ */
 function validateConfirmPassword(confirmPasswordInput, passwordInput) {
     const confirmPassword = confirmPasswordInput.value.trim();
     const password = passwordInput.value.trim();
@@ -129,29 +170,39 @@ function validateConfirmPassword(confirmPasswordInput, passwordInput) {
     return { isValid: true, message: '' };
 }
 
+/**
+ * Shows validation error for an input element.
+ * @param {HTMLInputElement} inputElement - The input element to show error for.
+ * @param {string} message - The error message to display.
+ */
 function showValidationError(inputElement, message) {
     if (!inputElement) return;
     inputElement.style.borderColor = '#FF8190';
     const inputId = inputElement.id;
     const validationMsg = document.getElementById(`${inputId}-validation-msg`);
-
     if (validationMsg) {
         validationMsg.textContent = message;
         validationMsg.classList.remove('d-none');
     }
 }
 
+/**
+ * Clears validation error for an input element.
+ * @param {HTMLInputElement} inputElement - The input element to clear error for.
+ */
 function clearValidationError(inputElement) {
     if (!inputElement) return;
     inputElement.style.borderColor = '';
     const inputId = inputElement.id;
     const validationMsg = document.getElementById(`${inputId}-validation-msg`);
-
     if (validationMsg) {
         validationMsg.classList.add('d-none');
     }
 }
 
+/**
+ * Sets up validation event listeners for form inputs.
+ */
 function setupValidationListeners() {
     const inputs = ['name', 'email', 'phone', 'password', 'confirmPassword'];
     inputs.forEach(inputName => {
@@ -175,6 +226,11 @@ function setupValidationListeners() {
     });
 }
 
+/**
+ * Validates an input element based on its type.
+ * @param {HTMLInputElement} inputElement - The input element to validate.
+ * @param {string} inputType - The type of input validation to perform.
+ */
 function validateInput(inputElement, inputType) {
     let result;
     switch (inputType) {
@@ -204,16 +260,27 @@ function validateInput(inputElement, inputType) {
     updateButtonState();
 }
 
+/**
+ * Sets an input element to active state with visual styling.
+ * @param {HTMLInputElement} inputElement - The input element to set as active.
+ */
 function setInputActive(inputElement) {
     if (!inputElement) return;
     inputElement.style.borderColor = '#29ABE2';
 }
 
+/**
+ * Removes active state from an input element.
+ * @param {HTMLInputElement} inputElement - The input element to remove active state from.
+ */
 function removeInputActive(inputElement) {
     if (!inputElement) return;
     inputElement.style.borderColor = '';
 }
 
+/**
+ * Updates the button state based on validation status.
+ */
 function updateButtonState() {
     const button = validationElements.validationBtn;
     if (!button) return;
@@ -225,6 +292,9 @@ function updateButtonState() {
     }
 }
 
+/**
+ * Clears validation errors from all invalid inputs.
+ */
 function clearInvalidInputs() {
     const inputs = Object.values(validationElements);
     inputs.forEach(input => {
@@ -234,12 +304,14 @@ function clearInvalidInputs() {
     });
 }
 
+/**
+ * Stops all validation event listeners.
+ */
 function stopValidationListeners() {
     const inputs = ['name', 'email', 'phone', 'password', 'confirmPassword'];
     inputs.forEach(inputName => {
         const input = validationElements[inputName];
         const listeners = eventListeners[inputName];
-
         if (input && listeners) {
             input.removeEventListener('focus', listeners.focus);
             input.removeEventListener('input', listeners.input);
@@ -249,15 +321,15 @@ function stopValidationListeners() {
     eventListeners = {};
 }
 
+/**
+ * Checks if any required inputs are empty.
+ * @returns {boolean} True if any inputs are empty, false otherwise.
+ */
 function areInputsEmpty() {
     const inputs = ['name', 'email', 'phone', 'password', 'confirmPassword'];
-    
     return inputs.some(inputName => {
         const input = validationElements[inputName];
         if (!input) return false;
         return input.value.trim() === '';
     });
 }
-
-
-

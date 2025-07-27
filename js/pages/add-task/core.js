@@ -33,7 +33,6 @@ async function initAddTask() {
     initPopup();
 }
 
-
 /**
  * Save the task and push it to the database.
  */
@@ -61,7 +60,6 @@ function getTaskData() {
         subtasks: subtasksToFirebaseObject(subtasks),
         attachments: attachmentsToFirebaseObject(attachments)
     };
-
 }
 
 /**
@@ -91,7 +89,6 @@ function subtasksToFirebaseObject(subtasks) {
         completed: false,
     }));
 }
-
 
 /**
  * Shows a task added message by adding a CSS class to the element with the class 'task-added-msg'.
@@ -129,7 +126,6 @@ function createCustomResizeHandle() {
  */
 function setupResizeEvents(textarea, resizeHandle) {
     let isResizing = false, startY = 0, startHeight = 0;
-
     resizeHandle.addEventListener('mousedown', (e) => {
         isResizing = true;
         startY = e.clientY;
@@ -137,7 +133,6 @@ function setupResizeEvents(textarea, resizeHandle) {
         e.preventDefault();
         document.body.classList.add('resizing');
     });
-
     document.addEventListener('mousemove', (e) => handleResize(e, textarea, isResizing, startY, startHeight));
     document.addEventListener('mouseup', () => stopResizing(() => isResizing = false));
 }
@@ -170,6 +165,11 @@ function stopResizing(resetResizing) {
     document.body.classList.remove('resizing');
 }
 
+/**
+ * Adjusts the right padding of the textarea with the ID 'description'
+ * based on the presence of a vertical scrollbar. If a vertical scrollbar
+ * is visible, the right padding is set to 0px; otherwise, it is set to 16px.
+ */
 function adjustTextareaPadding() {
     const textarea = document.getElementById('description');
     if (!textarea) return;

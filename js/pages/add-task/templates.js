@@ -74,7 +74,6 @@ function getAttachmentHtml(base64, filename, index) {
     `;
 }
 
-
 /**
  * Generates an HTML string for a contact list item, including selection state.
  *

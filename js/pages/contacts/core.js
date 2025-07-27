@@ -1,11 +1,10 @@
 /**
  * Core initialization and main logic for Contacts page
- * Handles loading, rendering, and main UI interactions
  */
 
 /**
  * Initializes the contacts by including HTML, highlighting contacts, reading data, loading tasks, updating header profile initials, and rendering contacts.
- * @return {Promise<void>} A promise that resolves when all the initialization steps are completed.
+ * @returns {Promise<void>} A promise that resolves when all the initialization steps are completed.
  */
 async function initContacts() {
     await includeHTML();
@@ -20,19 +19,15 @@ async function initContacts() {
 
 /**
  * Renders contacts if there are any, otherwise displays a message.
- * @return {void} This function does not return anything.
  */
 function renderContacts() {
     checkIfArrayIsEmpty();
     const sortedContacts = contacts.sort((a, b) => a.name.localeCompare(b.name));
     renderSortedContacts(sortedContacts);
-    console.log(contacts);
-    
 }
 
 /**
  * Checks if the contacts array is empty and updates the contacts list container accordingly.
- * @return {void} This function does not return anything.
  */
 function checkIfArrayIsEmpty() {
     if (contacts.length === 0) {
@@ -46,7 +41,6 @@ function checkIfArrayIsEmpty() {
  * Renders the sorted contacts in the contacts list container, with each contact
  * separated by a separator line based on the first letter of their name.
  * @param {Array<Object>} sortedContacts - The array of contacts to be rendered.
- * @return {void} This function does not return anything.
  */
 function renderSortedContacts(sortedContacts) {
     const contactsListContainer = document.getElementById('contacts-list');
@@ -78,4 +72,3 @@ function slideToastMsg() {
         container.classList.add('toast-msg-slide-out');
     }, 2000);
 }
-

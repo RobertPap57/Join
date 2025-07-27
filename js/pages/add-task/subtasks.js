@@ -3,7 +3,6 @@
  * Handles subtask creation, editing, deletion, and UI interactions
  */
 
-
 let subtasks = [];
 
 /**
@@ -15,7 +14,6 @@ function styleSubtaskInput() {
     const subtaskBtnCheckCancel = document.querySelector('.check-cancel-div');
     const subtaskCancelBtn = document.querySelector('.subtask-cancel');
     const subtaskBtnCheck = document.querySelector('.subtask-check');
-
     setupSubtaskBtnAdd(subtaskBtnAdd, subtaskBtnCheckCancel, subtaskInput);
     setupSubtaskBtnCheck(subtaskBtnCheck, subtaskBtnAdd, subtaskBtnCheckCancel, subtaskInput);
     setupSubtaskInputFocus(subtaskInput, subtaskBtnAdd, subtaskBtnCheckCancel, subtaskBtnCheck, subtaskCancelBtn);
@@ -135,9 +133,7 @@ function addSubtask() {
 function pushSubtask() {
     const subtaskInput = document.querySelector('.subtask-input');
     const subtaskBtnCheck = document.querySelector('.subtask-check');
-
     subtaskBtnCheck.addEventListener('click', addSubtask);
-
     subtaskInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             addSubtask();
@@ -192,8 +188,6 @@ function editSubtaskItem(item) {
     }
 }
 
-
-
 /**
  * Delete a subtask from the list.
  */
@@ -214,7 +208,6 @@ function deleteSubtask() {
  */
 function confirmSubtaskEdit() {
     const subtaskListItemsEdit = document.querySelectorAll('.subtask-list-item-edit');
-
     subtaskListItemsEdit.forEach(item => {
         const confirmSubtaskEditBtn = item.querySelector('.confirm-subtask-edit-btn');
         confirmSubtaskEditBtn.addEventListener('click', () => {

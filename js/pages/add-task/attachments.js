@@ -139,6 +139,14 @@ function deleteAllAttachments() {
     updateAttachmentsWrapperVisibility();
 }
 
+/**
+ * Converts an array of attachment objects into an object suitable for Firebase storage,
+ * assigning each attachment a unique ID as the key.
+ *
+ * @param {Array<{name: string, size: number, base64: string}>} attachments - The array of attachment objects to convert.
+ * @returns {Object<string, {id: string, name: string, size: number, base64: string}>} 
+ *   An object where each key is a unique ID and each value is the corresponding attachment data.
+ */
 function attachmentsToFirebaseObject(attachments) {
     const obj = {};
     attachments.forEach(attachment => {
@@ -150,7 +158,5 @@ function attachmentsToFirebaseObject(attachments) {
             base64: attachment.base64
         };
     }); 
-    console.log(obj);
-    
     return obj;
 }

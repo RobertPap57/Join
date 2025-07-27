@@ -1,4 +1,8 @@
 
+/**
+ * Dummy data for resetting and testing purposes
+ */
+
 const dummyContacts = {
 	"0": {
 		"id": "0",
@@ -183,9 +187,6 @@ const dummyUsers = {
 
 /**
  * Resets the Firebase database to initial dummy data for tasks, users, and contacts.
-*
-* @async
-* @function resetDatabase
  * @returns {Promise<void>} Resolves when all dummy data has been uploaded.
  */
 async function resetDatabase() {
@@ -193,6 +194,3 @@ async function resetDatabase() {
 	await putData("/users", dummyUsers);
 	await putData("/contacts", dummyContacts);
 }
-
-
-

@@ -1,4 +1,7 @@
 
+/**
+ * Header component functionality and sub-menu management
+ */
 
 /**
  * Opens the sub-menu by removing the 'd-none' class from the sub-menu modal and sub-menu elements,
@@ -19,7 +22,6 @@ function openSubMenu() {
     }, 10);
 }
 
-
 /**
  * Closes the sub-menu by adding the 'sub-menu-close' class to animate its closing,
  * and adding the 'd-none' class to hide both the sub-menu modal and sub-menu elements.
@@ -39,7 +41,6 @@ function closeSubMenu() {
     }, 100);
 }
 
-
 /**
  * Handles the window click event to close the sub-menu if the click event
  * target matches the sub-menu modal element.
@@ -53,14 +54,12 @@ window.onclick = function (event) {
     }
 }
 
-
 /**
  * Hides the header icons by adding the 'd-none' class to the element with id 'header-icons'.
  */
 function hideHeaderIcons() {
     document.getElementById('header-icons').classList.add('d-none');
 }
-
 
 /**
  * Hides the help icon element.
@@ -69,14 +68,12 @@ function hideHelpIcon() {
     document.getElementById('hide-help-icon').classList.add('d-none');
 }
 
-
 /**
  * Updates the header profile initials based on the current user's data.
  * Clears the inner HTML of the 'header-profile-icon' element, removes the 'initials-fsize' class,
  * and sets the initials content and adjusts the font size if necessary based on the currentUser's initials.
  * If currentUser or currentUser.initials is not defined, adds 'd-none' class to 'navLinks' element.
  */
-
 function toggleInitialsClass() {
     const userAvatar = document.getElementById('header-avatar');
     if (!userAvatar || !currentUser) return;
@@ -87,11 +84,13 @@ function toggleInitialsClass() {
     }
 }
 
+/**
+ * Displays the header avatar for the current user.
+ */
 function displayHeaderAvatar() {
     toggleInitialsClass();
     displayProfileAvatar(currentUser, 'header-avatar');
 }
-
 
 /**
  * Logs out the current user by removing 'currentUser' and 'greeting' from sessionStorage,

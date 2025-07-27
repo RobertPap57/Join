@@ -1,12 +1,10 @@
 /**
- * Contact display and UI management
- * Handles contact visualization, validation, and user interactions
+ * Contact display and UI management functions
  */
 
 /**
  * Displays a contact by ID, rendering the contact card in the display area.
  * @param {number} id - The ID of the contact to display.
- * @return {void}
  */
 function displayContact(id) {
     const contact = contacts.find(contact => contact.id === id);
@@ -25,7 +23,6 @@ function displayContact(id) {
 /**
  * Marks a contact as active by updating the visual selection state.
  * @param {number} id - The ID of the contact to mark as active.
- * @return {void}
  */
 function markContactAsActive(id) {
     contacts.forEach(contact => {
@@ -42,7 +39,6 @@ function markContactAsActive(id) {
 
 /**
  * Shows the contact display container for mobile view.
- * @return {void}
  */
 function showContactDisplay() {
     const container = document.getElementById('contact-displayed');
@@ -53,7 +49,7 @@ function showContactDisplay() {
 /**
  * Hides the contact display container with animation.
  * @param {HTMLElement} container - The container element to hide.
- * @return {Promise<void>}
+ * @returns {Promise<void>}
  */
 async function hideContactDisplay(container) {
     if (window.innerWidth <= 768) {
@@ -69,7 +65,7 @@ async function hideContactDisplay(container) {
 /**
  * Clears the content of a container element after a delay.
  * @param {HTMLElement} container - The container element to clear.
- * @return {Promise<void>}
+ * @returns {Promise<void>}
  */
 function clearContainerContent(container) {
     return new Promise(resolve => {
@@ -83,15 +79,12 @@ function clearContainerContent(container) {
 /**
  * Scrolls to a specific contact in the list.
  * @param {string} id - The ID of the contact to scroll to.
- * @return {void}
  */
 function scrollToContact(id) {
     const contactsContainer = document.querySelector('.contacts-container');
     const contactElement = document.getElementById(`${id}`);
-
     if (contactElement && contactsContainer) {
         const { contactTopRelativeToContainer, contactBottomRelativeToContainer, containerHeight } = calculatePositions(contactsContainer, contactElement);
-
         if (contactTopRelativeToContainer < 0) {
             scrollToSmooth(contactsContainer, contactsContainer.scrollTop + contactTopRelativeToContainer);
         } else if (contactBottomRelativeToContainer > containerHeight) {
@@ -103,10 +96,12 @@ function scrollToContact(id) {
     }
 }
 
+/**
+ * Opens the contact menu in mobile view.
+ */
 function openContactMenu() {
     const mobileModal = document.getElementById('mobile-modal');
     const contactMenu = document.getElementById('contact-menu');
-
     if (mobileModal && contactMenu) {
         mobileModal.classList.remove('d-none');
         contactMenu.classList.remove('show');
@@ -115,6 +110,9 @@ function openContactMenu() {
     }
 }
 
+/**
+ * Closes the contact menu in mobile view.
+ */
 function closeContactMenu() {
     const mobileModal = document.getElementById('mobile-modal');
     const contactMenu = document.getElementById('contact-menu');
@@ -125,17 +123,20 @@ function closeContactMenu() {
         }, 125); 
     }
 }
+
+/**
+ * Closes the contact menu when clicking outside of it.
+ * @param {Event} event - The click event.
+ */
 function closeContactMenuOnClick(event) {
     const mobileModal = document.getElementById('mobile-modal');
     if (event.target === mobileModal) {
         closeContactMenu();
     }
-
 }
 
 /**
  * Returns to the contacts list view in mobile mode.
- * @return {void}
  */
 function returnToContactsList() {
     const container = document.getElementById('contact-displayed');
@@ -145,7 +146,6 @@ function returnToContactsList() {
 /**
  * Slides the contact container in and out of view.
  * @param {HTMLElement} container - The container element to be slid.
- * @return {void}
  */
 function slideContact(container) {
     container.classList.remove('contact-slide-in');
@@ -159,7 +159,6 @@ function slideContact(container) {
 /**
  * Selects a contact element by its ID and adds the 'contact-selected' class to it.
  * @param {string} id - The ID of the contact element to select.
- * @return {void}
  */
 function selectedContact(id) {
     document.querySelectorAll('.contact').forEach(contactElement => {
@@ -173,7 +172,6 @@ function selectedContact(id) {
 
 /**
  * Sets the display style of the main container element to 'flex' to open the mobile contact view.
- * @return {void}
  */
 function openMobileContact() {
     document.getElementById('main-container').style.display = 'flex';
@@ -181,7 +179,6 @@ function openMobileContact() {
 
 /**
  * Sets the display style of the main container element to 'none' to close the mobile contact view.
- * @return {void}
  */
 function closeMobileContact() {
     document.getElementById('main-container').style.display = 'none';
@@ -191,7 +188,7 @@ function closeMobileContact() {
  * Calculates the position of the element relative to its container.
  * @param {Element} container - The container element.
  * @param {Element} element - The element whose position is being calculated.
- * @return {Object} An object containing position calculations.
+ * @returns {Object} An object containing position calculations.
  */
 function calculatePositions(container, element) {
     const contactRect = element.getBoundingClientRect();
@@ -206,7 +203,6 @@ function calculatePositions(container, element) {
  * Scrolls the element smoothly to the specified position.
  * @param {Element} element - The element to scroll.
  * @param {number} top - The top position to scroll to.
- * @return {void}
  */
 function scrollToSmooth(element, top) {
     element.scrollTo({ top: top, behavior: 'smooth' });
@@ -214,7 +210,6 @@ function scrollToSmooth(element, top) {
 
 /**
  * Deselects all mobile contact elements by removing the 'contact-selected' class.
- * @return {void}
  */
 function deselectContactOnMobile() {
     const selectedContact = document.querySelectorAll('.contact');
@@ -227,7 +222,6 @@ function deselectContactOnMobile() {
 
 /**
  * Adjusts the main container display based on the window width.
- * @return {void}
  */
 function adjustMainContainerDisplay() {
     const mainContainer = document.getElementById('main-container');
@@ -241,4 +235,3 @@ function adjustMainContainerDisplay() {
 window.addEventListener('resize', deselectContactOnMobile);
 window.addEventListener('resize', adjustMainContainerDisplay);
 window.addEventListener('click', closeContactMenuOnClick);
-

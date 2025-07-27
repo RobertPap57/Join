@@ -1,4 +1,8 @@
 /**
+ * Contact HTML template generators
+ */
+
+/**
  * Generates the HTML for a contact item in the contacts list.
  *
  * @param {Object} contact - The contact object containing the contact's information.
@@ -6,7 +10,7 @@
  * @param {string} contact.color - The background color of the contact item.
  * @param {string} contact.name - The name of the contact.
  * @param {string} contact.email - The email address of the contact.
- * @return {string} The HTML for the contact item.
+ * @returns {string} The HTML for the contact item.
  */
 function getContactsListHtml(contact) {
     return `
@@ -25,7 +29,7 @@ function getContactsListHtml(contact) {
  * Generates the HTML for a separator with a letter and a separator line.
  *
  * @param {string} letter - The letter to be displayed in the separator.
- * @return {string} The HTML for the separator with the letter and a separator line.
+ * @returns {string} The HTML for the separator with the letter and a separator line.
  */
 function getContactsSeparatorHtml(letter) {
     return `
@@ -45,12 +49,12 @@ function getContactsSeparatorHtml(letter) {
  * @param {string} contact.email - The email of the contact.
  * @param {string} contact.phone - The phone number of the contact.
  * @param {number} contact.id - The ID of the contact.
- * @return {string} The HTML for displaying the contact.
+ * @returns {string} The HTML for displaying the contact.
  */
 function getDisplayContactHtml(contact) {
     return `
     <div class="contact-header">
-    <div class="profile-avatar contact-img-mobile d-flex-center" id="displayed-avatar-${contact.id}"></div>
+    <div class="profile-avatar font-w-400 contact-img-mobile d-flex-center" id="displayed-avatar-${contact.id}"></div>
     <div class="contact-name">
         <h2>${contact.name}</h2>
         <div class="contact-btns">
@@ -78,7 +82,6 @@ function getDisplayContactHtml(contact) {
         <a class="black-font" href="tel:${contact.phone}">${contact.phone}</a>
     </div>
 </div>
-
  <div id="mobile-modal" class="mobile-modal d-none">
         <div id="contact-menu" class="contact-menu">
             <div onclick="editContact('${contact.id}')" class="contact-options-btns">
@@ -93,4 +96,3 @@ function getDisplayContactHtml(contact) {
     </div>
     `;
 }
-

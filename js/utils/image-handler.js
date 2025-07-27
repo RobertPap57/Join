@@ -1,5 +1,8 @@
-let attachments = [];
+/**
+ * Image handling utilities for file uploads and drag-and-drop
+ */
 
+let attachments = [];
 
 /**
  * Handles drag over event for file drop functionality.
@@ -52,9 +55,6 @@ function isAllowedFile(file) {
     }
     return true;
 }
-
-
-
 
 /**
  * Compresses an image file to specified dimensions and quality.
@@ -150,15 +150,12 @@ function getErrorMsgHtml(message) {
     if (message === 'format') {
         return `This file format is not allowed!<br>
             <span>You can only upload JPEG or PNG.</span>`;
-    }
-    if (message === 'size') {
+    } if (message === 'size') {
         return `This file size is too big!<br>
             <span>You can only upload files under 10Mb.</span>`;
     }
     return '';
 }
-
-
 
 // Initialize file input listener when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -181,7 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 async function handleFiles(files) {
     for (const file of files) {
-
         const base64 = await compressImage(file, 800, 800, 0.7);
         const size = Math.round((base64.length * 3 / 4) / 1024);
         const attachment = {
@@ -189,24 +185,23 @@ async function handleFiles(files) {
             base64: base64,
             size: size
         };
-        console.log('Adding attachment:', attachment);
-        
         attachments.push(attachment);
         renderAttachments();
         attachmentsList.scrollLeft = attachmentsList.scrollWidth;
     }
 }
 
-
-
+/**
+ * Handles image file processing for profile pictures.
+ * @param {File} file - The image file to process.
+ * @returns {Promise<string|null>} Base64 string or null if error.
+ */
 async function handleImageFile(file) {
     try {
         const base64Image = await compressImage(file, 800, 800, 0.7);
-        console.log('Image file processed successfully:', base64Image);
         updatePopupProfileImage(base64Image);
         return base64Image;
     } catch (error) {
-        console.error('Error compressing image:', error);
         return null;
     }
 }
@@ -218,24 +213,16 @@ async function handleImageFile(file) {
 function initImageHandler() {
     const picker = document.getElementById('filepicker');
     if (!picker) {
-        console.warn('File picker element not found');
         return;
     }
-    
-    console.log('File picker found, adding change event listener');
     picker.addEventListener('change', async function () {
         const file = picker.files?.[0];
-        picker.value = ''; // Reset immediately to allow re-selection of the same file
-
+        picker.value = ''; 
         if (!file || !isAllowedFile(file)) {
-            console.warn('File is not allowed:', file?.name);
             return;
         }
-        
         const base64 = await handleImageFile(file);
         if (base64) {
-            console.log('Base64 string returned:', base64);
-            // Update the popup form dataset with the new image
             const form = document.getElementById('popup-form');
             if (form) {
                 form.dataset.image = base64;
@@ -243,7 +230,3 @@ function initImageHandler() {
         }
     });
 }
-
-
-
-

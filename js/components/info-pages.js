@@ -6,8 +6,6 @@
 /**
  * Initializes the legal notice page by including HTML content,
  * hiding navigation and header icons, and highlighting the legal notice link.
- *
- * @async
  */
 async function initLegalNotice() {
     await includeHTML();
@@ -19,8 +17,6 @@ async function initLegalNotice() {
 /**
  * Initializes the privacy policy page by including HTML content,
  * hiding navigation and header icons, and highlighting the privacy policy link.
- *
- * @async
  */
 async function initPrivacyPolicy() {
     await includeHTML();
@@ -33,8 +29,6 @@ async function initPrivacyPolicy() {
  * Initializes the help section by including HTML content,
  * hiding the help icon, and updating the header profile initials.
  * Redirects to the login page if no user is logged in.
- *
- * @async
  */
 async function initHelp() {
     await includeHTML();
@@ -43,5 +37,3 @@ async function initHelp() {
     checkForCurrentUser() ? null : redirectTo('login.html');
     displayHeaderAvatar();
 }
-
-

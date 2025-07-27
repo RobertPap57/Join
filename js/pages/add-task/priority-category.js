@@ -3,7 +3,6 @@
  * Handles priority button interactions and category selection
  */
 
-// SVG mappings for priority buttons
 const svgMappings = {
     'urgent': '../assets/images/global/urgent.svg',
     'urgent-active': '../assets/images/global/urgent-white.svg',
@@ -110,7 +109,6 @@ function showCategoryDropdown() {
     const categoryDisplayed = document.getElementById('category-displayed');
     const listItems = document.querySelectorAll('.list-item.category');
     const categoryList = document.querySelector('.list-items.category');
-
     setupCategoryDropdownToggles(selectBtnCategory);
     preventCategoryDropdownClose(categoryList);
     setupCategorySelection(listItems, selectBtnCategory, categoryDisplayed);
