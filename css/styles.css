@@ -63,6 +63,12 @@ input:-webkit-autofill {
   -webkit-text-fill-color: #000000 !important;
 }
 
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
 button {
   all: unset;
 }

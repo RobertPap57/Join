@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
- 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Board</title>
+    <title>Board</title>
     <link id="favicon" rel="icon" href="../favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/pages/board/core.css">
@@ -19,13 +19,39 @@
     <script src="../js/pages/board/core.js"></script>
 </head>
 
-<body class="body " onload="initBoard()">
-    <div w3-include-html="../templates/header.html"></div>
-    <div w3-include-html="../templates/nav.html"></div>
+<body onload="initBoard()">
+    <header w3-include-html="../templates/header.html"></header>
+    <nav w3-include-html="../templates/nav.html"></nav>
+
+    <div class="main-wrapper">
+
+        <main class="main">
+            <header class="board-header">
+                <h1>Board</h1>
+                <div class="toolbar d-flex-center" role="region" aria-label="Page actions">
+                    <form class="search-form" role="search" aria-label="Site search">
+                        <input type="search" name="q" placeholder="Search..." aria-label="Search query" />
+                        <div class="submit-btn-wrapper">
+                            <button type="submit" class="d-flex-center">
+                                <img src="../assets/images/pages/boards/search.svg" alt="Search">
+                            </button>
+                        </div>
+                    </form>
+
+                    <button class="add-task-board-btn primary-btn d-flex-center" aria-label="Add task" onclick="openAddTaskPopup()">
+                        <span>Add task</span>
+                        <img src="../assets/images/pages/boards/plus-white.svg" alt="" aria-hidden="true">
+                    </button>
+                </div>
+            </header>
 
 
 
 
+
+        </main>
+
+    </div>
 </body>
 
 </html>
