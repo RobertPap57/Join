@@ -13,6 +13,7 @@ function displayContact(id) {
     if (!contact) return;
     const contactDetailsContainer = document.getElementById('contact-displayed');
     contactDetailsContainer.innerHTML = getDisplayContactHtml(contact);
+    displayProfileAvatar(contact, `displayed-avatar-${contact.id}`);
     if (window.innerWidth <= 768) {
         openMobileContact();
     } else {
@@ -102,31 +103,34 @@ function scrollToContact(id) {
     }
 }
 
+function openContactMenu() {
+    const mobileModal = document.getElementById('mobile-modal');
+    const contactMenu = document.getElementById('contact-menu');
 
-
-/**
- * Shows the mobile contact deletion modal.
- * @param {number} id - The ID of the contact to delete.
- * @return {void}
- */
-function showMobileDeleteModal(id) {
-    const modal = document.getElementById('mobile-delete-modal');
-    if (modal) {
-        modal.style.display = 'flex';
-        modal.dataset.contactId = id;
+    if (mobileModal && contactMenu) {
+        mobileModal.classList.remove('d-none');
+        contactMenu.classList.remove('show');
+        void contactMenu.offsetWidth;
+        contactMenu.classList.add('show');
     }
 }
 
-/**
- * Hides the mobile contact deletion modal.
- * @return {void}
- */
-function hideMobileDeleteModal() {
-    const modal = document.getElementById('mobile-delete-modal');
-    if (modal) {
-        modal.style.display = 'none';
-        delete modal.dataset.contactId;
+function closeContactMenu() {
+    const mobileModal = document.getElementById('mobile-modal');
+    const contactMenu = document.getElementById('contact-menu');
+    if (mobileModal && contactMenu) {
+        contactMenu.classList.remove('show');
+        setTimeout(() => {
+            mobileModal.classList.add('d-none');
+        }, 125); 
     }
+}
+function closeContactMenuOnClick(event) {
+    const mobileModal = document.getElementById('mobile-modal');
+    if (event.target === mobileModal) {
+        closeContactMenu();
+    }
+
 }
 
 /**
@@ -236,5 +240,5 @@ function adjustMainContainerDisplay() {
 
 window.addEventListener('resize', deselectContactOnMobile);
 window.addEventListener('resize', adjustMainContainerDisplay);
-
+window.addEventListener('click', closeContactMenuOnClick);
 

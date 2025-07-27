@@ -229,6 +229,7 @@ function displayProfileAvatar(user, userAvatarId) {
 				userAvatar.innerHTML = `<img src="${user.image}" alt="Profile picture">`;
 			} if (user.name && !user.image) {
 				userAvatar.innerHTML = createNameInitials(user.name);
+				userAvatar.style.backgroundColor = user.color
 			}
 		}
 	}

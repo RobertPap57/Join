@@ -1,3 +1,26 @@
+@media (max-width: 1313px) {
+    .title-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .main-container {
+        gap: 48px;
+    }
+
+    .title-separator {
+        order: 3;
+        height: 3px;
+        width: 90px;
+        margin-top: 8px;
+
+    }
+
+    .title-container p {
+        order: 2;
+    }
+}
 
 @media (max-width: 1210px) {
     .contacts-container {
@@ -12,28 +35,14 @@
         padding: 206px 0px 0px 687px;
     }
 
-
-    .pop-zup-content {
-        width: 553px !important;
-        height: 540px !important;
+    .toast-msg {
+        left: 687px;
     }
 
-    .pop-up-img {
-        right: 493px !important;
-    }
-
-    .pop-up-banner {
-        width: 340px !important;
-        height: 540px !important;
-    }
-
-    .pop-up-banner-content div {
-        width: 234px;
-    }
     .no-contacts {
         width: 352px;
     }
-   
+
 }
 
 
@@ -55,6 +64,10 @@
         padding: 206px 0px 0px 610px;
     }
 
+    .toast-msg {
+        left: 610px;
+    }
+
 }
 
 
@@ -71,133 +84,46 @@
     .main-container {
         padding: 196px 0px 0px 408px;
     }
+
+    .toast-msg {
+        left: 408px;
+        bottom: 160px
+    }
 }
 
-@media (max-width: 900px) {
-    .pop-up-container {
-        flex-direction: column;
-    }
-
-    .pop-up-banner {
-        width: 396px !important;
-        height: 352px !important;
-        padding: 66px 24px !important;
-        border-radius: 30px 30px 0px 0px !important;
-    }
-
-    .pop-up-banner-content h1 {
-        font-size: 47px !important;
-    }
-
-    .pop-up-banner-content p {
-        font-size: 24px !important;
-    }
-
-    .pop-up-banner img {
-        display: none;
-    }
-
-    .pop-up-banner-content div {
-        width: auto;
-    }
-
-    .pop-up-content {
-        height: 408px !important;
-        width: 396px !important;
-        border-radius: 0px 0px 30px 30px !important;
-    }
-
-    .close-pop-up {
-        top: -334px !important;
-        right: 16px !important;
-    }
-
-    .close-pop-up:hover {
-        background-color: rgba(9, 25, 49, 1) !important;
-    }
-
-    .close-pop-up img {
-        filter: invert(98%) sepia(100%) saturate(0%) hue-rotate(21deg) brightness(104%) contrast(102%);
-    }
-
-    .pop-up-img {
-        right: 138px !important;
-        top: -60px !important;
-    }
-
-    .form {
-        width: 364px !important;
-        height: 153px !important;
-        top: 92px !important;
-        right: 16px !important;
-
-    }
-
-    .form form {
-        gap: 15px !important;
-
-    }
-
-    .input {
-        height: 41px !important;
-        padding: 8px 21px !important;
-    }
-
-    .input div {
-        top: 8px !important;
-    }
-
-
-    .pop-up-btns {
-        width: auto !important;
-        top: 277px !important;
-        right: 100px !important;
-    }
-
-    .cancel-btn {
-        display: none !important;
-    }
-
-    .approve-btn,
-    .cancel-btn {
-        padding: 13px 10px !important;
-    }
-
-    .cancel-btn:hover {
-        padding: 12px 9px !important;
-    }
-
-}
 
 @media (max-width: 820px) {
     .main-container {
-        padding: 196px 0px 0px 368px;
+        padding: 196px 0px 0px 380px;
     }
-    
+
+    .toast-msg {
+        left: 380px;
+    }
+
+    .contact-header {
+        gap: 32px;
+    }
+
 }
 
 @media (max-width: 768px) {
     .back-arrow {
-        display: block;
-    }
-
-    .contact-sub-menu-btn {
         display: flex;
     }
 
-    .pop-up-close {
-        transform: translateY(100%) !important;
+    .open-menu-btn {
+        display: flex;
     }
 
-    .pop-up-open {
-        transform: translateY(0) !important;
-    }
+
 
     .contacts-container {
         top: 80px;
         width: 100%;
         height: calc(100vh - 160px);
         padding: 24px 14px 0px 38px;
+        z-index: 0;
     }
 
     .contacts-list {
@@ -211,13 +137,15 @@
         border-radius: 46px;
         top: auto;
         left: auto;
-        bottom: 122px;
+        bottom: 112px;
         right: 24px;
     }
 
     .add-contact-btn {
         margin-left: 0;
         border-radius: 46px;
+        box-shadow: 0px 4px 4px 0px #00000040;
+
     }
 
     .add-contact-btn p {
@@ -236,21 +164,21 @@
         position: relative;
         display: none;
         background-color: rgba(246, 247, 248, 1);
-        padding: 128px 36px;
-        gap: 30px;
-    } 
+        padding: 128px 29px;
+
+    }
 
     .title-container {
-        flex-direction: column;
-        align-items: flex-start;
+        margin-left: 7px;
         gap: 8px;
+
     }
 
     .title-container h1 {
         font-size: 47px;
     }
 
-   .title-separator {
+    .title-separator {
         order: 3;
         height: 3px;
         width: 90px;
@@ -265,11 +193,13 @@
 
     .contact-header {
         gap: 20px;
-    } 
+    }
 
     .contact-img-mobile {
-        height: 80px;
-        min-width: 80px;
+        height: 80px !important;
+        width: 80px !important;
+        min-width: 80px !important;
+        min-height: 80px !important;
         font-size: 27px;
     }
 
@@ -294,7 +224,7 @@
         display: flex;
         padding: 10px;
         gap: 10px;
-        border-radius: 12px;
+        border-radius: 8px;
     }
 
     .contact-options-btns:hover {
@@ -313,46 +243,34 @@
     }
 
     .toast-msg {
-        margin-inline: auto;
+        left: calc(50% - 163px);
     }
 
     .toast-msg-slide-in {
         transform: translateY(0);
     }
 
-    /* .toast-msg-slide-out {
-        transform: translateY(2000%);
-    }  */
-} 
-
-@media (max-width: 424px) {
-    .pop-up-banner {
-        width: 320px !important;
-    }
-    .pop-up-content {
-        width: 320px !important;
-    }
-    .pop-up-img {
-        right: 100px !important;
-    }
-    .pop-up-btns {
-        right: 62px !important;
-    }
-    .form {
-        width: 286px !important;
-    }
-    .contacts-container{
-        padding: 24px 0px 0px 24px;
+    .toast-msg-slide-out {
+        transform: translateY(500%);
     }
 }
-@media (max-width: 424px) and (max-height: 770px){
-    .pop-up-banner {
-        height: 260px !important;
+
+
+@media (max-width: 480px) {
+    .main-container {
+        padding-inline: 9px;
     }
-    .pop-up-content {
-        height: 360px !important;
+
+    .back-arrow,
+    .open-menu-btn {
+        right: 16px;
     }
-    .close-pop-up {
-        top: -242px !important;
+
+}
+
+@media (max-width: 420px) {
+
+    .contacts-container {
+        padding: 24px 0px 0px 24px;
     }
 }

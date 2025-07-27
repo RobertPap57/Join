@@ -37,11 +37,11 @@ async function initPrivacyPolicy() {
  * @async
  */
 async function initHelp() {
-   await includeHTML();
-   checkOrientation();
-   hideHelpIcon();
-   checkForCurrentUser() ? null : redirectTo('login.html');
-   displayProfileIconInitials();
+    await includeHTML();
+    checkOrientation();
+    hideHelpIcon();
+    checkForCurrentUser() ? null : redirectTo('login.html');
+    displayHeaderAvatar();
 }
 
 

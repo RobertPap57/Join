@@ -19,7 +19,6 @@
     <script src="../js/pages/contacts/display.js"></script>
     <script src="../js/pages/contacts/templates.js"></script>
     <script src="../js/pages/contacts/crud.js"></script>
-    <script src="../js/pages/contacts/popup.js"></script>
     <script src="../js/components/header.js"></script>
     <script src="../js/components/nav.js"></script>
     <script src="../js/utils/form-validation.js"></script>
@@ -52,17 +51,18 @@
 
 
     <div id="main-container" class="main-container">
-        <div onclick="closeMobileContact()" class="back-arrow">
+        <div onclick="closeMobileContact()" class="back-arrow d-flex-center">
             <img src="../assets/images/global/left-arrow.svg" alt="">
         </div>
         <div class="title-container">
             <h1>Contacts</h1>
             <div class="title-separator"></div>
+
             <p>Better with a team</p>
         </div>
         <div id="contact-displayed" class="contact-displayed"></div>
-        <div onclick="openPopUpWindow('contact-sub-menu', 'mobile-modal', 'sub-menu-open', 'sub-menu-close')"
-            class="d-flex-center contact-sub-menu-btn">
+        <div onclick="openContactMenu()"
+            class="d-flex-center open-menu-btn">
             <img src="../assets/images/pages/contacts/more.svg" alt="">
         </div>
     </div>

@@ -11,8 +11,7 @@
 function getContactsListHtml(contact) {
     return `
     <div onclick="displayContact('${contact.id}')" id="${contact.id}" class="contact">
-    <div class="contact-icon d-flex-center" style="background-color: ${contact.color};">
-    ${createNameInitials(contact.name)}
+    <div class="profile-avatar-small d-flex-center" id="avatar-${contact.id}">
     </div>
     <div class="contact-data">
     <p>${contact.name}</p>
@@ -51,8 +50,7 @@ function getContactsSeparatorHtml(letter) {
 function getDisplayContactHtml(contact) {
     return `
     <div class="contact-header">
-    <div class="contact-img contact-img-mobile d-flex-center" style="background-color: ${contact.color};">
-    ${createNameInitials(contact.name)}</div>
+    <div class="profile-avatar contact-img-mobile d-flex-center" id="displayed-avatar-${contact.id}"></div>
     <div class="contact-name">
         <h2>${contact.name}</h2>
         <div class="contact-btns">
@@ -77,12 +75,12 @@ function getDisplayContactHtml(contact) {
     </div>
     <div>
         <p>Phone</p>
-        <a href="tel:${contact.phone}">${contact.phone}</a>
+        <a class="black-font" href="tel:${contact.phone}">${contact.phone}</a>
     </div>
 </div>
 
- <div id="mobile-modal" class="sub-menu-bg d-none">
-        <div id="contact-sub-menu" class="contact-sub-menu d-none">
+ <div id="mobile-modal" class="mobile-modal d-none">
+        <div id="contact-menu" class="contact-menu">
             <div onclick="editContact('${contact.id}')" class="contact-options-btns">
                 <img src="../assets/images/global/edit.svg" alt="">
                 <p>Edit</p>

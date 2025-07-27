@@ -1,4 +1,3 @@
-
 @media screen and (max-width:1250px) {
 
     .popup-banner {
@@ -72,6 +71,14 @@
 
 @media screen and (max-width:767px) {
 
+    .popup-close {
+        transform: translateY(100%) !important;
+    }
+
+    .popup-open {
+        transform: translateY(0) !important;
+    }
+
     .popup-banner {
         width: 396px;
         height: 351px;
@@ -138,7 +145,7 @@
     }
 }
 
-@media screen and (max-width:423px) {
+@media screen and (max-width:420px) {
 
     .popup-banner {
         width: 100%;

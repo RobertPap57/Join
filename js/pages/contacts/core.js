@@ -60,6 +60,7 @@ function renderSortedContacts(sortedContacts) {
             contactsListContainer.innerHTML += getContactsSeparatorHtml(currentLetter);
         }
         contactsListContainer.innerHTML += getContactsListHtml(contact);
+        displayProfileAvatar(contact, `avatar-${contact.id}`);
     });
 }
 
