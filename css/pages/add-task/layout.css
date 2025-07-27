@@ -1,11 +1,8 @@
-/* Layout, Container, Grid, and Form Structure */
-
 .heading {
     font-size: 61px;
     font-weight: 700;
     padding-bottom: 39px;
 }
-
 .color-grey {
     color: #D1D1D1;
 }
@@ -71,7 +68,6 @@
     display: none;
 }
 
-/* Utility Classes */
 .margin-top-16 {
     margin-top: 16px;
 }
@@ -92,7 +88,6 @@
     transform: none;
 }
 
-/* Media Queries */
 @media screen and (min-width: 1441px) {
     .form-container {
         margin-inline: auto;

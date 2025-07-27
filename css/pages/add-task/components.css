@@ -1,4 +1,3 @@
-/* Form Inputs, Dropdowns, Labels, and Validation */
 
 .form-input {
     border-radius: 10px;
@@ -28,7 +27,6 @@
     opacity: 1;
 }
 
-/* Validation Styles */
 .field-required {
     border-color: #FF8190;
 }
@@ -52,7 +50,6 @@
     margin-top: -22px !important;
 }
 
-/* Dropdown Styles */
 .dropdown-container {
     position: relative;
 }
@@ -206,7 +203,6 @@ margin-right: 4px;
     border-radius: 10px;
 }
 
-/* Textarea */
 textarea {
     padding: 18px 16px;
     height: 120px;
@@ -226,7 +222,6 @@ textarea:focus {
     border-color: #29ABE2;
 }
 
-/* Labels */
 label {
     font-size: 20px;
     margin-bottom: 4px;
@@ -236,8 +231,6 @@ label {
     color: #FFA800;
 }
 
-
-/* Mobile Responsive for Forms */
 @media screen and (max-width: 425px) {
     .list-item.category {
         height: 43px;
@@ -268,11 +261,9 @@ label {
     }
 }
 
-/* Custom Textarea Resize Handle */
 .textarea-container {
     position: relative;
 }
-
 
 .custom-resize-handle {
     position: absolute;
@@ -287,7 +278,6 @@ label {
     background-color: white;
     border-radius: 0 0 10px 0;
     padding: 10px 10px 10px 10px;
-
 }
 
 .custom-resize-handle img {
@@ -297,9 +287,7 @@ label {
     pointer-events: none;
 }
 
-
 .resizing {
     user-select: none;
     cursor: ns-resize !important;
 }
-

@@ -1,6 +1,3 @@
-/* Attachments, Subtasks, and Interactive Features */
-
-/* Attachments */
 .drag-attachment-container {
     gap: 10px;
     width: 100%;
@@ -157,7 +154,6 @@
     text-overflow: ellipsis;
 }
 
-/* Subtasks */
 .subtask-input-container {
     display: flex;
     cursor: pointer;
@@ -304,9 +300,6 @@
     font-weight: 900;
 }
 
-
-
-
 .subtask-edit-icon-div {
     display: none;
     justify-content: center;
@@ -382,7 +375,6 @@
     border-radius: 50%;
 }
 
-/* Mobile Responsive for Features */
 @media screen and (max-width: 425px) {
     .drag-attachment-container span::before {
         content: "Upload file";
