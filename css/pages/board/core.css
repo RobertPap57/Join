@@ -33,6 +33,14 @@
 .search-form {
     position: relative;
 }
+.search-error-message {
+    position: absolute;
+    bottom: -16px;
+    left: 0;
+    color: #FF8190;
+    font-size: 12px;
+    display: none;
+}
 
 .search-form input {
     all: unset;

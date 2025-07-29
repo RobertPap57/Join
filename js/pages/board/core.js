@@ -2,6 +2,8 @@
  * Board functionality for managing and displaying tasks
  */
 
+let searchQuery = '';
+
 /**
  * Initializes the board page with necessary setup and data loading.
  */
@@ -14,6 +16,7 @@ async function initBoard() {
     await getTasks();
     await getContacts();
     renderTasks();
+    setupSearchFunctionality();
 }
 
 
@@ -49,7 +52,7 @@ function getTaskCardHTML(task) {
  * @returns {string} The hex color code for the specified category.
  */
 function getCategoryColor(category) {
-    return category === 'Technical Task' ? '#1FD7C1' : '#0038FF';
+    return category === 'Technical Tasks' ? '#1FD7C1' : '#0038FF';
 }
 
 /**
@@ -110,11 +113,20 @@ function renderTasks() {
         return;
     }
 
-    tasks.forEach(task => {
+    const filteredTasks = getFilteredTasks();
+    
+    if (filteredTasks.length === 0 && searchQuery.trim() !== '') {
+        showSearchError();
+        showEmptyContainers();
+        return;
+    } else {
+        hideSearchError();
+    }
+
+    filteredTasks.forEach(task => {
         renderTaskInContainer(task);
     });
     
-    // Show empty message for containers that have no tasks
     showEmptyContainersIfNeeded();
 }
 
@@ -381,4 +393,89 @@ function createShadowElement() {
     shadowElement.className = 'task-card-shadow';
     shadowElement.style.pointerEvents = 'none';
     return shadowElement;
+}
+
+/**
+ * Sets up search functionality for task filtering.
+ */
+function setupSearchFunctionality() {
+    const searchInput = document.querySelector('input[name="q"]');
+    const searchForm = document.querySelector('.search-form');
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', handleSearchInput);
+    }
+    
+    if (searchForm) {
+        searchForm.addEventListener('submit', handleSearchSubmit);
+    }
+}
+
+/**
+ * Handles search input events and filters tasks in real-time.
+ * @param {Event} event - The input event
+ */
+function handleSearchInput(event) {
+    searchQuery = event.target.value;
+    renderTasks();
+}
+
+/**
+ * Handles search form submission and prevents page reload.
+ * @param {Event} event - The form submit event
+ */
+function handleSearchSubmit(event) {
+    event.preventDefault();
+    const searchInput = document.querySelector('input[name="q"]');
+    if (searchInput) {
+        searchQuery = searchInput.value;
+        renderTasks();
+    }
+}
+
+/**
+ * Filters tasks based on current search query.
+ * @returns {Array} Array of tasks matching the search criteria
+ */
+function getFilteredTasks() {
+    if (!searchQuery.trim()) {
+        return tasks;
+    }
+    
+    const query = searchQuery.toLowerCase().trim();
+    return tasks.filter(task => {
+        const titleMatch = task.title.toLowerCase().includes(query);
+        const descMatch = task.description.toLowerCase().includes(query);
+        return titleMatch || descMatch;
+    });
+}
+
+/**
+ * Shows search error styling when no results found.
+ */
+function showSearchError() {
+    const searchInput = document.querySelector('input[name="q"]');
+    const errorMessage = document.querySelector('.search-error-message');
+    
+    if (searchInput) {
+        searchInput.style.borderColor = '#FF8190';
+    }
+    if (errorMessage) {
+        errorMessage.style.display = 'block';
+    }
+}
+
+/**
+ * Hides search error styling when results found or input empty.
+ */
+function hideSearchError() {
+    const searchInput = document.querySelector('input[name="q"]');
+    const errorMessage = document.querySelector('.search-error-message');
+    
+    if (searchInput) {
+        searchInput.style.borderColor = '';
+    }
+    if (errorMessage) {
+        errorMessage.style.display = 'none';
+    }
 }
