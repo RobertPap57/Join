@@ -32,7 +32,7 @@ function getSubtaskListItemHTML(item, index) {
                 </div>
                 <div class="subtask-divider-2"></div>
                 <div class="delete-subtask-btn">
-                    <img src=".../assets/images/global/delete.svg" alt="delete">
+                    <img src="../assets/images/global/delete.svg" alt="delete">
                 </div>
             </div>
         </li>

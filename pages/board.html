@@ -24,10 +24,8 @@
     <nav w3-include-html="../templates/nav.html"></nav>
 
     <div class="main-wrapper">
-
         <main class="main">
             <header class="board-header">
-
                 <h1>Board</h1>
                 <div class="toolbar d-flex-center" role="region" aria-label="Page actions">
                     <form class="search-form" role="search" aria-label="Site search">
@@ -38,7 +36,6 @@
                             </button>
                         </div>
                     </form>
-
                     <button class="add-task-board-btn primary-btn d-flex-center" aria-label="Add task"
                         onclick="openAddTaskPopup()">
                         <span>Add task</span>
@@ -46,9 +43,7 @@
                     </button>
                 </div>
             </header>
-
             <section class="main-section">
-
                 <section class="task-group">
                     <header class="task-group-header">
                         <h2>To do</h2>
@@ -56,17 +51,8 @@
                             <img src="../assets/images/pages/boards/add.svg" alt="Add task in 'to do' group">
                         </button>
                     </header>
-                    <div class="task-row">
-
-
-                        <span class="empty-row d-flex-center">No tasks To do</span>
-                    
-                    
+                    <div class="task-container" id="to-do">
                     </div>
-
-
-
-
                 </section>
                 <section class="task-group">
                     <header class="task-group-header">
@@ -75,49 +61,7 @@
                             <img src="../assets/images/pages/boards/add.svg" alt="Add task in 'in progress' group">
                         </button>
                     </header>
-                    <div class="task-row">
-
-
-
-
-                        <article class="task-card">
-                            <header class="task-card-category">
-                                <p>User Story</p>
-                            </header>
-
-                            <h2>Kochwelt Page & Recipe Recommender</h2>
-
-                            <p class="task-card-desc">Build start page whit recipe recommendation bllaaaaaaaaaa</p>
-
-                            <div class="task-progress" role="progressbar" aria-valuenow="2" aria-valuemin="0"
-                                aria-valuemax="5">
-                                <span class="progress-bar"><span class="progress"></span></span>
-                                1/2 Subtasks
-                            </div>
-
-                            <footer class="task-card-footer">
-                                <div class="assigned-avatars" aria-label="Assigned to: John, Lisa, Mike">
-                              <div class="profile-avatar-small task-card-avatar d-flex-center avatar1">
-                                AM
-                              </div>
-                              <div class="profile-avatar-small task-card-avatar d-flex-center avatar2">
-                                <img src="../assets/images/profile-photos/anton.jpg" alt="">
-                              </div>
-                              <div class="profile-avatar-small task-card-avatar d-flex-center avatar3">
-                                <img src="../assets/images/profile-photos/gitHubProfile.jpg" alt="">
-                              </div>
-                                </div>
-                                <div class="task-priority d-flex-center" aria-label="Priority: High">
-                                    <img src="../assets/images/global/medium.svg" alt="Priority: High">
-                                </div>
-                            </footer>
-                        </article>
-
-
-
-
-
-
+                    <div class="task-container" id="in-progress">
                     </div>
                 </section>
                 <section class="task-group">
@@ -127,90 +71,18 @@
                             <img src="../assets/images/pages/boards/add.svg" alt="Add task in 'await feedback' group">
                         </button>
                     </header>
-                    <div class="task-row">
-                           <article class="task-card">
-                            <header class="task-card-category">
-                                <p>User Story</p>
-                            </header>
-
-                            <h2>Kochwelt Page & Recipe Recommender</h2>
-
-                            <p class="task-card-desc">Build start page whit recipe recommendation bllaaaaaaaaaa</p>
-
-                            <div class="task-progress" role="progressbar" aria-valuenow="2" aria-valuemin="0"
-                                aria-valuemax="5">
-                                <span class="progress-bar"><span class="progress"></span></span>
-                                1/2 Subtasks
-                            </div>
-
-                            <footer class="task-card-footer">
-                                <div class="assigned-avatars" aria-label="Assigned to: John, Lisa, Mike">
-                              <div class="profile-avatar-small task-card-avatar d-flex-center avatar1">
-                                AM
-                              </div>
-                              <div class="profile-avatar-small task-card-avatar d-flex-center avatar2">
-                                <img src="../assets/images/profile-photos/anton.jpg" alt="">
-                              </div>
-                              <div class="profile-avatar-small task-card-avatar d-flex-center avatar3">
-                                <img src="../assets/images/profile-photos/gitHubProfile.jpg" alt="">
-                              </div>
-                                </div>
-                                <div class="task-priority d-flex-center" aria-label="Priority: High">
-                                    <img src="../assets/images/global/medium.svg" alt="Priority: High">
-                                </div>
-                            </footer>
-                        </article>
-
+                    <div class="task-container" id="await-feedback">
                     </div>
                 </section>
                 <section class="task-group">
                     <header class="task-group-header">
                         <h2>Done</h2>
                     </header>
-                    <div class="task-row">
-                           <article class="task-card">
-                            <header class="task-card-category">
-                                <p>User Story</p>
-                            </header>
-
-                            <h2>Kochwelt Page & Recipe Recommender</h2>
-
-                            <p class="task-card-desc">Build start page whit recipe recommendation bllaaaaaaaaaa</p>
-
-                            <div class="task-progress" role="progressbar" aria-valuenow="2" aria-valuemin="0"
-                                aria-valuemax="5">
-                                <span class="progress-bar"><span class="progress"></span></span>
-                                1/2 Subtasks
-                            </div>
-
-                            <footer class="task-card-footer">
-                                <div class="assigned-avatars" aria-label="Assigned to: John, Lisa, Mike">
-                              <div class="profile-avatar-small task-card-avatar d-flex-center avatar1">
-                                AM
-                              </div>
-                              <div class="profile-avatar-small task-card-avatar d-flex-center avatar2">
-                                <img src="../assets/images/profile-photos/anton.jpg" alt="">
-                              </div>
-                              <div class="profile-avatar-small task-card-avatar d-flex-center avatar3">
-                                <img src="../assets/images/profile-photos/gitHubProfile.jpg" alt="">
-                              </div>
-                                </div>
-                                <div class="task-priority d-flex-center" aria-label="Priority: High">
-                                    <img src="../assets/images/global/medium.svg" alt="Priority: High">
-                                </div>
-                            </footer>
-                        </article>
-
+                    <div class="task-container" id="done">
                     </div>
                 </section>
-
             </section>
-
-
-
-
         </main>
-
     </div>
 </body>
 

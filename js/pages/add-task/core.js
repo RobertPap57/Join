@@ -53,7 +53,7 @@ function getTaskData() {
         title: document.getElementById('title').value,
         description: document.getElementById('description').value,
         category: document.getElementById('category-displayed').textContent,
-        status: 'todo',
+        status: 'to-do',
         dueDate: document.getElementById('due-date-input').value,
         priority: getSelectedPriority(),
         assignedTo: selectedContacts.map(item => item.id),

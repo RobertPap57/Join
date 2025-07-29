@@ -10,6 +10,7 @@ const dummyContacts = {
 		"email": "antom@gmail.com",
 		"phone": "+49 1111 11 111 1",
 		"color": "#FF70AA",
+		"image": "../assets/images/profile-photos/anton.jpg"
 	},
 
 	"1": {
@@ -18,6 +19,7 @@ const dummyContacts = {
 		"phone": "+49 2222 222 22 2",
 		"id": "1",
 		"color": "#FFC700",
+		"image": "../assets/images/profile-photos/tatjana.jpg"
 	},
 
 	"2": {
@@ -66,6 +68,7 @@ const dummyContacts = {
 		"phone": "+49 8888 888 88 8",
 		"id": "7",
 		"color": "#00BEE8",
+		"image": "../assets/images/profile-photos/sofia.jpg"
 	},
 
 	"8": {
@@ -85,7 +88,7 @@ const dummyTasks = {
 		"title": "Kochwelt Page & Recipe Recommender",
 		"description": "Build start page with recipe recommendation.",
 		"category": "User Story",
-		"status": "toDo",
+		"status": "in-progress",
 		"dueDate": "2024-07-31",
 		"priority": "medium",
 		"subTasks": [
@@ -106,9 +109,9 @@ const dummyTasks = {
 	"1": {
 		"id": "1",
 		"title": "CSS Architecture Planning",
-		"description": "Define CSS naming conventions and structure",
+		"description": "Define CSS naming conventions and structure.",
 		"category": "Technical Tasks",
-		"status": "inProgress",
+		"status": "done",
 		"dueDate": "2024-07-31",
 		"priority": "urgent",
 		"subTasks": [
@@ -123,42 +126,41 @@ const dummyTasks = {
 				"completet": true,
 			},
 		],
-
-		"assignedTo": ["2", "7"],
+		"assignedTo": ["7", "2"],
 	},
 
 	"2": {
 		"id": "2",
 		"title": "HTML Base Template Creation",
-		"description": "Create reusable HTML base templates",
+		"description": "Create reusable HTML base templates.",
 		"category": "Technical Tasks",
-		"status": "awaitingFeedback",
+		"status": "awaiting-feedback",
 		"dueDate": "2024-07-31",
 		"priority": "low",
 		"subTasks": [],
-		"assignedTo": ["2", "3", "8"],
+		"assignedTo": ["3", "2", "8"],
 	},
 
 	"3": {
 		"id": "3",
 		"title": "Daily Kochwelt Recipe",
-		"description": "Implement daily recipe and portion calculator",
+		"description": "Implement daily recipe and portion calculator.",
 		"category": "User Story",
-		"status": "awaitingFeedback",
+		"status": "awaiting-feedback",
 		"dueDate": "2024-07-31",
 		"priority": "medium",
 		"subTasks": [],
-		"assignedTo": ["1", "4", "8"],
+		"assignedTo": ["4", "8", "1"],
 	},
 
 	"4": {
 		"id": "4",
 		"title": "Contact Form & Imprint",
-		"description": "Create a contac form and imprint page",
+		"description": "Create a contact form and imprint page.",
 		"category": "User Story",
-		"status": "toDo",
+		"status": "to-do",
 		"dueDate": "2024-07-31",
-		"priority": "medium",
+		"priority": "urgent",
 		"subTasks": [
 			{
 				"id": "0",
@@ -167,11 +169,11 @@ const dummyTasks = {
 			},
 			{
 				"id": "1",
-				"content": "set up imprint page",
+				"content": "Set up imprint page",
 				"completet": false,
 			},
 		],
-		"assignedTo": ["3", "4", "8"],
+		"assignedTo": ["8", "3", "4"],
 	},
 };
 
