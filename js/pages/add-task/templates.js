@@ -57,19 +57,27 @@ function getEditSubtaskHTML(text) {
 
 /**
  * Returns HTML for an attachment item.
- * @param {string} base64 - Base64 encoded image data
- * @param {string} filename - Original filename
+ * @param {object} attachment - The attachment object.
+ * @param {string} attachment.base64 - Base64 encoded image data
+ * @param {string} attachment.filename - Original filename
  * @param {number} index - Index in attachments array
+ * @param {string} buttonType - 'delete' or 'download'
  * @returns {string} HTML string for attachment item
  */
-function getAttachmentHtml(base64, filename, index) {
+function getAttachmentHtml(attachment, index, buttonType) {
+    const buttonHtml = buttonType === 'delete'
+        ? `<button class="delete-attachment-btn" onclick="deleteAttachment(${index})">
+                <img src="../assets/images/global/delete-white.svg" alt="Delete">
+            </button>`
+        : `<a href="${attachment.base64}" download="${attachment.name}" class="download-attachment-btn">
+                <img src="../assets/images/pages/boards/download-white.svg" alt="Download">
+            </a>`;
+
     return `
         <li class="attachment-item">
-            <img class="attachment-img" src="${base64}" draggable="false" alt="">
-            <button class="delete-attachment-btn" onclick="deleteAttachment(${index})">
-                <img src="../assets/images/global/delete-white.svg" alt="Delete">
-            </button>
-            <span class="attachment-name" draggable="false">${filename}</span>
+            <img class="attachment-img" src="${attachment.base64}" draggable="false" alt="">
+            ${buttonHtml}
+            <span class="attachment-name" draggable="false">${attachment.name}</span>
         </li>
     `;
 }

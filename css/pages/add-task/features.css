@@ -125,9 +125,11 @@
     background-color: #29ABE2;
 }
 
-.attachment-item:hover .delete-attachment-btn {
+.attachment-item:hover .delete-attachment-btn,
+.attachment-item:hover .download-attachment-btn {
     display: flex;
 }
+
 
 .attachment-item:hover .attachment-img {
     filter: brightness(0.6);

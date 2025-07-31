@@ -16,7 +16,7 @@ function getPopupElements() {
         title: document.getElementById('popup-title'),
         profileImg: document.getElementById('popup-profile-img'),
         uploadBtn: document.getElementById('popup-upload-btn'),
-        filepicker: document.getElementById('filepicker'),
+        filePicker: document.getElementById('file-picker'),
         name: document.getElementById('name'),
         email: document.getElementById('email'),
         phone: document.getElementById('phone'),

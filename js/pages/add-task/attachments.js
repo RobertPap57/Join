@@ -4,14 +4,27 @@
  */
 
 let isDragging = false, startX, scrollLeft, lastX, velocity = 0, inertiaId;
-const attachmentsList = document.getElementById('attachmentsList');
+let currentAttachmentsList = null;
+
+/**
+ * Initializes drag functionality for all attachments lists.
+ */
+function initAttachmentsDrag() {
+    const attachmentsLists = document.querySelectorAll('.attachments-list');
+    attachmentsLists.forEach(attachmentsList => {
+        attachmentsList.addEventListener('mousedown', (e) => startDrag(e, attachmentsList));
+        attachmentsList.addEventListener('touchstart', (e) => startDrag(e, attachmentsList));
+    });
+}
 
 /**
  * Starts the drag operation for the attachments list.
  * @param {Event} e - Mouse or touch event
+ * @param {HTMLElement} attachmentsList - The specific attachments list element
  */
-function startDrag(e) {
+function startDrag(e, attachmentsList) {
     isDragging = true;
+    currentAttachmentsList = attachmentsList;
     startX = getPageX(e) - attachmentsList.offsetLeft;
     scrollLeft = attachmentsList.scrollLeft;
     lastX = getPageX(e);
@@ -24,13 +37,13 @@ function startDrag(e) {
  * @param {Event} e - Mouse or touch event
  */
 function dragMove(e) {
-    if (!isDragging) return;
-    const x = getPageX(e) - attachmentsList.offsetLeft;
+    if (!isDragging || !currentAttachmentsList) return;
+    const x = getPageX(e) - currentAttachmentsList.offsetLeft;
     const walk = (x - startX) * -1;
 
     velocity = getPageX(e) - lastX;
     lastX = getPageX(e);
-    attachmentsList.scrollLeft = scrollLeft + walk;
+    currentAttachmentsList.scrollLeft = scrollLeft + walk;
 }
 
 /**
@@ -46,8 +59,8 @@ function stopDrag() {
  * Handles inertia scrolling animation.
  */
 function inertia() {
-    if (Math.abs(velocity) < 0.5) return;
-    attachmentsList.scrollLeft -= velocity;
+    if (Math.abs(velocity) < 0.5 || !currentAttachmentsList) return;
+    currentAttachmentsList.scrollLeft -= velocity;
     velocity *= 0.95;
     inertiaId = requestAnimationFrame(inertia);
 }
@@ -89,35 +102,44 @@ function removeDragListeners() {
 }
 
 /**
- * Renders all attachments in the attachments list.
+ * Renders all attachments in all attachments lists.
  */
 function renderAttachments() {
-    attachmentsList.innerHTML = '';
-    attachments.forEach((attachment, index) => {
-        attachmentsList.innerHTML += getAttachmentHtml(attachment.base64, attachment.filename, index);
+    const attachmentsLists = document.querySelectorAll('.attachments-list');
+    attachmentsLists.forEach(attachmentsList => {
+        attachmentsList.innerHTML = '';
+        const buttonType = attachmentsList.id === 'detailed-task-attachments-list' ? 'download' : 'delete';
+        attachments.forEach((attachment, index) => {
+            attachmentsList.innerHTML += getAttachmentHtml(attachment, index, buttonType);
+        });
     });
     updateDeleteAllButtonVisibility();
     updateAttachmentsWrapperVisibility();
+    initAttachmentsDrag();
 }
 
 /**
  * Updates the visibility of the delete all button based on attachments count.
  */
 function updateDeleteAllButtonVisibility() {
-    const deleteAllBtn = document.getElementById('delete-attachments-btn');
-    if (deleteAllBtn) {
-        deleteAllBtn.style.display = attachments.length === 0 ? 'none' : 'flex';
-    }
+    const deleteAllBtns = document.querySelectorAll('.delete-attachments-btn');
+    deleteAllBtns.forEach(deleteAllBtn => {
+        if (deleteAllBtn) {
+            deleteAllBtn.style.display = attachments.length === 0 ? 'none' : 'flex';
+        }
+    });
 }
 
 /**
  * Updates the visibility of the attachments wrapper based on attachments count.
  */
 function updateAttachmentsWrapperVisibility() {
-    const wrapper = document.getElementById('attachments-list-wrapper');
-    if (wrapper) {
-        wrapper.style.display = attachments.length === 0 ? 'none' : 'block';
-    }
+    const wrappers = document.querySelectorAll('.attachments-list-wrapper');
+    wrappers.forEach(wrapper => {
+        if (wrapper) {
+            wrapper.style.display = attachments.length === 0 ? 'none' : 'block';
+        }
+    });
 }
 
 /**
@@ -134,7 +156,10 @@ function deleteAttachment(index) {
  */ 
 function deleteAllAttachments() {
     attachments = [];
-    attachmentsList.innerHTML = '';
+    const attachmentsLists = document.querySelectorAll('.attachments-list');
+    attachmentsLists.forEach(attachmentsList => {
+        attachmentsList.innerHTML = '';
+    });
     updateDeleteAllButtonVisibility();
     updateAttachmentsWrapperVisibility();
 }

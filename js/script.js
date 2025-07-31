@@ -165,6 +165,17 @@ function createUniqueId() {
 }
 
 /**
+ * Capitalizes the first letter of the given string and converts the rest to lowercase.
+ *
+ * @param {string} str - The string to capitalize.
+ * @returns {string} The string with the first letter capitalized and the rest in lowercase.
+ */
+function capitalizeFirstLetter(string) {
+    if (!string) return '';
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
+
+/**
  * Creates a string of initials from a name string.
  * The function takes a string of a user's name and returns a string of their
  * initials. The returned string is made up of the first letter of the first

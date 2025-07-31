@@ -17,6 +17,18 @@ async function initBoard() {
     await getContacts();
     renderTasks();
     setupSearchFunctionality();
+    closeDetailedTaskOnClickOutside();
+
+}
+
+
+
+function blockDragOnDownloadBtn() {
+    document.querySelectorAll('.download-attachment-btn').forEach(link => {
+        link.addEventListener('dragstart', event => {
+            event.preventDefault();
+        });
+    });
 }
 
 
@@ -27,7 +39,8 @@ async function initBoard() {
  * @returns {string} HTML string for the task card
  */
 function getTaskCardHTML(task) {
-    return `<article class="task-card" draggable="true" data-task-id="${task.id}">
+    return `<article class="task-card" draggable="true" data-task-id="${task.id}"
+    onclick="openDetailedTaskView('${task.id}')">
     <header class="task-card-category" style="background-color: ${getCategoryColor(task.category)};">
         <p>${task.category}</p>
     </header>
@@ -36,7 +49,7 @@ function getTaskCardHTML(task) {
     ${generateProgressHTML(task)}
     <footer class="task-card-footer">
         <div class="assigned-avatars">
-            ${generateAssignedAvatarsHTML(task.assignedTo, task.id)}
+            ${generateAssignedAvatarsHTML(task.assignedTo, task.id, 'card')}
         </div>
         <div class="task-priority d-flex-center" aria-label="Priority: ${task.priority}">
             <img src="../assets/images/global/${task.priority}.svg" alt="Priority: ${task.priority}">
@@ -75,20 +88,22 @@ function generateProgressHTML(task) {
     </div>`;
 }
 
-/**
- * Generates HTML for assigned user avatars with proper positioning.
- * @param {Array} assignedToIds - Array of contact IDs assigned to the task
- * @param {string} taskId - Task ID to make avatar IDs unique
- * @returns {string} HTML string for the assigned avatars
- */
-function generateAssignedAvatarsHTML(assignedToIds, taskId) {
-    if (!assignedToIds || assignedToIds.length === 0) {
-        return '';
-    }
+function generateAssignedAvatarsHTML(assignedToIds, taskId, context) {
+    if (!assignedToIds || assignedToIds.length === 0) return '';
 
     return assignedToIds.map((contactId, index) => {
-        const uniqueAvatarId = `task-${taskId}-assignedTo-${contactId}`;
-        return `<div id="${uniqueAvatarId}" class="profile-avatar-small task-card-avatar d-flex-center" style="left: ${index * 24}px;"></div>`;
+        const uniqueAvatarId = `task-${taskId}-assignedTo-${contactId}-${context}`;
+        let classes = 'profile-avatar-small d-flex-center';
+        let style = '';
+
+        if (context === 'card') {
+            classes += ' task-card-avatar';
+            style = `left: ${index * 24}px;`;
+        } else if (context === 'modal') {
+            classes += ' detailed-task-avatar';
+        }
+
+        return `<div id="${uniqueAvatarId}" class="${classes}" style="${style}"></div>`;
     }).join('');
 }
 
@@ -114,7 +129,7 @@ function renderTasks() {
     }
 
     const filteredTasks = getFilteredTasks();
-    
+
     if (filteredTasks.length === 0 && searchQuery.trim() !== '') {
         showSearchError();
         showEmptyContainers();
@@ -126,7 +141,7 @@ function renderTasks() {
     filteredTasks.forEach(task => {
         renderTaskInContainer(task);
     });
-    
+
     showEmptyContainersIfNeeded();
 }
 
@@ -195,7 +210,7 @@ function renderTaskInContainer(task) {
         container.innerHTML += taskHTML;
 
         // Use setTimeout to ensure DOM is updated before rendering avatars
-        setTimeout(() => renderTaskAvatars(task), 0);
+        setTimeout(() => renderTaskAvatars(task, 'card'), 0);
     }
 }
 
@@ -203,7 +218,7 @@ function renderTaskInContainer(task) {
  * Renders avatars for assigned contacts after task HTML is in DOM.
  * @param {Object} task - Task object with assignedTo array
  */
-function renderTaskAvatars(task) {
+function renderTaskAvatars(task, context) {
     if (!task.assignedTo || task.assignedTo.length === 0) {
         return;
     }
@@ -211,7 +226,7 @@ function renderTaskAvatars(task) {
     task.assignedTo.forEach(contactId => {
         const contact = findContactById(contactId);
         if (contact) {
-            const uniqueAvatarId = `task-${task.id}-assignedTo-${contactId}`;
+            const uniqueAvatarId = `task-${task.id}-assignedTo-${contactId}-${context}`;
             displayProfileAvatar(contact, uniqueAvatarId);
         }
     });
@@ -225,7 +240,7 @@ let draggedTaskStatus = null;
  */
 function setupDragAndDrop() {
     const containers = ['to-do', 'in-progress', 'await-feedback', 'done'];
-    
+
     containers.forEach(containerId => {
         const container = document.getElementById(containerId);
         if (container) {
@@ -235,7 +250,7 @@ function setupDragAndDrop() {
             container.addEventListener('dragleave', handleDragLeave);
         }
     });
-    
+
     // Add drag start listeners to all task cards
     document.addEventListener('dragstart', handleDragStart);
     document.addEventListener('dragend', handleDragEnd);
@@ -250,12 +265,12 @@ function handleDragStart(event) {
     if (event.target.closest('.task-card')) {
         const taskCard = event.target.closest('.task-card');
         draggedTaskId = taskCard.dataset.taskId;
-        
+
         const task = tasks.find(t => t.id === draggedTaskId);
         draggedTaskStatus = task ? task.status : null;
-        
+
         taskCard.style.transform = 'rotate(5deg)';
-        
+
         event.dataTransfer.effectAllowed = 'move';
     }
 }
@@ -268,11 +283,11 @@ function handleDragStart(event) {
 function handleDragEnd(event) {
     if (event.target.closest('.task-card')) {
         const taskCard = event.target.closest('.task-card');
-        
+
         taskCard.style.transform = '';
-        
+
         removeShadowElements();
-        
+
         draggedTaskStatus = null;
     }
 }
@@ -287,7 +302,7 @@ function handleDragEnter(event) {
     if (draggedTaskId && draggedTaskStatus) {
         const containerId = event.currentTarget.id;
         const containerStatus = containerId === 'await-feedback' ? 'awaiting-feedback' : containerId;
-        
+
         if (containerStatus !== draggedTaskStatus) {
             showShadowElement(event.currentTarget);
         }
@@ -304,7 +319,7 @@ function handleDragLeave(event) {
     const rect = container.getBoundingClientRect();
     const x = event.clientX;
     const y = event.clientY;
-    
+
     if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
         hideShadowElement(container);
     }
@@ -327,13 +342,13 @@ function handleDragOver(event) {
  */
 async function handleDrop(event) {
     event.preventDefault();
-    
+
     if (draggedTaskId) {
         const containerId = event.currentTarget.id;
         const newStatus = containerId === 'await-feedback' ? 'awaiting-feedback' : containerId;
-        
+
         await updateTaskStatus(draggedTaskId, newStatus);
-        
+
         draggedTaskId = null;
         removeShadowElements();
     }
@@ -348,9 +363,9 @@ async function updateTaskStatus(taskId, newStatus) {
     const task = tasks.find(task => task.id === taskId);
     if (task) {
         task.status = newStatus;
-        
+
         await updateData("/tasks", taskId, { status: newStatus });
-        
+
         renderTasks();
     }
 }
@@ -401,11 +416,11 @@ function createShadowElement() {
 function setupSearchFunctionality() {
     const searchInput = document.querySelector('input[name="q"]');
     const searchForm = document.querySelector('.search-form');
-    
+
     if (searchInput) {
         searchInput.addEventListener('input', handleSearchInput);
     }
-    
+
     if (searchForm) {
         searchForm.addEventListener('submit', handleSearchSubmit);
     }
@@ -441,7 +456,7 @@ function getFilteredTasks() {
     if (!searchQuery.trim()) {
         return tasks;
     }
-    
+
     const query = searchQuery.toLowerCase().trim();
     return tasks.filter(task => {
         const titleMatch = task.title.toLowerCase().includes(query);
@@ -456,7 +471,7 @@ function getFilteredTasks() {
 function showSearchError() {
     const searchInput = document.querySelector('input[name="q"]');
     const errorMessage = document.querySelector('.search-error-message');
-    
+
     if (searchInput) {
         searchInput.style.borderColor = '#FF8190';
     }
@@ -471,7 +486,7 @@ function showSearchError() {
 function hideSearchError() {
     const searchInput = document.querySelector('input[name="q"]');
     const errorMessage = document.querySelector('.search-error-message');
-    
+
     if (searchInput) {
         searchInput.style.borderColor = '';
     }
@@ -479,3 +494,219 @@ function hideSearchError() {
         errorMessage.style.display = 'none';
     }
 }
+
+/**
+ * Opens the detailed task view modal with the specified task's details.
+ * @param {string} taskId - The ID of the task to display.
+ */
+function openDetailedTaskView(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    const dialog = document.getElementById('detailed-task-dialog');
+    const content = dialog.querySelector('.detailed-task-content');
+    content.innerHTML = getDetailedTaskHTML(task);
+    renderSubtasks(task);
+    renderTaskAvatars(task, 'modal');
+
+    attachments = task.attachments ? Object.values(task.attachments) : [];
+    renderAttachments();
+    currentAttachments = attachments;
+    const attachmentItems = content.querySelectorAll('.attachment-item');
+
+    attachmentItems.forEach((item, index) => {
+        item.addEventListener('click', (event) => {
+            // Do not open viewer if the download button or its child image is clicked
+            if (event.target.closest('.download-attachment-btn')) {
+                return;
+            }
+            openImageViewer(index);
+        });
+    });
+    dialog.showModal();
+    blockDragOnDownloadBtn();
+}
+
+function formatDate(dateString) {
+    const [year, month, day] = dateString.split('-');
+    return `${day}/${month}/${year}`;
+}
+
+/**
+ * Generates the HTML for the detailed task view.
+ * @param {Object} task - The task object.
+ * @returns {string} The HTML string for the detailed task view.
+ */
+function getDetailedTaskHTML(task) {
+    return `
+        <header>
+            <div class="detailed-task-category" style="background-color: ${getCategoryColor(task.category)};">
+                <span>${task.category}</span>
+            </div>
+            <button class="close-btn d-flex-center p-relative" aria-label="Close dialog"
+                onclick="document.getElementById('detailed-task-dialog').close()">
+                <img src="../assets/images/global/close.svg" alt="Close dialog">
+            </button>
+        </header>
+        <h2>${task.title}</h2>
+        <p class="detailed-task-desc">${task.description}</p>
+        <section class="detailed-task-due-date">
+            <h3>Due date:</h3>
+            <span>${formatDate(task.dueDate)}</span>
+        </section>
+        <section class="detailed-task-priority">
+            <h3>Priority:</h3>
+            <div class="d-flex-center">
+                <span>${capitalizeFirstLetter(task.priority)}</span>
+                <img src="../assets/images/global/${task.priority}.svg" alt="">
+            </div>
+        </section>
+        <section class="detailed-task-assigned">
+            <h3>Assigned To:</h3>
+            <div class="detailed-task-assigned-avatars d-flex-center">
+                ${generateAssignedAvatarsHTML(task.assignedTo, task.id, 'modal')}
+            </div>
+        </section>
+        <section class="detailed-task-attachments">
+            <h3>Attachments</h3>
+            <div id="detailed-task-attachments-list-wrapper" class="attachments-list-wrapper">
+                <ul class="attachments-list" id="detailed-task-attachments-list">
+                </ul>
+            </div>
+        </section>
+        <section class="detailed-task-subtasks">
+            <h3>Subtasks</h3>
+             <ul class="detailed-task-subtasks-list">
+                   
+                </ul>
+        </section>
+        <footer class="detailed-task-action-btns">
+
+                    <button class="delete-detailed-task-btn">
+                        <img src="../assets/images/global/delete.svg" alt="">
+                        <p>Delete</p>
+                    </button>
+                    <span></span>
+                    <button class="edit-detailed-task-btn">
+                        <img src="../assets/images/global/edit.svg" alt="">
+                        <p>Edit</p>
+                    </button>
+                </footer>
+    `;
+}
+
+/**
+ * Generates the HTML for a single subtask item in the detailed view.
+ * @param {object} subtask - The subtask object.
+ * @returns {string} The HTML string for the subtask item.
+ */
+function getSubtaskItemHTML(subtask, taskId) {
+    const checkboxImg = subtask.completet ? 'checkbox-checked.svg' : 'checkbox.svg';
+    return `
+        <li class="detailed-task-subtask-item" data-task-id="${taskId}" data-subtask-id="${subtask.id}">
+            <div class="d-flex-center subtask-checkbox-container">
+                <img class="detailed-task-subtask-checkbox" src="../assets/images/global/${checkboxImg}" alt="Checkbox">
+            </div>
+            <p>${subtask.content}</p>
+        </li>
+    `;
+}
+
+/**
+ * Renders the subtasks for a given task into the detailed view list.
+ * @param {object} task - The task object containing the subtasks.
+ */
+function renderSubtasks(task) {
+    const subtaskList = document.querySelector('.detailed-task-subtasks-list');
+    subtaskList.innerHTML = '';
+    if (!task.subTasks || task.subTasks.length === 0) return;
+
+    task.subTasks.forEach(subtask => {
+        subtaskList.innerHTML += getSubtaskItemHTML(subtask, task.id);
+    });
+
+    addSubtaskClickHandlers();
+}
+
+/**
+ * Adds click event handlers to all subtask checkboxes.
+ */
+function addSubtaskClickHandlers() {
+    const subtaskItems = document.querySelectorAll('.detailed-task-subtask-item');
+
+    subtaskItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const taskId = item.dataset.taskId;
+            const subtaskId = item.dataset.subtaskId;
+            toggleSubtaskCompletion(taskId, subtaskId);
+        });
+    });
+}
+
+
+/**
+ * Toggles the completion status of a subtask.
+ * @param {string} taskId - The ID of the task containing the subtask
+ * @param {string} subtaskId - The ID of the subtask to toggle
+ */
+function toggleSubtaskCompletion(taskId, subtaskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (!task || !task.subTasks) return;
+
+    const subtask = task.subTasks.find(st => st.id === subtaskId);
+    if (!subtask) return;
+
+    subtask.completet = !subtask.completet;
+    updateSubtaskUI(taskId, subtaskId, subtask.completet);
+    saveSubtaskChanges(task);
+}
+
+
+/**
+ * Updates the UI for a single subtask after status change.
+ * @param {string} taskId - The ID of the task
+ * @param {string} subtaskId - The ID of the subtask
+ * @param {boolean} isCompleted - Whether the subtask is completed
+ */
+function updateSubtaskUI(taskId, subtaskId, isCompleted) {
+    const selector = `.detailed-task-subtask-item[data-task-id="${taskId}"][data-subtask-id="${subtaskId}"]`;
+    const subtaskItem = document.querySelector(selector);
+    if (!subtaskItem) return;
+
+    const checkboxImg = subtaskItem.querySelector('.detailed-task-subtask-checkbox');
+    const imgName = isCompleted ? 'checkbox-checked.svg' : 'checkbox.svg';
+    checkboxImg.src = `../assets/images/global/${imgName}`;
+}
+
+
+/**
+ * Saves subtask changes to the database.
+ * @param {object} task - The task with updated subtasks
+ */
+async function saveSubtaskChanges(task) {
+    try {
+        await updateData("/tasks", task.id, { subTasks: task.subTasks });
+        // Update the task card to reflect subtask progress changes
+        renderTasks();
+    } catch (error) {
+        console.error('Error saving subtask changes:', error);
+    }
+}
+
+function closeDetailedTaskOnClickOutside() {
+    const dialog = document.getElementById('detailed-task-dialog');
+    dialog.addEventListener('click', (event) => {
+        const rect = dialog.getBoundingClientRect();
+        const isInDialog =
+            event.clientX >= rect.left &&
+            event.clientX <= rect.right &&
+            event.clientY >= rect.top &&
+            event.clientY <= rect.bottom;
+
+        if (!isInDialog) {
+            dialog.close();
+        }
+    });
+}
+
+

@@ -31,6 +31,7 @@ async function initAddTask() {
     preventDefaultValidation();
     createCustomResizeHandle();
     initPopup();
+    initAttachmentsDrag();
 }
 
 /**

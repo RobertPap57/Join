@@ -66,6 +66,12 @@ a:focus {
   text-decoration: none;
 }
 
+img, svg, a {
+  user-drag: none; 
+  -webkit-user-drag: none; 
+  pointer-events: auto; 
+}
+
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
   -webkit-text-fill-color: #000000 !important;

@@ -8,15 +8,24 @@
     <link id="favicon" rel="icon" href="../favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/pages/board/core.css">
+    <link rel="stylesheet" href="../css/pages/board/image-viewer.css">
     <link rel="stylesheet" href="../css/components/header.css">
     <link rel="stylesheet" href="../css/components/nav.css">
     <link rel="stylesheet" href="../css/components/popup/popup.css">
     <link rel="stylesheet" href="../css/components/popup/popup-responsive.css">
+    <link rel="stylesheet" href="../css/pages/add-task/buttons.css">
+    <link rel="stylesheet" href="../css/pages/add-task/components.css">
+    <link rel="stylesheet" href="../css/pages/add-task/features.css">
+    <link rel="stylesheet" href="../css/pages/add-task/layout.css">
+    <link rel="stylesheet" href="../css/pages/add-task/modals.css">
     <script src="../js/script.js"></script>
     <script src="../js/components/header.js"></script>
     <script src="../js/components/nav.js"></script>
     <script src="../js/utils/image-handler.js"></script>
+    <script src="../js/pages/add-task/attachments.js"></script>
+    <script src="../js/pages/add-task/templates.js"></script>
     <script src="../js/pages/board/core.js"></script>
+    <script src="../js/pages/board/image-viewer.js"></script>
 </head>
 
 <body onload="initBoard()">
@@ -83,10 +92,21 @@
                     </div>
                 </section>
             </section>
+
+            <dialog class="detailed-task-dialog" id="detailed-task-dialog">
+                <article class="detailed-task-content">
+                </article>
+            </dialog>
         </main>
     </div>
 
-<div class=""></div>
+    <dialog id="image-viewer-dialog" class="image-viewer-dialog">
+        <div class="image-container">
+            <button id="prev-btn">◀</button>
+            <img id="viewer-img" src="" alt="Image" />
+            <button id="next-btn">▶</button>
+        </div>
+    </dialog>
 
 </body>
 

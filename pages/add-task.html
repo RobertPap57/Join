@@ -103,17 +103,16 @@
                                     <span>Delete all</span>
                                 </div>
                             </div>
-                            <div class="drag-attachment-container d-flex-center" onclick="attachmentsinput.click()"
+                            <div class="drag-attachment-container d-flex-center" onclick="getElementById('attachments-input').click()"
                                 ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"
                                 ondrop="handleDrop(event)">
                                 <span></span>
                                 <img src="../assets/images/pages/add-task/plus-grey.svg" alt="plus">
-                                <input type="file" id="attachmentsinput" class="d-none" multiple
+                                <input type="file" id="attachments-input" class="d-none" multiple
                                     accept=".jpg,.jpeg,.png,image/jpeg,image/png">
                             </div>
-                            <div id="attachments-list-wrapper" class="attachments-list-wrapper"
-                                onmousedown="startDrag(event)" ontouchstart="startDrag(event)">
-                                <ul class="attachments-list" id="attachmentsList">
+                            <div id="attachments-list-wrapper" class="attachments-list-wrapper">
+                                <ul class="attachments-list" id="attachments-list">
                                 </ul>
                             </div>
                         </div>

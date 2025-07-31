@@ -159,7 +159,7 @@ function getErrorMsgHtml(message) {
 
 // Initialize file input listener when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    const input = document.getElementById('attachmentsinput');
+    const input = document.getElementById('attachments-input');
     if (input) {
         input.addEventListener('change', function () {
             const files = Array.from(input.files || []);
@@ -181,13 +181,18 @@ async function handleFiles(files) {
         const base64 = await compressImage(file, 800, 800, 0.7);
         const size = Math.round((base64.length * 3 / 4) / 1024);
         const attachment = {
-            filename: file.name,
+            name: file.name,
             base64: base64,
             size: size
         };
         attachments.push(attachment);
         renderAttachments();
-        attachmentsList.scrollLeft = attachmentsList.scrollWidth;
+        
+        // Scroll all attachment lists to the end
+        const attachmentsLists = document.querySelectorAll('.attachments-list');
+        attachmentsLists.forEach(list => {
+            list.scrollLeft = list.scrollWidth;
+        });
     }
 }
 
@@ -211,7 +216,7 @@ async function handleImageFile(file) {
  * Should be called after popup template is loaded.
  */
 function initImageHandler() {
-    const picker = document.getElementById('filepicker');
+    const picker = document.getElementById('file-picker');
     if (!picker) {
         return;
     }
