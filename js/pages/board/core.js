@@ -65,7 +65,7 @@ function getTaskCardHTML(task) {
  * @returns {string} The hex color code for the specified category.
  */
 function getCategoryColor(category) {
-    return category === 'Technical Tasks' ? '#1FD7C1' : '#0038FF';
+    return category === 'Technical Task' ? '#1FD7C1' : '#0038FF';
 }
 
 /**
