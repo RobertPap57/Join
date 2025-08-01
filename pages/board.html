@@ -101,10 +101,36 @@
     </div>
 
     <dialog id="image-viewer-dialog" class="image-viewer-dialog">
-        <div class="image-container">
-            <button id="prev-btn">◀</button>
+        <div class="viewer-container">
+            <header class="viewer-header">
+                <h2 id="viewer-title"></h2>
+                <section class="viewer-actions">
+                    <div class="zoom-buttons">
+                        <button class="d-flex-center button-24" id="zoom-out-btn">
+                            <img src="../assets/images/pages/boards/zoom-out.svg" alt="Zoom out">
+                        </button>
+                        <button class="d-flex-center button-24" id="zoom-in-btn">
+                            <img src="../assets/images/pages/boards/zoom-in.svg" alt="Zoom in">
+                        </button>
+                    </div>
+                    <div class="viewer-actions-buttons">
+                        <button class="d-flex-center button-32" id="viewer-download-btn">
+                            <img src="../assets/images/pages/boards/download-white.svg" alt="Download">
+                        </button>
+                        <button class="d-flex-center button-40" id="viewer-close-btn"
+                            onclick="closeImageViewer()">
+                            <img src="../assets/images/global/close-white.svg" alt="Close">
+                        </button>
+                    </div>
+                </section>
+            </header>
             <img id="viewer-img" src="" alt="Image" />
-            <button id="next-btn">▶</button>
+            <button id="prev-btn" class="d-flex-center button-32 prev-btn">
+                <img src="../assets/images/global/left-arrow.svg" alt="Previous">
+            </button>
+            <button id="next-btn" class="d-flex-center button-32 next-btn">
+                <img src="../assets/images/global/left-arrow.svg" alt="Next">
+            </button>
         </div>
     </dialog>
 

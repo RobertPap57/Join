@@ -64,7 +64,7 @@ function isAllowedFile(file) {
  * @param {number} quality - Compression quality (0-1)
  * @returns {Promise<string>} Promise resolving to base64 encoded compressed image
  */
-function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.8) {
+function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 1) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = (event) => processImageForCompression(event, maxWidth, maxHeight, quality, resolve, reject);
