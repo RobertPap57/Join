@@ -654,7 +654,7 @@ function getDetailedTaskHTML(task) {
         </section>
         <footer class="detailed-task-action-btns">
 
-                    <button class="delete-detailed-task-btn">
+                    <button class="delete-detailed-task-btn" onclick="deleteTask('${task.id}')">
                         <img src="../assets/images/global/delete.svg" alt="">
                         <p>Delete</p>
                     </button>
@@ -783,3 +783,18 @@ function handleOutsideClose(event, dialog) {
     if (!isInDialog) dialog.close();
 }
 
+
+
+
+function deleteTask(taskId) {
+    const taskIndex = tasks.findIndex(task => task.id === taskId);
+    if (taskIndex === -1) return;
+
+    tasks.splice(taskIndex, 1);
+    deleteData("/tasks", taskId)
+        .then(() => {
+            renderTasks();
+            document.getElementById('detailed-task-dialog').close();
+        })
+        .catch(error => console.error('Error deleting task:', error));
+}
