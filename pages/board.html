@@ -106,15 +106,15 @@
                 <h2 id="viewer-title"></h2>
                 <section class="viewer-actions">
                     <div class="zoom-buttons">
-                        <button class="d-flex-center button-24" id="zoom-out-btn">
+                        <button class="d-flex-center button-24" id="zoom-out-btn" onclick="zoomOut()">
                             <img src="../assets/images/pages/boards/zoom-out.svg" alt="Zoom out">
                         </button>
-                        <button class="d-flex-center button-24" id="zoom-in-btn">
+                        <button class="d-flex-center button-24" id="zoom-in-btn" onclick="zoomIn()">
                             <img src="../assets/images/pages/boards/zoom-in.svg" alt="Zoom in">
                         </button>
                     </div>
                     <div class="viewer-actions-buttons">
-                        <button class="d-flex-center button-32" id="viewer-download-btn">
+                        <button class="d-flex-center button-32" id="viewer-download-btn" onclick="downloadCurrentImage()">
                             <img src="../assets/images/pages/boards/download-white.svg" alt="Download">
                         </button>
                         <button class="d-flex-center button-40" id="viewer-close-btn"
@@ -125,10 +125,10 @@
                 </section>
             </header>
             <img id="viewer-img" src="" alt="Image" />
-            <button id="prev-btn" class="d-flex-center button-32 prev-btn">
+            <button id="prev-btn" class="d-flex-center button-32 prev-btn" onclick="showPreviousImage()">
                 <img src="../assets/images/global/left-arrow.svg" alt="Previous">
             </button>
-            <button id="next-btn" class="d-flex-center button-32 next-btn">
+            <button id="next-btn" class="d-flex-center button-32 next-btn" onclick="showNextImage()">
                 <img src="../assets/images/global/left-arrow.svg" alt="Next">
             </button>
         </div>

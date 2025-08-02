@@ -462,3 +462,7 @@
 .edit-detailed-task-btn img {
     width: 18.25px;
 }
+
+#detailed-task-attachments-list .attachment-item {
+    cursor: pointer !important;
+}

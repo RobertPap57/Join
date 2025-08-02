@@ -509,22 +509,79 @@ function openDetailedTaskView(taskId) {
     renderSubtasks(task);
     renderTaskAvatars(task, 'modal');
 
+    setupDetailedTaskAttachments(task, content);
+
+    // attachments = task.attachments ? Object.values(task.attachments) : [];
+    // renderAttachments();
+    // currentAttachments = attachments;
+    // const attachmentItems = content.querySelectorAll('.attachment-item');
+
+    // attachmentItems.forEach((item, index) => {
+    //     item.addEventListener('mousedown', (event) => {
+    //         if (event.target.closest('.download-attachment-btn')) {
+    //             return;
+    //         }
+    //         openImageViewer(index);
+    //     });
+    // });
+    dialog.showModal();
+    blockDragOnDownloadBtn();
+}
+
+function setupDetailedTaskAttachments(task, content) {
     attachments = task.attachments ? Object.values(task.attachments) : [];
     renderAttachments();
     currentAttachments = attachments;
-    const attachmentItems = content.querySelectorAll('.attachment-item');
 
+    const attachmentItems = content.querySelectorAll('.attachment-item');
+    setupAttachmentClickEvents(attachmentItems);
+}
+
+function setupAttachmentClickEvents(attachmentItems) {
     attachmentItems.forEach((item, index) => {
-        item.addEventListener('click', (event) => {
-            // Do not open viewer if the download button or its child image is clicked
-            if (event.target.closest('.download-attachment-btn')) {
-                return;
-            }
-            openImageViewer(index);
+        let startPos = { x: 0, y: 0 };
+
+        item.addEventListener('mousedown', (e) => {
+            startPos = getPointerPosition(e);
+        });
+
+        item.addEventListener('mouseup', (e) => {
+            handleAttachmentClick(e, startPos, index);
+        });
+
+        item.addEventListener('touchstart', (e) => {
+            startPos = getPointerPosition(e);
+        }, { passive: false });
+
+        item.addEventListener('touchend', (e) => {
+            handleAttachmentClick(e, startPos, index);
         });
     });
-    dialog.showModal();
-    blockDragOnDownloadBtn();
+}
+
+function getPointerPosition(event) {
+    const e = event.touches?.[0] || event.changedTouches?.[0] || event;
+    return {
+        x: e.clientX,
+        y: e.clientY
+    };
+}
+
+function handleAttachmentClick(event, startPos, index) {
+    if (event.target.closest('.download-attachment-btn')) return;
+
+    const endPos = getPointerPosition(event);
+    if (!hasMoved(startPos, endPos)) {
+        event.preventDefault();
+        openImageViewer(index);
+    }
+}
+
+function hasMoved(start, end, threshold = 5) {
+    return (
+        Math.abs(end.x - start.x) > threshold ||
+        Math.abs(end.y - start.y) > threshold
+    );
 }
 
 function formatDate(dateString) {
@@ -695,18 +752,19 @@ async function saveSubtaskChanges(task) {
 
 function closeDetailedTaskOnClickOutside() {
     const dialog = document.getElementById('detailed-task-dialog');
-    dialog.addEventListener('click', (event) => {
-        const rect = dialog.getBoundingClientRect();
-        const isInDialog =
-            event.clientX >= rect.left &&
-            event.clientX <= rect.right &&
-            event.clientY >= rect.top &&
-            event.clientY <= rect.bottom;
-
-        if (!isInDialog) {
-            dialog.close();
-        }
-    });
+    dialog.addEventListener('mousedown', (event) => handleOutsideClose(event, dialog));
+    dialog.addEventListener('touchstart', (event) => handleOutsideClose(event, dialog), { passive: false });
 }
 
+function handleOutsideClose(event, dialog) {
+    const rect = dialog.getBoundingClientRect();
+    const x = event.touches ? event.touches[0].clientX : event.clientX;
+    const y = event.touches ? event.touches[0].clientY : event.clientY;
+    const isInDialog =
+        x >= rect.left &&
+        x <= rect.right &&
+        y >= rect.top &&
+        y <= rect.bottom;
+    if (!isInDialog) dialog.close();
+}
 
