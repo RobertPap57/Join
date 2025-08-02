@@ -27,6 +27,7 @@ function openImageViewer(index) {
     imageDialog.classList.remove('slide-down');
     currentZoomLevel = 1;
     applyZoom();
+    resetImagePosition();
     imageViewerEventListeners();
     if (viewerImg) {
         if (currentAttachments[currentIndex]) {
