@@ -91,21 +91,36 @@ function generateProgressHTML(task) {
 function generateAssignedAvatarsHTML(assignedToIds, taskId, context) {
     if (!assignedToIds || assignedToIds.length === 0) return '';
 
-    return assignedToIds.map((contactId, index) => {
-        const uniqueAvatarId = `task-${taskId}-assignedTo-${contactId}-${context}`;
-        let classes = 'profile-avatar-small d-flex-center';
-        let style = '';
+    const maxVisible = 6;
+    const html = assignedToIds.map((id, index) =>
+        createAvatarDiv(id, taskId, context, index, maxVisible)
+    ).join('');
 
-        if (context === 'card') {
-            classes += ' task-card-avatar';
-            style = `left: ${index * 24}px;`;
-        } else if (context === 'modal') {
-            classes += ' detailed-task-avatar';
-        }
-
-        return `<div id="${uniqueAvatarId}" class="${classes}" style="${style}"></div>`;
-    }).join('');
+    const hasOverflow = context === 'card' && assignedToIds.length > maxVisible;
+    return hasOverflow ? html + createOverflowAvatar(assignedToIds.length - maxVisible, maxVisible) : html;
 }
+
+function createAvatarDiv(contactId, taskId, context, index, maxVisible) {
+    const uniqueId = `task-${taskId}-assignedTo-${contactId}-${context}`;
+    let classes = 'profile-avatar-small d-flex-center';
+    let style = '';
+
+    if (context === 'card') {
+        classes += ' task-card-avatar';
+        style = `left: ${index * 24}px;`;
+        if (index >= maxVisible) classes += ' d-none';
+    }
+
+    return `<div id="${uniqueId}" class="${classes}" style="${style}"></div>`;
+}
+
+function createOverflowAvatar(remaining, positionIndex) {
+    const style = `left: ${positionIndex * 24}px; background-color: #d1d1d1;`;
+    const classes = 'profile-avatar-small d-flex-center task-card-avatar';
+
+    return `<div class="${classes}" style="${style}">+${remaining}</div>`;
+}
+
 
 /**
  * Finds a contact by ID in the contacts array.
