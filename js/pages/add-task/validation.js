@@ -260,7 +260,7 @@ function clearArrays() {
  * Resets UI elements to their default state.
  */
 function resetUIElements() {
-    attachmentsList.innerHTML = '';
+    document.getElementById('attachments-list').innerHTML = '';
     deselectContacts();
     renderSubtasks();
     renderContacts();

@@ -157,20 +157,25 @@ function getErrorMsgHtml(message) {
     return '';
 }
 
-// Initialize file input listener when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
+/**
+ * Sets up event listeners for file input attachments.
+ */
+function fileInputListener() {
     const input = document.getElementById('attachments-input');
     if (input) {
         input.addEventListener('change', function () {
-            const files = Array.from(input.files || []);
+            const files = Array.from(this.files || []);
             const allowed = files.filter(isAllowedFile);
             if (allowed.length) {
                 handleFiles(allowed);
             }
-            input.value = '';
+            this.value = ''; // Reset input after handling files
         });
+
     }
-});
+}
+
+
 
 /**
  * Processes multiple files by compressing and adding them to attachments.
@@ -187,7 +192,7 @@ async function handleFiles(files) {
         };
         attachments.push(attachment);
         renderAttachments();
-        
+
         // Scroll all attachment lists to the end
         const attachmentsLists = document.querySelectorAll('.attachments-list');
         attachmentsLists.forEach(list => {
@@ -222,7 +227,7 @@ function initImageHandler() {
     }
     picker.addEventListener('change', async function () {
         const file = picker.files?.[0];
-        picker.value = ''; 
+        picker.value = '';
         if (!file || !isAllowedFile(file)) {
             return;
         }

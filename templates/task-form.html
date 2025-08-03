@@ -1,0 +1,136 @@
+<div class="form-container">
+    <h1 class="heading">Add Task</h1>
+    <div class="form-col-container">
+        <div class="form-col-left">
+            <div class="form-group">
+                <label for="title">Title<span class="required">*</span></label>
+                <input class="form-input placeholder-color title-input-padding" type="text" id="title"
+                    placeholder="Enter a title">
+                <div id="title-required" class="field-required-msg">This field is required</div>
+            </div>
+            <div class="form-group textarea-container">
+                <label for="description">Description</label>
+                <textarea class="placeholder-color scroll-container" id="description"
+                    placeholder="Enter a description"></textarea>
+                <div class="custom-resize-handle">
+                    <img src="../assets/images/pages/add-task/resize.svg" alt="resize" draggable="false">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="due-date-input">Due date<span class="required">*</span></label>
+                <input class="form-input color-grey due-date-input-mobile" type="date" id="due-date-input">
+                <div id="date-required" class="field-required-msg">This field is required</div>
+            </div>
+            <div class="form-group">
+                <label>Prio</label>
+                <div class="prio-buttons">
+                    <button type="button" id="urgent" class="prio-btn urgent">Urgent<img
+                            src="../assets/images/global/urgent.svg" alt=""></button>
+                    <button type="button" id="medium" class="prio-btn active">Medium<img
+                            src="../assets/images/global/medium-white.svg" alt=""></button>
+                    <button type="button" id="low" class="prio-btn low">Low<img src="../assets/images/global/low.svg"
+                            alt=""></button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="category-selected">Category<span class="required">*</span></label>
+                <div class="dropdown-container">
+                    <div id="category-container" class="select-btn category">
+                        <span id="category-displayed" class="btn-text">Select task category</span>
+                        <span id="category-btn" class="arrow-down">
+                            <img src="../assets/images/global/arrow-down.svg" alt="">
+                            </s>
+                    </div>
+                    <div id="category-required" class="field-required-msg category-required-msg">This field
+                        is required</div>
+                    <ul class="list-items category category-m-top">
+                        <li data-value="Technical Task" class="list-item category">
+                            <span>Technical Task</span>
+                        </li>
+                        <li data-value="User-story" class="list-item category">
+                            <span>User Story</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="form-col-middle">
+        </div>
+        <div class="form-col-right gap-24">
+            <div class="form-group">
+                <div class="section-header">
+                    <div class="attachments-hint-container">
+                        <label for="Attachments">Attachments</label>
+                        <span>Allowed file types are JPEG and PNG</span>
+                    </div>
+                    <div id="delete-attachments-btn" class="delete-attachments-btn" onclick="deleteAllAttachments()">
+                        <div class="delete-attachments-icon d-flex-center">
+                            <img src="../assets/images/global/delete.svg" alt="Delete">
+                        </div>
+                        <span>Delete all</span>
+                    </div>
+                </div>
+                <div class="drag-attachment-container d-flex-center"
+                    onclick="getElementById('attachments-input').click()" ondragover="handleDragOver(event)"
+                    ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+                    <span></span>
+                    <img src="../assets/images/pages/add-task/plus-grey.svg" alt="plus">
+                    <input type="file" id="attachments-input" class="d-none" multiple
+                        accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+                </div>
+                <div id="attachments-list-wrapper" class="attachments-list-wrapper">
+                    <ul class="attachments-list" id="attachments-list">
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="subtasks">Subtasks</label>
+                <div class="subtask-input-container">
+                    <input class="form-input subtask-input placeholder-color" type="text" placeholder="Add new subtask">
+                    <div class="subtask-btn add">
+                        <div class="subtask-add">
+                            <img src="../assets/images/global/plus-black.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="subtask-btn check-cancel-div">
+                        <div class="subtask-cancel">
+                            <img src="../assets/images/global/close.svg" alt="">
+                        </div>
+                        <div class="subtask-divider"></div>
+                        <div class="subtask-check">
+                            <img src="../assets/images/global/check.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <ul class="subtasks-list d-none">
+                </ul>
+            </div>
+            <div class="form-group">
+                <label for="dropdown-container">Assigned to</label>
+                <div class="dropdown-container">
+                    <div id="contacts-list" class="select-btn assigned-to">
+                        <input class="select-btn-input back-placeholder" type="text"
+                            placeholder="Select contacts to assign">
+                        <span class="arrow-down">
+                            <img src="../assets/images/global/arrow-down.svg" alt="">
+                        </span>
+                    </div>
+                    <ul class="list-items margin-bot-8 scroll-container" id="assigned-to-list">
+                    </ul>
+                    <div class="selected-contacts-div">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p class="required-p-mobile"><span class="required">*</span> This Field is required</p>
+    <div class="form-bottom">
+        <p class="required-p"><span class="required">*</span> This Field is required</p>
+        <div class="form-actions">
+            <button onclick="clearTask()" type="button" class="clear-btn" id="clear-btn">Clear
+                <img id="cancel-icon" src="../assets/images/global/close.svg" alt=""></button>
+            <button type="submit" class="create-btn">Create Task
+                <img src="../assets/images/global/check-white.svg" alt=""></button>
+        </div>
+    </div>
+</div>

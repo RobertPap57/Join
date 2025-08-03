@@ -19,6 +19,10 @@ async function initAddTask() {
     highlightLink('add-task');
     await getContacts();
     initPopup();
+    initTaskForm();
+}
+
+function initTaskForm() {
     handleFilter();
     filterContacts();
     setMinDateToToday();
@@ -32,10 +36,7 @@ async function initAddTask() {
     preventDefaultValidation();
     createCustomResizeHandle();
     initAttachmentsDrag();
-}
-
-function initTaskForm() {
-
+    fileInputListener();
 }
 
 /**

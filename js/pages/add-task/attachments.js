@@ -6,6 +6,7 @@
 let isDragging = false, startX, scrollLeft, lastX, velocity = 0, inertiaId;
 let currentAttachmentsList = null;
 
+
 /**
  * Initializes drag functionality for all attachments lists.
  */
