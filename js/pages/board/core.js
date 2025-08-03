@@ -13,6 +13,7 @@ async function initBoard() {
     checkForCurrentUser() ? "" : redirectTo('login.html');
     displayHeaderAvatar();
     highlightLink('board');
+    initPopup();
     await getTasks();
     await getContacts();
     renderTasks();
@@ -519,26 +520,11 @@ function openDetailedTaskView(taskId) {
     if (!task) return;
 
     const dialog = document.getElementById('detailed-task-dialog');
-    const content = dialog.querySelector('.detailed-task-content');
-    content.innerHTML = getDetailedTaskHTML(task);
+    dialog.innerHTML = getDetailedTaskHTML(task);
     renderSubtasks(task);
     renderTaskAvatars(task, 'modal');
 
-    setupDetailedTaskAttachments(task, content);
-
-    // attachments = task.attachments ? Object.values(task.attachments) : [];
-    // renderAttachments();
-    // currentAttachments = attachments;
-    // const attachmentItems = content.querySelectorAll('.attachment-item');
-
-    // attachmentItems.forEach((item, index) => {
-    //     item.addEventListener('mousedown', (event) => {
-    //         if (event.target.closest('.download-attachment-btn')) {
-    //             return;
-    //         }
-    //         openImageViewer(index);
-    //     });
-    // });
+    setupDetailedTaskAttachments(task, dialog);
     dialog.showModal();
     blockDragOnDownloadBtn();
 }
@@ -611,16 +597,18 @@ function formatDate(dateString) {
  */
 function getDetailedTaskHTML(task) {
     return `
-        <header>
+    <article class="d-flex-col-24">
+        <header class="detailed-task-header d-flex-col-24">
             <div class="detailed-task-category" style="background-color: ${getCategoryColor(task.category)};">
                 <span>${task.category}</span>
             </div>
-            <button class="close-btn d-flex-center p-relative" aria-label="Close dialog"
+            <button class="close-btn d-flex-center detailed-task-close-btn" aria-label="Close dialog"
                 onclick="document.getElementById('detailed-task-dialog').close()">
                 <img src="../assets/images/global/close.svg" alt="Close dialog">
             </button>
+            <h2>${task.title}</h2>
         </header>
-        <h2>${task.title}</h2>
+        <div class="scroll-container d-flex-col-24 detailed-task-scroll-content">
         <p class="detailed-task-desc">${task.description}</p>
         <section class="detailed-task-due-date">
             <h3>Due date:</h3>
@@ -642,18 +630,15 @@ function getDetailedTaskHTML(task) {
         <section class="detailed-task-attachments">
             <h3>Attachments</h3>
             <div id="detailed-task-attachments-list-wrapper" class="attachments-list-wrapper">
-                <ul class="attachments-list" id="detailed-task-attachments-list">
-                </ul>
+                <ul class="attachments-list" id="detailed-task-attachments-list"></ul>
             </div>
         </section>
         <section class="detailed-task-subtasks">
             <h3>Subtasks</h3>
-             <ul class="detailed-task-subtasks-list">
-                   
-                </ul>
+            <ul class="detailed-task-subtasks-list"></ul>
         </section>
+        </div>
         <footer class="detailed-task-action-btns">
-
                     <button class="delete-detailed-task-btn" onclick="deleteTask('${task.id}')">
                         <img src="../assets/images/global/delete.svg" alt="">
                         <p>Delete</p>
@@ -663,8 +648,8 @@ function getDetailedTaskHTML(task) {
                         <img src="../assets/images/global/edit.svg" alt="">
                         <p>Edit</p>
                     </button>
-                </footer>
-    `;
+        </footer>
+    </article>`;
 }
 
 /**

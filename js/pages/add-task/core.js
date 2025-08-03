@@ -18,6 +18,7 @@ async function initAddTask() {
     displayHeaderAvatar();
     highlightLink('add-task');
     await getContacts();
+    initPopup();
     handleFilter();
     filterContacts();
     setMinDateToToday();
@@ -30,8 +31,11 @@ async function initAddTask() {
     preventFormSubmitOnEnter();
     preventDefaultValidation();
     createCustomResizeHandle();
-    initPopup();
     initAttachmentsDrag();
+}
+
+function initTaskForm() {
+
 }
 
 /**

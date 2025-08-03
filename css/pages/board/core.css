@@ -251,12 +251,22 @@
 
 .detailed-task-dialog {
     width: 525px;
+    max-height: 90vh;
     padding: 48px 40px;
     border-radius: 30px;
     background-color: white;
     box-shadow: 0px 0px 4px 0px #00000029;
     border: none;
     margin: auto;
+}
+
+.detailed-task-dialog article {
+    height: 100%;
+    max-height: calc(90vh - 96px);
+}
+
+.detailed-task-scroll-content {
+ margin-right: -24px;
 }
 
 .detailed-task-dialog h3 {
@@ -266,22 +276,24 @@
     min-width: fit-content;
 }
 
-.detailed-task-content {
-    gap: 24px;
+.d-flex-col-24 {
     display: flex;
     flex-direction: column;
+    gap: 24px;
 }
 
-.detailed-task-content header {
+
+.detailed-task-header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 24px;
     width: 100%;
-    height: 36px;
+    position: relative;
 }
 
-.p-relative {
-    position: relative !important;
+.detailed-task-close-btn {
+    top: 2px;
+    right: 0;
 }
 
 .detailed-task-category {
@@ -289,9 +301,10 @@
     color: white;
     border-radius: 8px;
     font-size: 23px;
+    width: fit-content;
 }
 
-.detailed-task-content h2 {
+.detailed-task-header h2 {
     font-size: 48px;
     font-weight: 700;
     word-break: break-word;
@@ -438,7 +451,7 @@
     align-items: center;
     gap: 12px;
     font-size: 16px;
-    color : #2A3647;
+    color: #2A3647;
     height: 24px;
 }
 
