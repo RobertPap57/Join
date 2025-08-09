@@ -149,7 +149,7 @@ function setUpButtons(type) {
     setUpPrimaryButton(type);
     setUpSecondaryButton(type);
     setUpButtonIcon(type);
-    popupElements.secondaryBtn.classList.toggle('popup-secondary-btn', type === 'add-contact');
+    popupElements.secondaryBtn.classList.toggle('popup-secondary-btn', type !== 'add-contact');
     popupElements.uploadBtn.classList.toggle('d-none', type === 'my-account');
     popupElements.primaryBtn.classList.remove('button-disabled');
 }
@@ -177,9 +177,14 @@ function setUpPrimaryButton(type) {
  * @param {string} type - The type of popup.
 */
 function setUpSecondaryButton(type) {
+    popupElements.secondaryBtn.classList.remove('d-none');
     switch (type) {
         case 'add-contact':
-            popupElements.secondaryBtn.innerHTML = `<p>Cancel</p>`;
+            if (window.innerWidth < 768) {
+                popupElements.secondaryBtn.classList.add('d-none');
+            } else {
+                popupElements.secondaryBtn.innerHTML = `<p>Cancel</p>`;
+            }
             break;
         case 'my-account':
             popupElements.secondaryBtn.innerHTML = `<p>Delete my account</p>`;

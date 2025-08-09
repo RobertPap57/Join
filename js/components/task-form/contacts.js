@@ -17,6 +17,7 @@ function showAssignedToDropdown() {
     setupAssignedDropdownToggles(contactsList, arrowDown, input);
     preventAssignedDropdownClose(assignedToList);
     addAssignedDropdownOutsideListener(contactsList, assignedToList);
+    
 }
 
 /**
@@ -39,7 +40,7 @@ function scrollToDropdown(contactsList) {
     setTimeout(() => {
         const rect = contactsList.getBoundingClientRect();
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const targetY = rect.top + scrollTop - 100; 
+        const targetY = rect.top + scrollTop - 100;
         window.scrollTo({
             top: targetY,
             behavior: 'smooth'
@@ -128,19 +129,22 @@ function toggleBlueBorder(contactsList, isOpen) {
  * @param {Element} assignedToList - Assigned to list element
  */
 function addAssignedDropdownOutsideListener(contactsList, assignedToList) {
-    if (!window._assignedToDropdownListenerAdded) {
-        document.addEventListener('click', (event) => {
-            if (
-                !contactsList.contains(event.target) &&
-                !assignedToList.contains(event.target)
-            ) {
-                contactsList.classList.remove('show-menu');
-                contactsList.classList.remove('blue-border');
-                toggleSelectedContactsDiv(false);
-            }
-        });
-        window._assignedToDropdownListenerAdded = true;
+    // Remove old listener if it exists
+    if (window._assignedOutsideClickHandler) {
+        document.removeEventListener('click', window._assignedOutsideClickHandler);
     }
+    
+    // Create new handler and store reference
+    window._assignedOutsideClickHandler = (event) => {
+        if (!contactsList.contains(event.target) && !assignedToList.contains(event.target)) {
+            contactsList.classList.remove('show-menu');
+            contactsList.classList.remove('blue-border');
+            toggleSelectedContactsDiv(false);
+        }
+    };
+    
+    // Add the new listener
+    document.addEventListener('click', window._assignedOutsideClickHandler);
 }
 
 /**
@@ -157,10 +161,12 @@ function preventAssignedDropdownClose(assignedToList) {
  * Filter contacts based on user input.
  */
 function filterContacts() {
-    const selectBtnInput = document.querySelector('.select-btn-input');
 
-    selectBtnInput.addEventListener('click', () => handleFilter(selectBtnInput));
-    selectBtnInput.addEventListener('input', () => handleFilter(selectBtnInput));
+    const selectBtnInput = document.querySelector('.select-btn-input');
+    if (selectBtnInput) {
+        selectBtnInput.addEventListener('click', () => handleFilter(selectBtnInput));
+        selectBtnInput.addEventListener('input', () => handleFilter(selectBtnInput));
+    } 
 }
 
 /**
@@ -191,6 +197,7 @@ function renderContacts() {
     filteredContacts.forEach(contact => {
         const isSelected = selectedContacts.includes(contact);
         assignedToList.innerHTML += getContactHTML(contact, isSelected);
+        displayProfileAvatar(contact, `task-form-avatar-${contact.id}`);
     });
     selectListItems();
 }
@@ -254,6 +261,7 @@ function renderSelectedContactsBelow() {
     selectedContactsDiv.innerHTML = '';
     selectedContacts.forEach(contact => {
         selectedContactsDiv.innerHTML += getSelectedContactHTML(contact);
+        displayProfileAvatar(contact, `selected-task-form-avatar-${contact.id}`);
     });
 }
 

@@ -91,16 +91,16 @@ const dummyTasks = {
 		"status": "in-progress",
 		"dueDate": "2024-07-31",
 		"priority": "medium",
-		"subTasks": [
+		"subtasks": [
 			{
 				"id": "0",
 				"content": "Implement Recipe Recommendation",
-				"completet": true,
+				"completed": true,
 			},
 			{
 				"id": "1",
 				"content": "Start Page Layout",
-				"completet": false,
+				"completed": false,
 			},
 		],
 		"assignedTo": ["0", "5", "6"],
@@ -114,16 +114,16 @@ const dummyTasks = {
 		"status": "done",
 		"dueDate": "2024-07-31",
 		"priority": "urgent",
-		"subTasks": [
+		"subtasks": [
 			{
 				"id": "0",
 				"content": "Establish CSS Methodology",
-				"completet": true,
+				"completed": true,
 			},
 			{
 				"id": "1",
 				"content": "Setup Base Styles",
-				"completet": true,
+				"completed": true,
 			},
 		],
 		"assignedTo": ["7", "2"],
@@ -137,7 +137,7 @@ const dummyTasks = {
 		"status": "awaiting-feedback",
 		"dueDate": "2024-07-31",
 		"priority": "low",
-		"subTasks": [],
+		"subtasks": [],
 		"assignedTo": ["3", "2", "8"],
 	},
 
@@ -149,7 +149,7 @@ const dummyTasks = {
 		"status": "awaiting-feedback",
 		"dueDate": "2024-07-31",
 		"priority": "medium",
-		"subTasks": [],
+		"subtasks": [],
 		"assignedTo": ["4", "8", "1"],
 	},
 
@@ -161,16 +161,16 @@ const dummyTasks = {
 		"status": "to-do",
 		"dueDate": "2024-07-31",
 		"priority": "urgent",
-		"subTasks": [
+		"subtasks": [
 			{
 				"id": "0",
 				"content": "Create contact form",
-				"completet": false,
+				"completed": false,
 			},
 			{
 				"id": "1",
 				"content": "Set up imprint page",
-				"completet": false,
+				"completed": false,
 			},
 		],
 		"assignedTo": ["8", "3", "4"],

@@ -43,7 +43,7 @@
     gap: 8px;
     cursor: pointer;
     padding-right: 2px;
-    min-width: 105px;
+    min-width: 106px;
 }
 
 .delete-attachments-btn:hover {
@@ -262,7 +262,7 @@
 .subtasks-list {
     margin-top: 4px;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: 8px;
     list-style: none;
 }
@@ -271,6 +271,7 @@
     list-style: none;
     display: flex;
     justify-content: space-between;
+    gap: 4px;
     align-items: center;
     border-radius: 10px;
     padding: 4px 16px;
@@ -378,7 +379,41 @@
     border-radius: 50%;
 }
 
-@media screen and (max-width: 425px) {
+.task-added-msg {
+    position: fixed;
+    top: calc(50% - 37px);
+    left: calc(50% - 155px);
+    width: 310px;
+    height: 74px;
+    display: none;
+    justify-content: space-between;
+    transform: translateY(1000%);
+    padding: 25px 30px;
+    border-radius: 20px;
+    z-index: 1000;
+    background-color: rgba(42, 54, 71, 1);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+    transition: transform 125ms ease-out;
+}
+
+.task-added-msg-slide-in {
+    transform: translateY(0) !important;
+}
+
+.task-added-msg p {
+    font-size: 20px;
+    color: white;
+}
+
+.task-added-msg img {
+    height: 25px;
+    width: 30px;
+}
+
+
+
+
+@media screen and (max-width: 560px) {
     .drag-attachment-container span::before {
         content: "Upload file";
     }

@@ -20,6 +20,7 @@ async function initBoard() {
     setupSearchFunctionality();
     closeDetailedTaskOnClickOutside();
 
+
 }
 
 
@@ -75,12 +76,12 @@ function getCategoryColor(category) {
  * @returns {string} HTML string for the progress bar or empty string if no subtasks
  */
 function generateProgressHTML(task) {
-    if (!task.subTasks || task.subTasks.length === 0) {
+    if (!task.subtasks || task.subtasks.length === 0) {
         return '';
     }
 
-    const totalSubtasks = task.subTasks.length;
-    const completedSubtasks = task.subTasks.filter(subtask => subtask.completet === true).length;
+    const totalSubtasks = task.subtasks.length;
+    const completedSubtasks = task.subtasks.filter(subtask => subtask.completed === true).length;
     const progressPercentage = totalSubtasks > 0 ? (completedSubtasks / totalSubtasks) * 100 : 0;
 
     return `<div class="task-progress" role="progressbar" aria-valuenow="${completedSubtasks}" aria-valuemin="0" aria-valuemax="${totalSubtasks}">
@@ -521,7 +522,7 @@ function openDetailedTaskView(taskId) {
 
     const dialog = document.getElementById('detailed-task-dialog');
     dialog.innerHTML = getDetailedTaskHTML(task);
-    renderSubtasks(task);
+    renderTaskSubtasks(task);
     renderTaskAvatars(task, 'modal');
 
     setupDetailedTaskAttachments(task, dialog);
@@ -629,6 +630,7 @@ function getDetailedTaskHTML(task) {
         </section>
         <section class="detailed-task-attachments">
             <h3>Attachments</h3>
+            <h3 class="uploaded-files-title">Uploaded files</h3>
             <div id="detailed-task-attachments-list-wrapper" class="attachments-list-wrapper">
                 <ul class="attachments-list" id="detailed-task-attachments-list"></ul>
             </div>
@@ -644,7 +646,7 @@ function getDetailedTaskHTML(task) {
                         <p>Delete</p>
                     </button>
                     <span></span>
-                    <button class="edit-detailed-task-btn">
+                    <button class="edit-detailed-task-btn" onclick="openTaskFormDialog('edit-task', { taskId: '${task.id}' });">
                         <img src="../assets/images/global/edit.svg" alt="">
                         <p>Edit</p>
                     </button>
@@ -658,7 +660,7 @@ function getDetailedTaskHTML(task) {
  * @returns {string} The HTML string for the subtask item.
  */
 function getSubtaskItemHTML(subtask, taskId) {
-    const checkboxImg = subtask.completet ? 'checkbox-checked.svg' : 'checkbox.svg';
+    const checkboxImg = subtask.completed ? 'checkbox-checked.svg' : 'checkbox.svg';
     return `
         <li class="detailed-task-subtask-item" data-task-id="${taskId}" data-subtask-id="${subtask.id}">
             <div class="d-flex-center subtask-checkbox-container">
@@ -673,12 +675,12 @@ function getSubtaskItemHTML(subtask, taskId) {
  * Renders the subtasks for a given task into the detailed view list.
  * @param {object} task - The task object containing the subtasks.
  */
-function renderSubtasks(task) {
+function renderTaskSubtasks(task) {
     const subtaskList = document.querySelector('.detailed-task-subtasks-list');
     subtaskList.innerHTML = '';
-    if (!task.subTasks || task.subTasks.length === 0) return;
+    if (!task.subtasks || task.subtasks.length === 0) return;
 
-    task.subTasks.forEach(subtask => {
+    task.subtasks.forEach(subtask => {
         subtaskList.innerHTML += getSubtaskItemHTML(subtask, task.id);
     });
 
@@ -708,13 +710,13 @@ function addSubtaskClickHandlers() {
  */
 function toggleSubtaskCompletion(taskId, subtaskId) {
     const task = tasks.find(t => t.id === taskId);
-    if (!task || !task.subTasks) return;
+    if (!task || !task.subtasks) return;
 
-    const subtask = task.subTasks.find(st => st.id === subtaskId);
+    const subtask = task.subtasks.find(st => st.id === subtaskId);
     if (!subtask) return;
 
-    subtask.completet = !subtask.completet;
-    updateSubtaskUI(taskId, subtaskId, subtask.completet);
+    subtask.completed = !subtask.completed;
+    updateSubtaskUI(taskId, subtaskId, subtask.completed);
     saveSubtaskChanges(task);
 }
 
@@ -742,7 +744,7 @@ function updateSubtaskUI(taskId, subtaskId, isCompleted) {
  */
 async function saveSubtaskChanges(task) {
     try {
-        await updateData("/tasks", task.id, { subTasks: task.subTasks });
+        await updateData("/tasks", task.id, { subtasks: task.subtasks });
         // Update the task card to reflect subtask progress changes
         renderTasks();
     } catch (error) {
@@ -782,4 +784,317 @@ function deleteTask(taskId) {
             document.getElementById('detailed-task-dialog').close();
         })
         .catch(error => console.error('Error deleting task:', error));
+}
+
+
+/**
+ * Opens task form dialog with appropriate configuration.
+ * @param {string} type - Type of form ('add-task', 'edit-task', etc.)
+ * @param {Object} options - Additional options like taskId
+ */
+function openTaskFormDialog(type, options = {}) {
+    const dialog = document.getElementById('task-form-dialog');
+    const closeButton = dialog.querySelector('.close-task-form-dialog-btn');
+    const formBottom = dialog.querySelector('.form-bottom');
+    dialog.classList.remove('task-form-dialog-edit');
+    closeButton.classList.remove('close-task-form-dialog-btn-edit');
+    formBottom.classList.remove('form-bottom-edit');
+    switch (type) {
+        case 'edit-task':
+            dialog.classList.add('task-form-dialog-edit');
+            closeButton.classList.add('close-task-form-dialog-btn-edit');
+            formBottom.classList.add('form-bottom-edit');
+            initTaskForm('edit-task', options);
+            if (options.taskId) {
+                const task = tasks.find(t => t.id === options.taskId);
+                if (task) {
+                    setTimeout(() => {
+                        populateTaskForm(task, type);
+                    }, 100);
+                }
+            }
+            dialog.showModal();
+            document.getElementById('detailed-task-dialog').close();
+            break;
+
+        case 'add-task-dialog':
+            if (window.innerWidth < 1024) {
+                redirectTo('add-task.html');
+                return;
+            } else {
+                initTaskForm('add-task-dialog', options);
+                clearTask();
+                reinitializeFormInteractions();
+                dialog.showModal();
+            }
+            break;
+    }
+}
+
+function closeTaskFormDialog() {
+    const dialog = document.getElementById('task-form-dialog');
+    dialog.close();
+
+}
+
+
+/**
+ * Populates the task form with data from an existing task.
+ * @param {Object} task - The task object containing all task data
+ */
+function populateTaskForm(task, type) {
+    if (!task) return;
+
+    populateBasicFields(task);
+    populatePriority(task.priority);
+    populateCategory(task.category);
+    populateSubtasks(task.subtasks);
+    populateAttachments(task.attachments);
+    populateAssignedContacts(task.assignedTo);
+
+    // Update UI elements that depend on populated data
+    renderSubtasks();
+    renderAttachments();
+    renderSelectedContactsBelow();
+
+    // Reinitialize interactive elements
+    reinitializeFormInteractions(type);
+
+}
+
+/**
+ * Re-initializes interactive form elements after population.
+ */
+function reinitializeFormInteractions(type) {
+    reattachPriorityEvents();
+    reattachCategoryEvents();
+    reattachContactsEvents();
+    preventFormSubmitOnEnter();
+    styleSubtaskInput();
+    pushSubtask();
+    initAttachmentsDrag();
+    fileInputListener();
+    disableCategoryDropdown(type);
+    addValidationEventListeners(); 
+}
+
+/**
+ * Populates the basic form fields (title, description, due date).
+ * @param {Object} task - The task object
+ */
+function populateBasicFields(task) {
+    const titleInput = document.getElementById('title');
+    const descriptionInput = document.getElementById('description');
+    const dueDateInput = document.getElementById('due-date-input');
+
+    if (titleInput) titleInput.value = task.title || '';
+    if (descriptionInput) descriptionInput.value = task.description || '';
+
+    if (dueDateInput) {
+        dueDateInput.value = task.dueDate || '';
+        dueDateInput.classList.remove('color-grey');
+    }
+}
+
+/**
+ * Populates the priority buttons and ensures events still work.
+ * @param {string} priority - The priority value ('urgent', 'medium', 'low')
+ */
+function populatePriority(priority) {
+    if (!priority) return;
+
+    // First reset all buttons to non-active state
+    resetPriorityButtons();
+
+    // Then activate just the matching one
+    setPriorityButtonActive(priority);
+
+    // Re-initialize event listeners for priority buttons
+    reattachPriorityEvents();
+}
+
+/**
+ * Resets all priority buttons to non-active state.
+ */
+function resetPriorityButtons() {
+    const priorityButtons = document.querySelectorAll('.prio-btn');
+    priorityButtons.forEach(button => {
+        const buttonId = button.id;
+        const img = button.querySelector('img');
+        button.classList.remove('active');
+        img.src = `../assets/images/global/${buttonId}.svg`;
+    });
+}
+
+/**
+ * Sets the specified priority button as active.
+ * @param {string} priority - The priority to activate
+ */
+function setPriorityButtonActive(priority) {
+    const button = document.getElementById(priority);
+    if (!button) return;
+
+    button.classList.add('active');
+    const img = button.querySelector('img');
+    if (img) {
+        img.src = `../assets/images/global/${priority}-white.svg`;
+    }
+}
+
+/**
+ * Re-attaches event listeners to priority buttons.
+ */
+function reattachPriorityEvents() {
+    const buttons = document.querySelectorAll('.prio-btn');
+    buttons.forEach(button => {
+        // First remove any existing listeners (clone and replace)
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+
+        // Then add fresh listener
+        newButton.addEventListener('click', () => {
+            handlePriorityButtonClick(newButton, document.querySelectorAll('.prio-btn'));
+        });
+    });
+}
+
+/**
+ * Populates the category dropdown and ensures it still works.
+ * @param {string} category - The category value
+ */
+function populateCategory(category) {
+    if (!category) return;
+
+    const categoryDisplay = document.getElementById('category-displayed');
+    const categoryContainer = document.getElementById('category-container');
+    if (categoryDisplay) {
+        categoryDisplay.textContent = category;
+        categoryDisplay.dataset.selected = category;
+        categoryContainer.classList.remove('show-menu');
+        clearValidationMessage('category');
+
+        // Re-initialize dropdown functionality
+        reattachCategoryEvents();
+    }
+}
+
+/**
+ * Re-attaches event listeners to category dropdown.
+ */
+function reattachCategoryEvents() {
+    const selectBtnCategory = document.querySelector('.select-btn.category');
+    if (!selectBtnCategory) return;
+
+    // Clone and replace to remove old listeners
+    const newSelectBtn = selectBtnCategory.cloneNode(true);
+    selectBtnCategory.parentNode.replaceChild(newSelectBtn, selectBtnCategory);
+
+    // Add fresh event listeners
+    setupCategoryDropdownToggles(newSelectBtn);
+
+    // Re-attach list item events
+    const listItems = document.querySelectorAll('.list-item.category');
+    const categoryDisplayed = document.getElementById('category-displayed');
+    setupCategorySelection(listItems, newSelectBtn, categoryDisplayed);
+
+    // Make sure dropdown closes when clicking outside
+    preventCategoryDropdownClose(document.querySelector('.list-items.category'));
+    addCategoryDropdownOutsideListener(newSelectBtn, document.querySelector('.list-items.category'));
+}
+
+function populateSubtasks(taskSubtasks) {
+    subtasks = [];
+
+    if (!taskSubtasks) return;
+
+    // Handle both array and object formats
+    const subtasksArray = Array.isArray(taskSubtasks)
+        ? taskSubtasks
+        : Object.values(taskSubtasks);
+
+    subtasksArray.forEach(subtask => {
+        if (subtask && subtask.content) {
+            // Keep the complete subtask object structure
+            subtasks.push({
+                id: subtask.id || createUniqueId(),
+                content: subtask.content,
+                completed: subtask.completed || false
+            });
+        }
+    });
+}
+
+/**
+ * Populates the attachments array from task data.
+ * @param {Object} taskAttachments - The attachments object from the task
+ */
+function populateAttachments(taskAttachments) {
+    attachments = [];
+
+    if (!taskAttachments) return;
+
+    // Convert object to array if needed
+    const attachmentsArray = Array.isArray(taskAttachments)
+        ? taskAttachments
+        : Object.values(taskAttachments);
+
+    attachmentsArray.forEach(attachment => {
+        if (attachment && attachment.base64) {
+            attachments.push(attachment);
+        }
+    });
+}
+
+/**
+ * Populates the selected contacts array from assigned contacts IDs.
+ * @param {Array} assignedContactIds - Array of contact IDs
+ */
+function populateAssignedContacts(assignedContactIds) {
+    selectedContacts.length = 0;
+
+    if (!assignedContactIds || !assignedContactIds.length) return;
+
+    assignedContactIds.forEach(contactId => {
+        const contact = findContactById(contactId);
+        if (contact) {
+            selectedContacts.push(contact);
+        }
+    });
+
+    updateContactsListUI();
+}
+
+/**
+ * Updates the UI to show selected contacts in the contacts list.
+ */
+function updateContactsListUI() {
+    const listItems = document.querySelectorAll('.list-item.assigned-to');
+
+    listItems.forEach(item => {
+        const contactId = item.getAttribute('data-id');
+        const isSelected = selectedContacts.some(contact => contact.id === contactId);
+
+        if (isSelected) {
+            const checkbox = item.querySelector('.checkbox');
+            item.classList.add('checked');
+            checkbox.classList.add('checked');
+            checkbox.src = '../assets/images/pages/add-task/checkbox-checked.svg';
+        }
+    });
+}
+
+/**
+ * Re-attaches event listeners to contacts dropdown.
+ */
+function reattachContactsEvents() {
+    const contactsList = document.getElementById('contacts-list');
+    if (!contactsList) return;
+
+    // Clone and replace to remove old listeners
+    const newContactsList = contactsList.cloneNode(true);
+    contactsList.parentNode.replaceChild(newContactsList, contactsList);
+
+    // Re-setup the dropdown
+    showAssignedToDropdown();
+    filterContacts();
 }

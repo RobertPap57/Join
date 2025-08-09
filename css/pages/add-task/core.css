@@ -1,0 +1,25 @@
+.add-task-container {
+    width: 100vw;
+    min-height: 100vh;
+    padding: 96px 0 0 232px;
+    background-color: #F6F7F8;
+}
+
+@media screen and (max-width: 1023px) {
+    .add-task-container {
+        padding-left: 0;
+        padding-bottom: 96px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .add-task-container {
+        padding: 80px 0 80px 0px;
+    }
+}
+@media screen and (max-width: 355px) {
+    .add-task-container .form-actions button {
+        padding: 11px;
+        font-size: 16px;
+    }
+}

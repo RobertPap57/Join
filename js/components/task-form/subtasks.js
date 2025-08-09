@@ -121,7 +121,12 @@ function setupSubtaskCancelBtn(subtaskCancelBtn, subtaskInput) {
 function addSubtask() {
     const subtaskInput = document.querySelector('.subtask-input');
     if (subtaskInput.value !== '') {
-        subtasks.push(subtaskInput.value);
+        const newSubtask = {
+            id: createUniqueId(),
+            content: subtaskInput.value,
+            completed: false
+        };
+        subtasks.push(newSubtask);
         renderSubtasks();
         subtaskInput.value = '';
     }
@@ -152,8 +157,8 @@ function renderSubtasks() {
         subtasksList.classList.add('d-none');
     } else {
         subtasksList.classList.remove('d-none');
-        subtasks.forEach((item, index) => {
-            subtasksList.innerHTML += getSubtaskListItemHTML(item, index);
+        subtasks.forEach((item) => {
+            subtasksList.innerHTML += getSubtaskListItemHTML(item);
         });
     }
     editSubTask();
@@ -181,24 +186,31 @@ function editSubtaskItem(item) {
     let input = item.querySelector('.edit-subtask-input');
     if (!input) {
         let liText = item.querySelector('.li-text');
+        const subtaskId = item.getAttribute('data-id');
         item.innerHTML = getEditSubtaskHTML(liText.textContent.trim());
         item.classList.add('subtask-list-item-edit');
+        input = item.querySelector('.edit-subtask-input');
+        input.focus();
+        input.setSelectionRange(input.value.length, input.value.length);
+        item.setAttribute('data-id', subtaskId);
         deleteSubtask();
         confirmSubtaskEdit();
     }
 }
 
-/**
- * Delete a subtask from the list.
- */
 function deleteSubtask() {
     const subtaskListItems = document.querySelectorAll('.subtask-list-item');
 
-    subtaskListItems.forEach((item, index) => {
+    subtaskListItems.forEach(item => {
         const deleteSubtaskBtn = item.querySelector('.delete-subtask-btn');
         deleteSubtaskBtn.addEventListener('click', () => {
-            subtasks.splice(index, 1);
-            renderSubtasks();
+            const subtaskId = item.getAttribute('data-id');
+            // Find index by ID instead of using array position
+            const index = subtasks.findIndex(subtask => subtask.id === subtaskId);
+            if (index !== -1) {
+                subtasks.splice(index, 1);
+                renderSubtasks();
+            }
         });
     });
 }
@@ -211,11 +223,16 @@ function confirmSubtaskEdit() {
     subtaskListItemsEdit.forEach(item => {
         const confirmSubtaskEditBtn = item.querySelector('.confirm-subtask-edit-btn');
         confirmSubtaskEditBtn.addEventListener('click', () => {
-            const index = item.getAttribute('data-index');
+            const subtaskId = item.getAttribute('data-id');
             const input = item.querySelector('.edit-subtask-input');
+
             if (input.value !== '') {
-                subtasks[index] = input.value;
-                renderSubtasks();
+                // Find the subtask by ID and update its content
+                const subtask = subtasks.find(s => s.id === subtaskId);
+                if (subtask) {
+                    subtask.content = input.value;
+                    renderSubtasks();
+                }
             }
         });
     });

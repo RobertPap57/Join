@@ -51,10 +51,15 @@
     padding: 8px 16px;
     border-radius: 10px;
     font-size: 20px;
+    padding-right: 66px;
 }
 
 .search-form input:focus {
     border-color: #29ABE2;
+}
+
+.search-form input::placeholder {
+    color: #D1D1D1;
 }
 
 .submit-btn-wrapper {
@@ -90,6 +95,14 @@
     gap: 10px;
 }
 
+.add-task-board-btn img {
+    width: 18.7px;
+}
+
+.add-task-board-btn img:nth-child(3) {
+    display: none;
+}
+
 .main-section {
     display: flex;
     gap: 24px;
@@ -123,6 +136,10 @@
     cursor: pointer;
 }
 
+.task-group-header button img:nth-child(2) {
+    display: none;
+}
+
 .task-group-header button:hover {
     filter: invert(45%) sepia(43%) saturate(2123%) hue-rotate(162deg) brightness(95%) contrast(102%);
 }
@@ -144,6 +161,7 @@
     box-shadow: 0px 0px 4px 0px #00000029;
     color: #A8A8A8;
     font-family: Open Sans;
+    margin-inline: 2px;
 }
 
 
@@ -158,6 +176,7 @@
     flex-direction: column;
     cursor: pointer;
     transition: transform 125ms ease;
+    height: fit-content;
 }
 
 .task-card-shadow {
@@ -266,7 +285,8 @@
 }
 
 .detailed-task-scroll-content {
- margin-right: -24px;
+    margin-right: -24px;
+    scrollbar-gutter: stable;
 }
 
 .detailed-task-dialog h3 {
@@ -429,6 +449,7 @@
 
 .detailed-task-subtask-checkbox {
     width: 16px;
+    cursor: pointer;
 }
 
 
@@ -478,4 +499,380 @@
 
 #detailed-task-attachments-list .attachment-item {
     cursor: pointer !important;
+}
+
+.task-form-dialog {
+    width: 1072px;
+    padding: 64px 40px;
+    border-radius: 30px;
+    background-color: white;
+    box-shadow: 0px 0px 4px 0px #00000029;
+    border: none;
+    margin: auto;
+}
+
+.task-form-dialog-edit {
+    padding: 88px 40px 32px 40px;
+}
+
+.task-form-dialog .form-container {
+    padding: 0;
+}
+
+.task-form-dialog .form-container h1 {
+    padding-bottom: 56px;
+}
+
+.task-form-dialog .form-bottom {
+    padding-block: 56px 0;
+    align-items: flex-start;
+}
+
+.form-bottom-edit {
+    align-items: flex-end !important;
+    padding-block: 24px 0 !important;
+}
+
+.close-task-form-dialog-btn {
+    top: 64px;
+    right: 46px;
+}
+
+.close-task-form-dialog-btn-edit {
+    top: 32px;
+    right: 40px;
+}
+
+.close-btn-wrapper-task-form-dialog {
+
+    align-items: center;
+    justify-content: flex-end;
+    height: 80px;
+    padding: 32px 0px 16px 0px;
+    background-color: #FFFFFF;
+    position: static;
+    display: contents;
+    top: 0px;
+    right: 0px;
+    z-index: 3;
+
+}
+
+.uploaded-files-title {
+    display: none;
+}
+
+@media screen and (max-width: 1400px) {
+
+    .main {
+        width: 100%;
+        padding-right: 24px;
+    }
+
+    .board-header {
+        width: 100%;
+
+    }
+
+    .task-form-dialog .form-container {
+        padding-inline: none;
+        width: 100%;
+    }
+
+    .task-form-dialog .form-col-container {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 48px;
+    }
+
+    .task-form-dialog .form-col-left,
+    .task-form-dialog .form-col-right {
+        width: 440px;
+    }
+
+    .task-form-dialog .form-col-middle {
+        display: block;
+    }
+
+    .task-form-dialog .required-p {
+        display: block;
+    }
+
+    .task-form-dialog .required-p-mobile {
+        display: none;
+    }
+
+    .task-form-dialog .form-bottom {
+        padding-block: 56px 0;
+    }
+
+    .main-section {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .task-container {
+        flex-direction: row;
+    }
+
+    .task-group {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .task-group-header {
+        width: 100%;
+        margin: 0;
+    }
+
+    .task-group-header h2 {
+        font-size: 27px;
+    }
+
+    .task-group-header button {
+        width: 30px;
+        height: 30px;
+    }
+
+    .task-group-header button img:first-child {
+        display: none;
+    }
+
+    .task-group-header button img:nth-child(2) {
+        display: inline;
+    }
+
+
+
+
+}
+
+@media screen and (max-width: 1023px) {
+
+    .main {
+        padding: 48px 24px 0 40px;
+    }
+
+    .task-form-dialog .form-col-container {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 20px;
+    }
+
+    .task-form-dialog .form-col-left,
+    .task-form-dialog .form-col-right {
+        width: 100%;
+        padding: 0 0 0 24px;
+    }
+
+    .task-form-dialog .form-col-middle {
+        display: none;
+    }
+
+    .task-form-dialog .required-p {
+        display: none;
+    }
+
+
+    .task-form-dialog .form-bottom-edit {
+        padding: 8px 0px 32px 0px !important;
+        bottom: 0px !important;
+        background-color: #FFFFFF;
+
+    }
+
+    .task-form-dialog {
+        padding: 0;
+        width: 80%;
+        height: 90vh;
+        scrollbar-gutter: stable;
+    }
+
+    .close-task-form-dialog-btn-edit {
+        position: static;
+    }
+
+    .close-btn-wrapper-task-form-dialog {
+        display: flex;
+        position: sticky;
+    }
+
+    .order-1 {
+        order: 1;
+    }
+
+    .order-2 {
+        order: 2;
+    }
+
+    .order-3 {
+        order: 3;
+    }
+
+    .hide-category-mobile {
+        display: none !important;
+    }
+
+    .priority-mobile {
+        margin-top: 8px;
+    }
+
+    .priority-mobile label::after {
+        content: 'rity' !important;
+    }
+
+    .task-form-dialog .subtasks-list {
+        margin-bottom: 8px;
+    }
+
+    .task-form-dialog .primary-btn {
+        padding: 18px 10px;
+    }
+
+    .task-form-dialog label span {
+        display: none;
+    }
+
+    .main-wrapper {
+        padding: 96px 0 96px 0;
+        height: auto;
+    }
+
+
+}
+
+
+@media screen and (max-width: 767px) {
+    .add-task-board-btn {
+        padding: 10px !important;
+        position: absolute;
+        right: 24px;
+        top: 144px;
+    }
+
+    .add-task-board-btn span {
+        display: none;
+    }
+
+    .add-task-board-btn img {
+        width: 20px;
+    }
+
+    .add-task-board-btn img:nth-child(2) {
+        display: none;
+    }
+
+    .add-task-board-btn img:nth-child(3) {
+        display: inline;
+    }
+
+    .main {
+        gap: 24px;
+    }
+
+    .main-wrapper {
+        padding: 80px 0 80px 0;
+    }
+
+    .board-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 40px;
+        height: auto;
+    }
+
+    .search-form {
+        width: 100%;
+    }
+
+    .search-form input {
+        width: 100%;
+    }
+
+    .toolbar {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 560px) {
+
+    .main {
+        padding-inline: 16px;
+    }
+
+    .board-header h1 {
+        font-size: 47px;
+    }
+
+    .add-task-board-btn {
+        top: 136px;
+        right: 16px;
+    }
+
+    .task-form-dialog {
+        width: 100%;
+    }
+
+    .detailed-task-dialog {
+        padding: 32px 24px;
+        width: 396px;
+    }
+
+
+    .detailed-task-category {
+        padding: 4px 16px;
+        font-size: 16px;
+    }
+
+    .d-flex-col-24 {
+        gap: 16px;
+    }
+
+    .detailed-task-header h2 {
+        font-size: 32px;
+    }
+
+    .detailed-task-desc {
+        font-size: 16px;
+    }
+
+    .detailed-task-due-date span,
+    .detailed-task-due-date h3 {
+        font-size: 16px;
+    }
+
+    .detailed-task-priority span,
+    .detailed-task-priority h3 {
+        font-size: 16px;
+    }
+
+
+    .detailed-task-assigned h3 {
+        font-size: 16px;
+        padding-block: 12px;
+    }
+
+    .detailed-task-attachments h3 {
+        display: none;
+    }
+
+    .uploaded-files-title {
+        display: block !important;
+        font-size: 16px !important;
+    }
+
+    .detailed-task-subtasks h3 {
+        font-size: 16px;
+        font-weight: 700;
+        ;
+    }
+
+}
+
+@media screen and (max-width: 415px) {
+
+    .task-form-dialog .prio-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
 }

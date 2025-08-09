@@ -85,6 +85,8 @@ function validateDateField() {
 function isFutureDate(dateValue) {
     const selectedDate = new Date(dateValue);
     const now = new Date();
+    selectedDate.setHours(0, 0, 0, 0);
+    now.setHours(0, 0, 0, 0);
     return selectedDate.getTime() >= now.getTime();
 }
 
@@ -166,13 +168,33 @@ function addValidationEventListeners() {
 }
 
 /**
- * Handles the form submit event, prevents default submission and performs validation.
+ * Handles the form submit event with dynamic submission behavior.
  * @param {Event} event - Form submit event
  */
 function handleFormSubmit(event) {
     event.preventDefault();
-    if (validateForm()) {
-        saveTask();
+    if (!validateForm()) return;
+    
+    const form = event.target;
+    const formType = form.dataset.formType || 'add-task';
+    
+    submitFormByType(formType, form);
+}
+
+/**
+ * Routes form submission to the appropriate handler function.
+ * @param {string} formType - Type of form being submitted
+ * @param {HTMLFormElement} form - The form element
+ */
+function submitFormByType(formType, form) {
+    switch (formType) {
+        case 'edit-task':
+            const taskId = form.dataset.taskId;
+            if (taskId) updateTaskData(taskId);
+            break;
+        default:
+            addTask(formType);
+            break;
     }
 }
 
@@ -180,7 +202,7 @@ function handleFormSubmit(event) {
  * Prevents default form submission and validates the form fields.
  */
 function preventDefaultValidation() {
-    const form = document.getElementById('add-task-form');
+    const form = document.getElementById('task-form');
     addValidationEventListeners();
     form.addEventListener('submit', handleFormSubmit);
 }
@@ -189,7 +211,7 @@ function preventDefaultValidation() {
  * Prevent form submission when pressing Enter key, but allow line breaks in textareas.
  */
 function preventFormSubmitOnEnter() {
-    const form = document.querySelector('form');
+    const form = document.getElementById('task-form');
     form.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') {
             event.preventDefault();
@@ -241,7 +263,7 @@ function clearTask() {
  * Resets all form fields to their default state.
  */
 function resetFormFields() {
-    document.querySelector('form').reset();
+    document.getElementById('task-form').reset();
     document.querySelectorAll('.checked').forEach(item => {
         item.classList.remove('checked');
     });

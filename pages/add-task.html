@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="../css/components/nav.css">
     <link rel="stylesheet" href="../css/components/popup/popup.css">
     <link rel="stylesheet" href="../css/components/popup/popup-responsive.css">
-    <link rel="stylesheet" href="../css/pages/add-task/layout.css">
-    <link rel="stylesheet" href="../css/pages/add-task/components.css">
-    <link rel="stylesheet" href="../css/pages/add-task/buttons.css">
-    <link rel="stylesheet" href="../css/pages/add-task/features.css">
-    <link rel="stylesheet" href="../css/pages/add-task/modals.css">
+    <link rel="stylesheet" href="../css/pages/add-task/core.css">
+    <link rel="stylesheet" href="../css/components/task-form/features.css">
+    <link rel="stylesheet" href="../css/components/task-form/layout.css">
+    <link rel="stylesheet" href="../css/components/task-form/components.css">
+    <link rel="stylesheet" href="../css/components/task-form/buttons.css">
     <script src="../js/script.js"></script>
     <script src="../js/components/header.js"></script>
     <script src="../js/components/nav.js"></script>
@@ -28,24 +28,18 @@
     <nav w3-include-html="../templates/nav.html"></nav>
     <div w3-include-html="../templates/popup.html"></div>
 
-    <div class="add-task-container">
-        <form id="add-task-form" action="" novalidate>
-            <div w3-include-html="../templates/task-form.html"></div>
-        </form>
-    </div>
+    <main class="add-task-container">
+        <section w3-include-html="../templates/task-form.html"></section>
+    </main>
 
-    <div class="task-added-msg">
-        <p>Task added to board</p>
-        <img src="../assets/images/components/nav/board-white.svg" alt="board icon">
-    </div>
-
-    <script src="../js/pages/add-task/contacts.js"></script>
-    <script src="../js/pages/add-task/priority-category.js"></script>
-    <script src="../js/pages/add-task/subtasks.js"></script>
-    <script src="../js/pages/add-task/attachments.js"></script>
-    <script src="../js/pages/add-task/validation.js"></script>
-    <script src="../js/pages/add-task/core.js"></script>
-    <script src="../js/pages/add-task/templates.js"></script>
+    <script src="../js/pages/add-task.js"></script>
+    <script src="../js/components/task-form/priority-category.js"></script>
+    <script src="../js/components/task-form/templates.js"></script>
+    <script src="../js/components/task-form/validation.js"></script>
+    <script src="../js/components/task-form/subtasks.js"></script>
+    <script src="../js/components/task-form/attachments.js"></script>
+    <script src="../js/components/task-form/core.js"></script>
+    <script src="../js/components/task-form/contacts.js"></script>
     <script src="../js/utils/image-handler.js"></script>
 </body>
 

@@ -10,7 +10,7 @@
  */
 function getSelectedContactHTML(contact) {
     return `
-        <div class="cicle" style="background-color: ${contact.color}">${createNameInitials(contact.name)}</div>
+       <div class="profile-avatar-small d-flex-center" id="selected-task-form-avatar-${contact.id}"></div>
     `;
 }
 
@@ -20,11 +20,11 @@ function getSelectedContactHTML(contact) {
  * @param {number} index - Index in subtasks array
  * @returns {string} HTML string for subtask list item
  */
-function getSubtaskListItemHTML(item, index) {
+function getSubtaskListItemHTML(item) {
     return `
-        <li class="subtask-list-item" data-index="${index}">
+        <li class="subtask-list-item" data-id="${item.id}">
             <p class="li-text"> 
-            ${item}
+            ${item.content}
             </p>
             <div class="subtask-edit-icon-div">
                 <div class="edit-subtask-btn">
@@ -96,10 +96,12 @@ function getContactHTML(contact, isSelected) {
     return `
         <li class="list-item assigned-to ${isSelected ? 'checked' : ''}" data-id="${contact.id}">
             <div class="list-item-name">
-                <div class="cicle" style="background-color: ${contact.color}">${createNameInitials(contact.name)}</div>
+                <div class="profile-avatar-small d-flex-center" id="task-form-avatar-${contact.id}"></div>
                 <span>${contact.name}</span>
             </div>
+            <div class="d-flex-center wh-24">
             <img class="checkbox ${isSelected ? 'checked' : ''}" src="../${isSelected ? 'assets/images/pages/add-task/checkbox-checked.svg' : 'assets/images/global/checkbox.svg'}" alt="">
+            </div>
         </li>
     `;
 }

@@ -178,11 +178,18 @@ function attachmentsToFirebaseObject(attachments) {
     attachments.forEach(attachment => {
         const id = createUniqueId();
         obj[id] = {
-            id: id,
+            id: attachments.id || id,
             name: attachment.name,
             size: attachment.size,
             base64: attachment.base64
         };
     }); 
     return obj;
+}
+
+function resetAttachments() {
+    attachments = [];
+    renderAttachments();
+    updateDeleteAllButtonVisibility();
+    updateAttachmentsWrapperVisibility();
 }

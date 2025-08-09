@@ -8,7 +8,7 @@ let attachments = [];
  * Handles drag over event for file drop functionality.
  * @param {Event} event - Drag event
  */
-function handleDragOver(event) {
+function handleFileDragOver(event) {
     event.preventDefault();
 }
 
@@ -16,7 +16,7 @@ function handleDragOver(event) {
  * Handles drag leave event for file drop functionality.
  * @param {Event} event - Drag event
  */
-function handleDragLeave(event) {
+function handleFileDragLeave(event) {
     event.preventDefault();
 }
 
@@ -24,7 +24,7 @@ function handleDragLeave(event) {
  * Handles file drop event and processes allowed files.
  * @param {Event} event - Drop event
  */
-function handleDrop(event) {
+function handleFileDrop(event) {
     event.preventDefault();
     const files = Array.from(event.dataTransfer.files);
     const allowed = files.filter(isAllowedFile);

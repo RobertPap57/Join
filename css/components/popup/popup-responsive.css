@@ -135,14 +135,11 @@
         gap: 20px;
     }
 
-    .primary-btn,
-    .secondary-btn {
-        padding: 13px 10px;
+    .popup-modal .primary-btn,
+    .popup-modal .secondary-btn {
+        padding: 13px 10px !important;
     }
 
-    .popup-secondary-btn {
-        display: none;
-    }
 }
 
 @media screen and (max-width:420px) {
@@ -197,8 +194,8 @@
         gap: 18px;
     }
 
-    .primary-btn,
-    .secondary-btn {
+    .popup-modal .primary-btn,
+    .popup-modal .secondary-btn {
         padding: 10px 10px;
         font-size: 18px;
     }

@@ -4,6 +4,11 @@
     margin-bottom: 16px;
 }
 
+.unclickable {
+    pointer-events: none;
+    background-color: #E7E7E780 !important;
+}
+
 .prio-btn {
     padding: 16px 10px;
     display: flex;
@@ -64,8 +69,9 @@
     color: #29ABE2;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
+
 .clear-btn:hover img {
-     filter: invert(45%) sepia(43%) saturate(2123%) hue-rotate(162deg) brightness(95%) contrast(102%);
+    filter: invert(45%) sepia(43%) saturate(2123%) hue-rotate(162deg) brightness(95%) contrast(102%);
 }
 
 .create-btn:hover {
@@ -74,7 +80,7 @@
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 490px) {
     .prio-buttons {
         padding-block: 11px;
         margin-bottom: 0;
@@ -86,7 +92,7 @@
     }
 
     .prio-btn {
-        padding: 11px;
+        padding: 11px 8px 11px 8px;
     }
 
     .prio-btn,

@@ -1,7 +1,7 @@
 .image-viewer-dialog {
   border: none;
   padding: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: #272727;
   width: 1146px;
   height: 777px;
   overflow: hidden;
@@ -187,4 +187,89 @@
   to {
     transform: translateX(0%);
   }
+}
+
+
+@media screen and (max-width: 560px) {
+  .image-viewer-dialog {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 30px;
+    max-width: none;
+    max-height: none;
+  }
+
+  #viewer-img {
+    height: 100%;
+    width: auto;
+  }
+
+  .viewer-header {
+    background-color: #29ABE2;
+    opacity: 1;
+    padding: 16px 14px;
+    height: 64px;
+  }
+
+  .viewer-container header h2 {
+    margin-left: 4px;
+    font-size: 16px;
+    width: 80%;
+  }
+
+  .viewer-actions {
+    width: fit-content;
+  }
+
+  .zoom-buttons {
+    position: fixed;
+    bottom: 14px;
+    gap: 16px;
+    left: calc(50% - 40px)
+  }
+
+  .zoom-buttons .button-24 {
+    width: 32px;
+    height: 32px;
+  }
+
+  .zoom-buttons .button-24 img {
+    width: 23.5px;
+    height: 23.5px;
+  }
+
+  .viewer-actions-buttons {
+    gap: 16px;
+  }
+
+  .viewer-actions-buttons .button-32 {
+    width: 24px;
+    height: 24px;
+  }
+
+  .viewer-actions-buttons .button-32 img {
+    width: 22px;
+  }
+
+  .viewer-actions-buttons .button-40 {
+    width: 32px;
+    height: 32px;
+  }
+
+  .next-btn,
+  .prev-btn {
+    bottom: 0;
+    top: unset;
+    opacity: 1;
+    z-index: 3;
+  }
+
+
+.image-viewer-dialog footer {
+  background-color: #29ABE2;
+  width: 100%;
+  height: 60px;
+  position: absolute;
+  bottom: 0;
+}
 }

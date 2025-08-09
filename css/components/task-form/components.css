@@ -43,7 +43,7 @@
 }
 
 .category-required-border {
-    border: 1px solid #FF8190;
+    border: 1px solid #FF8190 !important;
 }
 
 .category-m-top {
@@ -138,9 +138,6 @@
     cursor: pointer;
 }
 
-.list-items .list-item img {
-margin-right: 4px;
-}
 
 .list-items .list-item:hover {
     background-color: #EEEEEE;
@@ -231,7 +228,7 @@ label {
     color: #FFA800;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 490px) {
     .list-item.category {
         height: 43px;
     }

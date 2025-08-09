@@ -1,6 +1,6 @@
 
 .site-nav {
-    z-index: 5;
+    z-index: 20;
     position: fixed;
     top: 0;
     left: 0;
@@ -137,7 +137,7 @@
     height: 26px !important;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1023px) {
     .nav-logo {
         display: none;
     }
@@ -209,7 +209,7 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .site-nav {
         height: 80px;
         padding: 0px 16px;

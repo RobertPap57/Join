@@ -102,6 +102,25 @@ function selectMediumPriority() {
 }
 
 /**
+ * Enables or disables the category dropdown based on the provided type.
+ *
+ * @param {string} type - The context in which the dropdown is used. 
+ *                        If 'edit-task', the dropdown is disabled and the arrow is hidden.
+ *                        Otherwise, the dropdown is enabled and the arrow is shown.
+ */
+function disableCategoryDropdown(type) {
+    const selectBtnCategory = document.querySelector('.select-btn.category');
+    const arrowDown = document.getElementById('category-btn');
+    if (type === 'edit-task') {
+        selectBtnCategory.classList.add('unclickable');
+        arrowDown.classList.add('d-none');
+    } else {
+        selectBtnCategory.classList.remove('unclickable');
+        arrowDown.classList.remove('d-none');
+    }
+}
+
+/**
  * Show and handle the category dropdown.
  */
 function showCategoryDropdown() {
@@ -166,17 +185,26 @@ function setupCategorySelection(listItems, selectBtnCategory, categoryDisplayed)
  * @param {Element} categoryList - Category list element
  */
 function addCategoryDropdownOutsideListener(selectBtnCategory, categoryList) {
-    if (!window._categoryDropdownListenerAdded) {
-        document.addEventListener('click', (event) => {
-            if (
-                !selectBtnCategory.contains(event.target) &&
-                !(categoryList && categoryList.contains(event.target))
-            ) {
-                selectBtnCategory.classList.remove('show-menu');
-            }
-        });
-        window._categoryDropdownListenerAdded = true;
+    // Remove old listener if it exists
+    if (window._categoryOutsideClickHandler) {
+        document.removeEventListener('click', window._categoryOutsideClickHandler);
     }
+    
+    // Create new handler and store reference
+    window._categoryOutsideClickHandler = (event) => {
+        // Skip if click is on elements that have validation handlers
+        if (event.target.closest('#category-container') || event.target.closest('#category-btn')) {
+            return;
+        }
+        
+        if (!selectBtnCategory.contains(event.target) && 
+            !(categoryList && categoryList.contains(event.target))) {
+            selectBtnCategory.classList.remove('show-menu');
+        }
+    };
+    
+    // Add the new listener
+    document.addEventListener('click', window._categoryOutsideClickHandler);
 }
 
 /**
@@ -184,5 +212,7 @@ function addCategoryDropdownOutsideListener(selectBtnCategory, categoryList) {
  */
 function resetCategory() {
     const categoryDisplayed = document.getElementById('category-displayed');
+    const categoryContainer = document.getElementById('category-container');
+    categoryContainer.classList.remove('show-menu');
     categoryDisplayed.textContent = "Select task category";
 }
