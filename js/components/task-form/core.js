@@ -20,10 +20,13 @@ function initTaskForm(type, options = {}) {
     closeContactListOnOutsideClick();
     preventDefaultValidation();
     createCustomResizeHandle();
-    initAttachmentsDrag();
+    initHorizontalDrag('.attachments-list');
     fileInputListener();
     preventFormSubmitOnEnter();
 }
+
+
+
 
 
 /**

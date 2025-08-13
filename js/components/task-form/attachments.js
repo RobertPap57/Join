@@ -4,17 +4,17 @@
  */
 
 let isDragging = false, startX, scrollLeft, lastX, velocity = 0, inertiaId;
-let currentAttachmentsList = null;
+let currentDragContainer = null;
 
 
 /**
  * Initializes drag functionality for all attachments lists.
  */
-function initAttachmentsDrag() {
-    const attachmentsLists = document.querySelectorAll('.attachments-list');
-    attachmentsLists.forEach(attachmentsList => {
-        attachmentsList.addEventListener('mousedown', (e) => startDrag(e, attachmentsList));
-        attachmentsList.addEventListener('touchstart', (e) => startDrag(e, attachmentsList));
+function initHorizontalDrag(container) {
+    const dragContainers = document.querySelectorAll(container);
+    dragContainers.forEach(dragContainer => {
+        dragContainer.addEventListener('mousedown', (e) => startDrag(e, dragContainer));
+        dragContainer.addEventListener('touchstart', (e) => startDrag(e, dragContainer));
     });
 }
 
@@ -23,14 +23,14 @@ function initAttachmentsDrag() {
  * @param {Event} e - Mouse or touch event
  * @param {HTMLElement} attachmentsList - The specific attachments list element
  */
-function startDrag(e, attachmentsList) {
-    isDragging = true;
-    currentAttachmentsList = attachmentsList;
-    startX = getPageX(e) - attachmentsList.offsetLeft;
-    scrollLeft = attachmentsList.scrollLeft;
+function startDrag(e, dragContainer) {
+    currentDragContainer = dragContainer;
+    startX = getPageX(e) - dragContainer.offsetLeft;
+    scrollLeft = dragContainer.scrollLeft;
     lastX = getPageX(e);
     stopInertia();
     addDragListeners();
+
 }
 
 /**
@@ -38,13 +38,17 @@ function startDrag(e, attachmentsList) {
  * @param {Event} e - Mouse or touch event
  */
 function dragMove(e) {
-    if (!isDragging || !currentAttachmentsList) return;
-    const x = getPageX(e) - currentAttachmentsList.offsetLeft;
-    const walk = (x - startX) * -1;
-
-    velocity = getPageX(e) - lastX;
-    lastX = getPageX(e);
-    currentAttachmentsList.scrollLeft = scrollLeft + walk;
+    if (!currentDragContainer) return;
+    const moveDistance = Math.abs(getPageX(e) - lastX);
+    if (!isDragging && moveDistance > 5) {
+        isDragging = true;
+    } if (isDragging) {
+        const x = getPageX(e) - currentDragContainer.offsetLeft;
+        const walk = (x - startX) * -1;
+        velocity = getPageX(e) - lastX;
+        lastX = getPageX(e);
+        currentDragContainer.scrollLeft = scrollLeft + walk;
+    }
 }
 
 /**
@@ -60,8 +64,8 @@ function stopDrag() {
  * Handles inertia scrolling animation.
  */
 function inertia() {
-    if (Math.abs(velocity) < 0.5 || !currentAttachmentsList) return;
-    currentAttachmentsList.scrollLeft -= velocity;
+    if (Math.abs(velocity) < 0.5 || !currentDragContainer) return;
+    currentDragContainer.scrollLeft -= velocity;
     velocity *= 0.95;
     inertiaId = requestAnimationFrame(inertia);
 }
@@ -116,7 +120,7 @@ function renderAttachments() {
     });
     updateDeleteAllButtonVisibility();
     updateAttachmentsWrapperVisibility();
-    initAttachmentsDrag();
+    initHorizontalDrag('.attachments-list');
 }
 
 /**
@@ -148,13 +152,16 @@ function updateAttachmentsWrapperVisibility() {
  * @param {number} index - Index of attachment to delete
  */
 function deleteAttachment(index) {
-    attachments.splice(index, 1);
-    renderAttachments();
+    if (!isDragging) {
+        attachments.splice(index, 1);
+        renderAttachments();
+    }
 }
+
 
 /**
  * Deletes all attachments and updates the UI.
- */ 
+ */
 function deleteAllAttachments() {
     attachments = [];
     const attachmentsLists = document.querySelectorAll('.attachments-list');
@@ -183,7 +190,7 @@ function attachmentsToFirebaseObject(attachments) {
             size: attachment.size,
             base64: attachment.base64
         };
-    }); 
+    });
     return obj;
 }
 
@@ -193,3 +200,4 @@ function resetAttachments() {
     updateDeleteAllButtonVisibility();
     updateAttachmentsWrapperVisibility();
 }
+

@@ -18,11 +18,29 @@ async function initBoard() {
     await getContacts();
     renderTasks();
     setupSearchFunctionality();
+    initHorizontalDrag('.task-container');
     closeDetailedTaskOnClickOutside();
 
 
 }
 
+
+function setupDragListener() {
+    if (window.innerWidth <= 1400) {
+
+    } else {}
+}
+
+function alignCardsMobile() {
+    if (window.innerWidth <= 1400) {
+        document.querySelectorAll(".task-container").forEach(container => {
+            if (container.scrollWidth > container.clientWidth) {
+                container.style.paddingInline = '16px';
+                container.scrollLeft = 16;
+            }
+        });
+    }
+}
 
 
 function blockDragOnDownloadBtn() {
@@ -160,6 +178,7 @@ function renderTasks() {
     });
 
     showEmptyContainersIfNeeded();
+    alignCardsMobile();
 }
 
 /**
@@ -872,10 +891,10 @@ function reinitializeFormInteractions(type) {
     preventFormSubmitOnEnter();
     styleSubtaskInput();
     pushSubtask();
-    initAttachmentsDrag();
+    initHorizontalDrag('.attachments-list');
     fileInputListener();
     disableCategoryDropdown(type);
-    addValidationEventListeners(); 
+    addValidationEventListeners();
 }
 
 /**

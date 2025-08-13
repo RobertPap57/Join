@@ -152,6 +152,7 @@
     margin-bottom: 16px;
 }
 
+
 .empty-task-container {
     height: 48px;
     width: 100%;
@@ -613,11 +614,16 @@
 
     .task-container {
         flex-direction: row;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-block: 16px;
+        margin-bottom: 0;
     }
 
     .task-group {
         width: 100%;
         overflow-x: hidden;
+        gap: 0;
     }
 
     .task-group-header {
