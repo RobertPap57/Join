@@ -4,6 +4,8 @@
 
 let searchQuery = '';
 
+
+
 /**
  * Initializes the board page with necessary setup and data loading.
  */
@@ -18,29 +20,25 @@ async function initBoard() {
     await getContacts();
     renderTasks();
     setupSearchFunctionality();
-    initHorizontalDrag('.task-container');
     closeDetailedTaskOnClickOutside();
 
 
 }
 
 
-function setupDragListener() {
-    if (window.innerWidth <= 1400) {
-
-    } else {}
-}
 
 function alignCardsMobile() {
-    if (window.innerWidth <= 1400) {
-        document.querySelectorAll(".task-container").forEach(container => {
-            if (container.scrollWidth > container.clientWidth) {
-                container.style.paddingInline = '16px';
-                container.scrollLeft = 16;
-            }
-        });
-    }
+    document.querySelectorAll(".task-container").forEach(container => {
+        if (window.innerWidth <= 1400 && container.scrollWidth > container.clientWidth) {
+            container.style.paddingInline = '16px';
+            container.scrollLeft = 16;
+        } else {
+            container.style.paddingInline = '';
+            container.scrollLeft = 0;
+        }
+    });
 }
+
 
 
 function blockDragOnDownloadBtn() {
@@ -157,27 +155,18 @@ function findContactById(contactId) {
 function renderTasks() {
     clearTaskContainers();
     setupDragAndDrop();
-
-    if (!tasks || tasks.length === 0) {
-        showEmptyContainers();
-        return;
-    }
-
     const filteredTasks = getFilteredTasks();
-
     if (filteredTasks.length === 0 && searchQuery.trim() !== '') {
+        showEmptyContainer();
         showSearchError();
-        showEmptyContainers();
         return;
     } else {
         hideSearchError();
     }
-
     filteredTasks.forEach(task => {
         renderTaskInContainer(task);
     });
-
-    showEmptyContainersIfNeeded();
+    showEmptyContainer();
     alignCardsMobile();
 }
 
@@ -198,27 +187,12 @@ function clearTaskContainers() {
     });
 }
 
-/**
- * Shows empty message for all task containers when no tasks exist.
- */
-function showEmptyContainers() {
-    const containerIds = ['to-do', 'in-progress', 'await-feedback', 'done'];
 
-    containerIds.forEach((id) => {
-        const container = document.getElementById(id);
-        if (container) {
-            const formattedName = id
-                .replace(/-/g, ' ')
-                .replace(/^\w/, c => c.toUpperCase());
-            container.innerHTML = `<span class="empty-task-container d-flex-center">No tasks ${formattedName}</span>`;
-        }
-    });
-}
 
 /**
  * Shows empty message for containers that have no task cards.
  */
-function showEmptyContainersIfNeeded() {
+function showEmptyContainer() {
     const containerIds = ['to-do', 'in-progress', 'await-feedback', 'done'];
 
     containerIds.forEach((id) => {
@@ -271,12 +245,38 @@ function renderTaskAvatars(task, context) {
 let draggedTaskId = null;
 let draggedTaskStatus = null;
 
+
+function enableLongHoldDetection(element) {
+    if (!element) return;
+    bindEventListenerOnce(element, 'mousedown', startHold, 'longHold');
+    bindEventListenerOnce(element, 'touchstart', startHold, 'longHold');
+    bindEventListenerOnce(element, 'mouseup', endHold, 'longHold');
+    bindEventListenerOnce(element, 'mouseleave', endHold, 'longHold');
+    bindEventListenerOnce(element, 'touchend', endHold, 'longHold');
+}
+
+function startHold(e) {
+    const el = e.currentTarget;
+    clearTimeout(el.dataset.holdTimeout);
+    el.dataset.longHold = "false";
+    el.dataset.holdTimeout = setTimeout(() => {
+        el.dataset.longHold = "true";
+        console.log("Long hold detected on", el);
+        el.style.transform = 'rotate(5deg)';
+    }, 1000);
+}
+
+function endHold(e) {
+    const el = e.currentTarget;
+    clearTimeout(el.dataset.holdTimeout);
+    el.dataset.holdTimeout = null;
+}
+
 /**
  * Sets up basic drag and drop for task containers.
  */
 function setupDragAndDrop() {
     const containers = ['to-do', 'in-progress', 'await-feedback', 'done'];
-
     containers.forEach(containerId => {
         const container = document.getElementById(containerId);
         if (container) {
@@ -300,14 +300,17 @@ function setupDragAndDrop() {
 function handleDragStart(event) {
     if (event.target.closest('.task-card')) {
         const taskCard = event.target.closest('.task-card');
-        draggedTaskId = taskCard.dataset.taskId;
+        enableLongHoldDetection(taskCard);
+        if (window.innerWidth > 1400 || (window.innerWidth <= 1400 && taskCard.dataset.longHold === "true")) {
+            draggedTaskId = taskCard.dataset.taskId;
 
-        const task = tasks.find(t => t.id === draggedTaskId);
-        draggedTaskStatus = task ? task.status : null;
+            const task = tasks.find(t => t.id === draggedTaskId);
+            draggedTaskStatus = task ? task.status : null;
 
-        taskCard.style.transform = 'rotate(5deg)';
+            taskCard.style.transform = 'rotate(5deg)';
 
-        event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.effectAllowed = 'move';
+        }
     }
 }
 
@@ -891,7 +894,7 @@ function reinitializeFormInteractions(type) {
     preventFormSubmitOnEnter();
     styleSubtaskInput();
     pushSubtask();
-    initHorizontalDrag('.attachments-list');
+    initAttachmentDrag();
     fileInputListener();
     disableCategoryDropdown(type);
     addValidationEventListeners();

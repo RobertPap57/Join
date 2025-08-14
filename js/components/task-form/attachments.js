@@ -10,8 +10,8 @@ let currentDragContainer = null;
 /**
  * Initializes drag functionality for all attachments lists.
  */
-function initHorizontalDrag(container) {
-    const dragContainers = document.querySelectorAll(container);
+function initAttachmentDrag() {
+    const dragContainers = document.querySelectorAll('.attachments-list');
     dragContainers.forEach(dragContainer => {
         dragContainer.addEventListener('mousedown', (e) => startDrag(e, dragContainer));
         dragContainer.addEventListener('touchstart', (e) => startDrag(e, dragContainer));
@@ -120,7 +120,7 @@ function renderAttachments() {
     });
     updateDeleteAllButtonVisibility();
     updateAttachmentsWrapperVisibility();
-    initHorizontalDrag('.attachments-list');
+    initAttachmentDrag();
 }
 
 /**

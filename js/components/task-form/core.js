@@ -20,7 +20,7 @@ function initTaskForm(type, options = {}) {
     closeContactListOnOutsideClick();
     preventDefaultValidation();
     createCustomResizeHandle();
-    initHorizontalDrag('.attachments-list');
+    initAttachmentDrag();
     fileInputListener();
     preventFormSubmitOnEnter();
 }
