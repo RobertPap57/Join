@@ -322,3 +322,20 @@ async function putData(path = "", data = {}) {
 		body: JSON.stringify(data),
 	});
 }
+
+
+/**
+ * Attaches an event listener to an element only once for a specific event and handler.
+ * Ensures the same handler is not bound multiple times by using a unique key stored in the element's dataset.
+ *
+ * @param {HTMLElement} element - The DOM element to bind the event listener to.
+ * @param {string} event - The event type to listen for (e.g., 'click', 'mouseover').
+ * @param {Function} handler - The event handler function to execute when the event occurs.
+ * @param {string} boundKey - A unique key to identify this binding in the element's dataset.
+ */
+function bindEventListenerOnce(element, event, handler, boundKey) {
+    const key = `bound${boundKey}`;
+    if (element.dataset[key]) return;
+    element.dataset[key] = "true";
+    element.addEventListener(event, handler);
+}
