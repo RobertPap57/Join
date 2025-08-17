@@ -19,6 +19,7 @@ async function initBoard() {
     await getTasks();
     await getContacts();
     renderTasks();
+    initHorizontalScroll('.task-container');
     setupSearchFunctionality();
     closeDetailedTaskOnClickOutside();
 
@@ -58,7 +59,7 @@ function blockDragOnDownloadBtn() {
  */
 function getTaskCardHTML(task) {
     return `<article class="task-card" draggable="true" data-task-id="${task.id}"
-    onclick="openDetailedTaskView('${task.id}')">
+    onmouseup="openDetailedTaskView('${task.id}')" ontouchend="openDetailedTaskView('${task.id}')">
     <header class="task-card-category" style="background-color: ${getCategoryColor(task.category)};">
         <p>${task.category}</p>
     </header>
@@ -106,6 +107,14 @@ function generateProgressHTML(task) {
     </div>`;
 }
 
+/**
+ * Generates HTML for displaying assigned user avatars for a task.
+ *
+ * @param {Array<string|number>} assignedToIds - Array of user IDs assigned to the task.
+ * @param {string|number} taskId - The unique identifier of the task.
+ * @param {string} context - The context in which the avatars are displayed (e.g., 'card').
+ * @returns {string} HTML string representing the assigned avatars, including overflow indicator if necessary.
+ */
 function generateAssignedAvatarsHTML(assignedToIds, taskId, context) {
     if (!assignedToIds || assignedToIds.length === 0) return '';
 
@@ -118,6 +127,16 @@ function generateAssignedAvatarsHTML(assignedToIds, taskId, context) {
     return hasOverflow ? html + createOverflowAvatar(assignedToIds.length - maxVisible, maxVisible) : html;
 }
 
+/**
+ * Creates an HTML string for an avatar div representing a contact assigned to a task.
+ *
+ * @param {string|number} contactId - The unique identifier of the contact.
+ * @param {string|number} taskId - The unique identifier of the task.
+ * @param {string} context - The context in which the avatar is displayed (e.g., 'card').
+ * @param {number} index - The index of the avatar in the list of assigned contacts.
+ * @param {number} maxVisible - The maximum number of visible avatars before hiding the rest.
+ * @returns {string} The HTML string for the avatar div.
+ */
 function createAvatarDiv(contactId, taskId, context, index, maxVisible) {
     const uniqueId = `task-${taskId}-assignedTo-${contactId}-${context}`;
     let classes = 'profile-avatar-small d-flex-center';
@@ -132,13 +151,19 @@ function createAvatarDiv(contactId, taskId, context, index, maxVisible) {
     return `<div id="${uniqueId}" class="${classes}" style="${style}"></div>`;
 }
 
+/**
+ * Creates an HTML string for an overflow avatar indicating the number of remaining avatars.
+ *
+ * @param {number} remaining - The number of remaining avatars not displayed.
+ * @param {number} positionIndex - The index position to determine the avatar's horizontal offset.
+ * @returns {string} HTML string representing the overflow avatar element.
+ */
 function createOverflowAvatar(remaining, positionIndex) {
     const style = `left: ${positionIndex * 24}px; background-color: #d1d1d1;`;
     const classes = 'profile-avatar-small d-flex-center task-card-avatar';
 
     return `<div class="${classes}" style="${style}">+${remaining}</div>`;
 }
-
 
 /**
  * Finds a contact by ID in the contacts array.
@@ -154,7 +179,6 @@ function findContactById(contactId) {
  */
 function renderTasks() {
     clearTaskContainers();
-    setupDragAndDrop();
     const filteredTasks = getFilteredTasks();
     if (filteredTasks.length === 0 && searchQuery.trim() !== '') {
         showEmptyContainer();
@@ -166,6 +190,7 @@ function renderTasks() {
     filteredTasks.forEach(task => {
         renderTaskInContainer(task);
     });
+    setupDragAndDrop();
     showEmptyContainer();
     alignCardsMobile();
 }
@@ -224,9 +249,12 @@ function renderTaskInContainer(task) {
     }
 }
 
+
 /**
- * Renders avatars for assigned contacts after task HTML is in DOM.
- * @param {Object} task - Task object with assignedTo array
+ * Renders profile avatars for each contact assigned to a task.
+ *
+ * @param {Object} task - The task object containing assignment information.
+ * @param {string} context - A string representing the rendering context (e.g., board, detail view).
  */
 function renderTaskAvatars(task, context) {
     if (!task.assignedTo || task.assignedTo.length === 0) {
@@ -247,30 +275,43 @@ let draggedTaskStatus = null;
 
 
 function enableLongHoldDetection(element) {
-    if (!element) return;
-    bindEventListenerOnce(element, 'mousedown', startHold, 'longHold');
-    bindEventListenerOnce(element, 'touchstart', startHold, 'longHold');
-    bindEventListenerOnce(element, 'mouseup', endHold, 'longHold');
-    bindEventListenerOnce(element, 'mouseleave', endHold, 'longHold');
-    bindEventListenerOnce(element, 'touchend', endHold, 'longHold');
+    if (element && window.innerWidth <= 1400) {
+        bindEventListenerOnce(element, 'mousedown', startHold, 'longHold');
+        bindEventListenerOnce(element, 'touchstart', startHold, 'longHold');
+        bindEventListenerOnce(element, 'mouseup', endHold, 'longHold');
+        bindEventListenerOnce(element, 'mouseleave', endHold, 'longHold');
+        bindEventListenerOnce(element, 'touchend', endHold, 'longHold');
+    }
 }
 
-function startHold(e) {
-    const el = e.currentTarget;
-    clearTimeout(el.dataset.holdTimeout);
-    el.dataset.longHold = "false";
-    el.dataset.holdTimeout = setTimeout(() => {
-        el.dataset.longHold = "true";
-        console.log("Long hold detected on", el);
-        el.style.transform = 'rotate(5deg)';
+function startHold(event) {
+    const element = event.currentTarget;
+    clearHoldTimer(element);
+    element.draggable = false;
+    element.dataset.holdTimeout = setTimeout(() => {
+        element.dataset.longHold = "true";
+        console.log("Long hold detected on", element);
+        element.draggable = true;
+        element.style.transform = 'rotate(5deg)';
+
     }, 1000);
 }
 
-function endHold(e) {
-    const el = e.currentTarget;
-    clearTimeout(el.dataset.holdTimeout);
-    el.dataset.holdTimeout = null;
+function endHold(event) {
+    const element = event.currentTarget;
+    clearHoldTimer(element);
+    element.style.transform = '';
 }
+
+function clearHoldTimer(element) {
+    clearTimeout(element.dataset.holdTimeout);
+    element.dataset.holdTimeout = null;
+    element.dataset.longHold = "false";
+}
+
+window.addEventListener('resize', () => {
+ renderTasks();
+});
 
 /**
  * Sets up basic drag and drop for task containers.
@@ -280,16 +321,19 @@ function setupDragAndDrop() {
     containers.forEach(containerId => {
         const container = document.getElementById(containerId);
         if (container) {
-            container.addEventListener('dragover', handleDragOver);
-            container.addEventListener('drop', handleDrop);
-            container.addEventListener('dragenter', handleDragEnter);
-            container.addEventListener('dragleave', handleDragLeave);
+            bindEventListenerOnce(container, 'dragover', handleDragOver, 'dragAndDrop');
+            bindEventListenerOnce(container, 'drop', handleDrop, 'dragAndDrop');
+            bindEventListenerOnce(container, 'dragenter', handleDragEnter, 'dragAndDrop');
+            bindEventListenerOnce(container, 'dragleave', handleDragLeave, 'dragAndDrop');
         }
     });
 
-    // Add drag start listeners to all task cards
-    document.addEventListener('dragstart', handleDragStart);
-    document.addEventListener('dragend', handleDragEnd);
+    const taskCards = document.querySelectorAll('.task-card');
+    taskCards.forEach(card => {
+        enableLongHoldDetection(card);
+        bindEventListenerOnce(card, 'dragstart', handleDragStart, 'dragAndDrop');
+        bindEventListenerOnce(card, 'dragend', handleDragEnd, 'dragAndDrop');
+    });
 }
 
 /**
@@ -298,9 +342,10 @@ function setupDragAndDrop() {
  * @param {DragEvent} event - The drag start event
  */
 function handleDragStart(event) {
+    console.log("Drag started:", event.target);
+
     if (event.target.closest('.task-card')) {
         const taskCard = event.target.closest('.task-card');
-        enableLongHoldDetection(taskCard);
         if (window.innerWidth > 1400 || (window.innerWidth <= 1400 && taskCard.dataset.longHold === "true")) {
             draggedTaskId = taskCard.dataset.taskId;
 
@@ -344,9 +389,30 @@ function handleDragEnter(event) {
 
         if (containerStatus !== draggedTaskStatus) {
             showShadowElement(event.currentTarget);
+            // scrollToBottom(event.currentTarget);
+            scrollContainerRight(event.currentTarget);
         }
     }
 }
+
+
+function scrollContainerRight(container, smooth = true) {
+    container.scrollTo({
+        left: container.scrollWidth, 
+        behavior: smooth ? 'smooth' : 'auto'
+    });
+}
+
+// function scrollToBottom(container) {
+//     const rect = container.getBoundingClientRect();
+//     const scrollTop = window.scrollY || window.pageYOffset;
+//     const containerBottom = rect.top + scrollTop + container.offsetHeight;
+
+//     window.scrollTo({
+//         top: containerBottom,
+//         behavior: 'smooth'
+//     });
+// }
 
 /**
  * Handles drag leave event for task containers.
@@ -381,7 +447,7 @@ function handleDragOver(event) {
  */
 async function handleDrop(event) {
     event.preventDefault();
-
+    stopDrag();
     if (draggedTaskId) {
         const containerId = event.currentTarget.id;
         const newStatus = containerId === 'await-feedback' ? 'awaiting-feedback' : containerId;
@@ -453,7 +519,7 @@ function createShadowElement() {
  * Sets up search functionality for task filtering.
  */
 function setupSearchFunctionality() {
-    const searchInput = document.querySelector('input[name="q"]');
+    const searchInput = document.querySelector('input[name="search"]');
     const searchForm = document.querySelector('.search-form');
 
     if (searchInput) {
@@ -480,7 +546,7 @@ function handleSearchInput(event) {
  */
 function handleSearchSubmit(event) {
     event.preventDefault();
-    const searchInput = document.querySelector('input[name="q"]');
+    const searchInput = document.querySelector('input[name="search"]');
     if (searchInput) {
         searchQuery = searchInput.value;
         renderTasks();
@@ -508,7 +574,7 @@ function getFilteredTasks() {
  * Shows search error styling when no results found.
  */
 function showSearchError() {
-    const searchInput = document.querySelector('input[name="q"]');
+    const searchInput = document.querySelector('input[name="search"]');
     const errorMessage = document.querySelector('.search-error-message');
 
     if (searchInput) {
@@ -523,7 +589,7 @@ function showSearchError() {
  * Hides search error styling when results found or input empty.
  */
 function hideSearchError() {
-    const searchInput = document.querySelector('input[name="q"]');
+    const searchInput = document.querySelector('input[name="search"]');
     const errorMessage = document.querySelector('.search-error-message');
 
     if (searchInput) {
@@ -540,7 +606,7 @@ function hideSearchError() {
  */
 function openDetailedTaskView(taskId) {
     const task = tasks.find(t => t.id === taskId);
-    if (!task) return;
+    if (!task || isDragging) return;
 
     const dialog = document.getElementById('detailed-task-dialog');
     dialog.innerHTML = getDetailedTaskHTML(task);
@@ -894,7 +960,7 @@ function reinitializeFormInteractions(type) {
     preventFormSubmitOnEnter();
     styleSubtaskInput();
     pushSubtask();
-    initAttachmentDrag();
+    initHorizontalScroll('.attachments-list');
     fileInputListener();
     disableCategoryDropdown(type);
     addValidationEventListeners();
