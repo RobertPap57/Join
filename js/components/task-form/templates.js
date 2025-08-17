@@ -66,12 +66,15 @@ function getEditSubtaskHTML(text) {
  */
 function getAttachmentHtml(attachment, index, buttonType) {
     const buttonHtml = buttonType === 'delete'
-        ? `<button type="button" class="delete-attachment-btn" onmouseup="deleteAttachment(${index})">
+        ? `<button type="button" class="delete-attachment-btn"
+         onmouseup="deleteAttachment(${index})" ontouchend="deleteAttachment(${index})">
                 <img src="../assets/images/global/delete-white.svg" alt="Delete">
             </button>`
-        : `<a href="${attachment.base64}" download="${attachment.name}" class="download-attachment-btn">
+        : `<button type="button" class="download-attachment-btn"
+         onmouseup="downloadBase64File('${attachment.base64}', '${attachment.name}')"
+         ontouchend="downloadBase64File('${attachment.base64}', '${attachment.name}')">
                 <img src="../assets/images/pages/boards/download-white.svg" alt="Download">
-            </a>`;
+            </button>`;
 
     return `
         <li class="attachment-item">
