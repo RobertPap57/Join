@@ -334,8 +334,9 @@ async function putData(path = "", data = {}) {
  * @param {string} boundKey - A unique key to identify this binding in the element's dataset.
  */
 function bindEventListenerOnce(element, event, handler, boundKey) {
-    const key = `bound${boundKey}`;
-    if (element.dataset[key]) return;
-    element.dataset[key] = "true";
-    element.addEventListener(event, handler);
+	element._boundEvents = element._boundEvents || {};
+	const key = `${event}_${boundKey}`;
+	if (element._boundEvents[key]) return;
+	element._boundEvents[key] = true;
+	element.addEventListener(event, handler);
 }
