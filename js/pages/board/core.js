@@ -22,6 +22,7 @@ async function initBoard() {
     initHorizontalScroll('.task-container');
     setupSearchFunctionality();
     closeDetailedTaskOnClickOutside();
+    enableAutoScrollOnDrag();
 
 
 }
@@ -294,7 +295,7 @@ function startHold(event) {
         element.draggable = true;
         element.style.transform = 'rotate(5deg)';
 
-    }, 1000);
+    }, 500);
 }
 
 function endHold(event) {
@@ -310,7 +311,7 @@ function clearHoldTimer(element) {
 }
 
 window.addEventListener('resize', () => {
- renderTasks();
+    renderTasks();
 });
 
 /**
@@ -389,30 +390,52 @@ function handleDragEnter(event) {
 
         if (containerStatus !== draggedTaskStatus) {
             showShadowElement(event.currentTarget);
-            // scrollToBottom(event.currentTarget);
-            scrollContainerRight(event.currentTarget);
+            scrollOnDragEnter(event.currentTarget);
         }
     }
 }
 
 
-function scrollContainerRight(container, smooth = true) {
-    container.scrollTo({
-        left: container.scrollWidth, 
-        behavior: smooth ? 'smooth' : 'auto'
-    });
+function scrollOnDragEnter(container) {
+    console.log("scroll triggered Container ID:", container.id);
+
+    if (window.innerWidth > 1400) {
+        console.log("Scrolling down");
+        container.scrollTo({
+            top: container.scrollHeight,
+            behavior: 'smooth'
+        });
+    } else {
+        console.log("Scrolling right");
+        container.scrollTo({
+            left: container.scrollWidth,
+            behavior: 'smooth'
+        });
+    }
 }
 
-// function scrollToBottom(container) {
-//     const rect = container.getBoundingClientRect();
-//     const scrollTop = window.scrollY || window.pageYOffset;
-//     const containerBottom = rect.top + scrollTop + container.offsetHeight;
+function enableAutoScrollOnDrag() {
+    document.addEventListener('dragover', scrollOnDragMove);
+    document.addEventListener('touchmove', scrollOnDragMove);
+}
 
-//     window.scrollTo({
-//         top: containerBottom,
-//         behavior: 'smooth'
-//     });
-// }
+function scrollOnDragMove(e) {
+    const y = e.clientY || (e.touches && e.touches[0].clientY);
+    const windowHeight = window.innerHeight;
+    const distBottom = windowHeight - y;
+    const distTop = y;
+    if (distBottom < 150) {
+        const extraSpeed = (150 - distBottom) * 1;
+        const speed = 100 + extraSpeed;
+        window.scrollBy({ top: speed, behavior: 'auto' });
+    }
+    if (distTop < 250) {
+        const extraSpeed = (250 - distTop) * 1;
+        const speed = 100 + extraSpeed;
+        window.scrollBy({ top: -speed, behavior: 'auto' });
+    }
+}
+
 
 /**
  * Handles drag leave event for task containers.
