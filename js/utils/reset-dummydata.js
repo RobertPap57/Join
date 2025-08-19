@@ -104,6 +104,7 @@ const dummyTasks = {
 			},
 		],
 		"assignedTo": ["0", "5", "6"],
+		"timestamp": 1723957140000
 	},
 
 	"1": {
@@ -127,6 +128,7 @@ const dummyTasks = {
 			},
 		],
 		"assignedTo": ["7", "2"],
+		"timestamp": 1723957140000
 	},
 
 	"2": {
@@ -134,11 +136,12 @@ const dummyTasks = {
 		"title": "HTML Base Template Creation",
 		"description": "Create reusable HTML base templates.",
 		"category": "Technical Task",
-		"status": "awaiting-feedback",
+		"status": "await-feedback",
 		"dueDate": "2024-07-31",
 		"priority": "low",
 		"subtasks": [],
 		"assignedTo": ["3", "2", "8"],
+		"timestamp": 1723957140000
 	},
 
 	"3": {
@@ -146,11 +149,12 @@ const dummyTasks = {
 		"title": "Daily Kochwelt Recipe",
 		"description": "Implement daily recipe and portion calculator.",
 		"category": "User Story",
-		"status": "awaiting-feedback",
+		"status": "await-feedback",
 		"dueDate": "2024-07-31",
 		"priority": "medium",
 		"subtasks": [],
 		"assignedTo": ["4", "8", "1"],
+		"timestamp": 1723957140000
 	},
 
 	"4": {
@@ -174,6 +178,7 @@ const dummyTasks = {
 			},
 		],
 		"assignedTo": ["8", "3", "4"],
+		"timestamp": 1723957140000
 	},
 };
 

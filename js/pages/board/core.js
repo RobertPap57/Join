@@ -237,8 +237,7 @@ function showEmptyContainer() {
  * @param {Object} task - Task object to render
  */
 function renderTaskInContainer(task) {
-    // Only map the one case where task status differs from container ID
-    const containerId = task.status === 'awaiting-feedback' ? 'await-feedback' : task.status;
+    const containerId = task.status;
     const container = document.getElementById(containerId);
 
     if (container) {
@@ -294,20 +293,19 @@ function startHold(event) {
         console.log("Long hold detected on", element);
         element.draggable = true;
         element.style.transform = 'rotate(5deg)';
-
     }, 500);
 }
 
 function endHold(event) {
     const element = event.currentTarget;
     clearHoldTimer(element);
-    element.style.transform = '';
 }
 
 function clearHoldTimer(element) {
     clearTimeout(element.dataset.holdTimeout);
     element.dataset.holdTimeout = null;
     element.dataset.longHold = "false";
+    element.style.transform = '';
 }
 
 window.addEventListener('resize', () => {
@@ -386,30 +384,30 @@ function handleDragEnter(event) {
     event.preventDefault();
     if (draggedTaskId && draggedTaskStatus) {
         const containerId = event.currentTarget.id;
-        const containerStatus = containerId === 'await-feedback' ? 'awaiting-feedback' : containerId;
+        const containerStatus = containerId;
 
         if (containerStatus !== draggedTaskStatus) {
             showShadowElement(event.currentTarget);
-            scrollOnDragEnter(event.currentTarget);
+            scrollToContainerMax(event.currentTarget);
         }
     }
 }
 
 
-function scrollOnDragEnter(container) {
+function scrollToContainerMax(container, smooth = true) {
     console.log("scroll triggered Container ID:", container.id);
 
     if (window.innerWidth > 1400) {
         console.log("Scrolling down");
         container.scrollTo({
             top: container.scrollHeight,
-            behavior: 'smooth'
+            behavior: smooth ? 'smooth' : 'auto'
         });
     } else {
         console.log("Scrolling right");
         container.scrollTo({
             left: container.scrollWidth,
-            behavior: 'smooth'
+            behavior: smooth ? 'smooth' : 'auto'
         });
     }
 }
@@ -472,29 +470,31 @@ async function handleDrop(event) {
     event.preventDefault();
     stopDrag();
     if (draggedTaskId) {
-        const containerId = event.currentTarget.id;
-        const newStatus = containerId === 'await-feedback' ? 'awaiting-feedback' : containerId;
+        const container = event.currentTarget;
 
-        await updateTaskStatus(draggedTaskId, newStatus);
+        await updateTaskStatus(draggedTaskId, container);
 
         draggedTaskId = null;
         removeShadowElements();
     }
 }
 
+
 /**
- * Updates task status in both local array and database, then re-renders tasks.
- * @param {string} taskId - The ID of the task to update
- * @param {string} newStatus - The new status to assign to the task
+ * Updates the status and timestamp of a task, persists the changes, and re-renders the task list.
+ * @param {number|string} taskId - The unique identifier of the task to update.
+ * @param {HTMLElement} container - The DOM element representing the new status container for the task.
  */
-async function updateTaskStatus(taskId, newStatus) {
+async function updateTaskStatus(taskId, container) {
     const task = tasks.find(task => task.id === taskId);
     if (task) {
-        task.status = newStatus;
+        task.status = container.id;
+        task.timestamp = Date.now();
 
-        await updateData("/tasks", taskId, { status: newStatus });
+        await updateData("/tasks", taskId, { status: task.status, timestamp: task.timestamp });
 
         renderTasks();
+        scrollToContainerMax(container, false);
     }
 }
 
@@ -581,16 +581,16 @@ function handleSearchSubmit(event) {
  * @returns {Array} Array of tasks matching the search criteria
  */
 function getFilteredTasks() {
-    if (!searchQuery.trim()) {
-        return tasks;
+    let result = tasks;
+    if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim();
+        result = tasks.filter(task => {
+            const titleMatch = task.title.toLowerCase().includes(query);
+            const descMatch = task.description.toLowerCase().includes(query);
+            return titleMatch || descMatch;
+        });
     }
-
-    const query = searchQuery.toLowerCase().trim();
-    return tasks.filter(task => {
-        const titleMatch = task.title.toLowerCase().includes(query);
-        const descMatch = task.description.toLowerCase().includes(query);
-        return titleMatch || descMatch;
-    });
+    return result.sort((a, b) => a.timestamp - b.timestamp);
 }
 
 /**
