@@ -7,8 +7,8 @@
 .main {
     display: flex;
     flex-direction: column;
-    padding: 80px 64px 0 64px;
-    width: 1440px;
+    padding: 80px 0 0 52px;
+    width: 100%;
     gap: 48px;
     height: 100%;
 }
@@ -18,7 +18,8 @@
     align-items: center;
     justify-content: space-between;
     height: 73px;
-    width: 1056px;
+    width: 1068px;
+    padding-left: 12px;
 }
 
 .board-header h1 {
@@ -105,15 +106,15 @@
 
 .main-section {
     display: flex;
-    gap: 24px;
     height: 100%;
 }
 
 .task-group {
     display: flex;
     flex-direction: column;
-    width: 252px;
-    gap: 16px;
+    gap: 8px;
+    height: calc(100vh - 297px);
+    overflow-y: hidden;
 
 }
 
@@ -121,8 +122,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 244px;
-    margin-left: 8px;
+    padding-inline: 16px;
+}
+
+.padl-12 {
+    padding-left: 12px;
 }
 
 .task-group-header h2 {
@@ -150,20 +154,22 @@
     flex-direction: column;
     gap: 16px;
     height: 100%;
-    margin-bottom: 16px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    padding-inline: 12px;
+    padding-block: 8px;
 }
 
 
 .empty-task-container {
     height: 48px;
-    width: 100%;
+    width: 252px;
     border: 1px dashed #A8A8A8;
     border-radius: 10px;
     background-color: #E7E7E7;
     box-shadow: 0px 0px 4px 0px #00000029;
     color: #A8A8A8;
     font-family: Open Sans;
-    margin-inline: 2px;
 }
 
 
@@ -571,12 +577,12 @@
 @media screen and (max-width: 1400px) {
 
     .main {
-        width: 100%;
-        padding-right: 24px;
+        padding: 80px 24px 0 64px;
     }
 
     .board-header {
         width: 100%;
+        padding-left: 0;
 
     }
 
@@ -623,18 +629,19 @@
         overflow-x: auto;
         scrollbar-width: none;
         padding-block: 16px;
-        margin-bottom: 0;
+        padding-inline: 0;
     }
 
     .task-group {
         width: 100%;
         overflow-x: hidden;
         gap: 0;
+        height: auto;
     }
 
     .task-group-header {
         width: 100%;
-        margin: 0;
+        padding-inline: 0;
     }
 
     .task-group-header h2 {

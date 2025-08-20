@@ -280,6 +280,7 @@ function enableLongHoldDetection(element) {
         bindEventListenerOnce(element, 'touchstart', startHold, 'longHold');
         bindEventListenerOnce(element, 'mouseup', endHold, 'longHold');
         bindEventListenerOnce(element, 'mouseleave', endHold, 'longHold');
+        bindEventListenerOnce(element, 'mousemove', endHoldIfMoving, 'longHold');
         bindEventListenerOnce(element, 'touchend', endHold, 'longHold');
     }
 }
@@ -299,6 +300,12 @@ function startHold(event) {
 function endHold(event) {
     const element = event.currentTarget;
     clearHoldTimer(element);
+}
+function endHoldIfMoving(event) {
+    if (event.currentTarget.dataset.longHold === "false") {
+        const element = event.currentTarget;
+        clearHoldTimer(element);
+    }
 }
 
 function clearHoldTimer(element) {
@@ -383,8 +390,7 @@ function handleDragEnd(event) {
 function handleDragEnter(event) {
     event.preventDefault();
     if (draggedTaskId && draggedTaskStatus) {
-        const containerId = event.currentTarget.id;
-        const containerStatus = containerId;
+        const containerStatus = event.currentTarget.id;
 
         if (containerStatus !== draggedTaskStatus) {
             showShadowElement(event.currentTarget);
@@ -393,6 +399,50 @@ function handleDragEnter(event) {
     }
 }
 
+/**
+ * Handles drag leave event for task containers.
+ * Hides shadow element when cursor leaves container boundaries.
+ * @param {DragEvent} event - The drag leave event
+ */
+function handleDragLeave(event) {
+    const container = event.currentTarget;
+    const rect = container.getBoundingClientRect();
+    const x = event.clientX;
+    const y = event.clientY;
+
+    if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
+        hideShadowElement(container);
+    }
+}
+
+/**
+ * Handles drag over event for task containers.
+ * Enables dropping by preventing default behavior.
+ * @param {DragEvent} event - The drag over event
+ */
+function handleDragOver(event) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+}
+
+/**
+ * Handles drop event for task containers.
+ * Updates task status when dropped in a different container.
+ * @param {DragEvent} event - The drop event
+ */
+async function handleDrop(event) {
+    event.preventDefault();
+    stopDrag();
+    if (draggedTaskId) {
+        const container = event.currentTarget;
+        const containerStatus = container.id;
+        if (containerStatus !== draggedTaskStatus) {
+            await updateTaskStatus(draggedTaskId, container);
+        }
+        draggedTaskId = null;
+        removeShadowElements();
+    }
+}
 
 function scrollToContainerMax(container, smooth = true) {
     console.log("scroll triggered Container ID:", container.id);
@@ -435,49 +485,6 @@ function scrollOnDragMove(e) {
 }
 
 
-/**
- * Handles drag leave event for task containers.
- * Hides shadow element when cursor leaves container boundaries.
- * @param {DragEvent} event - The drag leave event
- */
-function handleDragLeave(event) {
-    const container = event.currentTarget;
-    const rect = container.getBoundingClientRect();
-    const x = event.clientX;
-    const y = event.clientY;
-
-    if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
-        hideShadowElement(container);
-    }
-}
-
-/**
- * Handles drag over event for task containers.
- * Enables dropping by preventing default behavior.
- * @param {DragEvent} event - The drag over event
- */
-function handleDragOver(event) {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
-}
-
-/**
- * Handles drop event for task containers.
- * Updates task status when dropped in a different container.
- * @param {DragEvent} event - The drop event
- */
-async function handleDrop(event) {
-    event.preventDefault();
-    stopDrag();
-    if (draggedTaskId) {
-        const container = event.currentTarget;
-
-        await updateTaskStatus(draggedTaskId, container);
-
-        draggedTaskId = null;
-        removeShadowElements();
-    }
-}
 
 
 /**
