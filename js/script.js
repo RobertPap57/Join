@@ -340,3 +340,21 @@ function bindEventListenerOnce(element, event, handler, boundKey) {
 	element._boundEvents[key] = true;
 	element.addEventListener(event, handler);
 }
+
+/**
+ * Closes the specified dialog element if a click or touch event occurs outside of it.
+ *
+ * @param {MouseEvent | TouchEvent} event - The event triggered by the user interaction.
+ * @param {HTMLDialogElement} dialog - The dialog element to potentially close.
+ */
+function closeDialogOnClickOutside(event, dialog) {
+    const rect = dialog.getBoundingClientRect();
+    const x = event.touches ? event.touches[0].clientX : event.clientX;
+    const y = event.touches ? event.touches[0].clientY : event.clientY;
+    const isInDialog =
+        x >= rect.left &&
+        x <= rect.right &&
+        y >= rect.top &&
+        y <= rect.bottom;
+    if (!isInDialog) dialog.close();
+}

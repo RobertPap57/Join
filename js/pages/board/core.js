@@ -13,7 +13,7 @@ async function initBoard() {
     await includeHTML();
     checkOrientation();
     checkForCurrentUser() ? "" : redirectTo('login.html');
-    displayHeaderAvatar();
+    initHeader();
     highlightLink('board');
     initPopup();
     await getTasks();
@@ -872,23 +872,9 @@ async function saveSubtaskChanges(task) {
 
 function closeDetailedTaskOnClickOutside() {
     const dialog = document.getElementById('detailed-task-dialog');
-    dialog.addEventListener('mousedown', (event) => handleOutsideClose(event, dialog));
-    dialog.addEventListener('touchstart', (event) => handleOutsideClose(event, dialog), { passive: false });
+    dialog.addEventListener('mousedown', (event) => closeDialogOnClickOutside(event, dialog));
+    dialog.addEventListener('touchstart', (event) => closeDialogOnClickOutside(event, dialog), { passive: false });
 }
-
-function handleOutsideClose(event, dialog) {
-    const rect = dialog.getBoundingClientRect();
-    const x = event.touches ? event.touches[0].clientX : event.clientX;
-    const y = event.touches ? event.touches[0].clientY : event.clientY;
-    const isInDialog =
-        x >= rect.left &&
-        x <= rect.right &&
-        y >= rect.top &&
-        y <= rect.bottom;
-    if (!isInDialog) dialog.close();
-}
-
-
 
 
 function deleteTask(taskId) {

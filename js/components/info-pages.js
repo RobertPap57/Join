@@ -10,7 +10,7 @@
 async function initLegalNotice() {
     await includeHTML();
     hideNavBar();
-    hideHeaderIcons();
+    hideHeaderActions();
     highlightLink('legal-notice');
 }
 
@@ -21,7 +21,7 @@ async function initLegalNotice() {
 async function initPrivacyPolicy() {
     await includeHTML();
     hideNavBar();
-    hideHeaderIcons();
+    hideHeaderActions();
     highlightLink('privacy-policy');
 }
 
@@ -35,5 +35,5 @@ async function initHelp() {
     checkOrientation();
     hideHelpIcon();
     checkForCurrentUser() ? null : redirectTo('login.html');
-    displayHeaderAvatar();
+    initHeader();
 }

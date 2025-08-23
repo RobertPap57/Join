@@ -1,15 +1,19 @@
-.site-header {
+.header {
     top: 0;
     z-index: 2;
     position: fixed;
     background-color: rgba(255, 255, 255, 1);
     width: 100%;
     height: 96px;
-    padding: 20px 40px 20px 348px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
     display: flex;
     justify-content: space-between;
+    max-width: 1920px;
     align-items: center;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px 40px 20px 348px;
 }
 
 .header-slogan {
@@ -17,7 +21,7 @@
     font-size: 20px;
 }
 
-.header-icons {
+.header-actions {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -62,11 +66,16 @@
     border-radius: 100px;
     border: 3px solid #2a3647;
     color: rgba(41, 171, 226, 1);
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 700;
     overflow: hidden;
     background-color: white !important;
     box-shadow: inset 0 0 0 1px white;
+}
+
+.header-avatar:focus {
+    outline: 2px solid black;
+    outline-offset: 2px;
 }
 
 .header-avatar img {
@@ -80,8 +89,8 @@
     filter: brightness(0.9);
 }
 
-.f-size-28 {
-    font-size: 28px;
+.single-digit-font {
+    font-size: 25px;
 }
 
 .header-avatar:hover,
@@ -89,29 +98,21 @@
     background-color: #0C2E621F !important;
 }
 
-.sub-menu-bg {
-    position: fixed;
-    display: block;
-    z-index: 2;
-    left: 0;
-    top: 0;
+.sub-menu::backdrop {
     width: 100%;
     height: 100%;
-}
-
-body .sub-menu-bg-open {
-    overflow: hidden;
-    position: relative;
-    touch-action: none;
+    background-color: transparent;
 }
 
 .sub-menu {
     position: fixed;
-    display: flex;
-    flex-direction: column;
-    z-index: 3;
     top: 96px;
     right: 20px;
+    left: auto;
+    bottom: auto;
+    margin: 0;
+    border: none;
+    transform: translateX(0);
     border-radius: 20px 0px 20px 20px;
     padding: 10px;
     background-color: rgba(42, 54, 71, 1);
@@ -119,24 +120,42 @@ body .sub-menu-bg-open {
     transition: transform 125ms ease-in-out;
 }
 
-.sub-menu a {
-    text-decoration: none;
+.sub-menu.visible {
+    transform: translateX(0);
+}
+
+.sub-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.sub-menu ul li {
+    width: 100%;
     position: relative;
     border-radius: 8px;
     padding: 14px 16px;
+    cursor: pointer;
+}
+
+.sub-menu a {
+    text-decoration: none;
     color: rgba(205, 205, 205, 1);
 }
 
-.sub-menu a:hover {
+.sub-menu li:hover {
     background-color: rgba(42, 61, 89, 1);
 }
 
-.sub-menu a:hover div {
+.sub-menu li:hover span {
     top: -0.5px;
     left: -0.5px;
 }
 
-.sub-menu a div {
+.sub-menu a span {
     position: relative;
 }
 
@@ -166,7 +185,7 @@ body .sub-menu-bg-open {
         display: block;
     }
 
-    .site-header {
+    .header-content {
         padding: 20px 40px 20px 40px;
     }
 
@@ -174,17 +193,29 @@ body .sub-menu-bg-open {
 
 @media (max-width: 767px) {
 
-    .sub-menu-close {
+    .header-avatar {
+        width: 38px;
+        height: 38px;
+        border: 2px solid #2a3647;
+        box-shadow: inset 0 0 0 2px white;
+        font-size: 13px;
+    }
+
+
+    .single-digit-font {
+        font-size: 18px;
+    }
+
+    .sub-menu {
         transform: translateX(200%);
     }
 
-    .sub-menu-open {
-        transform: translateX(0);
+    .header {
+        height: 80px;
     }
 
-    .site-header {
+    .header-content {
         padding: 20px 36px;
-        height: 80px;
     }
 
     .sub-menu {
@@ -196,28 +227,15 @@ body .sub-menu-bg-open {
         height: 39px;
     }
 
-    .header-icons {
+    .header-actions {
         height: 40px;
     }
 
-    .profile-icon {
-        height: 40px;
-        width: 40px;
-    }
-
-    .profile-name {
-        height: 32px;
-        width: 32px;
-        font-size: 14px;
-    }
-
-    .profile-name-single-digit-fs {
-        font-size: 18px;
-    }
 }
 
 @media (max-width: 560px) {
-    .site-header {
+    .header-content {
         padding: 20px 16px;
     }
+
 }

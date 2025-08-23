@@ -10,7 +10,7 @@ async function initContacts() {
     await includeHTML();
     checkOrientation();
     checkForCurrentUser() ? "" : redirectTo('login.html');
-    displayHeaderAvatar();
+    initHeader();
     highlightLink('contacts');
     await getContacts();
     renderContacts();

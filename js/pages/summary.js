@@ -11,7 +11,7 @@ async function initSummary() {
   await includeHTML();
   checkOrientation();
   checkForCurrentUser() ? checkForGreeting() : redirectTo('login.html');
-  displayHeaderAvatar();
+  initHeader();
   highlightLink('summary');
   await getTasks();
   renderSummary();

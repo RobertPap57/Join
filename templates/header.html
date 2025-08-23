@@ -1,37 +1,47 @@
-<div class="site-header">
-    <img class="header-logo" src="../assets/images/logos/logo-black.svg" alt="">
-    <p class="header-slogan">Kanban Project Management Tool</p>
-    <div id="header-icons" class="header-icons">
-        <div class="help-icon">
-            <a href="help.html">
-                <img id="hide-help-icon" src="../assets/images/components/header/help.svg" alt="">
-            </a>
-        </div>
-        <div onclick="openSubMenu()" id="header-avatar" class="header-avatar">
+<header class="header">
+    <div class="header-content">
+        <img class="header-logo" src="../assets/images/logos/logo-black.svg" alt="Logo">
+        <p class="header-slogan">Kanban Project Management Tool</p>
+        <div id="header-actions" class="header-actions">
+            <div class="help-icon">
+                <a href="help.html">
+                    <img id="help-icon" src="../assets/images/components/header/help.svg" alt="Help">
+                </a>
+            </div>
+            <button onclick="openSubMenu()" id="header-avatar" class="header-avatar" aria-haspopup="dialog"
+                aria-controls="sub-menu" aria-label="Open user menu">
+            </button>
         </div>
     </div>
-</div>
 
-<div id="sub-menu-modal" class="sub-menu-bg d-none">
-    <div id="sub-menu" class="sub-menu d-none sub-menu-close">
-        <a href="#" onclick=" openPopup('my-account', currentUser)">
-            <div>Account</div>
-        </a>
-        <a class="help-link" href="help.html">
-            <div>Help</div>
-        </a>
-        <a href="legal-notice.html">
-            <div>Legal Notice</div>
-        </a>
-        <a href="privacy-policy.html">
-            <div>Privacy Policy</div>
-        </a>
-        <a href="#" onclick="logOut()">
-            <div>Log Out</div>
-        </a>
-    </div>
-</div>
+    <dialog id="sub-menu" class="sub-menu"  aria-label="User menu">
+        <nav aria>
+            <ul>
+                <li><a href="#" onclick=" openPopup('my-account', currentUser)">
+                        <span>Account</span>
+                    </a>
+                </li>
+                <li  class="help-link"><a href="help.html">
+                        <span>Help</span>
+                    </a>
+                </li>
+                <li><a href="legal-notice.html">
+                        <span>Legal Notice</span>
+                    </a>
+                </li>
+                <li><a href="privacy-policy.html">
+                        <span>Privacy Policy</span>
+                    </a>
+                </li>
+                <li><a href="#" onclick="logOut()">
+                        <span>Log Out</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </dialog>
+</header>
 
-<div class="landscape-warning d-flex-center d-none" id="landscape-warning">
+<div class="landscape-warning d-flex-center d-none" id="landscape-warning" role="alert">
     Please rotate your device to portrait mode for the best experience.
 </div>

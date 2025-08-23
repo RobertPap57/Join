@@ -1,95 +1,82 @@
 
 /**
  * Header component functionality and sub-menu management
- */
+*/
 
 /**
- * Opens the sub-menu by removing the 'd-none' class from the sub-menu modal and sub-menu elements,
- * and animating the sub-menu open.
+ * Opens the sub-menu dialog and applies visual effects to the header avatar.
+ * Adds a 'header-hovered' class to the avatar if it exists.
+ * Displays the sub-menu dialog using showModal().
+ * On mobile devices (window width <= 767px), adds a 'visible' class to the sub-menu after the next animation frame.
  */
 function openSubMenu() {
     let subMenu = document.getElementById('sub-menu');
-    let subModal = document.getElementById('sub-menu-modal');
     let avatar = document.getElementById('header-avatar');
-    if (avatar) {
-        avatar.classList.add('header-hovered');
+    if (avatar) avatar.classList.add('header-hovered');
+    subMenu.showModal();
+    if (window.innerWidth <= 767) {
+        requestAnimationFrame(() => {
+            subMenu.classList.add('visible');
+        });
     }
-    subModal.classList.remove('d-none');
-    subMenu.classList.remove('d-none');
-    setTimeout(() => {
-        subMenu.classList.remove('sub-menu-close');
-        subMenu.classList.add('sub-menu-open');
-    }, 10);
 }
 
 /**
- * Closes the sub-menu by adding the 'sub-menu-close' class to animate its closing,
- * and adding the 'd-none' class to hide both the sub-menu modal and sub-menu elements.
+ * Attaches a click event listener to the sub-menu element that handles closing the sub-menu.
+ * Removes the 'header-hovered' class from the avatar if present.
+ * For mobile viewports (width <= 767px), hides the sub-menu with a delay before closing the dialog.
+ * For larger viewports, closes the dialog immediately.
  */
 function closeSubMenu() {
-    let subMenu = document.getElementById('sub-menu');
-    let subModal = document.getElementById('sub-menu-modal');
-    let avatar = document.getElementById('header-avatar');
-    if (avatar) {
-        avatar.classList.remove('header-hovered');
-    }
-    subMenu.classList.remove('sub-menu-open');
-    subMenu.classList.add('sub-menu-close');
-    setTimeout(() => {
-        subModal.classList.add('d-none');
-        subMenu.classList.add('d-none');
-    }, 100);
+    const subMenu = document.getElementById('sub-menu');
+    const avatar = document.getElementById('header-avatar');
+    subMenu.addEventListener('click', (event) => {
+        if (avatar) avatar.classList.remove('header-hovered');
+        if (window.innerWidth <= 767) {
+            subMenu.classList.remove('visible');
+            setTimeout(() => {
+                closeDialogOnClickOutside(event, subMenu);
+            }, 300);
+        } else closeDialogOnClickOutside(event, subMenu);
+    });
 }
 
 /**
- * Handles the window click event to close the sub-menu if the click event
- * target matches the sub-menu modal element.
- * 
- * @param {Event} event - The click event object.
+ * Hides the header actions by adding the 'd-none' class to the element with id 'header-actions'.
  */
-window.onclick = function (event) {
-    const subMenu = document.getElementById('sub-menu-modal');
-    if (event.target === subMenu) {
-        closeSubMenu();
-    }
-}
-
-/**
- * Hides the header icons by adding the 'd-none' class to the element with id 'header-icons'.
- */
-function hideHeaderIcons() {
-    document.getElementById('header-icons').classList.add('d-none');
+function hideHeaderActions() {
+    document.getElementById('header-actions').classList.add('d-none');
 }
 
 /**
  * Hides the help icon element.
  */
 function hideHelpIcon() {
-    document.getElementById('hide-help-icon').classList.add('d-none');
+    document.getElementById('help-icon').classList.add('d-none');
 }
 
 /**
- * Updates the header profile initials based on the current user's data.
- * Clears the inner HTML of the 'header-profile-icon' element, removes the 'initials-fsize' class,
- * and sets the initials content and adjusts the font size if necessary based on the currentUser's initials.
- * If currentUser or currentUser.initials is not defined, adds 'd-none' class to 'navLinks' element.
+ * Toggles the 'single-digit-font' CSS class on the header avatar element
+ * based on the length of its inner text. If the avatar's text is a single
+ * character, the class is added; otherwise, it is removed.
  */
-function toggleInitialsClass() {
-    const userAvatar = document.getElementById('header-avatar');
-    if (!userAvatar || !currentUser) return;
-    userAvatar.classList.remove('f-size-28');
-    const initials = createNameInitials(currentUser.name);
-    if (initials.length === 1) {
-        userAvatar.classList.add('f-size-28');
+function setupInitialsFS() {
+    const headerAvatar = document.getElementById('header-avatar');
+    if (headerAvatar && headerAvatar.innerText.length === 1) {
+        headerAvatar.classList.add('single-digit-font');
+    } else {
+        headerAvatar.classList.remove('single-digit-font');
     }
 }
 
 /**
- * Displays the header avatar for the current user.
+ * Initializes the header section by displaying the current user's profile avatar,
+ * setting up the user's initials in the font size, and closing any open submenus.
  */
-function displayHeaderAvatar() {
-    toggleInitialsClass();
+function initHeader() {
     displayProfileAvatar(currentUser, 'header-avatar');
+    setupInitialsFS();
+    closeSubMenu();
 }
 
 /**
