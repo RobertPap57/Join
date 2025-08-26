@@ -409,7 +409,7 @@ async function openDeleteUserMsg(id) {
 */
 async function updateUser(user) {
     currentUser = user;
-    displayHeaderAvatar();
+    initHeader();
     sessionStorage.setItem('currentUser', JSON.stringify(user));
     await updateData('/users', user.id, user);
 }
