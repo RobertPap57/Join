@@ -222,7 +222,7 @@ async function checkLoginValues(email, password) {
  */
 function createGuestUser() {
     return {
-        name: 'guest',
+        name: 'Guest',
         email: 'guest@join.de',
         id: 'guest',
         color: '#00BEE8',

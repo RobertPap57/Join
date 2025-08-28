@@ -12,6 +12,7 @@ async function initSummary() {
   highlightLink('summary');
   await getTasks();
   initPopup();
+  renderSummary();
 }
 
 /**
@@ -44,32 +45,47 @@ function updateGreetingText() {
 }
 
 /**
- * Sets the greeting message based on the current time of day.
+ * Sets the greeting message text based on the current time of day and user status.
  *
  * @param {HTMLElement} greetingMessage - The DOM element where the greeting text will be displayed.
+ *
+ * The function uses the current hour to determine whether to display "Good morning", "Good afternoon", or "Good evening".
+ * If the current user is 'Guest', it appends an exclamation mark; otherwise, it appends a comma.
+ *
+ * @global
+ * @requires currentUser - The current logged-in user object.
  */
 function setGreetingText(greetingMessage) {
   const greetings = {
-    morning: "Good morning,",
-    afternoon: "Good afternoon,",
-    evening: "Good evening,"
+    morning: "Good morning",
+    afternoon: "Good afternoon",
+    evening: "Good evening"
   };
   const currentTime = new Date().getHours();
   const greeting = currentTime < 12 ? greetings.morning : (currentTime < 18 ? greetings.afternoon : greetings.evening);
-  greetingMessage.innerText = greeting;
+  if (currentUser.name === 'Guest') {
+    greetingMessage.innerText = greeting + '!';
+  } else {
+    greetingMessage.innerText = greeting + ','
+  }
 }
 
 /**
- * Sets the inner text of the provided DOM element to the capitalized name of the current user.
+ * Sets the display name of the current user in the provided DOM element.
+ * If the current user is not a guest, their name is capitalized and displayed.
+ * If the current user is a guest or not defined, the display is cleared.
  *
  * @param {HTMLElement} userName - The DOM element where the user's name will be displayed.
  */
 function setCurrentUserName(userName) {
   if (currentUser) {
-    userName.innerText = capitalizeFirstLetter(currentUser['name']);
+    if (currentUser.name !== 'Guest') {
+      userName.innerText = capitalizeFirstLetter(currentUser['name']);
+    } else {
+      userName.innerText = '';
+    }
   }
 }
-
 
 /**
  * Renders the summary section by counting tasks based on specific status and priority mappings,
@@ -161,8 +177,8 @@ function renderUpcomingDeadline() {
   const mostUrgentTask = getMostUrgentTask(tasks);
   if (mostUrgentTask) {
     const mostUrgentTasksDueDate = formatDateString(mostUrgentTask.dueDate);
-    renderData("upcoming-deadline", mostUrgentTasksDueDate);
+    renderDataToSummary("upcoming-deadline", mostUrgentTasksDueDate);
   } else {
-    renderData("upcoming-deadline", 'no urgent tasks');
+    renderDataToSummary("upcoming-deadline", 'no urgent tasks');
   }
 }

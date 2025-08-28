@@ -184,11 +184,18 @@ const dummyTasks = {
 
 const dummyUsers = {
 	"guest": {
-		name: 'guest',
+		name: 'Guest',
 		email: 'guest@join.de',
 		id: 'guest',
 		color: '#00BEE8',
 		password: 'guest'
+	},
+	"me": {
+		name: 'Robert',
+		email: 'robert@join.de',
+		id: 'me',
+		color: '#00BEE8',
+		password: 'Robert'
 	}
 }
 
