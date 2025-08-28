@@ -29,77 +29,82 @@
     <div w3-include-html="../templates/header.html"></div>
     <div w3-include-html="../templates/nav.html"></div>
     <div w3-include-html="../templates/popup.html"></div>
+    <div class="main-wrapper">
+        <main class="main">
+            <header class="main-header d-flex-center">
+                <h1>Join 360</h1>
+                <span class="separator"></span>
+                <p>Key Metrics at a Glance</p>
+            </header>
 
-    <main class="main">
-        <header class="main-header">
-            <h1>Join 360</h1>
-            <span class="separator"></span>
-            <p>Key Metrics at a Glance</p>
-        </header>
-
-        <section class="main-content">
-            <ul class="summary-list">
-                <li>
-                    <a href="board.html">
-                        <img src="" alt="">
-                        <div>
-                            <span id="to-do"></span>
-                            <span>To-do</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="board.html">
-                        <img src="" alt="">
-                        <div>
-                            <span id="done"></span>
-                            <span>Done</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="board.html">
-                        <div>
-                            <img src="" alt="">
-                            <div>
-                                <span id="urgent"></span>
-                                <span>Urgent</span>
+            <section class="main-content">
+                <ul class="summary-list" aria-label="Summary List">
+                    <li>
+                        <a href="board.html" class="d-flex-center">
+                            <img id="to-do-icon" src="" alt="">
+                            <div class="d-flex-center">
+                                <span id="to-do"></span>
+                                <p>To-do</p>
                             </div>
-                        </div>
-                        <span class="separator-gray"></span>
-                        <div>
-                            <span id="upcoming-deadline"></span>
-                            <span>Upcoming Deadline</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="board.html#">
-                        <span id="tasks"></span>
-                        <span>Tasks in Board</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="board.html">
-                        <span id="in-progress"></span>
-                        <span>Tasks in Progress</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="board.html">
-                        <span id="await-feedback"></span>
-                        <span>Awaiting Feedback</span>
-                    </a>
-                </li>
-            </ul>
-        </section>
-
-        <section id="greeting" class="greeting">
-            <p id="greeting-message"></p>
-            <h2 id="user-name"></h2>
-        </section>
-
-    </main>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="board.html" class="d-flex-center">
+                            <img id="done-icon" src="" alt="">
+                            <div class="d-flex-center">
+                                <span id="done"></span>
+                                <p>Done</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="board.html" class="d-flex-center urgent-link">
+                            <div class="d-flex-center urgent-container">
+                                <img id="urgent-icon" src="" alt="">
+                                <div class="d-flex-center">
+                                    <span id="urgent"></span>
+                                    <p>Urgent</p>
+                                </div>
+                            </div>
+                            <span class="separator"></span>
+                            <div class="d-flex-center upcoming-deadline-container">
+                                <span id="upcoming-deadline"></span>
+                                <p>Upcoming Deadline</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="board.html" class="d-flex-center">
+                            <div class="d-flex-center">
+                                <span id="tasks"></span>
+                                <p>Tasks in Board</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="board.html" class="d-flex-center">
+                            <div class="d-flex-center">
+                                <span id="in-progress"></span>
+                                <p>Tasks in Progress</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="board.html" class="d-flex-center">
+                            <div class="d-flex-center">
+                                <span id="await-feedback"></span>
+                                <p>Awaiting Feedback</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <aside id="greeting" class="greeting">
+                    <p id="greeting-message"></p>
+                    <span id="user-name"></span>
+                </aside>
+            </section>
+        </main>
+    </div>
 
 
 

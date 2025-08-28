@@ -89,7 +89,7 @@ const dummyTasks = {
 		"description": "Build start page with recipe recommendation.",
 		"category": "User Story",
 		"status": "in-progress",
-		"dueDate": "2024-07-31",
+		"dueDate": "2026-07-31",
 		"priority": "medium",
 		"subtasks": [
 			{
@@ -113,7 +113,7 @@ const dummyTasks = {
 		"description": "Define CSS naming conventions and structure.",
 		"category": "Technical Task",
 		"status": "done",
-		"dueDate": "2024-07-31",
+		"dueDate": "2026-07-31",
 		"priority": "urgent",
 		"subtasks": [
 			{
@@ -137,7 +137,7 @@ const dummyTasks = {
 		"description": "Create reusable HTML base templates.",
 		"category": "Technical Task",
 		"status": "await-feedback",
-		"dueDate": "2024-07-31",
+		"dueDate": "2026-07-31",
 		"priority": "low",
 		"subtasks": [],
 		"assignedTo": ["3", "2", "8"],
@@ -150,7 +150,7 @@ const dummyTasks = {
 		"description": "Implement daily recipe and portion calculator.",
 		"category": "User Story",
 		"status": "await-feedback",
-		"dueDate": "2024-07-31",
+		"dueDate": "2026-07-31",
 		"priority": "medium",
 		"subtasks": [],
 		"assignedTo": ["4", "8", "1"],
@@ -163,7 +163,7 @@ const dummyTasks = {
 		"description": "Create a contact form and imprint page.",
 		"category": "User Story",
 		"status": "to-do",
-		"dueDate": "2024-07-31",
+		"dueDate": "2026-07-31",
 		"priority": "urgent",
 		"subtasks": [
 			{

@@ -1,3 +1,9 @@
+const summaryIcons = [
+  { id: 'to-do-icon', base: '../assets/images/pages/summary/to-do.svg' },
+  { id: 'done-icon', base: '../assets/images/pages/summary/done.svg' },
+  { id: 'urgent-icon', base: '../assets/images/pages/summary/urgent.svg' }
+];
+
 /**
  * Initializes the summary page by including HTML, checking orientation,
  * verifying the current user, initializing the header, highlighting the summary link,
@@ -13,6 +19,7 @@ async function initSummary() {
   await getTasks();
   initPopup();
   renderSummary();
+  setIconSrc();
 }
 
 /**
@@ -143,13 +150,11 @@ function renderDataToSummary(id, number) {
  * @returns {Object|null} The most urgent task with the earliest due date, or null if no urgent tasks are found.
  */
 function getMostUrgentTask(tasks) {
-  const urgentTasks = tasks.filter(task => task.priority.toLowerCase() === 'urgent');
-  if (urgentTasks.length === 0) {
-    return null;
-  }
-  return urgentTasks.reduce((earliestTask, currentTask) => {
-    return new Date(currentTask.dueDate) < new Date(earliestTask.dueDate) ? currentTask : earliestTask;
-  });
+  return tasks.reduce((earliest, task) => {
+    if (task.priority.toLowerCase() !== 'urgent') return earliest;
+    if (!earliest) return task;
+    return new Date(task.dueDate) < new Date(earliest.dueDate) ? task : earliest;
+  }, null);
 }
 
 /**
@@ -182,3 +187,35 @@ function renderUpcomingDeadline() {
     renderDataToSummary("upcoming-deadline", 'no urgent tasks');
   }
 }
+
+
+function updateIconSrc(img, basePath, state = '') {
+  let newSrc = basePath;
+  if (img.id !== 'urgent-icon' && window.innerWidth <= 1200) {
+    newSrc = newSrc.replace(/\.svg$/, '-mobile.svg');
+  }
+  if (state === 'hover') {
+    if (img.id !== 'urgent-icon' && window.innerWidth <= 1200) {
+      newSrc = basePath.replace(/\.svg$/, '-mobile-hover.svg');
+    } else if (img.id !== 'urgent-icon') {
+      newSrc = basePath.replace(/\.svg$/, '-hover.svg');
+    }
+  }
+  img.src = newSrc;
+}
+
+function setIconSrc() {
+  summaryIcons.forEach(icon => {
+    const img = document.getElementById(icon.id);
+    if (!img) return;
+    updateIconSrc(img, icon.base);
+    const parent = img.parentElement.parentElement;
+    if (!parent || img.id === 'urgent-icon') return;
+    parent.addEventListener('mouseenter', () => updateIconSrc(img, icon.base, 'hover'));
+    parent.addEventListener('mouseleave', () => updateIconSrc(img, icon.base));
+    parent.addEventListener('touchstart', () => updateIconSrc(img, icon.base, 'hover'));
+    parent.addEventListener('touchend', () => updateIconSrc(img, icon.base));
+  });
+}
+
+window.addEventListener('resize', setIconSrc);
