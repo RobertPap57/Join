@@ -10,9 +10,10 @@
  * On mobile devices (window width <= 767px), adds a 'visible' class to the sub-menu after the next animation frame.
  */
 function openSubMenu() {
-    let subMenu = document.getElementById('sub-menu');
-    let avatar = document.getElementById('header-avatar');
+    const subMenu = document.getElementById('sub-menu');
+    const avatar = document.getElementById('header-avatar');
     if (avatar) avatar.classList.add('header-hovered');
+    positionateSubMenu();
     subMenu.showModal();
     if (window.innerWidth <= 767) {
         requestAnimationFrame(() => {
@@ -22,11 +23,29 @@ function openSubMenu() {
 }
 
 /**
+ * Positions the sub-menu dialog relative to its parent element.
+ * If the window's inner height exceeds 1920 pixels, adjusts the 'right' style property
+ * of the sub-menu dialog to align it with the right edge of the parent element,
+ * adding a 20px offset.
+ *
+ * Assumes the parent element has the class 'header-content' and the sub-menu dialog
+ * has the ID 'sub-menu'.
+ */
+function positionateSubMenu() {
+    const parent = document.querySelector('.header-content');
+    const dialog = document.getElementById('sub-menu');
+    const rect = parent.getBoundingClientRect();
+    if (window.innerHeight > 1920) {
+        dialog.style.right = ((window.innerWidth - rect.right) + 20) + "px";
+    }
+}
+
+/**
  * Attaches a click event listener to the sub-menu element that handles closing the sub-menu.
  * Removes the 'header-hovered' class from the avatar if present.
  * For mobile viewports (width <= 767px), hides the sub-menu with a delay before closing the dialog.
  * For larger viewports, closes the dialog immediately.
- */
+*/
 function closeSubMenu() {
     const subMenu = document.getElementById('sub-menu');
     const avatar = document.getElementById('header-avatar');
@@ -43,14 +62,14 @@ function closeSubMenu() {
 
 /**
  * Hides the header actions by adding the 'd-none' class to the element with id 'header-actions'.
- */
+*/
 function hideHeaderActions() {
     document.getElementById('header-actions').classList.add('d-none');
 }
 
 /**
  * Hides the help icon element.
- */
+*/
 function hideHelpIcon() {
     document.getElementById('help-icon').classList.add('d-none');
 }
@@ -59,7 +78,7 @@ function hideHelpIcon() {
  * Toggles the 'single-digit-font' CSS class on the header avatar element
  * based on the length of its inner text. If the avatar's text is a single
  * character, the class is added; otherwise, it is removed.
- */
+*/
 function setupInitialsFS() {
     const headerAvatar = document.getElementById('header-avatar');
     if (headerAvatar && headerAvatar.innerText.length === 1) {
@@ -72,7 +91,7 @@ function setupInitialsFS() {
 /**
  * Initializes the header section by displaying the current user's profile avatar,
  * setting up the user's initials in the font size, and closing any open submenus.
- */
+*/
 function initHeader() {
     displayProfileAvatar(currentUser, 'header-avatar');
     setupInitialsFS();
@@ -82,9 +101,14 @@ function initHeader() {
 /**
  * Logs out the current user by removing 'currentUser' and 'greeting' from sessionStorage,
  * then redirects the user to the login page.
- */
+*/
 function logOut() {
     sessionStorage.removeItem('currentUser');
     sessionStorage.removeItem('greeting');
     redirectTo('login.html');
 } 
+
+
+window.addEventListener('resize', () => {
+    positionateSubMenu();
+});
