@@ -58,7 +58,6 @@
 
 .header-avatar {
     cursor: pointer;
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -74,7 +73,7 @@
     box-shadow: inset 0 0 0 1px white;
 }
 
-.header-avatar:focus {
+.header-avatar:focus-visible {
     outline: 2px solid black;
     outline-offset: 2px;
 }
