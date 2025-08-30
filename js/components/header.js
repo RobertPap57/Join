@@ -34,8 +34,8 @@ function openSubMenu() {
 function positionateSubMenu() {
     const parent = document.querySelector('.header-content');
     const dialog = document.getElementById('sub-menu');
-    const rect = parent.getBoundingClientRect();
-    if (window.innerHeight > 1920) {
+    const rect = parent?.getBoundingClientRect();
+    if (window.innerWidth > 1920) {
         dialog.style.right = ((window.innerWidth - rect.right) + 20) + "px";
     }
 }
@@ -96,6 +96,7 @@ function initHeader() {
     displayProfileAvatar(currentUser, 'header-avatar');
     setupInitialsFS();
     closeSubMenu();
+    positionateSubMenu();
 }
 
 /**

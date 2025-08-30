@@ -11,15 +11,140 @@ const summaryIcons = [
  * Redirects to the login page if no current user is found.
  */
 async function initSummary() {
+  checkForCurrentUser() ? checkForGreeting() : redirectTo('login.html');
   await includeHTML();
   checkOrientation();
-  checkForCurrentUser() ? checkForGreeting() : redirectTo('login.html');
   initHeader();
   highlightLink('summary');
   await getTasks();
   initPopup();
   renderSummary();
   setIconSrc();
+}
+
+
+/**
+ * Renders the summary section by counting tasks based on specific status and priority mappings,
+ * updating the summary display with these counts, the total number of tasks, and the upcoming deadline.
+*
+* Iterates through predefined mappings for task statuses and priorities, counts the number of tasks
+* matching each mapping, and updates the summary UI accordingly.
+*/
+function renderSummary() {
+  const mappings = [
+    { key: "status", value: "to-do" },
+    { key: "status", value: "done" },
+    { key: "status", value: "in-progress" },
+    { key: "status", value: "await-feedback" },
+    { key: "priority", value: "urgent" }
+  ];
+  mappings.forEach(({ key, value }) => {
+    const count = countTasks(key, value);
+    renderDataToSummary(value, count);
+  });
+  renderDataToSummary("tasks", tasks.length);
+  renderUpcomingDeadline();
+}
+
+/**
+ * Counts the number of tasks where the specified key matches the given value (case-insensitive).
+*
+ * @param {string} key - The property name of the task object to compare.
+ * @param {string} value - The value to match against the task's property.
+ * @returns {number} The count of tasks matching the specified key and value.
+*/
+function countTasks(key, value) {
+  return tasks.filter(task => task[key].toLowerCase() === value.toLowerCase()).length;
+}
+
+/**
+ * Updates the inner text of a DOM element with the specified ID to display a given number.
+*
+ * @param {string} id - The ID of the DOM element to update.
+ * @param {number} number - The number to display in the element.
+*/
+function renderDataToSummary(id, number) {
+  const element = document.getElementById(id);
+  if (element) {
+    element.innerText = number;
+  }
+}
+
+/**
+ * Returns the most urgent task with the earliest due date from a list of tasks.
+*
+ * @param {Array<Object>} tasks - The array of task objects to search through.
+ * @param {string} tasks[].priority - The priority level of the task (e.g., 'urgent').
+ * @param {string|Date} tasks[].dueDate - The due date of the task.
+ * @returns {Object|null} The most urgent task with the earliest due date, or null if no urgent tasks are found.
+*/
+function getMostUrgentTask(tasks) {
+  return tasks.reduce((earliest, task) => {
+    if (task.priority.toLowerCase() !== 'urgent') return earliest;
+    if (!earliest) return task;
+    return new Date(task.dueDate) < new Date(earliest.dueDate) ? task : earliest;
+  }, null);
+}
+
+/**
+ * Formats a date string into a human-readable format (e.g., "January 1, 2024").
+ *
+ * @param {string} dateString - The date string to format.
+ * @returns {string} The formatted date string in "Month Day, Year" format.
+*/
+function formatDateString(dateString) {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', options);
+}
+
+/**
+ * Renders the due date of the most urgent upcoming task.
+ * If there are no urgent tasks, displays a message indicating so.
+*
+* Depends on:
+ * - getMostUrgentTask(tasks): Returns the most urgent task object or null/undefined.
+ * - formatDateString(date): Formats a date string for display.
+ * - renderData(elementId, data): Renders data to a specified element.
+*/
+function renderUpcomingDeadline() {
+  const mostUrgentTask = getMostUrgentTask(tasks);
+  if (mostUrgentTask) {
+    const mostUrgentTasksDueDate = formatDateString(mostUrgentTask.dueDate);
+    renderDataToSummary("upcoming-deadline", mostUrgentTasksDueDate);
+  } else {
+    renderDataToSummary("upcoming-deadline", 'no urgent tasks');
+  }
+}
+
+
+function updateIconSrc(img, basePath, state = '') {
+  let newSrc = basePath;
+  if (img.id !== 'urgent-icon' && window.innerWidth < 767) {
+    newSrc = newSrc.replace(/\.svg$/, '-mobile.svg');
+  }
+  if (state === 'hover') {
+    if (img.id !== 'urgent-icon' && window.innerWidth < 767) {
+      newSrc = basePath.replace(/\.svg$/, '-mobile-hover.svg');
+    } else if (img.id !== 'urgent-icon') {
+      newSrc = basePath.replace(/\.svg$/, '-hover.svg');
+    }
+  }
+  img.src = newSrc;
+}
+
+function setIconSrc() {
+  summaryIcons.forEach(icon => {
+    const img = document.getElementById(icon.id);
+    if (!img) return;
+    updateIconSrc(img, icon.base);
+    const parent = img.parentElement.parentElement;
+    if (!parent || img.id === 'urgent-icon') return;
+    parent.addEventListener('mouseenter', () => updateIconSrc(img, icon.base, 'hover'));
+    parent.addEventListener('mouseleave', () => updateIconSrc(img, icon.base));
+    parent.addEventListener('touchstart', () => updateIconSrc(img, icon.base, 'hover'));
+    parent.addEventListener('touchend', () => updateIconSrc(img, icon.base));
+  });
 }
 
 /**
@@ -29,13 +154,22 @@ async function initSummary() {
  * If already shown, only updates the greeting text.
  */
 function checkForGreeting() {
-  if (sessionStorage.getItem('greeting')) {
-    updateGreetingText();
-  } else {
-    updateGreetingText();
+  updateGreetingText();
+  if (!sessionStorage.getItem('greeting') && window.innerWidth <= 1300) {
+    setGreetingAnimation();
     sessionStorage.setItem('greeting', 'true');
   }
 }
+
+
+function setGreetingAnimation() {
+  const greeting = document.getElementById('greeting');
+  greeting.style.display = 'flex';
+  setTimeout(() => {
+    greeting.style.display = 'none';
+  }, 1800);
+}
+
 
 /**
  * Updates the greeting text and user name displayed on the summary page.
@@ -92,130 +226,6 @@ function setCurrentUserName(userName) {
       userName.innerText = '';
     }
   }
-}
-
-/**
- * Renders the summary section by counting tasks based on specific status and priority mappings,
- * updating the summary display with these counts, the total number of tasks, and the upcoming deadline.
- *
- * Iterates through predefined mappings for task statuses and priorities, counts the number of tasks
- * matching each mapping, and updates the summary UI accordingly.
- */
-function renderSummary() {
-  const mappings = [
-    { key: "status", value: "to-do" },
-    { key: "status", value: "done" },
-    { key: "status", value: "in-progress" },
-    { key: "status", value: "await-feedback" },
-    { key: "priority", value: "urgent" }
-  ];
-  mappings.forEach(({ key, value }) => {
-    const count = countTasks(key, value);
-    renderDataToSummary(value, count);
-  });
-  renderDataToSummary("tasks", tasks.length);
-  renderUpcomingDeadline();
-}
-
-/**
- * Counts the number of tasks where the specified key matches the given value (case-insensitive).
- *
- * @param {string} key - The property name of the task object to compare.
- * @param {string} value - The value to match against the task's property.
- * @returns {number} The count of tasks matching the specified key and value.
- */
-function countTasks(key, value) {
-  return tasks.filter(task => task[key].toLowerCase() === value.toLowerCase()).length;
-}
-
-/**
- * Updates the inner text of a DOM element with the specified ID to display a given number.
- *
- * @param {string} id - The ID of the DOM element to update.
- * @param {number} number - The number to display in the element.
- */
-function renderDataToSummary(id, number) {
-  const element = document.getElementById(id);
-  if (element) {
-    element.innerText = number;
-  }
-}
-
-/**
- * Returns the most urgent task with the earliest due date from a list of tasks.
- *
- * @param {Array<Object>} tasks - The array of task objects to search through.
- * @param {string} tasks[].priority - The priority level of the task (e.g., 'urgent').
- * @param {string|Date} tasks[].dueDate - The due date of the task.
- * @returns {Object|null} The most urgent task with the earliest due date, or null if no urgent tasks are found.
- */
-function getMostUrgentTask(tasks) {
-  return tasks.reduce((earliest, task) => {
-    if (task.priority.toLowerCase() !== 'urgent') return earliest;
-    if (!earliest) return task;
-    return new Date(task.dueDate) < new Date(earliest.dueDate) ? task : earliest;
-  }, null);
-}
-
-/**
- * Formats a date string into a human-readable format (e.g., "January 1, 2024").
- *
- * @param {string} dateString - The date string to format.
- * @returns {string} The formatted date string in "Month Day, Year" format.
- */
-function formatDateString(dateString) {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', options);
-}
-
-/**
- * Renders the due date of the most urgent upcoming task.
- * If there are no urgent tasks, displays a message indicating so.
- *
- * Depends on:
- * - getMostUrgentTask(tasks): Returns the most urgent task object or null/undefined.
- * - formatDateString(date): Formats a date string for display.
- * - renderData(elementId, data): Renders data to a specified element.
- */
-function renderUpcomingDeadline() {
-  const mostUrgentTask = getMostUrgentTask(tasks);
-  if (mostUrgentTask) {
-    const mostUrgentTasksDueDate = formatDateString(mostUrgentTask.dueDate);
-    renderDataToSummary("upcoming-deadline", mostUrgentTasksDueDate);
-  } else {
-    renderDataToSummary("upcoming-deadline", 'no urgent tasks');
-  }
-}
-
-
-function updateIconSrc(img, basePath, state = '') {
-  let newSrc = basePath;
-  if (img.id !== 'urgent-icon' && window.innerWidth <= 1200) {
-    newSrc = newSrc.replace(/\.svg$/, '-mobile.svg');
-  }
-  if (state === 'hover') {
-    if (img.id !== 'urgent-icon' && window.innerWidth <= 1200) {
-      newSrc = basePath.replace(/\.svg$/, '-mobile-hover.svg');
-    } else if (img.id !== 'urgent-icon') {
-      newSrc = basePath.replace(/\.svg$/, '-hover.svg');
-    }
-  }
-  img.src = newSrc;
-}
-
-function setIconSrc() {
-  summaryIcons.forEach(icon => {
-    const img = document.getElementById(icon.id);
-    if (!img) return;
-    updateIconSrc(img, icon.base);
-    const parent = img.parentElement.parentElement;
-    if (!parent || img.id === 'urgent-icon') return;
-    parent.addEventListener('mouseenter', () => updateIconSrc(img, icon.base, 'hover'));
-    parent.addEventListener('mouseleave', () => updateIconSrc(img, icon.base));
-    parent.addEventListener('touchstart', () => updateIconSrc(img, icon.base, 'hover'));
-    parent.addEventListener('touchend', () => updateIconSrc(img, icon.base));
-  });
 }
 
 window.addEventListener('resize', setIconSrc);
