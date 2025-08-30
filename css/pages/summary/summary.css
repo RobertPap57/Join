@@ -81,7 +81,6 @@
     transform: scale(calc(282.5 / 264), calc(184 / 168));
 }
 
-
 .summary-list li:nth-child(2):hover {
     transform: scale(calc(282.5 / 264), calc(184 / 168));
 }
@@ -164,7 +163,7 @@
     background-color: #D1D1D1;
 }
 
-.urgent-link { 
+.urgent-link {
     gap: 61px !important;
 }
 
@@ -209,7 +208,6 @@
     font-weight: 700;
     color: #29ABE2;
 }
-
 
 @keyframes fadeOut {
     0% {

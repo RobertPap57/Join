@@ -22,7 +22,6 @@ async function initSummary() {
   setIconSrc();
 }
 
-
 /**
  * Renders the summary section by counting tasks based on specific status and priority mappings,
  * updating the summary display with these counts, the total number of tasks, and the upcoming deadline.
@@ -117,7 +116,18 @@ function renderUpcomingDeadline() {
   }
 }
 
-
+/**
+ * Updates the `src` attribute of an image element based on its ID, the current window width, 
+ * and an optional state (e.g., 'hover'). 
+ * 
+ * - For images other than 'urgent-icon', if the window width is less than 767px, 
+ *   the source is modified to use the '-mobile.svg' or '-mobile-hover.svg' variant.
+ * - If the state is 'hover', the source is modified to use the '-hover.svg' or '-mobile-hover.svg' variant.
+ * 
+ * @param {HTMLImageElement} img - The image element whose source will be updated.
+ * @param {string} basePath - The base path of the image source (should end with '.svg').
+ * @param {string} [state=''] - Optional state, e.g., 'hover', to determine the image variant.
+ */
 function updateIconSrc(img, basePath, state = '') {
   let newSrc = basePath;
   if (img.id !== 'urgent-icon' && window.innerWidth < 767) {
@@ -133,6 +143,18 @@ function updateIconSrc(img, basePath, state = '') {
   img.src = newSrc;
 }
 
+/**
+ * Sets the source of summary icon images and attaches event listeners to their parent elements
+ * to update the icon source on hover and touch interactions.
+ * 
+ * Iterates over the `summaryIcons` array, finds each icon's image element by ID,
+ * and updates its source using `updateIconSrc`. For each icon (except 'urgent-icon'),
+ * adds event listeners to the parent element to change the icon's source on mouse and touch events.
+ *
+ * Dependencies:
+ * - `summaryIcons`: Array of icon objects with `id` and `base` properties.
+ * - `updateIconSrc(img: HTMLElement, base: string, state?: string)`: Function to update the image source.
+ */
 function setIconSrc() {
   summaryIcons.forEach(icon => {
     const img = document.getElementById(icon.id);
@@ -161,7 +183,6 @@ function checkForGreeting() {
   }
 }
 
-
 function setGreetingAnimation() {
   const greeting = document.getElementById('greeting');
   greeting.style.display = 'flex';
@@ -169,7 +190,6 @@ function setGreetingAnimation() {
     greeting.style.display = 'none';
   }, 1800);
 }
-
 
 /**
  * Updates the greeting text and user name displayed on the summary page.

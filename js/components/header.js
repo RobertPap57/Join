@@ -4,6 +4,17 @@
 */
 
 /**
+ * Initializes the header section by displaying the current user's profile avatar,
+ * setting up the user's initials in the font size, and closing any open submenus.
+*/
+function initHeader() {
+    displayProfileAvatar(currentUser, 'header-avatar');
+    setupInitialsFS();
+    closeSubMenuListeners();
+    positionateSubMenu();
+}
+
+/**
  * Opens the sub-menu dialog and applies visual effects to the header avatar.
  * Adds a 'header-hovered' class to the avatar if it exists.
  * Displays the sub-menu dialog using showModal().
@@ -41,23 +52,32 @@ function positionateSubMenu() {
 }
 
 /**
- * Attaches a click event listener to the sub-menu element that handles closing the sub-menu.
- * Removes the 'header-hovered' class from the avatar if present.
- * For mobile viewports (width <= 767px), hides the sub-menu with a delay before closing the dialog.
- * For larger viewports, closes the dialog immediately.
-*/
+ * Attaches event listeners to the sub-menu element to handle closing.
+ * - Closes the sub-menu when clicking outside of it.
+ * - Closes the sub-menu when pressing the Escape key.
+ */
+function closeSubMenuListeners() {
+    const subMenu = document.getElementById('sub-menu');
+    closeDialogOnClickOutside(subMenu, closeSubMenu);
+    closeDialogOnEsc(subMenu, closeSubMenu);
+}
+
+/**
+ * Closes the sub-menu in the header component.
+ * Removes the 'header-hovered' class from the avatar element if present.
+ * For mobile devices (window width <= 767px), removes the 'visible' class from the sub-menu
+ * and closes it after a 300ms delay. For larger screens, closes the sub-menu immediately.
+ */
 function closeSubMenu() {
     const subMenu = document.getElementById('sub-menu');
     const avatar = document.getElementById('header-avatar');
-    subMenu.addEventListener('click', (event) => {
-        if (avatar) avatar.classList.remove('header-hovered');
-        if (window.innerWidth <= 767) {
-            subMenu.classList.remove('visible');
-            setTimeout(() => {
-                closeDialogOnClickOutside(event, subMenu);
-            }, 300);
-        } else closeDialogOnClickOutside(event, subMenu);
-    });
+    if (avatar) avatar.classList.remove('header-hovered');
+    if (window.innerWidth <= 767) {
+        subMenu.classList.remove('visible');
+        setTimeout(() => {
+            subMenu.close();
+        }, 300);
+    } else subMenu.close();
 }
 
 /**
@@ -89,17 +109,6 @@ function setupInitialsFS() {
 }
 
 /**
- * Initializes the header section by displaying the current user's profile avatar,
- * setting up the user's initials in the font size, and closing any open submenus.
-*/
-function initHeader() {
-    displayProfileAvatar(currentUser, 'header-avatar');
-    setupInitialsFS();
-    closeSubMenu();
-    positionateSubMenu();
-}
-
-/**
  * Logs out the current user by removing 'currentUser' and 'greeting' from sessionStorage,
  * then redirects the user to the login page.
 */
@@ -107,8 +116,7 @@ function logOut() {
     sessionStorage.removeItem('currentUser');
     sessionStorage.removeItem('greeting');
     redirectTo('login.html');
-} 
-
+}
 
 window.addEventListener('resize', () => {
     positionateSubMenu();
