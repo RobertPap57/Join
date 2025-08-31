@@ -1,13 +1,10 @@
-/**
- * Main application script with core utilities and database functions
- */
-
 const BASE_URL = "https://join-database-6441e-default-rtdb.europe-west1.firebasedatabase.app/";
 
 let users = [];
 let contacts = [];
 let tasks = [];
 let currentUser = loadCurrentUser();
+let isTabbing = false;
 
 /**
  * Fetches the users from the database and assigns them to the global users variable.
@@ -171,8 +168,8 @@ function createUniqueId() {
  * @returns {string} The string with the first letter capitalized and the rest in lowercase.
  */
 function capitalizeFirstLetter(string) {
-    if (!string) return '';
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+	if (!string) return '';
+	return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
 /**
@@ -378,3 +375,51 @@ function closeDialogOnEsc(dialog, onClose) {
 	});
 }
 
+/**
+ * Prevent form submission when pressing Enter key, but allow line breaks in textareas.
+*/
+function preventFormSubmitOnEnter(id) {
+	const form = document.getElementById(id);
+    form.addEventListener('keydown', (event) => {
+		if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') {
+			event.preventDefault();
+        }
+    });
+}
+
+/**
+ * Prevents dialogs from closing when pressing Enter or Space on buttons inside
+ * any <dialog> element, and triggers the button's click event instead.
+ * This works for both existing and dynamically added dialogs/buttons.
+*/
+function enableDialogKeyboardButtons() {
+	document.addEventListener('keydown', (e) => {
+		// Check: was Enter or Space pressed AND is the target a button inside a dialog?
+        if ((e.key === 'Enter' || e.key === ' ') && e.target instanceof HTMLButtonElement) {
+			const dialog = e.target.closest('dialog');
+            if (dialog) {
+				e.preventDefault();
+                e.stopPropagation();
+                e.target.dispatchEvent(new MouseEvent("click", {
+                    bubbles: false,
+                    cancelable: true,
+                    view: window
+                }));
+            }
+        }
+    });
+}
+
+window.addEventListener('keydown', e => {
+	if (e.key === 'Tab') {
+		document.body.classList.add('user-is-tabbing');
+		isTabbing = true;
+	}
+});
+
+window.addEventListener('mousedown', () => {
+	if (isTabbing) {
+		document.body.classList.remove('user-is-tabbing');
+		isTabbing = false;
+	}
+});
