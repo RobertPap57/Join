@@ -71,13 +71,13 @@
 
 @media screen and (max-width:767px) {
 
-    .popup-close {
-        transform: translateY(100%) !important;
-    }
+  .popup-close {
+      transform: translate(-50%, -50%) translateY(130%) !important;
+}
 
-    .popup-open {
-        transform: translateY(0) !important;
-    }
+.popup-open {
+      transform: translate(-50%, -50%) translateY(0) !important;
+}
 
     .popup-banner {
         width: 396px;

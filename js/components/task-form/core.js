@@ -22,7 +22,7 @@ function initTaskForm(type, options = {}) {
     createCustomResizeHandle();
     initHorizontalScroll('.attachments-list');
     fileInputListener();
-    preventFormSubmitOnEnter();
+    preventFormSubmitOnEnter('task-form');
 }
 
 

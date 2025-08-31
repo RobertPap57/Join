@@ -1,8 +1,25 @@
-/**
- * Image handling utilities for file uploads and drag-and-drop
- */
-
 let attachments = [];
+
+/**
+ * Opens the file picker dialog by programmatically triggering a click event.
+ * Prevents default behavior and stops propagation if an event is provided.
+ *
+ * @param {Event} [e] - Optional event to prevent default and stop propagation.
+ */
+function openFilePicker(e) {
+    const filePicker = document.getElementById('file-picker');
+
+    if (e) {
+        e.preventDefault();   
+        e.stopPropagation();  
+    }
+
+    filePicker.dispatchEvent(new MouseEvent("click", {
+        bubbles: false,    
+        cancelable: true,
+        view: window
+    }));
+}
 
 /**
  * Handles drag over event for file drop functionality.
@@ -45,12 +62,12 @@ function isAllowedFile(file) {
     const maxSize = 10 * 1024 * 1024;
     if (!types.includes(file.type) && !exts.some(ext => name.endsWith(ext))) {
         changeErrorMsg('format');
-        showErrorMessage('errorMsg');
+        openToastDialog('errorDialog');
         return false;
     }
     if (file.size > maxSize) {
         changeErrorMsg('size');
-        showErrorMessage('errorMsg');
+        openToastDialog('errorDialog');
         return false;
     }
     return true;
@@ -136,10 +153,9 @@ function createCompressedCanvas(img, width, height, quality) {
  * @param {string} message - Error type ('format' or 'size')
  */
 function changeErrorMsg(message) {
-    const errorParagraph = document.querySelector('.error-msg p');
+    const errorParagraph = document.querySelector('.error-dialog p');
     errorParagraph.innerHTML = getErrorMsgHtml(message);
 }
-
 
 /**
  * Returns the error message HTML based on error type.
@@ -174,8 +190,6 @@ function fileInputListener() {
 
     }
 }
-
-
 
 /**
  * Processes multiple files by compressing and adding them to attachments.

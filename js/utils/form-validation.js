@@ -286,9 +286,9 @@ function updateButtonState() {
     if (!button) return;
     const visibleMessages = document.querySelectorAll('.validation-msg:not(.d-none)');
     if (visibleMessages.length > 0 || areInputsEmpty()) {
-        button.classList.add('button-disabled');
+        button.disabled = true;
     } else {
-        button.classList.remove('button-disabled');
+        button.disabled = false;
     }
 }
 

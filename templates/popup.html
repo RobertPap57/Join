@@ -1,83 +1,87 @@
-<div id="popup-modal" class="popup-modal d-flex-center d-none">
-    <div id="popup-window" class="popup-window d-flex-center popup-close">
-        <div class="popup-banner">
-            <div onclick="closePopup()" class="close-popup-btn-mobile d-flex-center">
-                <img src="../assets/images/global/close-white.svg" alt="close">
+<dialog id="popup-dialog" class="popup-dialog popup-close" aria-modal="true" aria-labelledby="popup-title">
+    <header class="popup-banner">
+        <button type="button" onclick="closePopup()" aria-label="Close" class="close-popup-btn-mobile d-flex-center">
+            <img src="../assets/images/global/close-white.svg" alt="">
+        </button>
+        <img class="popup-logo" src="../assets/images/logos/logo-white.svg" alt="Logo">
+        <div class="popup-banner-content" id="popup-title">
+        </div>
+    </header>
+    <section class="popup-content">
+        <button type="button" onclick="closePopup()" aria-label="Close" class="close-popup-btn d-flex-center">
+            <img src="../assets/images/global/close.svg" alt="">
+        </button>
+        <div class="popup-content-container">
+            <div class="popup-profile-container">
+                <div class="profile-avatar d-flex-center" id="popup-profile-img">
+                </div>
+                <button type="button" class="popup-upload-btn d-flex-center" id="popup-upload-btn"
+                    onclick="openFilePicker(event)" aria-label="Upload photo">
+                    <img src="../assets/images/components/popup/photo.svg" alt="">
+                    <input type="file" name="file-picker" id="file-picker" class="d-none"
+                        accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+                </button>
             </div>
-            <img class="popup-logo" src="../assets/images/logos/logo-white.svg" alt="logo">
-            <div class="popup-banner-content" id="popup-title">
+            <div class="popup-form">
+                <form id="popup-form" onsubmit="handleSubmit(event)" novalidate>
+                    <div class="popup-input">
+                        <input id="name" type="text" name="name" placeholder="Name" aria-label="Name"
+                            aria-describedby="name-validation-msg">
+                        <div class="popup-icon-container d-flex-center">
+                            <img src="../assets/images/components/inputs/person.svg" alt="">
+                        </div>
+                        <p class="validation-msg d-none" id="name-validation-msg">This field is requered
+                        </p>
+                    </div>
+                    <div class="popup-input">
+                        <input id="email" type="email" name="email" placeholder="Email" aria-label="Email"
+                            aria-describedby="email-validation-msg">
+                        <div class="popup-icon-container d-flex-center">
+                            <img src="../assets/images/components/inputs/mail.svg" alt="">
+                        </div>
+                        <p class="validation-msg d-none" id="email-validation-msg"></p>
+                    </div>
+                    <div class="popup-input">
+                        <input id="phone" type="tel" name="phone" placeholder="Phone" aria-label="Phone"
+                            aria-describedby="phone-validation-msg">
+                        <div class="popup-icon-container d-flex-center">
+                            <img src="../assets/images/components/inputs/call.svg" alt="">
+                        </div>
+                        <p class="validation-msg d-none" id="phone-validation-msg"></p>
+                    </div>
+                </form>
+                <footer class="popup-btns">
+                    <button type="button" class="secondary-btn d-flex-center" id="popup-secondary-btn">
+                    </button>
+                    <button type="submit" form="popup-form" class="primary-btn d-flex-center" id="popup-primary-btn">
+                    </button>
+                </footer>
             </div>
         </div>
-        <div class="popup-content">
-            <div onclick="closePopup()" class="close-popup-btn d-flex-center">
-                <img src="../assets/images/global/close.svg" alt="close">
-            </div>
-            <div class="popup-content-container">
-                <div class="popup-profile-container">
-                    <div class="profile-avatar d-flex-center" id="popup-profile-img">
-                    </div>
-                    <div class="popup-upload-btn d-flex-center" id="popup-upload-btn" onclick="document.getElementById('file-picker').click()">
-                        <img src="../assets/images/components/popup/photo.svg" alt="add photo">
-                        <input type="file" name="file-picker" id="file-picker" class="d-none"
-                            accept=".jpg,.jpeg,.png,image/jpeg,image/png">
-                    </div>
-                </div>
-                <div class="popup-form">
-                    <form id="popup-form" onsubmit="handleSubmit(event)" action="" novalidate>
-                        <div class="popup-input">
-                            <input id="name" type="text" name="name" placeholder="Name">
-                            <div class="popup-icon-container d-flex-center">
-                                <img src="../assets/images/components/inputs/person.svg" alt="person">
-                            </div>
-                            <p class="validation-msg d-none" id="name-validation-msg">This field is requered
-                            </p>
-                        </div>
-                        <div class="popup-input">
-                            <input id="email" type="email" name="email" placeholder="Email">
-                            <div class="popup-icon-container d-flex-center">
-                                <img src="../assets/images/components/inputs/mail.svg" alt="mail">
-                            </div>
-                            <p class="validation-msg d-none" id="email-validation-msg"></p>
-                        </div>
-                        <div class="popup-input">
-                            <input id="phone" type="tel" name="phone" placeholder="Phone">
-                            <div class="popup-icon-container d-flex-center">
-                                <img src="../assets/images/components/inputs/call.svg" alt="call">
-                            </div>
-                            <p class="validation-msg d-none" id="phone-validation-msg"></p>
-                        </div>
-                    </form>
-                    <div class="popup-btns">
-                        <button class="secondary-btn d-flex-center" id="popup-secondary-btn">
-                        </button>
-                        <button type="submit" form="popup-form" class="primary-btn d-flex-center"
-                            id="popup-primary-btn">
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    </section>
+</dialog>
 
-<div class="error-modal d-none" id="error-modal">
-    <div class="error-msg" id="error-msg">
-        <p>This file format is not allowed!<br>
-            <span>You cann only upload JPEG or PNG.</span>
-        </p>
-        <button class="close-error-btn close-btn d-flex-center" onclick="closeErrorMsg('errorMsg')">
-            <img src="../assets/images/global/close-white.svg" alt="close">
-        </button>
+<dialog class="error-dialog" id="error-dialog" aria-labelledby="error-title" aria-modal="true">
+    <p id="error-title">This file format is not allowed!<br>
+        <span>You can only upload JPEG or PNG.</span>
+    </p>
+    <button type="button" class="close-error-btn close-btn d-flex-center" aria-label="Close"
+        onclick="closeToastDialog('errorDialog')">
+        <img src="../assets/images/global/close-white.svg" alt="">
+    </button>
+</dialog>
+
+<dialog class="warning-dialog" id="warning-dialog" aria-labelledby="warning-title" aria-modal="true">
+    <button class="close-warning-btn close-btn d-flex-center" aria-label="Close"
+        onclick="closeToastDialog('warningDialog')">
+        <img src="../assets/images/global/close.svg" alt="close">
+    </button>
+    <img class="warning-img" src="../assets/images/components/popup/warning.svg" alt="Warning">
+    <p id="warning-title">Are you sure u want <br>to delete your account? </p>
+    <div class="warning-btns">
+        <button type="button" id="delete-acc-btn" class="secondary-btn warning-btn d-flex-center"
+            aria-label="Confirm delete account">Yes</button>
+        <button type="button" onclick="closeToastDialog('warningDialog')" class="primary-btn warning-btn d-flex-center"
+            aria-label="Cancel delete account">No</button>
     </div>
-    <div class="warning-msg d-flex-center" id="warning-msg">
-        <button class="close-warning-btn close-btn d-flex-center" onclick="closeErrorMsg('warningMsg')">
-            <img src="../assets/images/global/close.svg" alt="close">
-        </button>
-        <img class="warning-img" src="../assets/images/components/popup/warning.svg" alt="Warning">
-        <p>Are you sure u want <br>to delete your account? </p>
-        <div class="warning-btns">
-            <button id="delete-acc-btn" class="secondary-btn warning-btn d-flex-center">Yes</button>
-            <button onclick="closeErrorMsg('warningMsg')" class="primary-btn warning-btn d-flex-center">No</button>
-        </div>
-    </div>
-</div>
+</dialog>

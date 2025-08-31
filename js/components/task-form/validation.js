@@ -207,17 +207,6 @@ function preventDefaultValidation() {
     form.addEventListener('submit', handleFormSubmit);
 }
 
-/**
- * Prevent form submission when pressing Enter key, but allow line breaks in textareas.
- */
-function preventFormSubmitOnEnter() {
-    const form = document.getElementById('task-form');
-    form.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') {
-            event.preventDefault();
-        }
-    });
-}
 
 /**
  * Sets minimum date to today for date picker.

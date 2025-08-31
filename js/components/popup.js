@@ -1,7 +1,3 @@
-/**
- * Popup and modal window management
-*/
-
 let popupElements = {};
 
 /**
@@ -10,8 +6,7 @@ let popupElements = {};
  */
 function getPopupElements() {
     return {
-        popupModal: document.getElementById('popup-modal'),
-        popupWindow: document.getElementById('popup-window'),
+        popupDialog: document.getElementById('popup-dialog'),
         popupForm: document.getElementById('popup-form'),
         title: document.getElementById('popup-title'),
         profileImg: document.getElementById('popup-profile-img'),
@@ -22,9 +17,9 @@ function getPopupElements() {
         phone: document.getElementById('phone'),
         secondaryBtn: document.getElementById('popup-secondary-btn'),
         primaryBtn: document.getElementById('popup-primary-btn'),
-        errorModal: document.getElementById('error-modal'),
-        errorMsg: document.getElementById('error-msg'),
-        warningMsg: document.getElementById('warning-msg'),
+        errorDialog: document.getElementById('error-dialog'),
+        warningDialog: document.getElementById('warning-dialog'),
+        deleteAccBtn: document.getElementById('delete-acc-btn'),
     }
 }
 
@@ -33,10 +28,12 @@ function getPopupElements() {
 */
 function initPopup() {
     popupElements = getPopupElements();
-    closePopupOnClickOutsideListener();
-    closeErrorModalOnClickOutside();
+    closePopupDialogsOnClickOutsideListener();
+    closePopupDialogsOnEscListener();
+    preventFormSubmitOnEnter('popup-form');
     uploadBtnHoverListener();
     initImageHandler();
+    enableDialogKeyboardButtons();
 }
 
 /**
@@ -80,6 +77,7 @@ function setUpPopupForm(type, user = {}) {
  */
 async function handleSubmit(event) {
     event.preventDefault();
+    event.stopPropagation();
     const form = event.target;
     const formData = new FormData(form);
     const formValues = {
@@ -151,7 +149,7 @@ function setUpButtons(type) {
     setUpButtonIcon(type);
     popupElements.secondaryBtn.classList.toggle('popup-secondary-btn', type !== 'add-contact');
     popupElements.uploadBtn.classList.toggle('d-none', type === 'my-account');
-    popupElements.primaryBtn.classList.remove('button-disabled');
+    popupElements.primaryBtn.disabled = false;
 }
 
 /**
@@ -264,7 +262,6 @@ function setUpProfileImage(user) {
     } else {
         popupElements.profileImg.style.backgroundColor = '#D9D9D9';
         popupElements.profileImg.innerHTML = `<img src="../assets/images/components/popup/person-white.svg" alt="Profile picture" class="person-icon">`;
-
     }
 }
 
@@ -322,11 +319,10 @@ function closePopup() {
  * Shows the popup with animation.
 */
 function showPopup() {
-    popupElements.popupModal.classList.remove('d-none');
-    popupElements.popupWindow.classList.remove('d-none');
+    popupElements.popupDialog.showModal();
     setTimeout(() => {
-        popupElements.popupWindow.classList.remove('popup-close');
-        popupElements.popupWindow.classList.add('popup-open');
+        popupElements.popupDialog.classList.remove('popup-close');
+        popupElements.popupDialog.classList.add('popup-open');
     }, 10);
 }
 
@@ -334,61 +330,53 @@ function showPopup() {
  * Hides the popup with animation.
  */
 function hidePopup() {
-    popupElements.popupWindow.classList.remove('popup-open');
-    popupElements.popupWindow.classList.add('popup-close');
+    popupElements.popupDialog.classList.remove('popup-open');
+    popupElements.popupDialog.classList.add('popup-close');
     setTimeout(() => {
-        popupElements.popupModal.classList.add('d-none');
-        popupElements.popupWindow.classList.add('d-none');
-    }, 110);
+        popupElements.popupDialog.close();
+    }, 125);
 }
 
 /**
- * Sets up event listener to close popup when clicking outside the popup window.
-*/
-function closePopupOnClickOutsideListener() {
-    popupElements.popupModal.addEventListener('click', (event) => {
-        if (event.target === popupElements.popupModal) {
-            closePopup();
-        }
-    });
+ * Adds click outside listeners to dialogs and closes them.
+ */
+function closePopupDialogsOnClickOutsideListener() {
+    closeDialogOnClickOutside(popupElements.errorDialog, () => closeToastDialog('errorDialog'));
+    closeDialogOnClickOutside(popupElements.warningDialog, () => closeToastDialog('warningDialog'));
+    closeDialogOnClickOutside(popupElements.popupDialog, () => closePopup());
 }
 
 /**
- * Shows error message modal with slide-in animation.
-*/
-function showErrorMessage(key) {
-    const errorContainer = popupElements[key];
-    popupElements.errorModal.classList.remove('d-none');
+ * Adds ESC key listeners to dialogs and closes them on ESC.
+ */
+function closePopupDialogsOnEscListener() {
+    closeDialogOnEsc(popupElements.errorDialog, () => closeToastDialog('errorDialog'));
+    closeDialogOnEsc(popupElements.warningDialog, () => closeToastDialog('warningDialog'));
+    closeDialogOnEsc(popupElements.popupDialog, () => closePopup());
+}
+
+/**
+ * Opens a toast dialog modal and applies a slide-in animation.
+ * @param {string} key - The key used to retrieve the toast dialog element from `popupElements`.
+ */
+function openToastDialog(key) {
+    const toastDialog = popupElements[key];
+    if (!toastDialog.open) toastDialog.showModal();
     setTimeout(() => {
-        errorContainer.classList.add('error-msg-slide-in');
-    }, 100);
+        toastDialog.classList.add('toast-dialog-slide-in');
+    }, 50);
 };
 
 /**
- * Closes error message modal with slide-out animation.
-*/
-function closeErrorMsg(key) {
-    const errorContainer = popupElements[key];
-    errorContainer.classList.remove('error-msg-slide-in');
+ * Closes the toast dialog for the given key.
+ * @param {string} key - The key identifying the toast dialog element in popupElements.
+ */
+function closeToastDialog(key) {
+    const toastDialog = popupElements[key];
+    toastDialog.classList.remove('toast-dialog-slide-in');
     setTimeout(() => {
-        popupElements.errorModal.classList.add('d-none');
-    }, 100);
-}
-
-/**
- * Sets up event listener to close error modal when clicking outside.
-*/
-function closeErrorModalOnClickOutside() {
-    if (!popupElements.errorModal) {
-        console.error('Error modal not found in the DOM.');
-        return;
-    }
-    popupElements.errorModal.addEventListener('click', (event) => {
-        if (event.target === popupElements.errorModal) {
-            closeErrorMsg('errorMsg');
-            closeErrorMsg('warningMsg');
-        }
-    });
+        toastDialog.close();
+    }, 125);
 }
 
 /**
@@ -396,7 +384,7 @@ function closeErrorModalOnClickOutside() {
  * @param {string} id - User ID to delete
  */
 async function openDeleteUserMsg(id) {
-    showErrorMessage('warningMsg');
+    openToastDialog('warningDialog');
     const deleteButton = document.getElementById('delete-acc-btn');
     deleteButton.onclick = async () => {
         await deleteUser(id);
@@ -420,7 +408,7 @@ async function updateUser(user) {
 */
 async function deleteUser(id) {
     await deleteData('/users', id);
-    closeErrorMsg('warningMsg');
+    closeErrorMsg('warningDialog');
     closePopup();
     logOut();
 }

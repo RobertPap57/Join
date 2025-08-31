@@ -70,10 +70,12 @@ a:focus {
   text-decoration: none;
 }
 
-img, svg, a {
-  user-drag: none; 
-  -webkit-user-drag: none; 
-  pointer-events: auto; 
+img,
+svg,
+a {
+  user-drag: none;
+  -webkit-user-drag: none;
+  pointer-events: auto;
 }
 
 input:-webkit-autofill {
@@ -88,13 +90,23 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 button {
-  all: unset;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
 }
 
 ul {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+dialog {
+  border: none;
+  z-index: 1000;
 }
 
 .primary-btn {
@@ -134,12 +146,17 @@ ul {
   filter: invert(45%) sepia(43%) saturate(2123%) hue-rotate(162deg) brightness(95%) contrast(102%);
 }
 
-.button-disabled {
+button:disabled {
   opacity: 0.75;
   pointer-events: none;
 }
 
-.button-disabled:hover {
+button:disabled div,
+button:disabled img {
+  pointer-events: none;
+}
+
+button:disabled:hover {
   background-color: #2a3647;
   box-shadow: none;
 }
