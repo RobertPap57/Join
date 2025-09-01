@@ -201,7 +201,7 @@ function setUpSecondaryButton(type) {
  * @param {string} type - The type of popup.
 */
 function setUpButtonIcon(type) {
-    if (type !== 'my-account') {
+    if (type !== 'my-account' && !(window.innerWidth < 768 && type === 'edit-account')) {
         popupElements.primaryBtn.innerHTML += `<div class="popup-icon-container d-flex-center">
             <img src="../assets/images/global/check-white.svg" alt="check">
             </div>`;

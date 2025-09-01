@@ -71,13 +71,13 @@
 
 @media screen and (max-width:767px) {
 
-  .popup-close {
-      transform: translate(-50%, -50%) translateY(130%) !important;
-}
+    .popup-close {
+        transform: translate(-50%, -50%) translateY(130%) !important;
+    }
 
-.popup-open {
-      transform: translate(-50%, -50%) translateY(0) !important;
-}
+    .popup-open {
+        transform: translate(-50%, -50%) translateY(0) !important;
+    }
 
     .popup-banner {
         width: 396px;
@@ -124,19 +124,18 @@
     }
 
     .popup-input input {
-        padding: 8.5px 21px;
+        padding: 8px 21px;
     }
 
     .popup-input div {
-        top: 8.5px
+        top: 8px
     }
 
     .popup-btns {
         gap: 20px;
     }
 
-    .popup-modal .primary-btn,
-    .popup-modal .secondary-btn {
+    .popup-mobile-btn-padding {
         padding: 13px 10px !important;
     }
 
@@ -156,7 +155,7 @@
     }
 
     .popup-content {
-        width: 294px;
+        width: 296px;
         border-radius: 0 0 24px 24px;
     }
 
@@ -194,8 +193,7 @@
         gap: 18px;
     }
 
-    .popup-modal .primary-btn,
-    .popup-modal .secondary-btn {
+  .popup-mobile-btn-padding {
         padding: 10px 10px;
         font-size: 18px;
     }
