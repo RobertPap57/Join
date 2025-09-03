@@ -181,14 +181,6 @@
     right: 21px;
 }
 
-.validation-msg {
-    position: absolute;
-    bottom: -16px;
-    left: 0px;
-    color: #FF8190;
-    font-size: 12px;
-    height: 12px;
-}
 
 .popup-icon-container {
     width: 24px;

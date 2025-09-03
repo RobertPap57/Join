@@ -30,7 +30,8 @@
                         <div class="popup-icon-container d-flex-center">
                             <img src="../assets/images/components/inputs/person.svg" alt="">
                         </div>
-                        <p class="validation-msg d-none" id="name-validation-msg">This field is requered
+                        <p class="validation-msg" hidden aria-live="assertive" id="name-validation-msg">This field is
+                            requered
                         </p>
                     </div>
                     <div class="popup-input">
@@ -39,7 +40,7 @@
                         <div class="popup-icon-container d-flex-center">
                             <img src="../assets/images/components/inputs/mail.svg" alt="">
                         </div>
-                        <p class="validation-msg d-none" id="email-validation-msg"></p>
+                        <p class="validation-msg" hidden aria-live="assertive" id="email-validation-msg"></p>
                     </div>
                     <div class="popup-input">
                         <input id="phone" type="tel" name="phone" placeholder="Phone" aria-label="Phone"
@@ -47,13 +48,15 @@
                         <div class="popup-icon-container d-flex-center">
                             <img src="../assets/images/components/inputs/call.svg" alt="">
                         </div>
-                        <p class="validation-msg d-none" id="phone-validation-msg"></p>
+                        <p class="validation-msg" hidden aria-live="assertive" id="phone-validation-msg"></p>
                     </div>
                 </form>
                 <footer class="popup-btns">
-                    <button type="button" class="secondary-btn d-flex-center popup-mobile-btn-padding " id="popup-secondary-btn">
+                    <button type="button" class="secondary-btn d-flex-center popup-mobile-btn-padding "
+                        id="popup-secondary-btn">
                     </button>
-                    <button type="submit" form="popup-form" class="primary-btn d-flex-center popup-mobile-btn-padding " id="popup-primary-btn">
+                    <button type="submit" form="popup-form" class="primary-btn d-flex-center popup-mobile-btn-padding "
+                        id="popup-primary-btn">
                     </button>
                 </footer>
             </div>

@@ -182,7 +182,7 @@ function showValidationError(inputElement, message) {
     const validationMsg = document.getElementById(`${inputId}-validation-msg`);
     if (validationMsg) {
         validationMsg.textContent = message;
-        validationMsg.classList.remove('d-none');
+        validationMsg.hidden = false;
     }
 }
 
@@ -196,7 +196,7 @@ function clearValidationError(inputElement) {
     const inputId = inputElement.id;
     const validationMsg = document.getElementById(`${inputId}-validation-msg`);
     if (validationMsg) {
-        validationMsg.classList.add('d-none');
+        validationMsg.hidden = true;
     }
 }
 
@@ -284,7 +284,7 @@ function removeInputActive(inputElement) {
 function updateButtonState() {
     const button = validationElements.validationBtn;
     if (!button) return;
-    const visibleMessages = document.querySelectorAll('.validation-msg:not(.d-none)');
+    const visibleMessages = document.querySelectorAll('.validation-msg:not([hidden])');
     if (visibleMessages.length > 0 || areInputsEmpty()) {
         button.disabled = true;
     } else {
