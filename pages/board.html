@@ -8,7 +8,7 @@
     <link id="favicon" rel="icon" href="../favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/pages/board/core.css">
-    <link rel="stylesheet" href="../css/pages/board/image-viewer.css">
+    <link rel="stylesheet" href="../css/components/image-viewer.css">
     <link rel="stylesheet" href="../css/pages/board/responsive.css">
     <link rel="stylesheet" href="../css/components/header.css">
     <link rel="stylesheet" href="../css/components/nav.css">
@@ -26,7 +26,7 @@
     <script src="../js/utils/form-validation.js"></script>
     <script src="../js/utils/horizontal-scroll.js"></script>
     <script src="../js/pages/board/core.js"></script>
-    <script src="../js/pages/board/image-viewer.js"></script>
+    <script src="../js/components/image-viewer.js"></script>
     <script src="../js/components/task-form/priority-category.js"></script>
     <script src="../js/components/task-form/templates.js"></script>
     <script src="../js/components/task-form/validation.js"></script>
@@ -37,9 +37,10 @@
 </head>
 
 <body onload="initBoard()">
-    <header w3-include-html="../templates/header.html"></header>
-    <nav w3-include-html="../templates/nav.html"></nav>
+    <div w3-include-html="../templates/header.html"></div>
+    <div w3-include-html="../templates/nav.html"></div>
     <div w3-include-html="../templates/popup.html"></div>
+    <div w3-include-html="../templates/image-viewer.html"></div>
 
     <div class="main-wrapper">
         <main class="main">
@@ -59,7 +60,7 @@
                         onclick="openTaskFormDialog('add-task-dialog')">
                         <span>Add task</span>
                         <img src="../assets/images/pages/boards/plus-white.svg" alt="" aria-hidden="true">
-                        <img src="../assets/images/pages/boards/plus-white-mobile.svg" alt="Add Task" >
+                        <img src="../assets/images/pages/boards/plus-white-mobile.svg" alt="Add Task">
                     </button>
                 </div>
             </header>
@@ -80,7 +81,8 @@
                         <h2>In progress</h2>
                         <button onclick="openTaskFormDialog('add-task-dialog', { status: 'in-progress' })">
                             <img src="../assets/images/pages/boards/add.svg" alt="Add task in 'in progress' group">
-                            <img src="../assets/images/pages/boards/add-mobile.svg" alt="Add task in 'in progress' group">
+                            <img src="../assets/images/pages/boards/add-mobile.svg"
+                                alt="Add task in 'in progress' group">
                         </button>
                     </header>
                     <div class="task-container" id="in-progress">
@@ -91,7 +93,8 @@
                         <h2>Await feedback</h2>
                         <button onclick="openTaskFormDialog('add-task-dialog', { status: 'await-feedback' })">
                             <img src="../assets/images/pages/boards/add.svg" alt="Add task in 'await feedback' group">
-                            <img src="../assets/images/pages/boards/add-mobile.svg" alt="Add task in 'await feedback' group">
+                            <img src="../assets/images/pages/boards/add-mobile.svg"
+                                alt="Add task in 'await feedback' group">
                         </button>
                     </header>
                     <div class="task-container" id="await-feedback">
@@ -111,42 +114,6 @@
         </main>
     </div>
 
-
-    <dialog id="image-viewer-dialog" class="image-viewer-dialog">
-        <div class="viewer-container">
-            <header class="viewer-header">
-                <h2 id="viewer-title"></h2>
-                <section class="viewer-actions">
-                    <div class="zoom-buttons">
-                        <button class="d-flex-center button-24" id="zoom-out-btn" onclick="zoomOut()">
-                            <img src="../assets/images/pages/boards/zoom-out.svg" alt="Zoom out">
-                        </button>
-                        <button class="d-flex-center button-24" id="zoom-in-btn" onclick="zoomIn()">
-                            <img src="../assets/images/pages/boards/zoom-in.svg" alt="Zoom in">
-                        </button>
-                    </div>
-                    <div class="viewer-actions-buttons">
-                        <button class="d-flex-center button-32" id="viewer-download-btn"
-                            onclick="downloadCurrentImage()">
-                            <img src="../assets/images/pages/boards/download-white.svg" alt="Download">
-                        </button>
-                        <button class="d-flex-center button-40" id="viewer-close-btn" onclick="closeImageViewer()">
-                            <img src="../assets/images/global/close-white.svg" alt="Close">
-                        </button>
-                    </div>
-                </section>
-            </header>
-            <img id="viewer-img" src="" alt="Image" />
-            <button id="prev-btn" class="d-flex-center button-32 prev-btn" onclick="showPreviousImage()">
-                <img src="../assets/images/global/left-arrow.svg" alt="Previous">
-            </button>
-            <button id="next-btn" class="d-flex-center button-32 next-btn" onclick="showNextImage()">
-                <img src="../assets/images/global/left-arrow.svg" alt="Next">
-            </button>
-            <footer></footer>
-        </div>
-    </dialog>
-
     <dialog class="task-form-dialog scroll-container" id="task-form-dialog">
         <div class="close-btn-wrapper-task-form-dialog">
             <button class="d-flex-center close-btn close-task-form-dialog-btn" onclick="closeTaskFormDialog()">
@@ -155,10 +122,6 @@
         </div>
         <div w3-include-html="../templates/task-form.html"></div>
     </dialog>
-
-
-
-
 </body>
 
 </html>

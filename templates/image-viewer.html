@@ -1,0 +1,33 @@
+<dialog id="image-viewer-dialog" class="image-viewer-dialog" aria-label="Image viewer">
+    <div class="viewer-container">
+        <header class="viewer-header">
+            <h2 id="viewer-title"></h2>
+            <section class="viewer-actions">
+                <div class="zoom-buttons">
+                    <button class="d-flex-center button-24" id="zoom-out-btn" aria-label="Zoom out" onclick="zoomOut()">
+                        <img src="../assets/images/pages/boards/zoom-out.svg" alt="">
+                    </button>
+                    <button class="d-flex-center button-24" id="zoom-in-btn" aria-label="Zoom in" onclick="zoomIn()">
+                        <img src="../assets/images/pages/boards/zoom-in.svg" alt="">
+                    </button>
+                </div>
+                <div class="viewer-actions-buttons">
+                    <button class="d-flex-center button-32" id="viewer-download-btn" aria-label="Download image" onclick="downloadCurrentImage()">
+                        <img src="../assets/images/pages/boards/download-white.svg" alt="">
+                    </button>
+                    <button class="d-flex-center button-40" id="viewer-close-btn" aria-label="Close image viewer" onclick="closeImageViewer()">
+                        <img src="../assets/images/global/close-white.svg" alt="">
+                    </button>
+                </div>
+            </section>
+        </header>
+        <img id="viewer-img" src="" alt="" />
+        <button id="prev-btn" class="d-flex-center button-32 prev-btn" aria-label="Previous image" onclick="showPreviousImage()">
+            <img src="../assets/images/global/left-arrow.svg" alt="">
+        </button>
+        <button id="next-btn" class="d-flex-center button-32 next-btn" aria-label="Next image" onclick="showNextImage()">
+            <img src="../assets/images/global/left-arrow.svg" alt="">
+        </button>
+        <footer></footer>
+    </div>
+</dialog>
