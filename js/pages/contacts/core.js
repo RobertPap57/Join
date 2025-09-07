@@ -15,6 +15,7 @@ async function initContacts() {
     await getContacts();
     renderContacts();
     initPopup();
+    preventFormSubmitOnEnter();
 }
 
 /**

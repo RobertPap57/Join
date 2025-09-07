@@ -19,6 +19,7 @@ async function initLogin() {
     disableLoginButtonIfFormIsEmpty();
     logInIsCorrected();
     checkOrientation();
+    preventFormSubmitOnEnter();
 }
 
 /**

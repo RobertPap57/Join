@@ -8,10 +8,11 @@
     <link id="favicon" rel="icon" href="../favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/image-viewer.css">
     <link rel="stylesheet" href="../css/components/nav.css">
     <link rel="stylesheet" href="../css/components/popup/popup.css">
     <link rel="stylesheet" href="../css/components/popup/popup-responsive.css">
-    <link rel="stylesheet" href="../css/pages/add-task/core.css">
+    <link rel="stylesheet" href="../css/pages/add-task.css">
     <link rel="stylesheet" href="../css/components/task-form/features.css">
     <link rel="stylesheet" href="../css/components/task-form/layout.css">
     <link rel="stylesheet" href="../css/components/task-form/components.css">
@@ -19,18 +20,20 @@
     <script src="../js/script.js"></script>
     <script src="../js/components/header.js"></script>
     <script src="../js/components/nav.js"></script>
+    <script src="../js/components/image-viewer.js"></script>
     <script src="../js/components/popup.js"></script>
     <script src="../js/utils/form-validation.js"></script>
     <script src="../js/utils/horizontal-scroll.js"></script>
 </head>
 
 <body onload="initAddTask()">
-    <header w3-include-html="../templates/header.html"></header>
-    <nav w3-include-html="../templates/nav.html"></nav>
+    <div w3-include-html="../templates/header.html"></div>
+    <div w3-include-html="../templates/nav.html"></div>
     <div w3-include-html="../templates/popup.html"></div>
+    <div w3-include-html="../templates/image-viewer.html"></div>
 
     <main class="add-task-container">
-        <section w3-include-html="../templates/task-form.html"></section>
+        <div w3-include-html="../templates/task-form.html"></div>
     </main>
 
     <script src="../js/pages/add-task.js"></script>

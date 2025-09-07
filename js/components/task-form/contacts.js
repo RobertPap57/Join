@@ -1,8 +1,3 @@
-/**
- * Contact assignment and filtering functionality for Add Task
- * Handles dropdown behavior, contact selection, and filtering
- */
-
 const selectedContacts = [];
 let filteredContacts = contacts;
 
@@ -16,8 +11,7 @@ function showAssignedToDropdown() {
     const input = contactsList.querySelector('.select-btn-input');
     setupAssignedDropdownToggles(contactsList, arrowDown, input);
     preventAssignedDropdownClose(assignedToList);
-    addAssignedDropdownOutsideListener(contactsList, assignedToList);
-    
+    setupAssignedDropdownClose(contactsList, assignedToList, input)
 }
 
 /**
@@ -52,8 +46,8 @@ function scrollToDropdown(contactsList) {
  * Toggles the visibility of selected contacts div.
  * @param {boolean} isOpen - Whether dropdown is open
  */
-function toggleSelectedContactsDiv(isOpen) {
-    const selectedContactsDiv = document.querySelector('.selected-contacts-div');
+function toggleSelectedContactsList(isOpen) {
+    const selectedContactsDiv = document.querySelector('.selected-contacts-list');
     if (selectedContactsDiv) {
         selectedContactsDiv.style.display = isOpen ? 'none' : 'flex';
     }
@@ -66,16 +60,16 @@ function toggleSelectedContactsDiv(isOpen) {
  * @param {Element} input - Input element
  */
 function setupArrowToggle(contactsList, arrowDown, input) {
-    arrowDown.addEventListener('click', (event) => {
+    bindEventListenerOnce(arrowDown, 'click', (event) => {
         event.stopPropagation();
         const isOpen = contactsList.classList.toggle('show-menu');
         toggleBlueBorder(contactsList, isOpen);
-        toggleSelectedContactsDiv(isOpen);
+        toggleSelectedContactsList(isOpen);
         if (isOpen) {
             input.focus();
             scrollToDropdown(contactsList);
         }
-    });
+    }, 'arrowDownClickAssigned');
 }
 
 /**
@@ -84,14 +78,12 @@ function setupArrowToggle(contactsList, arrowDown, input) {
  * @param {Element} input - Input element
  */
 function setupInputToggle(contactsList, input) {
-    input.addEventListener('click', (event) => {
+    bindEventListenerOnce(input, 'focus', (event) => {
         event.stopPropagation();
-        contactsList.classList.add('show-menu');
-        contactsList.classList.add('blue-border');
-        toggleSelectedContactsDiv(true);
-        input.focus();
+        contactsList.classList.add('show-menu', 'blue-border');
+        toggleSelectedContactsList(true);
         scrollToDropdown(contactsList);
-    });
+    }, 'inputFocusAssigned');
 }
 
 /**
@@ -100,14 +92,13 @@ function setupInputToggle(contactsList, input) {
  * @param {Element} input - Input element
  */
 function setupDivToggle(contactsList, input) {
-    contactsList.addEventListener('click', (event) => {
-        if (event.target.closest('.arrow-down')) return;
-        contactsList.classList.add('show-menu');
-        contactsList.classList.add('blue-border');
-        toggleSelectedContactsDiv(true);
+    bindEventListenerOnce(contactsList, 'mousedown', (event) => {
+        if (event.target.closest('.arrow-down') || event.target === input) return;
+        contactsList.classList.add('show-menu', 'blue-border');
+        toggleSelectedContactsList(true);
         input.focus();
         scrollToDropdown(contactsList);
-    });
+    }, 'contactsListClickAssigned');
 }
 
 /**
@@ -124,27 +115,25 @@ function toggleBlueBorder(contactsList, isOpen) {
 }
 
 /**
- * Adds outside click listener for assigned dropdown.
- * @param {Element} contactsList - Contacts list container element
- * @param {Element} assignedToList - Assigned to list element
+ * Closes the assigned-to dropdown when clicking outside or pressing Escape.
+ * @param {HTMLElement} contactsList - The main dropdown container
+ * @param {HTMLElement} assignedToList - The dropdown list (<ul>)
+ * @param {HTMLInputElement} input - The search input inside the dropdown
  */
-function addAssignedDropdownOutsideListener(contactsList, assignedToList) {
-    // Remove old listener if it exists
-    if (window._assignedOutsideClickHandler) {
-        document.removeEventListener('click', window._assignedOutsideClickHandler);
-    }
-    
-    // Create new handler and store reference
-    window._assignedOutsideClickHandler = (event) => {
+function setupAssignedDropdownClose(contactsList, assignedToList, input) {
+    bindEventListenerOnce(document, 'click', (event) => {
         if (!contactsList.contains(event.target) && !assignedToList.contains(event.target)) {
-            contactsList.classList.remove('show-menu');
-            contactsList.classList.remove('blue-border');
-            toggleSelectedContactsDiv(false);
+            contactsList.classList.remove('show-menu', 'blue-border');
+            toggleSelectedContactsList(false);
         }
-    };
-    
-    // Add the new listener
-    document.addEventListener('click', window._assignedOutsideClickHandler);
+    }, 'assignedDropdownClickOutside');
+    bindEventListenerOnce(document, 'keydown', (event) => {
+        if (event.key === 'Escape' && contactsList.classList.contains('show-menu')) {
+            contactsList.classList.remove('show-menu', 'blue-border');
+            toggleSelectedContactsList(false);
+            input.blur();
+        }
+    }, 'assignedDropdownEsc');
 }
 
 /**
@@ -152,21 +141,19 @@ function addAssignedDropdownOutsideListener(contactsList, assignedToList) {
  * @param {Element} assignedToList - Assigned to list element
  */
 function preventAssignedDropdownClose(assignedToList) {
-    assignedToList.addEventListener('click', (event) => {
+    bindEventListenerOnce(assignedToList, 'click', (event) => {
         event.stopPropagation();
-    });
+    }, 'assignedToListClickAssigned');
 }
 
 /**
  * Filter contacts based on user input.
  */
 function filterContacts() {
-
     const selectBtnInput = document.querySelector('.select-btn-input');
     if (selectBtnInput) {
-        selectBtnInput.addEventListener('click', () => handleFilter(selectBtnInput));
-        selectBtnInput.addEventListener('input', () => handleFilter(selectBtnInput));
-    } 
+        bindEventListenerOnce(selectBtnInput, 'input', () => handleFilter(selectBtnInput), 'selectBtnInputInputAssigned');
+    }
 }
 
 /**
@@ -181,7 +168,7 @@ function handleFilter(input) {
         if (filterValue === '') {
             filteredContacts = contacts;
         } else {
-            filteredContacts = contacts.filter(contact => contact.name.toLowerCase().startsWith(filterValue));
+            filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(filterValue));
         }
     }
     renderContacts();
@@ -208,7 +195,7 @@ function renderContacts() {
 function selectListItems() {
     const listItems = document.querySelectorAll('.list-item.assigned-to');
     listItems.forEach((item, i) => {
-        item.addEventListener('click', () => handleContactSelection(item, i));
+        bindEventListenerOnce(item, 'click', () => handleContactSelection(item, i), `listItemClickAssigned-${i}`);
     });
 }
 
@@ -225,9 +212,11 @@ function handleContactSelection(item, i) {
     if (item.classList.contains('checked')) {
         addContactToSelected(contact);
         img.src = '../assets/images/pages/add-task/checkbox-checked.svg';
+        item.ariaSelected = "true";
     } else {
         removeContactFromSelected(contact);
         img.src = '../assets/images/global/checkbox.svg';
+        item.ariaSelected = "false";
     }
     renderSelectedContactsBelow();
 }
@@ -257,7 +246,7 @@ function removeContactFromSelected(contact) {
  * Renders the selected contacts below the input field.
  */
 function renderSelectedContactsBelow() {
-    const selectedContactsDiv = document.querySelector('.selected-contacts-div');
+    const selectedContactsDiv = document.querySelector('.selected-contacts-list');
     selectedContactsDiv.innerHTML = '';
     selectedContacts.forEach(contact => {
         selectedContactsDiv.innerHTML += getSelectedContactHTML(contact);
@@ -275,6 +264,7 @@ function deselectContacts() {
             const img = item.querySelector('.checkbox');
             item.classList.remove('checked');
             img.classList.remove('checked');
+            item.ariaSelected = "false";
             img.src = '../assets/images/global/checkbox.svg';
             const contact = filteredContacts[i];
             const index = selectedContacts.indexOf(contact);
@@ -298,12 +288,12 @@ function closeContactList() {
  * Close the contact list when clicking outside of it.
  */
 function closeContactListOnOutsideClick() {
-    document.addEventListener('click', function (event) {
+    bindEventListenerOnce(document, 'click', function (event) {
         const selectBtnContainer = document.getElementById('contacts-list');
         const listItemsContainer = document.querySelector('.list-items');
 
         if (!selectBtnContainer.contains(event.target) && !listItemsContainer.contains(event.target)) {
             closeContactList();
         }
-    });
+    }, 'documentClickAssigned');
 }

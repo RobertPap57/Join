@@ -1,7 +1,6 @@
 .prio-buttons {
     display: flex;
     gap: 16px;
-    margin-bottom: 16px;
 }
 
 .unclickable {
@@ -21,6 +20,7 @@
     border: 1px solid #D1D1D1;
     flex: 1;
     cursor: pointer;
+    height: 56px;
 }
 
 .prio-btn:hover {
@@ -30,7 +30,6 @@
 .prio-btn.active {
     background-color: #FFA800;
     color: white;
-    outline: none;
     box-shadow: none;
     font-weight: 700;
     font-size: 21px;
@@ -80,7 +79,7 @@
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-@media screen and (max-width: 490px) {
+@media screen and (max-width: 560px) {
     .prio-buttons {
         padding-block: 11px;
         margin-bottom: 0;

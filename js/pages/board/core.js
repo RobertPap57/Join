@@ -23,6 +23,7 @@ async function initBoard() {
     setupSearchFunctionality();
     closeDetailedTaskOnClickOutside();
     enableAutoScrollOnDrag();
+    preventFormSubmitOnEnter();
 
 
 }
@@ -635,73 +636,16 @@ function hideSearchError() {
  * @param {string} taskId - The ID of the task to display.
  */
 function openDetailedTaskView(taskId) {
+    dialog = document.getElementById('detailed-task-dialog');
     const task = tasks.find(t => t.id === taskId);
     if (!task || isDragging) return;
-
-    const dialog = document.getElementById('detailed-task-dialog');
     dialog.innerHTML = getDetailedTaskHTML(task);
     renderTaskSubtasks(task);
     renderTaskAvatars(task, 'modal');
-
-    setupDetailedTaskAttachments(task, dialog);
-    dialog.showModal();
-    blockDragOnDownloadBtn();
-}
-
-function setupDetailedTaskAttachments(task, content) {
     attachments = task.attachments ? Object.values(task.attachments) : [];
     renderAttachments();
-    currentAttachments = attachments;
-
-    const attachmentItems = content.querySelectorAll('.attachment-item');
-    setupAttachmentClickEvents(attachmentItems);
-}
-
-function setupAttachmentClickEvents(attachmentItems) {
-    attachmentItems.forEach((item, index) => {
-        let startPos = { x: 0, y: 0 };
-
-        item.addEventListener('mousedown', (e) => {
-            startPos = getPointerPosition(e);
-        });
-
-        item.addEventListener('mouseup', (e) => {
-            handleAttachmentClick(e, startPos, index);
-        });
-
-        item.addEventListener('touchstart', (e) => {
-            startPos = getPointerPosition(e);
-        }, { passive: false });
-
-        item.addEventListener('touchend', (e) => {
-            handleAttachmentClick(e, startPos, index);
-        });
-    });
-}
-
-function getPointerPosition(event) {
-    const e = event.touches?.[0] || event.changedTouches?.[0] || event;
-    return {
-        x: e.clientX,
-        y: e.clientY
-    };
-}
-
-function handleAttachmentClick(event, startPos, index) {
-    if (event.target.closest('.download-attachment-btn')) return;
-
-    const endPos = getPointerPosition(event);
-    if (!hasMoved(startPos, endPos)) {
-        event.preventDefault();
-        openImageViewer(index);
-    }
-}
-
-function hasMoved(start, end, threshold = 5) {
-    return (
-        Math.abs(end.x - start.x) > threshold ||
-        Math.abs(end.y - start.y) > threshold
-    );
+    dialog.showModal();
+    blockDragOnDownloadBtn();
 }
 
 function formatDate(dateString) {
@@ -872,8 +816,9 @@ async function saveSubtaskChanges(task) {
 
 function closeDetailedTaskOnClickOutside() {
     const dialog = document.getElementById('detailed-task-dialog');
-    dialog.addEventListener('mousedown', (event) => closeDialogOnClickOutside(event, dialog));
-    dialog.addEventListener('touchstart', (event) => closeDialogOnClickOutside(event, dialog), { passive: false });
+    closeDialogOnClickOutside(dialog, () => {
+        dialog.close();
+    });
 }
 
 
@@ -973,9 +918,7 @@ function reinitializeFormInteractions(type) {
     reattachPriorityEvents();
     reattachCategoryEvents();
     reattachContactsEvents();
-    preventFormSubmitOnEnter();
     styleSubtaskInput();
-    pushSubtask();
     initHorizontalScroll('.attachments-list');
     fileInputListener();
     disableCategoryDropdown(type);

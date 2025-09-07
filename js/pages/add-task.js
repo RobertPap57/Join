@@ -15,4 +15,5 @@ async function initAddTask() {
     await getContacts();
     initPopup();
     initTaskForm('add-task');
+    preventFormSubmitOnEnter();
 }

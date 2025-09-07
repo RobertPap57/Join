@@ -1,11 +1,4 @@
 /**
- * File attachment management for Add Task
- * Handles drag & drop, file validation, compression, and attachment UI
- */
-
-
-
-/**
  * Renders all attachments in all attachments lists.
  */
 function renderAttachments() {
@@ -50,11 +43,15 @@ function updateAttachmentsWrapperVisibility() {
  * Deletes a specific attachment from the attachments array.
  * @param {number} index - Index of attachment to delete
  */
-function deleteAttachment(index) {
-    if (!isDragging) {
-        attachments.splice(index, 1);
-        renderAttachments();
+function deleteAttachment(index, event) {
+    if (isDragging) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
     }
+    attachments.splice(index, 1);
+    renderAttachments();
+
 }
 
 
@@ -100,14 +97,18 @@ function resetAttachments() {
     updateAttachmentsWrapperVisibility();
 }
 
-async function downloadBase64File(base64Data, fileName) {
-    if (!isDragging) {
-        const res = await fetch(base64Data);
-        const blob = await res.blob();
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = fileName;
-        link.click();
-        URL.revokeObjectURL(link.href);
+async function downloadBase64File(base64Data, fileName, event) {
+    if (isDragging) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
     }
+    const res = await fetch(base64Data);
+    const blob = await res.blob();
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+    URL.revokeObjectURL(link.href);
 }
+

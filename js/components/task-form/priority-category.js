@@ -1,8 +1,3 @@
-/**
- * Priority selection and category dropdown functionality for Add Task
- * Handles priority button interactions and category selection
- */
-
 const svgMappings = {
     'urgent': '../assets/images/global/urgent.svg',
     'urgent-active': '../assets/images/global/urgent-white.svg',
@@ -18,9 +13,12 @@ const svgMappings = {
 function changePrioBtn() {
     const buttons = document.querySelectorAll('.prio-btn');
     buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            handlePriorityButtonClick(button, buttons);
-        });
+        bindEventListenerOnce(
+            button,
+            'click',
+            () => handlePriorityButtonClick(button, buttons),
+            'prioBtnClick'
+        );
     });
 }
 
@@ -51,9 +49,11 @@ function toggleButtonState(btn, prio, img) {
     if (btn.classList.contains('active')) {
         btn.classList.remove('active');
         img.src = svgMappings[prio];
+        btn.ariaChecked = "false";
     } else {
         btn.classList.add('active');
         img.src = svgMappings[`${prio}-active`];
+        btn.ariaChecked = "true";
     }
 }
 
@@ -66,6 +66,7 @@ function toggleButtonState(btn, prio, img) {
 function deactivateButton(btn, prio, img) {
     btn.classList.remove('active');
     img.src = svgMappings[prio];
+    btn.ariaChecked = "false";
 }
 
 /**
@@ -94,9 +95,11 @@ function selectMediumPriority() {
         if (prio === 'medium') {
             button.classList.add('active');
             img.src = svgMappings['medium-active'];
+            button.ariaChecked = "true";
         } else {
             button.classList.remove('active');
             img.src = svgMappings[prio];
+            button.ariaChecked = "false";
         }
     });
 }
@@ -140,14 +143,18 @@ function showCategoryDropdown() {
  */
 function setupCategoryDropdownToggles(selectBtnCategory) {
     const arrowDown = selectBtnCategory.querySelector('.arrow-down');
-    arrowDown.addEventListener('click', (event) => {
-        event.stopPropagation();
-        selectBtnCategory.classList.toggle('show-menu');
-    });
-    selectBtnCategory.addEventListener('click', (event) => {
-        event.stopPropagation();
-        selectBtnCategory.classList.toggle('show-menu');
-    });
+    bindEventListenerOnce(arrowDown, 'click',
+        (event) => {
+            event.stopPropagation();
+            selectBtnCategory.classList.toggle('show-menu');
+            selectBtnCategory.ariaExpanded = selectBtnCategory.classList.contains('show-menu') ? "true" : "false";
+        }, 'arrowDownClick');
+    bindEventListenerOnce(selectBtnCategory, 'click',
+        (event) => {
+            event.stopPropagation();
+            selectBtnCategory.classList.toggle('show-menu');
+            selectBtnCategory.ariaExpanded = selectBtnCategory.classList.contains('show-menu') ? "true" : "false";
+        }, 'selectBtnCategoryClick');
 }
 
 /**
@@ -156,9 +163,12 @@ function setupCategoryDropdownToggles(selectBtnCategory) {
  */
 function preventCategoryDropdownClose(categoryList) {
     if (categoryList) {
-        categoryList.addEventListener('click', (event) => {
-            event.stopPropagation();
-        });
+        bindEventListenerOnce(
+            categoryList,
+            'click',
+            (event) => event.stopPropagation(),
+            'categoryListClick'
+        );
     }
 }
 
@@ -170,12 +180,18 @@ function preventCategoryDropdownClose(categoryList) {
  */
 function setupCategorySelection(listItems, selectBtnCategory, categoryDisplayed) {
     listItems.forEach(item => {
-        item.addEventListener('click', () => {
-            let selectedItemText = item.getAttribute('data-value');
-            selectBtnCategory.classList.remove('show-menu');
-            categoryDisplayed.textContent = selectedItemText;
-            categoryDisplayed.dataset.selected = selectedItemText;
-        });
+        bindEventListenerOnce(
+            item,
+            'click',
+            () => {
+                let selectedItemText = item.getAttribute('data-value');
+                selectBtnCategory.classList.remove('show-menu');
+                selectBtnCategory.ariaExpanded = "false";
+                categoryDisplayed.textContent = selectedItemText;
+                categoryDisplayed.dataset.selected = selectedItemText;
+            },
+            'categoryItemClick'
+        );
     });
 }
 
@@ -185,26 +201,17 @@ function setupCategorySelection(listItems, selectBtnCategory, categoryDisplayed)
  * @param {Element} categoryList - Category list element
  */
 function addCategoryDropdownOutsideListener(selectBtnCategory, categoryList) {
-    // Remove old listener if it exists
-    if (window._categoryOutsideClickHandler) {
-        document.removeEventListener('click', window._categoryOutsideClickHandler);
-    }
-    
-    // Create new handler and store reference
-    window._categoryOutsideClickHandler = (event) => {
-        // Skip if click is on elements that have validation handlers
+    const handler = (event) => {
         if (event.target.closest('#category-container') || event.target.closest('#category-btn')) {
             return;
         }
-        
-        if (!selectBtnCategory.contains(event.target) && 
+        if (!selectBtnCategory.contains(event.target) &&
             !(categoryList && categoryList.contains(event.target))) {
             selectBtnCategory.classList.remove('show-menu');
+            selectBtnCategory.ariaExpanded = "false";
         }
     };
-    
-    // Add the new listener
-    document.addEventListener('click', window._categoryOutsideClickHandler);
+    bindEventListenerOnce(document, 'click', handler, 'categoryOutsideClick');
 }
 
 /**
@@ -214,5 +221,6 @@ function resetCategory() {
     const categoryDisplayed = document.getElementById('category-displayed');
     const categoryContainer = document.getElementById('category-container');
     categoryContainer.classList.remove('show-menu');
+    categoryContainer.classList.ariaExpanded = "false";
     categoryDisplayed.textContent = "Select task category";
 }

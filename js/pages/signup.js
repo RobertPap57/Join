@@ -14,6 +14,7 @@ async function initSignUp() {
     disableSignupButtonIfFormIsEmpty();
     deleteMessageThatPasswordsDontMatch();
     checkOrientation();
+    preventFormSubmitOnEnter();
 }
 
 

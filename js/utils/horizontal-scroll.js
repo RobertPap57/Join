@@ -50,7 +50,7 @@ function dragMove(e) {
  * Stops the drag operation and starts inertia scrolling.
  */
 function stopDrag() {
-    isDragging = false;
+    setTimeout(() => { isDragging = false; }, 0); 
     removeDragListeners();
     inertia();
 }

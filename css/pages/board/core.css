@@ -388,11 +388,9 @@
 
 
 .download-attachment-btn {
-    all: unset;
     position: absolute;
-    display: none;
-    align-items: center;
-    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
     width: 24px;
     height: 24px;
     cursor: pointer;
@@ -413,14 +411,6 @@
 .download-attachment-btn:hover img {
     width: 18px;
 }
-
-
-
-
-
-
-
-
 
 .detailed-task-subtasks {
     display: flex;
@@ -507,10 +497,6 @@
 
 .edit-detailed-task-btn img {
     width: 18.25px;
-}
-
-#detailed-task-attachments-list .attachment-item {
-    cursor: pointer !important;
 }
 
 .task-form-dialog {

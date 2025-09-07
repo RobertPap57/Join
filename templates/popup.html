@@ -18,7 +18,7 @@
                 <button type="button" class="popup-upload-btn d-flex-center" id="popup-upload-btn"
                     onclick="openFilePicker(event)" aria-label="Upload photo">
                     <img src="../assets/images/components/popup/photo.svg" alt="">
-                    <input type="file" name="file-picker" id="file-picker" class="d-none"
+                    <input type="file" name="file-picker" id="file-picker" hidden
                         accept=".jpg,.jpeg,.png,image/jpeg,image/png">
                 </button>
             </div>
@@ -26,7 +26,7 @@
                 <form id="popup-form" onsubmit="handleSubmit(event)" novalidate>
                     <div class="popup-input">
                         <input id="name" type="text" name="name" placeholder="Name" aria-label="Name"
-                            aria-describedby="name-validation-msg">
+                            aria-describedby="name-validation-msg" aria-required="true">
                         <div class="popup-icon-container d-flex-center">
                             <img src="../assets/images/components/inputs/person.svg" alt="">
                         </div>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="popup-input">
                         <input id="email" type="email" name="email" placeholder="Email" aria-label="Email"
-                            aria-describedby="email-validation-msg">
+                            aria-describedby="email-validation-msg" aria-required="true">
                         <div class="popup-icon-container d-flex-center">
                             <img src="../assets/images/components/inputs/mail.svg" alt="">
                         </div>
@@ -44,7 +44,7 @@
                     </div>
                     <div class="popup-input">
                         <input id="phone" type="tel" name="phone" placeholder="Phone" aria-label="Phone"
-                            aria-describedby="phone-validation-msg">
+                            aria-describedby="phone-validation-msg" aria-required="true">
                         <div class="popup-icon-container d-flex-center">
                             <img src="../assets/images/components/inputs/call.svg" alt="">
                         </div>

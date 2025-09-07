@@ -375,16 +375,26 @@ function closeDialogOnEsc(dialog, onClose) {
 	});
 }
 
+
 /**
- * Prevent form submission when pressing Enter key, but allow line breaks in textareas.
-*/
-function preventFormSubmitOnEnter(id) {
-	const form = document.getElementById(id);
-    form.addEventListener('keydown', (event) => {
-		if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') {
-			event.preventDefault();
-        }
-    });
+ * Prevents form submission when the Enter key is pressed inside any input field,
+ * except for textarea elements, for all forms on the page.
+ * Attaches a keydown event listener to each form element.
+ */
+function preventFormSubmitOnEnter() {
+	document.querySelectorAll("form").forEach((form) => {
+		form.addEventListener("keydown", (e) => {
+			if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
+				e.preventDefault();
+				e.stopPropagation();
+				e.target.dispatchEvent(new MouseEvent("click", {
+					bubbles: false,
+					cancelable: true,
+					view: window
+				}));
+			}
+		});
+	});
 }
 
 /**
@@ -395,19 +405,19 @@ function preventFormSubmitOnEnter(id) {
 function enableDialogKeyboardButtons() {
 	document.addEventListener('keydown', (e) => {
 		// Check: was Enter or Space pressed AND is the target a button inside a dialog?
-        if ((e.key === 'Enter' || e.key === ' ') && e.target instanceof HTMLButtonElement) {
+		if ((e.key === 'Enter' || e.key === ' ') && e.target instanceof HTMLButtonElement) {
 			const dialog = e.target.closest('dialog');
-            if (dialog) {
+			if (dialog) {
 				e.preventDefault();
-                e.stopPropagation();
-                e.target.dispatchEvent(new MouseEvent("click", {
-                    bubbles: false,
-                    cancelable: true,
-                    view: window
-                }));
-            }
-        }
-    });
+				e.stopPropagation();
+				e.target.dispatchEvent(new MouseEvent("click", {
+					bubbles: false,
+					cancelable: true,
+					view: window
+				}));
+			}
+		}
+	});
 }
 
 window.addEventListener('keydown', e => {

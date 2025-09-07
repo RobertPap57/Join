@@ -1,5 +1,3 @@
-
-
 /**
  * Initializes the task form with proper configuration.
  * @param {string} type - Type of form ('add-task', 'edit-task', etc.)
@@ -16,18 +14,12 @@ function initTaskForm(type, options = {}) {
     showCategoryDropdown();
     changePrioBtn();
     styleSubtaskInput();
-    pushSubtask();
     closeContactListOnOutsideClick();
     preventDefaultValidation();
     createCustomResizeHandle();
     initHorizontalScroll('.attachments-list');
     fileInputListener();
-    preventFormSubmitOnEnter('task-form');
 }
-
-
-
-
 
 /**
  * Save the task and push it to the database.
@@ -35,8 +27,6 @@ function initTaskForm(type, options = {}) {
 async function addTask(type) {
     let newTask = getTaskData();
     newTask = await addData('/tasks', newTask);
-    tasks.push(newTask);
-    renderTasks();
     showTaskAddedMessage(type);
 }
 
@@ -100,7 +90,6 @@ function updateLocalTaskData(taskId, updatedTask) {
 function getTaskData() {
     const form = document.getElementById('task-form');
     const defaultStatus = 'to-do';
-
     return {
         id: form?.dataset.taskId || '',
         title: document.getElementById('title')?.value || '',
@@ -141,7 +130,6 @@ function showTaskAddedMessage(type) {
                 messageElement.classList.remove('d-flex-visible');
                 document.getElementById('task-form-dialog').close();
             }, 1000);
-
             break;
     }
 }
@@ -165,15 +153,30 @@ function createCustomResizeHandle() {
  */
 function setupResizeEvents(textarea, resizeHandle) {
     let isResizing = false, startY = 0, startHeight = 0;
-    resizeHandle.addEventListener('mousedown', (e) => {
+    bindEventListenerOnce(resizeHandle, 'mousedown', (e) => {
         isResizing = true;
         startY = e.clientY;
         startHeight = parseInt(getComputedStyle(textarea).height) || 120;
         e.preventDefault();
         document.body.classList.add('resizing');
-    });
-    document.addEventListener('mousemove', (e) => handleResize(e, textarea, isResizing, startY, startHeight));
-    document.addEventListener('mouseup', () => stopResizing(() => isResizing = false));
+    }, 'resizeHandleMouseDown');
+    bindEventListenerOnce(resizeHandle, 'keydown', (e) => handleKeyboardResize(e, textarea), 'resizeHandleKeydown');
+    bindEventListenerOnce(document, 'mousemove', (e) => handleResize(e, textarea, isResizing, startY, startHeight), 'documentMouseMoveResize');
+    bindEventListenerOnce(document, 'mouseup', () => stopResizing(() => isResizing = false), 'documentMouseUpResize');
+}
+
+function handleKeyboardResize(e, textarea) {
+    const step = 20; // px per arrow press
+    const currentHeight = parseInt(getComputedStyle(textarea).height);
+
+    if (e.key === 'ArrowUp') {
+        textarea.style.height = Math.max(120, currentHeight - step) + 'px';
+        e.preventDefault();
+    }
+    if (e.key === 'ArrowDown') {
+        textarea.style.height = Math.min(450, currentHeight + step) + 'px';
+        e.preventDefault();
+    }
 }
 
 /**
@@ -193,14 +196,15 @@ function handleResize(e, textarea, isResizing, startY, startHeight) {
     adjustTextareaPadding();
 }
 
+
 /**
- * Stops the resizing operation by calling the provided reset function
+ * Stops the resizing process by setting the isResizing flag to false
  * and removing the 'resizing' class from the document body.
  *
- * @param {Function} resetResizing - A callback function to reset resizing state.
+ * @param {boolean} isResizing - Indicates if resizing is currently active.
  */
-function stopResizing(resetResizing) {
-    resetResizing();
+function stopResizing(callback) {
+    callback();
     document.body.classList.remove('resizing');
 }
 
@@ -220,14 +224,14 @@ document.getElementById('description')?.addEventListener('input', adjustTextarea
 
 
 function setupTaskFormTitle(type) {
-    const taskTitle = document.getElementById('task-form-title');
-    taskTitle.classList.remove('d-none');
+    const taskFormHeading = document.getElementById('task-form-heading');
+    taskFormHeading.classList.remove('d-none');
     switch (type) {
         case 'edit-task':
-            taskTitle.classList.add('d-none');
+            taskFormHeading.classList.add('d-none');
             break;
         default:
-            taskTitle.textContent = 'Add Task';
+            taskFormHeading.textContent = 'Add Task';
             break;
     }
 }
@@ -261,7 +265,7 @@ function setupTaskActionBtns(type) {
 
 function setupFormSecondaryBtnActions(type) {
     const secondaryBtn = document.getElementById('task-form-secondary-btn');
-    secondaryBtn.addEventListener('click', () => {
+    bindEventListenerOnce(secondaryBtn, 'click', () => {
         switch (type) {
             case 'add-task-dialog':
                 closeTaskFormDialog();
@@ -270,7 +274,7 @@ function setupFormSecondaryBtnActions(type) {
                 clearTask();
                 break;
         }
-    });
+    }, 'formSecondaryBtnClick_' + type);
 
 }
 

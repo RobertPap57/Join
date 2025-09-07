@@ -1,9 +1,4 @@
 /**
- * Form validation and utility functions for Add Task
- * Handles form validation, date settings, and UI utilities
- */
-
-/**
  * Validates the form fields and shows error messages if necessary.
  * @returns {boolean} True if form is valid, false otherwise
  */
@@ -39,7 +34,7 @@ function getValidationFields() {
         {
             element: document.getElementById('title'),
             message: document.getElementById('title-required'),
-            errorClass: 'field-required',
+            errorClass: 'input-required-border',
             isEmpty: () => document.getElementById('title').value.trim() === ''
         },
         {
@@ -57,7 +52,7 @@ function getValidationFields() {
  */
 function setFieldError(field) {
     field.element.classList.add(field.errorClass);
-    field.message.style.opacity = '1';
+    field.message.hidden = false;
 }
 
 /**
@@ -97,9 +92,9 @@ function isFutureDate(dateValue) {
  * @param {string} message - Error message text
  */
 function setDateError(dueDateInput, dateMessage, message) {
-    dueDateInput.classList.add('field-required');
+    dueDateInput.classList.add('input-required-border');
     dateMessage.textContent = message;
-    dateMessage.style.opacity = '1';
+    dateMessage.hidden = false;
 }
 
 /**
@@ -123,12 +118,12 @@ function getFieldConfig() {
         title: {
             input: document.getElementById('title'),
             message: document.getElementById('title-required'),
-            errorClass: 'field-required'
+            errorClass: 'input-required-border'
         },
         date: {
             input: document.getElementById('due-date-input'),
             message: document.getElementById('date-required'),
-            errorClass: 'field-required'
+            errorClass: 'input-required-border'
         },
         category: {
             input: document.getElementById('category-container'),
@@ -145,7 +140,7 @@ function getFieldConfig() {
  */
 function clearFieldError(config, fieldType) {
     config.input.classList.remove(config.errorClass);
-    config.message.style.opacity = '0';
+    config.message.hidden = true;
     if (fieldType === 'date') {
         config.message.textContent = 'This field is required';
     }
@@ -159,12 +154,13 @@ function addValidationEventListeners() {
     const dueDateInput = document.getElementById('due-date-input');
     const categoryContainer = document.getElementById('category-container');
     const categoryBtn = document.getElementById('category-btn');
-    titleInput.addEventListener('focus', () => clearValidationMessage('title'));
-    dueDateInput.addEventListener('focus', () => clearValidationMessage('date'));
-    categoryContainer.addEventListener('click', () => clearValidationMessage('category'));
-    if (categoryBtn) {
-        categoryBtn.addEventListener('click', () => clearValidationMessage('category'));
-    }
+    bindEventListenerOnce(titleInput, 'focus', () => clearValidationMessage('title'), 'clearValidationMsg');
+    bindEventListenerOnce(dueDateInput, 'focus', () => clearValidationMessage('date'), 'clearValidationMsg');
+    bindEventListenerOnce(categoryContainer, 'click', () => clearValidationMessage('category'), 'clearValidationMsg');
+    bindEventListenerOnce(categoryBtn, 'click', () => clearValidationMessage('category'), 'clearValidationMsg');
+
+
+
 }
 
 /**
@@ -174,10 +170,10 @@ function addValidationEventListeners() {
 function handleFormSubmit(event) {
     event.preventDefault();
     if (!validateForm()) return;
-    
+
     const form = event.target;
     const formType = form.dataset.formType || 'add-task';
-    
+
     submitFormByType(formType, form);
 }
 
@@ -192,6 +188,11 @@ function submitFormByType(formType, form) {
             const taskId = form.dataset.taskId;
             if (taskId) updateTaskData(taskId);
             break;
+        case 'add-task-dialog':
+            addTask(formType);
+            tasks.push(newTask);
+            renderTasks();
+            break;
         default:
             addTask(formType);
             break;
@@ -204,7 +205,7 @@ function submitFormByType(formType, form) {
 function preventDefaultValidation() {
     const form = document.getElementById('task-form');
     addValidationEventListeners();
-    form.addEventListener('submit', handleFormSubmit);
+    bindEventListenerOnce(form, 'submit', handleFormSubmit, 'preventDefaultValidation');
 }
 
 
@@ -219,22 +220,22 @@ function setMinDateToToday() {
     const todayString = `${yyyy}-${mm}-${dd}`;
     const dateInput = document.getElementById('due-date-input');
     dateInput.setAttribute('min', todayString);
-    addDateInputListeners(dateInput);
+    updateDateTextColor(dateInput);
 }
 
 /**
  * Adds focus and blur event listeners to date input for styling.
  * @param {Element} dateInput - Date input element
  */
-function addDateInputListeners(dateInput) {
-    dateInput.addEventListener('focus', () => {
+function updateDateTextColor(dateInput) {
+    bindEventListenerOnce(dateInput, 'focus', () => {
         dateInput.classList.remove('color-grey');
-    });
-    dateInput.addEventListener('blur', () => {
+    }, 'textColor');
+    bindEventListenerOnce(dateInput, 'blur', () => {
         if (!dateInput.value) {
             dateInput.classList.add('color-grey');
         }
-    });
+    }, 'textColor');
 }
 
 /**

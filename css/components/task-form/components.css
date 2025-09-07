@@ -27,27 +27,18 @@
     opacity: 1;
 }
 
-.field-required {
+.required::after {
+    content: "*";
+    color: #FF8190;
+}
+
+.input-required-border {
     border-color: #FF8190;
 }
 
-.field-required-msg {
-    opacity: 0;
-    color: #FF8190;
-    font-size: 12px;
-    height: 12px;
-}
-
-.category-required-msg {
-    margin-bottom: -12px;
-}
 
 .category-required-border {
     border: 1px solid #FF8190 !important;
-}
-
-.category-m-top {
-    margin-top: -22px !important;
 }
 
 .dropdown-container {
@@ -114,14 +105,10 @@
     display: none;
     font-size: 20px;
     flex-direction: column;
-    gap: 2px;
     margin-top: -10px;
     padding-top: 6px;
 }
 
-.select-btn.show-menu {
-    border-radius: 10px;
-}
 
 .select-btn.show-menu~.list-items {
     display: flex;
@@ -150,7 +137,7 @@
     gap: 8px;
 }
 
-.selected-contacts-div {
+.selected-contacts-list {
     padding-top: 4px;
     display: flex;
     flex-wrap: wrap;
@@ -211,7 +198,6 @@ textarea {
     font-size: 20px;
     cursor: pointer;
     resize: none;
-    margin-bottom: 16px;
 }
 
 textarea:focus {
@@ -221,14 +207,19 @@ textarea:focus {
 
 label {
     font-size: 20px;
-    margin-bottom: 4px;
+    color: #2A3647;
+    
 }
 
-.required {
-    color: #FFA800;
+.form-group-label {
+    font-size: 20px;
+    font-weight: 400;
+    color: #2A3647;
 }
 
-@media screen and (max-width: 490px) {
+
+
+@media screen and (max-width: 560px) {
     .list-item.category {
         height: 43px;
     }
@@ -238,7 +229,8 @@ label {
     .form-input,
     textarea,
     .select-btn-input,
-    .btn-text {
+    .btn-text,
+    .form-group-label {
         font-size: 16px;
     }
 
@@ -258,13 +250,10 @@ label {
     }
 }
 
-.textarea-container {
-    position: relative;
-}
 
 .custom-resize-handle {
     position: absolute;
-    bottom: 21px;
+    bottom: 5px;
     right: 5px;
     width: 18px;
     height: 18px;

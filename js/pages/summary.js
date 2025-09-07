@@ -20,6 +20,7 @@ async function initSummary() {
   initPopup();
   renderSummary();
   setIconSrc();
+  preventFormSubmitOnEnter();
 }
 
 /**

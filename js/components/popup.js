@@ -30,7 +30,6 @@ function initPopup() {
     popupElements = getPopupElements();
     closePopupDialogsOnClickOutsideListener();
     closePopupDialogsOnEscListener();
-    preventFormSubmitOnEnter('popup-form');
     uploadBtnHoverListener();
     initImageHandler();
     enableDialogKeyboardButtons();

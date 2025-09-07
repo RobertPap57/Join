@@ -19,9 +19,9 @@
 .form-container {
     display: flex;
     flex-direction: column;
-    max-width: 1161px;
+    max-width: 1069px;
     height: 100%;
-    padding: 65px 92px 0 92px;
+    padding: 65px 0 0 92px;
 }
 
 .form-col-container {
@@ -34,11 +34,11 @@
 .form-col-right {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 24px;
     width: 440px;
 }
 
-.form-col-middle {
+.form-separator {
     background-color: #D1D1D1;
     width: 1px;
     border-radius: 10px;
@@ -48,7 +48,8 @@
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
+    position: relative;
 }
 
 .form-bottom {
@@ -74,9 +75,6 @@
     margin-top: 16px;
 }
 
-.gap-24 {
-    gap: 24px;
-}
 
 .wh-24 {
     width: 24px;
@@ -99,17 +97,11 @@
     transform: none;
 }
 
-@media screen and (min-width: 1441px) {
-    .form-container {
-        margin-inline: auto;
-    }
-}
 
-@media screen and (max-width: 1393px) {
+@media screen and (max-width: 1330px) {
     .form-container {
-        margin-inline: auto;
-        padding-inline: 16px;
-        width: 700px;
+        padding-inline: 92px;
+        width: 100%;
     }
 
     .form-col-container {
@@ -122,7 +114,7 @@
         width: 100%;
     }
 
-    .form-col-middle {
+    .form-separator {
         display: none;
     }
 
@@ -170,7 +162,7 @@
     }
 }
 
-@media screen and (max-width: 490px) {
+@media screen and (max-width: 560px) {
     .form-container {
         padding: 48px 16px 0 16px;
     }

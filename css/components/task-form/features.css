@@ -31,7 +31,7 @@
     gap: 4px;
 }
 
-.attachments-hint-container span {
+.attachments-hint-container p {
     font-size: 12px;
     color: #848484;
 }
@@ -78,12 +78,8 @@
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    cursor: grab;
 }
 
-.attachments-list:active {
-    cursor: grabbing;
-}
 
 .attachments-list::-webkit-scrollbar {
     display: none;
@@ -91,6 +87,10 @@
 
 .attachment-item {
     position: relative;
+    cursor: pointer;
+}
+
+.attachment-figure {
     display: flex;
     flex-direction: column;
     border: 1px solid #D1D1D1;
@@ -102,11 +102,9 @@
 }
 
 .delete-attachment-btn {
-    all: unset;
     position: absolute;
-    display: none;
-    align-items: center;
-    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
     width: 24px;
     height: 24px;
     cursor: pointer;
@@ -127,9 +125,15 @@
 
 .attachment-item:hover .delete-attachment-btn,
 .attachment-item:hover .download-attachment-btn {
-    display: flex;
+    opacity: 1;
+    pointer-events: auto;
 }
 
+.download-attachment-btn:focus-visible,
+.delete-attachment-btn:focus-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
 
 .attachment-item:hover .attachment-img {
     filter: brightness(0.6);
@@ -155,6 +159,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: start;
 }
 
 .subtask-input-container {
@@ -262,7 +267,7 @@
 .subtasks-list {
     margin-top: 4px;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     gap: 8px;
     list-style: none;
 }
@@ -271,7 +276,6 @@
     list-style: none;
     display: flex;
     justify-content: space-between;
-    gap: 4px;
     align-items: center;
     border-radius: 10px;
     padding: 4px 16px;
@@ -305,14 +309,16 @@
 }
 
 .subtask-edit-icon-div {
-    display: none;
+    opacity: 0;
+    display: flex;
     justify-content: center;
     align-items: center;
     gap: 4px;
 }
 
 .subtask-list-item:hover .subtask-edit-icon-div {
-    display: flex;
+    opacity: 1;
+    pointer-events: visible;
 }
 
 .edit-subtask-btn,
@@ -322,6 +328,7 @@
     align-items: center;
     width: 24px;
     height: 24px;
+    border-radius: 50%;
 }
 
 .edit-subtask-btn img {
@@ -337,7 +344,16 @@
 .edit-subtask-btn:hover,
 .delete-subtask-btn:hover {
     background-color: #D1D1D1;
-    border-radius: 50%;
+}
+
+.subtask-list-item:has(.edit-subtask-btn:focus-visible),
+.subtask-list-item:has(.delete-subtask-btn:focus-visible) {
+  background-color: #EEEEEE;
+}
+.subtask-edit-icon-div:has(.edit-subtask-btn:focus-visible),
+.subtask-edit-icon-div:has(.delete-subtask-btn:focus-visible) {
+    opacity: 1;
+    pointer-events: visible;
 }
 
 .edit-subtask-input {

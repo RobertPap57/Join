@@ -24,6 +24,12 @@
   opacity: 1 !important;
 }
 
+.user-is-tabbing .prev-btn,
+.user-is-tabbing .next-btn,
+.user-is-tabbing .viewer-header {
+  opacity: 1 !important;
+}
+
 #viewer-img {
   width: 100%;
   object-fit: cover;
@@ -265,11 +271,11 @@
   }
 
 
-.image-viewer-dialog footer {
-  background-color: #29ABE2;
-  width: 100%;
-  height: 60px;
-  position: absolute;
-  bottom: 0;
-}
+  .image-viewer-dialog footer {
+    background-color: #29ABE2;
+    width: 100%;
+    height: 60px;
+    position: absolute;
+    bottom: 0;
+  }
 }
