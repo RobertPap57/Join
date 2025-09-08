@@ -1,8 +1,8 @@
-/**
- * Board functionality for managing and displaying tasks
- */
+
 
 let searchQuery = '';
+const containerIds = ['to-do', 'in-progress', 'await-feedback', 'done'];
+let selectedContainerIndex = null;
 
 
 
@@ -24,12 +24,14 @@ async function initBoard() {
     closeDetailedTaskOnClickOutside();
     enableAutoScrollOnDrag();
     preventFormSubmitOnEnter();
-
-
 }
 
 
 
+/**
+ * Adjusts the horizontal alignment and padding of task containers on mobile screens.
+ * Applies extra padding and scrolls containers if their content overflows on small screens.
+ */
 function alignCardsMobile() {
     document.querySelectorAll(".task-container").forEach(container => {
         if (window.innerWidth <= 1400 && container.scrollWidth > container.clientWidth) {
@@ -44,6 +46,10 @@ function alignCardsMobile() {
 
 
 
+/**
+ * Prevents drag events on all elements with the 'download-attachment-btn' class.
+ * This disables dragging for download buttons to avoid unintended behavior.
+ */
 function blockDragOnDownloadBtn() {
     document.querySelectorAll('.download-attachment-btn').forEach(link => {
         link.addEventListener('dragstart', event => {
@@ -54,30 +60,6 @@ function blockDragOnDownloadBtn() {
 
 
 
-/**
- * Generates HTML for a task card.
- * @param {Object} task - Task object with properties like title, category, description, priority
- * @returns {string} HTML string for the task card
- */
-function getTaskCardHTML(task) {
-    return `<article class="task-card" draggable="true" data-task-id="${task.id}"
-    onmouseup="openDetailedTaskView('${task.id}')" ontouchend="openDetailedTaskView('${task.id}')">
-    <header class="task-card-category" style="background-color: ${getCategoryColor(task.category)};">
-        <p>${task.category}</p>
-    </header>
-    <h2>${task.title}</h2>
-    <p class="task-card-desc">${task.description}</p>
-    ${generateProgressHTML(task)}
-    <footer class="task-card-footer">
-        <div class="assigned-avatars">
-            ${generateAssignedAvatarsHTML(task.assignedTo, task.id, 'card')}
-        </div>
-        <div class="task-priority d-flex-center" aria-label="Priority: ${task.priority}">
-            <img src="../assets/images/global/${task.priority}.svg" alt="Priority: ${task.priority}">
-        </div>
-    </footer>
-</article>`;
-}
 
 /**
  * Returns the color code associated with a given category.
@@ -98,15 +80,10 @@ function generateProgressHTML(task) {
     if (!task.subtasks || task.subtasks.length === 0) {
         return '';
     }
-
     const totalSubtasks = task.subtasks.length;
     const completedSubtasks = task.subtasks.filter(subtask => subtask.completed === true).length;
     const progressPercentage = totalSubtasks > 0 ? (completedSubtasks / totalSubtasks) * 100 : 0;
-
-    return `<div class="task-progress" role="progressbar" aria-valuenow="${completedSubtasks}" aria-valuemin="0" aria-valuemax="${totalSubtasks}">
-        <span class="progress-bar"><span class="progress" style="width: ${progressPercentage}%;"></span></span>
-        ${completedSubtasks}/${totalSubtasks} Subtasks
-    </div>`;
+    return getProgressbarHTML(totalSubtasks, completedSubtasks, progressPercentage);
 }
 
 /**
@@ -150,7 +127,7 @@ function createAvatarDiv(contactId, taskId, context, index, maxVisible) {
         if (index >= maxVisible) classes += ' d-none';
     }
 
-    return `<div id="${uniqueId}" class="${classes}" style="${style}"></div>`;
+    return `<li id="${uniqueId}" class="${classes}" style="${style}"></li>`;
 }
 
 /**
@@ -192,8 +169,8 @@ function renderTasks() {
     filteredTasks.forEach(task => {
         renderTaskInContainer(task);
     });
-    setupDragAndDrop();
     showEmptyContainer();
+    setupBoardEventsListeners();
     alignCardsMobile();
 }
 
@@ -220,8 +197,6 @@ function clearTaskContainers() {
  * Shows empty message for containers that have no task cards.
  */
 function showEmptyContainer() {
-    const containerIds = ['to-do', 'in-progress', 'await-feedback', 'done'];
-
     containerIds.forEach((id) => {
         const container = document.getElementById(id);
         if (container && !container.querySelector('.task-card')) {
@@ -323,25 +298,119 @@ window.addEventListener('resize', () => {
 /**
  * Sets up basic drag and drop for task containers.
  */
-function setupDragAndDrop() {
-    const containers = ['to-do', 'in-progress', 'await-feedback', 'done'];
-    containers.forEach(containerId => {
+function setupBoardEventsListeners() {
+    containerIds.forEach(containerId => {
         const container = document.getElementById(containerId);
-        if (container) {
-            bindEventListenerOnce(container, 'dragover', handleDragOver, 'dragAndDrop');
-            bindEventListenerOnce(container, 'drop', handleDrop, 'dragAndDrop');
-            bindEventListenerOnce(container, 'dragenter', handleDragEnter, 'dragAndDrop');
-            bindEventListenerOnce(container, 'dragleave', handleDragLeave, 'dragAndDrop');
-        }
+        setupDragAndDrop(container, null);
     });
 
     const taskCards = document.querySelectorAll('.task-card');
     taskCards.forEach(card => {
+        setupDragAndDrop(null, card);
+        setupOpenTaskCardListeners(card);
+        setupKeyboardDrag(card);
+    });
+}
+
+
+
+
+function setupOpenTaskCardListeners(card) {
+    bindEventListenerOnce(card, 'mouseup', () => openDetailedTaskView(card.dataset.taskId), 'openTaskCard');
+    bindEventListenerOnce(card, 'touchend', () => openDetailedTaskView(card.dataset.taskId), 'openTaskCard');
+    bindEventListenerOnce(card, 'keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            openDetailedTaskView(card.dataset.taskId);
+        }
+    }, 'openTaskCard');
+}
+
+
+
+
+
+function setupDragAndDrop(container, card) {
+    if (container) {
+        bindEventListenerOnce(container, 'dragover', handleDragOver, 'dragAndDrop');
+        bindEventListenerOnce(container, 'drop', handleDrop, 'dragAndDrop');
+        bindEventListenerOnce(container, 'dragenter', handleDragEnter, 'dragAndDrop');
+        bindEventListenerOnce(container, 'dragleave', handleDragLeave, 'dragAndDrop');
+    }
+    if (card) {
         enableLongHoldDetection(card);
         bindEventListenerOnce(card, 'dragstart', handleDragStart, 'dragAndDrop');
         bindEventListenerOnce(card, 'dragend', handleDragEnd, 'dragAndDrop');
-    });
+    }
 }
+
+function setupKeyboardDrag(card) {
+    bindEventListenerOnce(card, 'keydown', (event) => {
+        if (event.key === ' ') {
+            event.preventDefault();
+            if (!draggedTaskId) {
+                startKeyboardDrag(card);
+            } else {
+                dropKeyboardCard();
+            }
+        } else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+            event.preventDefault();
+            moveKeyboardShadow(1);
+        } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+            event.preventDefault();
+            moveKeyboardShadow(-1);
+        }
+    }, 'keyboardDragAndDrop');
+}
+
+
+function startKeyboardDrag(card) {
+    draggedTaskId = card.dataset.taskId;
+    const task = tasks.find(t => t.id === draggedTaskId);
+    draggedTaskStatus = task ? task.status : null;
+
+    // Set initial container index to the task’s current column
+    selectedContainerIndex = containerIds.indexOf(draggedTaskStatus);
+
+    card.style.transform = 'rotate(5deg)';
+    card.setAttribute('aria-grabbed', 'true');
+}
+
+function moveKeyboardShadow(direction) {
+    if (draggedTaskId == null || selectedContainerIndex == null) return;
+
+    // Hide old shadow
+    const oldContainer = document.getElementById(containerIds[selectedContainerIndex]);
+    hideShadowElement(oldContainer);
+
+    // Move index
+    selectedContainerIndex += direction;
+    if (selectedContainerIndex < 0) selectedContainerIndex = 0;
+    if (selectedContainerIndex >= containerIds.length) selectedContainerIndex = containerIds.length - 1;
+
+    // Show new shadow
+    const newContainer = document.getElementById(containerIds[selectedContainerIndex]);
+    showShadowElement(newContainer);
+    scrollToContainerMax(newContainer);
+}
+
+
+async function dropKeyboardCard() {
+    if (draggedTaskId == null || selectedContainerIndex == null) return;
+
+    const container = document.getElementById(containerIds[selectedContainerIndex]);
+    const containerStatus = container.id;
+
+    if (containerStatus !== draggedTaskStatus) {
+        await updateTaskStatus(draggedTaskId, container);
+    }
+
+    stopDrag();
+    draggedTaskId = null;
+    selectedContainerIndex = null;
+    removeShadowElements();
+}
+
 
 /**
  * Handles drag start event for task cards.
@@ -653,85 +722,8 @@ function formatDate(dateString) {
     return `${day}/${month}/${year}`;
 }
 
-/**
- * Generates the HTML for the detailed task view.
- * @param {Object} task - The task object.
- * @returns {string} The HTML string for the detailed task view.
- */
-function getDetailedTaskHTML(task) {
-    return `
-    <article class="d-flex-col-24">
-        <header class="detailed-task-header d-flex-col-24">
-            <div class="detailed-task-category" style="background-color: ${getCategoryColor(task.category)};">
-                <span>${task.category}</span>
-            </div>
-            <button class="close-btn d-flex-center detailed-task-close-btn" aria-label="Close dialog"
-                onclick="document.getElementById('detailed-task-dialog').close()">
-                <img src="../assets/images/global/close.svg" alt="Close dialog">
-            </button>
-            <h2>${task.title}</h2>
-        </header>
-        <div class="scroll-container d-flex-col-24 detailed-task-scroll-content">
-        <p class="detailed-task-desc">${task.description}</p>
-        <section class="detailed-task-due-date">
-            <h3>Due date:</h3>
-            <span>${formatDate(task.dueDate)}</span>
-        </section>
-        <section class="detailed-task-priority">
-            <h3>Priority:</h3>
-            <div class="d-flex-center">
-                <span>${capitalizeFirstLetter(task.priority)}</span>
-                <img src="../assets/images/global/${task.priority}.svg" alt="">
-            </div>
-        </section>
-        <section class="detailed-task-assigned">
-            <h3>Assigned To:</h3>
-            <div class="detailed-task-assigned-avatars d-flex-center">
-                ${generateAssignedAvatarsHTML(task.assignedTo, task.id, 'modal')}
-            </div>
-        </section>
-        <section class="detailed-task-attachments">
-            <h3>Attachments</h3>
-            <h3 class="uploaded-files-title">Uploaded files</h3>
-            <div id="detailed-task-attachments-list-wrapper" class="attachments-list-wrapper">
-                <ul class="attachments-list" id="detailed-task-attachments-list"></ul>
-            </div>
-        </section>
-        <section class="detailed-task-subtasks">
-            <h3>Subtasks</h3>
-            <ul class="detailed-task-subtasks-list"></ul>
-        </section>
-        </div>
-        <footer class="detailed-task-action-btns">
-                    <button class="delete-detailed-task-btn" onclick="deleteTask('${task.id}')">
-                        <img src="../assets/images/global/delete.svg" alt="">
-                        <p>Delete</p>
-                    </button>
-                    <span></span>
-                    <button class="edit-detailed-task-btn" onclick="openTaskFormDialog('edit-task', { taskId: '${task.id}' });">
-                        <img src="../assets/images/global/edit.svg" alt="">
-                        <p>Edit</p>
-                    </button>
-        </footer>
-    </article>`;
-}
 
-/**
- * Generates the HTML for a single subtask item in the detailed view.
- * @param {object} subtask - The subtask object.
- * @returns {string} The HTML string for the subtask item.
- */
-function getSubtaskItemHTML(subtask, taskId) {
-    const checkboxImg = subtask.completed ? 'checkbox-checked.svg' : 'checkbox.svg';
-    return `
-        <li class="detailed-task-subtask-item" data-task-id="${taskId}" data-subtask-id="${subtask.id}">
-            <div class="d-flex-center subtask-checkbox-container">
-                <img class="detailed-task-subtask-checkbox" src="../assets/images/global/${checkboxImg}" alt="Checkbox">
-            </div>
-            <p>${subtask.content}</p>
-        </li>
-    `;
-}
+
 
 /**
  * Renders the subtasks for a given task into the detailed view list.
@@ -754,13 +746,17 @@ function renderTaskSubtasks(task) {
  */
 function addSubtaskClickHandlers() {
     const subtaskItems = document.querySelectorAll('.detailed-task-subtask-item');
-
     subtaskItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const taskId = item.dataset.taskId;
-            const subtaskId = item.dataset.subtaskId;
+        const taskId = item.dataset.taskId;
+        const subtaskId = item.dataset.subtaskId;
+        bindEventListenerOnce(item, 'click', () => {
             toggleSubtaskCompletion(taskId, subtaskId);
-        });
+        }, `subtask-${taskId}-${subtaskId}-click`);
+        bindEventListenerOnce(item, 'keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                toggleSubtaskCompletion(taskId, subtaskId);
+            }
+        }, `subtask-${taskId}-${subtaskId}-keydown`);
     });
 }
 

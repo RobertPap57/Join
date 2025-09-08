@@ -214,10 +214,11 @@ function displayProfileAvatar(user, userAvatarId) {
 		userAvatar.innerHTML = '';
 		if (user) {
 			if (user && user.image) {
-				userAvatar.innerHTML = `<img src="${user.image}" alt="Profile picture">`;
+				userAvatar.innerHTML = `<img src="${user.image}" alt="${user.name}">`;
 			} if (user.name && !user.image) {
 				userAvatar.innerHTML = createNameInitials(user.name);
 				userAvatar.style.backgroundColor = user.color
+				userAvatar.ariaLabel = user.name;
 			}
 		}
 	}

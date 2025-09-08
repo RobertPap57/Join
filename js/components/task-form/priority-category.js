@@ -116,9 +116,11 @@ function disableCategoryDropdown(type) {
     const arrowDown = document.getElementById('category-btn');
     if (type === 'edit-task') {
         selectBtnCategory.classList.add('unclickable');
+        selectBtnCategory.tabIndex = -1;
         arrowDown.classList.add('d-none');
     } else {
         selectBtnCategory.classList.remove('unclickable');
+        selectBtnCategory.tabIndex = 0;
         arrowDown.classList.remove('d-none');
     }
 }
