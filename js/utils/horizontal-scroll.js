@@ -33,6 +33,7 @@ function startDrag(e, dragContainer) {
  * @param {Event} e - Mouse or touch event
  */
 function dragMove(e) {
+    if (draggedTaskId) return;
     if (!currentDragContainer) return;
     const moveDistance = Math.abs(getPageX(e) - lastX);
     if (!isDragging && moveDistance > 5) {
@@ -50,7 +51,7 @@ function dragMove(e) {
  * Stops the drag operation and starts inertia scrolling.
  */
 function stopDrag() {
-    setTimeout(() => { isDragging = false; }, 0); 
+    setTimeout(() => { isDragging = false; }, 0);
     removeDragListeners();
     inertia();
 }

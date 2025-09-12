@@ -1,8 +1,11 @@
 
-
 let searchQuery = '';
 const containerIds = ['to-do', 'in-progress', 'await-feedback', 'done'];
 let selectedContainerIndex = null;
+let draggedTaskId = null;
+let draggedTaskStatus = null;
+let ghostElement = null;
+let cardDisabled = false;
 
 
 
@@ -184,7 +187,6 @@ function clearTaskContainers() {
         'await-feedback',
         'done'
     ];
-
     containers.forEach(containerId => {
         const container = document.getElementById(containerId);
         if (container) container.innerHTML = '';
@@ -215,12 +217,9 @@ function showEmptyContainer() {
 function renderTaskInContainer(task) {
     const containerId = task.status;
     const container = document.getElementById(containerId);
-
     if (container) {
         const taskHTML = getTaskCardHTML(task);
         container.innerHTML += taskHTML;
-
-        // Use setTimeout to ensure DOM is updated before rendering avatars
         setTimeout(() => renderTaskAvatars(task, 'card'), 0);
     }
 }
@@ -236,7 +235,6 @@ function renderTaskAvatars(task, context) {
     if (!task.assignedTo || task.assignedTo.length === 0) {
         return;
     }
-
     task.assignedTo.forEach(contactId => {
         const contact = findContactById(contactId);
         if (contact) {
@@ -246,18 +244,15 @@ function renderTaskAvatars(task, context) {
     });
 }
 
-let draggedTaskId = null;
-let draggedTaskStatus = null;
+
 
 
 function enableLongHoldDetection(element) {
-    if (element && window.innerWidth <= 1400) {
-        bindEventListenerOnce(element, 'mousedown', startHold, 'longHold');
-        bindEventListenerOnce(element, 'touchstart', startHold, 'longHold');
-        bindEventListenerOnce(element, 'mouseup', endHold, 'longHold');
-        bindEventListenerOnce(element, 'mouseleave', endHold, 'longHold');
-        bindEventListenerOnce(element, 'mousemove', endHoldIfMoving, 'longHold');
-        bindEventListenerOnce(element, 'touchend', endHold, 'longHold');
+    if (!element) return;
+    if (window.matchMedia("(pointer: coarse)").matches) {
+        bindEventListenerOnce(element, "touchstart", startHold, "longHold");
+        bindEventListenerOnce(element, "touchend", endHold, "longHold");
+        bindEventListenerOnce(element, "touchmove", endHoldIfMoving, "longHold");
     }
 }
 
@@ -267,7 +262,6 @@ function startHold(event) {
     element.draggable = false;
     element.dataset.holdTimeout = setTimeout(() => {
         element.dataset.longHold = "true";
-        console.log("Long hold detected on", element);
         element.draggable = true;
         element.style.transform = 'rotate(5deg)';
     }, 500);
@@ -275,20 +269,26 @@ function startHold(event) {
 
 function endHold(event) {
     const element = event.currentTarget;
-    clearHoldTimer(element);
+    if (element.dataset.longHold !== "true") {
+        clearHoldTimer(element);
+    }
 }
+
 function endHoldIfMoving(event) {
-    if (event.currentTarget.dataset.longHold === "false") {
-        const element = event.currentTarget;
+    const element = event.currentTarget;
+    if (element.dataset.longHold === "false") {
         clearHoldTimer(element);
     }
 }
 
 function clearHoldTimer(element) {
-    clearTimeout(element.dataset.holdTimeout);
+    if (element.dataset.holdTimeout) {
+        clearTimeout(element.dataset.holdTimeout);
+    }
     element.dataset.holdTimeout = null;
     element.dataset.longHold = "false";
-    element.style.transform = '';
+    element.style.transform = "";
+    element.draggable = false;
 }
 
 window.addEventListener('resize', () => {
@@ -308,7 +308,8 @@ function setupBoardEventsListeners() {
     taskCards.forEach(card => {
         setupDragAndDrop(null, card);
         setupOpenTaskCardListeners(card);
-        setupKeyboardDrag(card);
+        setupKeyboardDragAndDrop(card);
+        setupTouchDragAndDrop(card);
     });
 }
 
@@ -338,13 +339,110 @@ function setupDragAndDrop(container, card) {
         bindEventListenerOnce(container, 'dragleave', handleDragLeave, 'dragAndDrop');
     }
     if (card) {
-        enableLongHoldDetection(card);
         bindEventListenerOnce(card, 'dragstart', handleDragStart, 'dragAndDrop');
         bindEventListenerOnce(card, 'dragend', handleDragEnd, 'dragAndDrop');
     }
 }
 
-function setupKeyboardDrag(card) {
+function setupTouchDragAndDrop(card) {
+    enableLongHoldDetection(card);
+    bindEventListenerOnce(card, 'touchmove', (event) => startTouchDrag(event), 'touchDragAndDrop');
+    bindEventListenerOnce(card, 'touchend', (event) => touchEndDrag(event), 'touchDragAndDrop');
+}
+
+function startTouchDrag(event) {
+    const element = event.currentTarget;
+    if (element.dataset.longHold !== "true") return;
+
+    event.preventDefault();
+
+    if (!draggedTaskId) {
+        draggedTaskId = element.dataset.taskId;
+        const task = tasks.find(t => t.id === draggedTaskId);
+        draggedTaskStatus = task ? task.status : null;
+        createGhostElement(element);
+    }
+    moveCard(event.touches[0], element);
+    detectHoverContainer(event.touches[0]);
+    cardDisabled = true;
+}
+
+function createGhostElement(element) {
+    if (!element) return;
+    ghostElement = element.cloneNode(true);
+    ghostElement.style.position = "fixed";
+    ghostElement.style.pointerEvents = "none";
+    ghostElement.style.opacity = "0.7";
+    ghostElement.style.transform = "";
+    ghostElement.style.boxShadow = "inset 0px 0px 10px 0px #F6F7F8";
+    ghostElement.style.zIndex = 9999;
+    document.body.appendChild(ghostElement);
+}
+
+function moveCard(touch) {
+    if (!ghostElement) return;
+    ghostElement.style.left = `${touch.clientX - ghostElement.offsetWidth / 2}px`;
+    ghostElement.style.top = `${touch.clientY - ghostElement.offsetHeight / 2}px`;
+}
+
+function detectHoverContainer(touch) {
+    const containers = document.querySelectorAll(".task-container");
+    containers.forEach(container => {
+        const rect = container.getBoundingClientRect();
+        if (touch.clientX > rect.left && touch.clientX < rect.right &&
+            touch.clientY > rect.top && touch.clientY < rect.bottom &&
+            draggedTaskStatus !== container.id) {
+            showShadowElement(container);
+            scrollToContainerMax(container);
+        } else {
+            hideShadowElement(container);
+        }
+    });
+}
+
+function touchEndDrag(event) {
+    if (event.currentTarget.dataset.longHold !== "true") {
+        clearHoldTimer(event.currentTarget);
+        return;
+    }
+
+    const touch = event.changedTouches[0];
+    const containers = document.querySelectorAll(".task-container");
+    let targetContainer = null;
+
+    containers.forEach(container => {
+        const rect = container.getBoundingClientRect();
+        if (touch.clientX > rect.left && touch.clientX < rect.right &&
+            touch.clientY > rect.top && touch.clientY < rect.bottom) {
+            targetContainer = container;
+        }
+    });
+
+    if (targetContainer && draggedTaskId) {
+        if (targetContainer.id !== draggedTaskStatus) {
+            updateTaskStatus(draggedTaskId, targetContainer);
+        } else {
+            renderTasks();
+        }
+    } else {
+        renderTasks();
+    }
+
+    // cleanup ghost
+    if (ghostElement) {
+        ghostElement.remove();
+        ghostElement = null;
+    }
+    clearHoldTimer(event.currentTarget);
+    draggedTaskId = null;
+    draggedTaskStatus = null;
+    removeShadowElements();
+    setTimeout(() => { cardDisabled = false; }, 50);
+}
+
+
+
+function setupKeyboardDragAndDrop(card) {
     bindEventListenerOnce(card, 'keydown', (event) => {
         if (event.key === ' ') {
             event.preventDefault();
@@ -359,6 +457,11 @@ function setupKeyboardDrag(card) {
         } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
             event.preventDefault();
             moveKeyboardShadow(-1);
+        } else if (event.key === 'Escape') {
+            event.preventDefault();
+            if (draggedTaskId) {
+                cancelDrag();
+            }
         }
     }, 'keyboardDragAndDrop');
 }
@@ -368,47 +471,45 @@ function startKeyboardDrag(card) {
     draggedTaskId = card.dataset.taskId;
     const task = tasks.find(t => t.id === draggedTaskId);
     draggedTaskStatus = task ? task.status : null;
-
-    // Set initial container index to the task’s current column
     selectedContainerIndex = containerIds.indexOf(draggedTaskStatus);
-
     card.style.transform = 'rotate(5deg)';
     card.setAttribute('aria-grabbed', 'true');
+    document.addEventListener("keydown", trapTabWhileDragging, true);
 }
 
 function moveKeyboardShadow(direction) {
     if (draggedTaskId == null || selectedContainerIndex == null) return;
-
-    // Hide old shadow
     const oldContainer = document.getElementById(containerIds[selectedContainerIndex]);
     hideShadowElement(oldContainer);
-
-    // Move index
     selectedContainerIndex += direction;
     if (selectedContainerIndex < 0) selectedContainerIndex = 0;
     if (selectedContainerIndex >= containerIds.length) selectedContainerIndex = containerIds.length - 1;
-
-    // Show new shadow
     const newContainer = document.getElementById(containerIds[selectedContainerIndex]);
-    showShadowElement(newContainer);
-    scrollToContainerMax(newContainer);
+    if (newContainer.id !== draggedTaskStatus) {
+        showShadowElement(newContainer);
+        scrollToContainerMax(newContainer);
+        scrollBoardRowIntoView(newContainer);
+    }
+}
+
+function trapTabWhileDragging(e) {
+    if (e.key === "Tab") {
+        e.preventDefault();
+    }
 }
 
 
 async function dropKeyboardCard() {
     if (draggedTaskId == null || selectedContainerIndex == null) return;
-
     const container = document.getElementById(containerIds[selectedContainerIndex]);
     const containerStatus = container.id;
-
     if (containerStatus !== draggedTaskStatus) {
         await updateTaskStatus(draggedTaskId, container);
+    } else {
+        cancelDrag();
+        return;
     }
-
-    stopDrag();
-    draggedTaskId = null;
-    selectedContainerIndex = null;
-    removeShadowElements();
+    cancelDrag();
 }
 
 
@@ -418,22 +519,17 @@ async function dropKeyboardCard() {
  * @param {DragEvent} event - The drag start event
  */
 function handleDragStart(event) {
-    console.log("Drag started:", event.target);
-
+    if (window.matchMedia("(pointer: coarse)").matches) return;
     if (event.target.closest('.task-card')) {
         const taskCard = event.target.closest('.task-card');
-        if (window.innerWidth > 1400 || (window.innerWidth <= 1400 && taskCard.dataset.longHold === "true")) {
-            draggedTaskId = taskCard.dataset.taskId;
-
-            const task = tasks.find(t => t.id === draggedTaskId);
-            draggedTaskStatus = task ? task.status : null;
-
-            taskCard.style.transform = 'rotate(5deg)';
-
-            event.dataTransfer.effectAllowed = 'move';
-        }
+        draggedTaskId = taskCard.dataset.taskId;
+        const task = tasks.find(t => t.id === draggedTaskId);
+        draggedTaskStatus = task ? task.status : null;
+        taskCard.style.transform = 'rotate(5deg)';
+        event.dataTransfer.effectAllowed = 'move';
     }
 }
+
 
 /**
  * Handles drag end event for task cards.
@@ -443,11 +539,8 @@ function handleDragStart(event) {
 function handleDragEnd(event) {
     if (event.target.closest('.task-card')) {
         const taskCard = event.target.closest('.task-card');
-
         taskCard.style.transform = '';
-
         removeShadowElements();
-
         draggedTaskStatus = null;
     }
 }
@@ -461,10 +554,10 @@ function handleDragEnter(event) {
     event.preventDefault();
     if (draggedTaskId && draggedTaskStatus) {
         const containerStatus = event.currentTarget.id;
-
         if (containerStatus !== draggedTaskStatus) {
             showShadowElement(event.currentTarget);
             scrollToContainerMax(event.currentTarget);
+            scrollBoardRowIntoView(event.currentTarget);
         }
     }
 }
@@ -514,17 +607,27 @@ async function handleDrop(event) {
     }
 }
 
-function scrollToContainerMax(container, smooth = true) {
-    console.log("scroll triggered Container ID:", container.id);
+function cancelDrag() {
+    draggedTaskId = null;
+    draggedTaskStatus = null;
+    selectedContainerIndex = null;
+    removeShadowElements();
+    document.removeEventListener("keydown", trapTabWhileDragging, true);
+    const cards = document.querySelectorAll('.task-card');
+    cards.forEach(card => {
+        card.style.transform = '';
+        card.removeAttribute('aria-grabbed');
+    });
+}
 
+
+function scrollToContainerMax(container, smooth = true) {
     if (window.innerWidth > 1400) {
-        console.log("Scrolling down");
         container.scrollTo({
             top: container.scrollHeight,
             behavior: smooth ? 'smooth' : 'auto'
         });
     } else {
-        console.log("Scrolling right");
         container.scrollTo({
             left: container.scrollWidth,
             behavior: smooth ? 'smooth' : 'auto'
@@ -554,8 +657,23 @@ function scrollOnDragMove(e) {
     }
 }
 
-
-
+function scrollBoardRowIntoView(container) {
+    if (!container || window.innerWidth > 1400) return;
+    const rect = container.getBoundingClientRect();
+    const viewHeight = window.innerHeight;
+    if (rect.bottom > viewHeight) {
+        window.scrollBy({
+            top: rect.bottom - viewHeight + 20,
+            behavior: "smooth"
+        });
+    }
+    if (rect.top < 96) {
+        window.scrollBy({
+            top: rect.top - 96,
+            behavior: "smooth"
+        });
+    }
+}
 
 /**
  * Updates the status and timestamp of a task, persists the changes, and re-renders the task list.
@@ -705,6 +823,7 @@ function hideSearchError() {
  * @param {string} taskId - The ID of the task to display.
  */
 function openDetailedTaskView(taskId) {
+    if (cardDisabled) return;
     dialog = document.getElementById('detailed-task-dialog');
     const task = tasks.find(t => t.id === taskId);
     if (!task || isDragging) return;
