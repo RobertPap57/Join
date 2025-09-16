@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board</title>
+    <link id="favicon" rel="icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/pages/board/core.css">
+    <link rel="stylesheet" href="../css/components/image-viewer.css">
+    <link rel="stylesheet" href="../css/pages/board/responsive.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/nav.css">
+    <link rel="stylesheet" href="../css/components/popup/popup.css">
+    <link rel="stylesheet" href="../css/components/popup/popup-responsive.css">
+    <link rel="stylesheet" href="../css/components/task-form/features.css">
+    <link rel="stylesheet" href="../css/components/task-form/layout.css">
+    <link rel="stylesheet" href="../css/components/task-form/components.css">
+    <link rel="stylesheet" href="../css/components/task-form/buttons.css">
+    <script src="../js/script.js"></script>
+    <script src="../js/components/header.js"></script>
+    <script src="../js/components/nav.js"></script>
+    <script src="../js/components/popup.js"></script>
+    <script src="../js/utils/image-handler.js"></script>
+    <script src="../js/utils/form-validation.js"></script>
+    <script src="../js/utils/horizontal-scroll.js"></script>
+    <script src="../js/pages/board/core.js"></script>
+    <script src="../js/pages/board/templates.js"></script>
+    <script src="../js/components/image-viewer.js"></script>
+    <script src="../js/components/task-form/priority-category.js"></script>
+    <script src="../js/components/task-form/templates.js"></script>
+    <script src="../js/components/task-form/validation.js"></script>
+    <script src="../js/components/task-form/subtasks.js"></script>
+    <script src="../js/components/task-form/attachments.js"></script>
+    <script src="../js/components/task-form/core.js"></script>
+    <script src="../js/components/task-form/contacts.js"></script>
+</head>
+
+<body onload="initBoard()">
+    <div w3-include-html="../templates/header.html"></div>
+    <div w3-include-html="../templates/nav.html"></div>
+    <div w3-include-html="../templates/popup.html"></div>
+    <div w3-include-html="../templates/image-viewer.html"></div>
+
+    <div class="main-wrapper">
+        <main class="main">
+            <header class="board-header">
+                <h1>Board</h1>
+                <div class="toolbar d-flex-center" role="region" aria-label="Page actions">
+                    <form class="search-form" role="search" aria-label="Search tasks">
+                        <input type="search" name="search" placeholder="Find Task" aria-label="Find Task" aria-describedby="search-error-message"/>
+                        <div class="submit-btn-wrapper">
+                            <button type="submit" class="d-flex-center" aria-label="Search">
+                                <img src="../assets/images/pages/boards/search.svg" alt="">
+                            </button>
+                        </div>
+                        <p class="search-error-message" role="alert" aria-live="assertive">No results found</p>
+                    </form>
+                    <button class="add-task-board-btn primary-btn d-flex-center" aria-label="Add task"
+                        onclick="openTaskFormDialog('add-task-dialog')">
+                        <span>Add task</span>
+                        <img src="../assets/images/pages/boards/plus-white.svg" alt="">
+                        <img src="../assets/images/pages/boards/plus-white-mobile.svg" alt="">
+                    </button>
+                </div>
+            </header>
+            <section class="main-section">
+                <section class="task-group">
+                    <header class="task-group-header padl-12">
+                        <h2>To do</h2>
+                        <button onclick="openTaskFormDialog('add-task-dialog', { status: 'to-do' })" aria-label="Add task in 'to do' group">
+                            <img src="../assets/images/pages/boards/add.svg" alt="">
+                            <img src="../assets/images/pages/boards/add-mobile.svg" alt="">
+                        </button>
+                    </header>
+                    <ul class="task-container" id="to-do" role="list">
+                    </ul>
+                </section>
+                <section class="task-group">
+                    <header class="task-group-header">
+                        <h2>In progress</h2>
+                        <button onclick="openTaskFormDialog('add-task-dialog', { status: 'in-progress' })" aria-label="Add task in 'in progress' group">
+                            <img src="../assets/images/pages/boards/add.svg" alt="">
+                            <img src="../assets/images/pages/boards/add-mobile.svg" alt="">
+                        </button>
+                    </header>
+                    <ul class="task-container" id="in-progress" role="list">
+                    </ul>
+                </section>
+                <section class="task-group">
+                    <header class="task-group-header">
+                        <h2>Await feedback</h2>
+                        <button onclick="openTaskFormDialog('add-task-dialog', { status: 'await-feedback' })" aria-label="Add task in 'await feedback' group">
+                            <img src="../assets/images/pages/boards/add.svg" alt="">
+                            <img src="../assets/images/pages/boards/add-mobile.svg" alt="">
+                        </button>
+                    </header>
+                    <ul class="task-container" id="await-feedback" role="list">
+                    </ul>
+                </section>
+                <section class="task-group">
+                    <header class="task-group-header">
+                        <h2>Done</h2>
+                    </header>
+                    <ul class="task-container" id="done" role="list">
+                    </ul>
+                </section>
+            </section>
+
+            <dialog class="detailed-task-dialog" id="detailed-task-dialog" aria-label="Detailed task view" role="dialog" aria-labelledby="detailed-task-title">
+            </dialog>
+        </main>
+    </div>
+
+    <dialog class="task-form-dialog scroll-container" id="task-form-dialog" aria-label="Add or edit task">
+        <div class="close-btn-wrapper-task-form-dialog">
+            <button class="d-flex-center close-btn close-task-form-dialog-btn" onclick="closeTaskFormDialog()" aria-label="Close dialog">
+                <img src="../assets/images/global/close.svg" alt="">
+            </button>
+        </div>
+        <div w3-include-html="../templates/task-form.html"></div>
+    </dialog>
+</body>
+
+</html>

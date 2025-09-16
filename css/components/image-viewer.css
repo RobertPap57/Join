@@ -1,0 +1,281 @@
+.image-viewer-dialog {
+  border: none;
+  padding: 0;
+  background: #272727;
+  width: 1146px;
+  height: 777px;
+  overflow: hidden;
+  animation: slide-up 0.3s ease;
+  margin: auto;
+}
+
+.viewer-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+}
+
+.viewer-container:hover .prev-btn,
+.viewer-container:hover .next-btn,
+.viewer-container:hover .viewer-header {
+  opacity: 1 !important;
+}
+
+.user-is-tabbing .prev-btn,
+.user-is-tabbing .next-btn,
+.user-is-tabbing .viewer-header {
+  opacity: 1 !important;
+}
+
+#viewer-img {
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+.viewer-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 10px 25px;
+  background-color: #2A3647B2;
+  opacity: 0;
+}
+
+.viewer-container header h2 {
+  color: white;
+  font-size: 14px;
+  font-weight: 400;
+  width: 50%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.viewer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 50%;
+}
+
+.zoom-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.button-24 {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.button-32 {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.button-40 {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.button-24 img {
+  width: 16px;
+  height: 16px;
+}
+
+.button-32:hover img,
+.button-24:hover img {
+  height: 16px;
+}
+
+
+.button-24:hover,
+.button-32:hover,
+.button-40:hover {
+  background-color: #29ABE2;
+}
+
+.viewer-actions-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+
+.prev-btn {
+  position: absolute;
+  top: 50%;
+  left: 28px;
+  transform: translateY(-50%);
+  background-color: #EEEEEE;
+  opacity: 0;
+}
+
+.next-btn {
+  position: absolute;
+  transform: rotate(180deg) translateY(+50%);
+  top: 50%;
+  right: 28px;
+  background-color: #EEEEEE;
+  opacity: 0;
+}
+
+.prev-btn:hover img,
+.next-btn:hover img {
+  filter: brightness(0) saturate(100%) invert(100%);
+}
+
+
+@keyframes slide-up {
+  from {
+    transform: translateY(125%);
+  }
+
+  to {
+    transform: translateY(0%);
+  }
+}
+
+.slide-down {
+  animation: slide-down 0.3s ease;
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(0%);
+  }
+
+  to {
+    transform: translateY(125%);
+  }
+}
+
+.slide-in-right {
+  animation: slide-in-right 0.3s ease;
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0%);
+  }
+}
+
+.slide-in-left {
+  animation: slide-in-left 0.3s ease;
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0%);
+  }
+}
+
+
+@media screen and (max-width: 560px) {
+  .image-viewer-dialog {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 30px;
+    max-width: none;
+    max-height: none;
+  }
+
+  #viewer-img {
+    height: 100%;
+    width: auto;
+  }
+
+  .viewer-header {
+    background-color: #29ABE2;
+    opacity: 1;
+    padding: 16px 14px;
+    height: 64px;
+  }
+
+  .viewer-container header h2 {
+    margin-left: 4px;
+    font-size: 16px;
+    width: 80%;
+  }
+
+  .viewer-actions {
+    width: fit-content;
+  }
+
+  .zoom-buttons {
+    position: fixed;
+    bottom: 14px;
+    gap: 16px;
+    left: calc(50% - 40px)
+  }
+
+  .zoom-buttons .button-24 {
+    width: 32px;
+    height: 32px;
+  }
+
+  .zoom-buttons .button-24 img {
+    width: 23.5px;
+    height: 23.5px;
+  }
+
+  .viewer-actions-buttons {
+    gap: 16px;
+  }
+
+  .viewer-actions-buttons .button-32 {
+    width: 24px;
+    height: 24px;
+  }
+
+  .viewer-actions-buttons .button-32 img {
+    width: 22px;
+  }
+
+  .viewer-actions-buttons .button-40 {
+    width: 32px;
+    height: 32px;
+  }
+
+  .next-btn,
+  .prev-btn {
+    bottom: 0;
+    top: unset;
+    opacity: 1;
+    z-index: 3;
+  }
+
+
+  .image-viewer-dialog footer {
+    background-color: #29ABE2;
+    width: 100%;
+    height: 60px;
+    position: absolute;
+    bottom: 0;
+  }
+}

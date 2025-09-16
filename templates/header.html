@@ -1,0 +1,47 @@
+<header class="header">
+    <div class="header-content">
+        <img class="header-logo" src="../assets/images/logos/logo-black.svg" alt="Join Logo">
+        <p class="header-slogan">Kanban Project Management Tool</p>
+        <div id="header-actions" class="header-actions">
+            <div class="help-icon">
+                <a href="help.html">
+                    <img id="help-icon" src="../assets/images/components/header/help.svg" alt="Help">
+                </a>
+            </div>
+            <button onclick="openSubMenu()" id="header-avatar" class="header-avatar" aria-haspopup="dialog"
+                aria-controls="sub-menu" aria-label="Open user menu">
+            </button>
+        </div>
+    </div>
+
+    <dialog id="sub-menu" class="sub-menu"  aria-label="User menu">
+        <nav>
+            <ul>
+                <li><button onclick=" openPopup('my-account', currentUser)">
+                        <span>Account</span>
+                    </button>
+                </li>
+                <li class="help-link"><a href="help.html">
+                        <span>Help</span>
+                    </a>
+                </li>
+                <li><a href="legal-notice.html">
+                        <span>Legal Notice</span>
+                    </a>
+                </li>
+                <li><a href="privacy-policy.html">
+                        <span>Privacy Policy</span>
+                    </a>
+                </li>
+                <li><button onclick="logOut()">
+                        <span>Log Out</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </dialog>
+</header>
+
+<div class="landscape-warning d-flex-center d-none" id="landscape-warning" role="alert" aria-live="assertive">
+    Please rotate your device to portrait mode for the best experience.
+</div>

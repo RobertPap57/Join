@@ -1,0 +1,90 @@
+<dialog id="popup-dialog" class="popup-dialog popup-close" aria-modal="true" aria-labelledby="popup-title">
+    <header class="popup-banner">
+        <button type="button" onclick="closePopup()" aria-label="Close" class="close-popup-btn-mobile d-flex-center">
+            <img src="../assets/images/global/close-white.svg" alt="">
+        </button>
+        <img class="popup-logo" src="../assets/images/logos/logo-white.svg" alt="Logo">
+        <div class="popup-banner-content" id="popup-title">
+        </div>
+    </header>
+    <section class="popup-content">
+        <button type="button" onclick="closePopup()" aria-label="Close" class="close-popup-btn d-flex-center">
+            <img src="../assets/images/global/close.svg" alt="">
+        </button>
+        <div class="popup-content-container">
+            <div class="popup-profile-container">
+                <div class="profile-avatar d-flex-center" id="popup-profile-img">
+                </div>
+                <button type="button" class="popup-upload-btn d-flex-center" id="popup-upload-btn"
+                    onclick="openFilePicker(event)" aria-label="Upload photo">
+                    <img src="../assets/images/components/popup/photo.svg" alt="">
+                    <input type="file" name="file-picker" id="file-picker" hidden
+                        accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+                </button>
+            </div>
+            <div class="popup-form">
+                <form id="popup-form" onsubmit="handleSubmit(event)" novalidate>
+                    <div class="popup-input">
+                        <input id="name" type="text" name="name" placeholder="Name" aria-label="Name"
+                            aria-describedby="name-validation-msg" aria-required="true">
+                        <div class="popup-icon-container d-flex-center">
+                            <img src="../assets/images/components/inputs/person.svg" alt="">
+                        </div>
+                        <p class="validation-msg" hidden aria-live="assertive" id="name-validation-msg">This field is
+                            requered
+                        </p>
+                    </div>
+                    <div class="popup-input">
+                        <input id="email" type="email" name="email" placeholder="Email" aria-label="Email"
+                            aria-describedby="email-validation-msg" aria-required="true">
+                        <div class="popup-icon-container d-flex-center">
+                            <img src="../assets/images/components/inputs/mail.svg" alt="">
+                        </div>
+                        <p class="validation-msg" hidden aria-live="assertive" id="email-validation-msg"></p>
+                    </div>
+                    <div class="popup-input">
+                        <input id="phone" type="tel" name="phone" placeholder="Phone" aria-label="Phone"
+                            aria-describedby="phone-validation-msg" aria-required="true">
+                        <div class="popup-icon-container d-flex-center">
+                            <img src="../assets/images/components/inputs/call.svg" alt="">
+                        </div>
+                        <p class="validation-msg" hidden aria-live="assertive" id="phone-validation-msg"></p>
+                    </div>
+                </form>
+                <footer class="popup-btns">
+                    <button type="button" class="secondary-btn d-flex-center popup-mobile-btn-padding "
+                        id="popup-secondary-btn">
+                    </button>
+                    <button type="submit" form="popup-form" class="primary-btn d-flex-center popup-mobile-btn-padding "
+                        id="popup-primary-btn">
+                    </button>
+                </footer>
+            </div>
+        </div>
+    </section>
+</dialog>
+
+<dialog class="error-dialog" id="error-dialog" aria-labelledby="error-title" aria-modal="true">
+    <p id="error-title">This file format is not allowed!<br>
+        <span>You can only upload JPEG or PNG.</span>
+    </p>
+    <button type="button" class="close-error-btn close-btn d-flex-center" aria-label="Close"
+        onclick="closeToastDialog('errorDialog')">
+        <img src="../assets/images/global/close-white.svg" alt="">
+    </button>
+</dialog>
+
+<dialog class="warning-dialog" id="warning-dialog" aria-labelledby="warning-title" aria-modal="true">
+    <button class="close-warning-btn close-btn d-flex-center" aria-label="Close"
+        onclick="closeToastDialog('warningDialog')">
+        <img src="../assets/images/global/close.svg" alt="close">
+    </button>
+    <img class="warning-img" src="../assets/images/components/popup/warning.svg" alt="Warning">
+    <p id="warning-title">Are you sure u want <br>to delete your account? </p>
+    <div class="warning-btns">
+        <button type="button" id="delete-acc-btn" class="secondary-btn warning-btn d-flex-center"
+            aria-label="Confirm delete account">Yes</button>
+        <button type="button" onclick="closeToastDialog('warningDialog')" class="primary-btn warning-btn d-flex-center"
+            aria-label="Cancel delete account">No</button>
+    </div>
+</dialog>

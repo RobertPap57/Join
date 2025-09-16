@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link id="favicon" rel="icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/components/header.css" />
+    <link rel="stylesheet" href="../css/components/nav.css" />
+    <link rel="stylesheet" href="../css/pages/summary/summary.css" />
+    <link rel="stylesheet" href="../css/pages/summary/summary-responsive.css" />
+    <link rel="stylesheet" href="../css/components/popup/popup.css" />
+    <link rel="stylesheet" href="../css/components/popup/popup-responsive.css" />
+    <script src="../js/script.js"></script>
+    <script src="../js/components/header.js"></script>
+    <script src="../js/components/nav.js"></script>
+    <script src="../js/components/popup.js"></script>
+    <script src="../js/pages/summary.js"></script>
+    <script src="../js/utils/reset-dummydata.js"></script>
+    <script src="../js/utils/image-handler.js"></script>
+    <script src="../js/utils/form-validation.js"></script>
+    <title>Summary</title>
+</head>
+
+<body onload="initSummary()">
+    <div w3-include-html="../templates/header.html"></div>
+    <div w3-include-html="../templates/nav.html"></div>
+    <div w3-include-html="../templates/popup.html"></div>
+    <div class="main-wrapper">
+        <main class="main">
+            <header class="main-header d-flex-center">
+                <h1>Join 360</h1>
+                <span class="separator"></span>
+                <p>Key Metrics at a Glance</p>
+            </header>
+            <section class="main-content">
+                <ul class="summary-list" aria-label="Summary List">
+                    <li>
+                        <a href="board.html" class="d-flex-center">
+                            <img id="to-do-icon" src="" alt="">
+                            <div class="d-flex-center">
+                                <span id="to-do"></span>
+                                <p>To-do</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="board.html" class="d-flex-center">
+                            <img id="done-icon" src="" alt="">
+                            <div class="d-flex-center">
+                                <span id="done"></span>
+                                <p>Done</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="board.html" class="d-flex-center urgent-link">
+                            <div class="d-flex-center urgent-container">
+                                <img id="urgent-icon" src="" alt="">
+                                <div class="d-flex-center">
+                                    <span id="urgent"></span>
+                                    <p>Urgent</p>
+                                </div>
+                            </div>
+                            <span class="separator"></span>
+                            <div class="d-flex-center upcoming-deadline-container">
+                                <span id="upcoming-deadline"></span>
+                                <p>Upcoming Deadline</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="board.html" class="d-flex-center">
+                            <div class="d-flex-center">
+                                <span id="tasks"></span>
+                                <p>Tasks in Board</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="board.html" class="d-flex-center">
+                            <div class="d-flex-center">
+                                <span id="in-progress"></span>
+                                <p>Tasks in Progress</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="board.html" class="d-flex-center">
+                            <div class="d-flex-center">
+                                <span id="await-feedback"></span>
+                                <p>Awaiting Feedback</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <aside id="greeting" class="greeting">
+                    <p id="greeting-message"></p>
+                    <span id="user-name"></span>
+                </aside>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>

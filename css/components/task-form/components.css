@@ -1,0 +1,279 @@
+
+.form-input {
+    border-radius: 10px;
+    padding: 12px 16px;
+    border: 1px solid #D1D1D1;
+    font-family: inherit;
+    font-size: 20px;
+    height: 48px;
+    cursor: pointer;
+}
+
+.title-input-padding {
+    padding: 12px 21px !important;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #29ABE2;
+}
+
+.placeholder-color::placeholder {
+    color: #D1D1D1;
+}
+
+.back-placeholder::placeholder {
+    color: black;
+    opacity: 1;
+}
+
+.required::after {
+    content: "*";
+    color: #FF8190;
+}
+
+.input-required-border {
+    border-color: #FF8190;
+}
+
+
+.category-required-border {
+    border: 1px solid #FF8190 !important;
+}
+
+.dropdown-container {
+    position: relative;
+}
+
+.select-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 48px;
+    padding: 12px 16px;
+    margin-bottom: 4px;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    background-color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+    z-index: 3;
+}
+
+.blue-border {
+    border-color: #29ABE2;
+}
+
+.select-btn-input {
+    border: unset;
+    width: 100%;
+    height: 100%;
+    font-size: 20px;
+}
+
+.select-btn-input:focus {
+    outline: none;
+}
+
+.select-btn .arrow-down {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 24px;
+    width: 24px;
+    transition: 125ms;
+    border-radius: 50%;
+}
+
+.select-btn .arrow-down:hover {
+    background-color: #EEEEEE;
+}
+
+.select-btn.show-menu .arrow-down {
+    transform: rotate(-180deg);
+}
+
+.list-items {
+    width: 100%;
+    max-height: 294px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 0 0 10px 10px;
+    border: 1px solid #D1D1D1;
+    border-top: none;
+    display: none;
+    font-size: 20px;
+    flex-direction: column;
+    margin-top: -10px;
+    padding-top: 6px;
+}
+
+
+.select-btn.show-menu~.list-items {
+    display: flex;
+}
+
+.list-items .list-item {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 16px;
+    height: 56px;
+    transition: 125ms;
+    cursor: pointer;
+}
+
+
+.list-items .list-item:hover {
+    background-color: #EEEEEE;
+    border-radius: 10px;
+}
+
+.list-item-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.selected-contacts-list {
+    padding-top: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.cicle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #9747FF;
+    color: #fff;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    width: 42px;
+    height: 42px;
+    font-size: 12px;
+}
+
+.list-item.checked {
+    background-color: #2A3647;
+    color: white;
+    border-radius: 10px;
+}
+
+.list-item.checked:hover {
+    background-color: #091931;
+}
+
+.list-items.category {
+    height: auto;
+}
+
+.list-item.category {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    height: 48px;
+    transition: 125ms;
+    cursor: pointer;
+}
+
+.list-item.category:hover {
+    background-color: #EEEEEE;
+    border-radius: 10px;
+}
+
+textarea {
+    padding: 18px 16px;
+    height: 120px;
+    min-height: 88px;
+    max-height: 450px;
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+    font-family: inherit;
+    font-size: 20px;
+    cursor: pointer;
+    resize: none;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #29ABE2;
+}
+
+label {
+    font-size: 20px;
+    color: #2A3647;
+    
+}
+
+.form-group-label {
+    font-size: 20px;
+    font-weight: 400;
+    color: #2A3647;
+}
+
+
+
+@media screen and (max-width: 560px) {
+    .list-item.category {
+        height: 43px;
+    }
+
+    label,
+    .list-item,
+    .form-input,
+    textarea,
+    .select-btn-input,
+    .btn-text,
+    .form-group-label {
+        font-size: 16px;
+    }
+
+    .title-input-padding {
+        padding: 10px 21px !important;
+        height: 40px !important;
+    }
+
+    textarea {
+        height: 88px;
+        padding: 18px 21px;
+    }
+
+    .due-date-input-mobile {
+        height: 40px;
+        padding: 10.5px 21px;
+    }
+}
+
+
+.custom-resize-handle {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 18px;
+    height: 18px;
+    cursor: ns-resize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 0 0 10px 0;
+    padding: 10px 10px 10px 10px;
+}
+
+.custom-resize-handle img {
+    width: 18px;
+    height: 18px;
+    opacity: 1;
+    pointer-events: none;
+}
+
+.resizing {
+    user-select: none;
+    cursor: ns-resize !important;
+}
