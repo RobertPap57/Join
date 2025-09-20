@@ -1,0 +1,36 @@
+<form class="auth-form" id="auth-form" onsubmit="handleAuthSubmith(event)" novalidate>
+    <header>
+        <h1 id="auth-card-title"></h1>
+        <span class="separator"></span>
+    </header>
+    <section class="inputs-section">
+        <div class="input-container">
+            <input id="email" type="email" name="email" placeholder="Email" aria-label="Email"
+                aria-describedby="email-validation-msg" aria-required="true">
+            <div class="popup-icon-container d-flex-center">
+                <img src="../assets/images/components/inputs/person.svg" alt="">
+            </div>
+            <p class="validation-msg" hidden aria-live="assertive" id="email-validation-msg">This field is
+                requered
+            </p>
+        </div>
+        <div class="input-container">
+            <input id="password" type="password" name="password" placeholder="Password" aria-label="Password"
+                aria-describedby="password-validation-msg" aria-required="true">
+            <div class="popup-icon-container d-flex-center">
+                <img src="../assets/images/components/inputs/person.svg" alt="">
+            </div>
+            <p class="validation-msg" hidden aria-live="assertive" id="password-validation-msg">This field is
+                requered
+            </p>
+        </div>
+    </section>
+    <footer class="form-buttons">
+        <button type="submit" form="auth-form" class="primary-btn d-flex-center"
+            id="auth-primary-btn">
+        </button>
+        <button type="button" class="secondary-btn d-flex-center" id="auth-secondary-btn">
+        </button>
+    </footer>
+
+</form>
