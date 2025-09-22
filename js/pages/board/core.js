@@ -1,4 +1,3 @@
-
 let searchQuery = '';
 const containerIds = ['to-do', 'in-progress', 'await-feedback', 'done'];
 let selectedContainerIndex = null;
@@ -7,14 +6,12 @@ let draggedTaskStatus = null;
 let ghostElement = null;
 let cardDisabled = false;
 
-
-
 /**
  * Initializes the board page with necessary setup and data loading.
  */
 async function initBoard() {
     await includeHTML();
-    checkOrientation();
+    checkScreenOrientation();
     checkForCurrentUser() ? "" : redirectTo('login.html');
     initHeader();
     highlightLink('board');
@@ -28,8 +25,6 @@ async function initBoard() {
     enableAutoScrollOnDrag();
     preventFormSubmitOnEnter();
 }
-
-
 
 /**
  * Adjusts the horizontal alignment and padding of task containers on mobile screens.
@@ -47,8 +42,6 @@ function alignCardsMobile() {
     });
 }
 
-
-
 /**
  * Prevents drag events on all elements with the 'download-attachment-btn' class.
  * This disables dragging for download buttons to avoid unintended behavior.
@@ -60,9 +53,6 @@ function blockDragOnDownloadBtn() {
         });
     });
 }
-
-
-
 
 /**
  * Returns the color code associated with a given category.
@@ -99,12 +89,10 @@ function generateProgressHTML(task) {
  */
 function generateAssignedAvatarsHTML(assignedToIds, taskId, context) {
     if (!assignedToIds || assignedToIds.length === 0) return '';
-
     const maxVisible = 6;
     const html = assignedToIds.map((id, index) =>
         createAvatarDiv(id, taskId, context, index, maxVisible)
     ).join('');
-
     const hasOverflow = context === 'card' && assignedToIds.length > maxVisible;
     return hasOverflow ? html + createOverflowAvatar(assignedToIds.length - maxVisible, maxVisible) : html;
 }
@@ -123,13 +111,11 @@ function createAvatarDiv(contactId, taskId, context, index, maxVisible) {
     const uniqueId = `task-${taskId}-assignedTo-${contactId}-${context}`;
     let classes = 'profile-avatar-small d-flex-center';
     let style = '';
-
     if (context === 'card') {
         classes += ' task-card-avatar';
         style = `left: ${index * 24}px;`;
         if (index >= maxVisible) classes += ' d-none';
     }
-
     return `<li id="${uniqueId}" class="${classes}" style="${style}"></li>`;
 }
 
@@ -143,7 +129,6 @@ function createAvatarDiv(contactId, taskId, context, index, maxVisible) {
 function createOverflowAvatar(remaining, positionIndex) {
     const style = `left: ${positionIndex * 24}px; background-color: #d1d1d1;`;
     const classes = 'profile-avatar-small d-flex-center task-card-avatar';
-
     return `<div class="${classes}" style="${style}">+${remaining}</div>`;
 }
 
@@ -193,8 +178,6 @@ function clearTaskContainers() {
     });
 }
 
-
-
 /**
  * Shows empty message for containers that have no task cards.
  */
@@ -224,7 +207,6 @@ function renderTaskInContainer(task) {
     }
 }
 
-
 /**
  * Renders profile avatars for each contact assigned to a task.
  *
@@ -244,15 +226,16 @@ function renderTaskAvatars(task, context) {
     });
 }
 
-
-
-
 function enableLongHoldDetection(element) {
     if (!element) return;
-    if (window.matchMedia("(pointer: coarse)").matches) {
+    if (window.matchMedia("(pointer: coarse)").matches || window.innerWidth <= 1400) {
         bindEventListenerOnce(element, "touchstart", startHold, "longHold");
         bindEventListenerOnce(element, "touchend", endHold, "longHold");
         bindEventListenerOnce(element, "touchmove", endHoldIfMoving, "longHold");
+        bindEventListenerOnce(element, 'mousedown', startHold, 'longHold');
+        bindEventListenerOnce(element, 'mouseup', endHold, 'longHold');
+        bindEventListenerOnce(element, 'mouseleave', endHold, 'longHold');
+        bindEventListenerOnce(element, 'mousemove', endHoldIfMoving, 'longHold');
     }
 }
 
@@ -303,7 +286,6 @@ function setupBoardEventsListeners() {
         const container = document.getElementById(containerId);
         setupDragAndDrop(container, null);
     });
-
     const taskCards = document.querySelectorAll('.task-card');
     taskCards.forEach(card => {
         setupDragAndDrop(null, card);
@@ -312,9 +294,6 @@ function setupBoardEventsListeners() {
         setupTouchDragAndDrop(card);
     });
 }
-
-
-
 
 function setupOpenTaskCardListeners(card) {
     bindEventListenerOnce(card, 'mouseup', () => openDetailedTaskView(card.dataset.taskId), 'openTaskCard');
@@ -326,10 +305,6 @@ function setupOpenTaskCardListeners(card) {
         }
     }, 'openTaskCard');
 }
-
-
-
-
 
 function setupDragAndDrop(container, card) {
     if (container) {

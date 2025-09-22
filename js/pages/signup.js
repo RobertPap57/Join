@@ -13,7 +13,7 @@ async function initSignUp() {
     changePasswordIcon('password__confirm');
     disableSignupButtonIfFormIsEmpty();
     deleteMessageThatPasswordsDontMatch();
-    checkOrientation();
+    checkScreenOrientation();
     preventFormSubmitOnEnter();
 }
 

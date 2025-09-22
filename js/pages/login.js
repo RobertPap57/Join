@@ -18,7 +18,7 @@ async function initLogin() {
     changePasswordIcon();
     disableLoginButtonIfFormIsEmpty();
     logInIsCorrected();
-    checkOrientation();
+    checkScreenOrientation();
     preventFormSubmitOnEnter();
 }
 

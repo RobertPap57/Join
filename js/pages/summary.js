@@ -13,7 +13,7 @@ const summaryIcons = [
 async function initSummary() {
   checkForCurrentUser() ? checkForGreeting() : redirectTo('login.html');
   await includeHTML();
-  checkOrientation();
+  checkScreenOrientation();
   initHeader();
   highlightLink('summary');
   await getTasks();

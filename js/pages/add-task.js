@@ -8,7 +8,7 @@
  */
 async function initAddTask() {
     await includeHTML();
-    checkOrientation();
+    checkScreenOrientation();
     checkForCurrentUser() ? "" : redirectTo('login.html');
     initHeader();
     highlightLink('add-task');

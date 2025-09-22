@@ -8,7 +8,7 @@
  */
 async function initContacts() {
     await includeHTML();
-    checkOrientation();
+    checkScreenOrientation();
     checkForCurrentUser() ? "" : redirectTo('login.html');
     initHeader();
     highlightLink('contacts');

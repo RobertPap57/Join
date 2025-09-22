@@ -130,27 +130,42 @@ function goBack() {
 }
 
 /**
- * Checks the screen orientation and toggles a warning element if in landscape on small screens.
+ * Determines if the current device is a mobile or tablet.
+ * @returns {boolean} True if the device is a mobile or tablet, otherwise false.
  */
-function checkOrientation() {
-	const warning = document.getElementById('landscape-warning');
-	if (!warning) return;
-	const isSmallScreen = window.innerWidth < 933;
-	const isLandscape = window.innerWidth > window.innerHeight;
-	if (isSmallScreen && isLandscape) {
-		warning.classList.remove('d-none');
-	} else {
-		warning.classList.add('d-none');
-	}
+function isMobileOrTablet() {
+	const ua = navigator.userAgent;
+	const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+	const isSmallScreen = Math.min(window.screen.width, window.screen.height) <= 1280;
+	const isMobileOS = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
+
+	return isTouchDevice && (isMobileOS || isSmallScreen);
 }
 
 /**
- * Adds event listeners to check orientation on window load and resize.
-*/
-document.addEventListener('DOMContentLoaded', () => {
-	checkOrientation();
-	window.addEventListener('resize', checkOrientation);
-});
+ * Checks if the current window orientation is landscape.
+ * @returns {boolean} True if the orientation is landscape, otherwise false.
+ */
+function isLandscape() {
+	return window.matchMedia("(orientation: landscape)").matches;
+}
+
+/**
+ * Shows or hides the "portrait-warning" overlay based on device type and screen orientation.
+ * Displays the overlay if on a mobile/tablet device in landscape mode.
+ */
+function checkScreenOrientation() {
+	const overlay = document.getElementById("landscape-warning");
+	if (!overlay) return;
+	if (isMobileOrTablet() && isLandscape()) {
+		overlay.classList.remove("d-none");
+	} else {
+		overlay.classList.add("d-none");
+	}
+}
+
+window.addEventListener('resize', checkScreenOrientation);
+window.addEventListener("orientationchange", checkScreenOrientation);
 
 /**
  * Generates a unique identifier string based on the current timestamp and a random component.

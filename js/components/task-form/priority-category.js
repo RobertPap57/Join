@@ -203,7 +203,7 @@ function setupCategorySelection(listItems, selectBtnCategory, categoryDisplayed)
  * @param {Element} categoryList - Category list element
  */
 function addCategoryDropdownOutsideListener(selectBtnCategory, categoryList) {
-    const handler = (event) => {
+    bindEventListenerOnce(document, 'click', (event) => {
         if (event.target.closest('#category-container') || event.target.closest('#category-btn')) {
             return;
         }
@@ -212,8 +212,7 @@ function addCategoryDropdownOutsideListener(selectBtnCategory, categoryList) {
             selectBtnCategory.classList.remove('show-menu');
             selectBtnCategory.ariaExpanded = "false";
         }
-    };
-    bindEventListenerOnce(document, 'click', handler, 'categoryOutsideClick');
+    }, 'categoryOutsideClick');
 }
 
 /**

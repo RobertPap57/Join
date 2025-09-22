@@ -32,7 +32,7 @@ async function initPrivacyPolicy() {
  */
 async function initHelp() {
     await includeHTML();
-    checkOrientation();
+    checkScreenOrientation();
     hideHelpIcon();
     checkForCurrentUser() ? null : redirectTo('login.html');
     initHeader();
