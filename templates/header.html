@@ -1,5 +1,5 @@
 <header class="header">
-    <div class="header-content">
+    <section class="header-content">
         <img class="header-logo" src="../assets/images/logos/logo-black.svg" alt="Join Logo">
         <p class="header-slogan">Kanban Project Management Tool</p>
         <div id="header-actions" class="header-actions">
@@ -12,9 +12,9 @@
                 aria-controls="sub-menu" aria-label="Open user menu">
             </button>
         </div>
-    </div>
+    </section>
 
-    <dialog id="sub-menu" class="sub-menu"  aria-label="User menu">
+    <dialog id="sub-menu" class="sub-menu" aria-label="User menu">
         <nav>
             <ul>
                 <li><button onclick=" openPopup('my-account', currentUser)">
@@ -42,6 +42,7 @@
     </dialog>
 </header>
 
-<div class="landscape-warning d-flex-center d-none" id="landscape-warning" role="alert" aria-live="assertive">
+<section class="landscape-warning d-flex-center d-none" id="landscape-warning" role="alert" aria-live="assertive"
+    aria-label="Device orientation warning">
     Please rotate your device to portrait mode for the best experience.
-</div>
+</section>

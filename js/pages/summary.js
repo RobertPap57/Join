@@ -131,11 +131,11 @@ function renderUpcomingDeadline() {
  */
 function updateIconSrc(img, basePath, state = '') {
   let newSrc = basePath;
-  if (img.id !== 'urgent-icon' && window.innerWidth < 767) {
+  if (img.id !== 'urgent-icon' && window.innerWidth < 768) {
     newSrc = newSrc.replace(/\.svg$/, '-mobile.svg');
   }
   if (state === 'hover') {
-    if (img.id !== 'urgent-icon' && window.innerWidth < 767) {
+    if (img.id !== 'urgent-icon' && window.innerWidth < 768) {
       newSrc = basePath.replace(/\.svg$/, '-mobile-hover.svg');
     } else if (img.id !== 'urgent-icon') {
       newSrc = basePath.replace(/\.svg$/, '-hover.svg');

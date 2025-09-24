@@ -102,14 +102,12 @@ function loadCurrentUser() {
 function checkForCurrentUser() {
 	const userString = sessionStorage.getItem('currentUser');
 	if (!userString) {
-		console.warn('No current user exists - please log in or sign up');
 		return false;
 	}
 	try {
 		const userJSON = JSON.parse(userString);
 		return true;
 	} catch (error) {
-		console.error('Error parsing JSON from Session Storage', error);
 		return false;
 	}
 }
