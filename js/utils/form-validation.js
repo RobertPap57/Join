@@ -23,11 +23,24 @@ const validationMessages = {
         invalid: 'Phone number not valid (e.g. +49 123 4567890)',
     },
     password: {
-        required: 'Check your email and password. Please try again.',
+        required: 'Please enter a password.',
         invalid: 'Password can only include letters, numbers, and special characters',
-        dontMatch: 'Your passwords don\'t match. Please try again.'
+        dontMatch: 'Your passwords don\'t match. Please try again.',
+        loginFail: 'Check your email and password. Please try again.',
+
     }
 };
+
+function getValidationElements() {
+    return {
+        name: document.getElementById('name'),
+        email: document.getElementById('email'),
+        phone: document.getElementById('phone'),
+        password: document.getElementById('password'),
+        confirmPassword: document.getElementById('confirm-password'),
+        validationBtn: document.querySelector('button[type="submit"]')
+    };
+}
 
 /**
  * Initializes form validation by setting up elements and listeners.
@@ -50,17 +63,6 @@ function clearFormValidation() {
  * Gets validation elements from the DOM.
  * @returns {Object} Object containing form validation elements.
  */
-function getValidationElements() {
-    return {
-        name: document.getElementById('name'),
-        email: document.getElementById('email'),
-        phone: document.getElementById('phone'),
-        password: document.getElementById('password'),
-        confirmPassword: document.getElementById('confirm-password'),
-        validationMsg: document.querySelector('.validation-msg'),
-        validationBtn: document.querySelector('.primary-btn')
-    };
-}
 
 /**
  * Restricts telephone input fields to only allow valid phone number characters.
@@ -330,6 +332,22 @@ function areInputsEmpty() {
     return inputs.some(inputName => {
         const input = validationElements[inputName];
         if (!input) return false;
+        const wrapper = input.parentElement;
+        if (!wrapper || wrapper.offsetParent === null) return false;
         return input.value.trim() === '';
     });
 }
+
+/**
+ * Highlights email and password fields with an error color and displays a login failure message.
+ */
+function showLoginValidationError() {
+    validationElements.email.style.borderColor = '#FF8190';
+    validationElements.password.style.borderColor = '#FF8190';
+    const passwordMsg = document.getElementById(`${validationElements.password.id}-validation-msg`);
+    if (passwordMsg) {
+        passwordMsg.textContent = validationMessages.password.loginFail;
+        passwordMsg.hidden = false;
+    }
+}
+
