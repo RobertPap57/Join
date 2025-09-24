@@ -1,0 +1,221 @@
+main {
+    min-width: 100vw;
+    min-height: 100vh;
+    flex-direction: column;
+    position: relative;
+}
+
+.login-header img {
+    position: fixed;
+    top: 80px;
+    left: 77px;
+    width: 100px;
+    height: 122px;
+}
+
+.signup-section {
+    position: fixed;
+    top: 67px;
+    right: 122px;
+    gap: 35px;
+}
+
+.ss-mobile {
+    display: none !important;
+}
+
+.signup-section p {
+    font-size: 20px;
+}
+
+.signup-section a {
+    font-size: 16px;
+    height: 49px;
+    padding: 15px 16px;
+}
+
+.login-footer {
+    position: fixed;
+    bottom: 40px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 16px;
+}
+
+.footer-links a {
+    font-size: 16px;
+    width: 121px;
+    height: 35px;
+    color: #A8A8A8;
+}
+
+.w109 {
+    width: 109px !important;
+}
+
+.footer-links a:hover {
+    color: #29ABE2;
+    font-weight: 700;
+}
+
+.intro-overlay {
+    position: fixed;
+    opacity: 0;
+    width: 100vw;
+    height: 100vh;
+    inset: 0 0 0 0;
+    background-color: #F6F7F8;
+    z-index: 100;
+    animation: overlayAnimation 1s ease-in-out;
+}
+
+.intro-logo {
+    position: fixed;
+    top: 141px;
+    left: 127px;
+    height: 122px;
+    width: 100px;
+    z-index: 200;
+    background-image: url("../../../assets/images/logos/logo-black.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    transform: translate(-50%, -50%);
+    animation: logoAnimation 1s ease-in-out;
+}
+
+
+@keyframes overlayAnimation {
+
+    0%,
+    30% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes logoAnimation {
+
+    0%,
+    25% {
+        inset: 50% 0 0 50%;
+        width: 274px;
+        height: 334px;
+
+    }
+
+    100% {
+        top: 141px;
+        left: 127px;
+        height: 122px;
+        width: 100px;
+    }
+}
+
+
+@media screen and (max-width: 1024px) {
+    .login-header img {
+        top: 37px;
+        left: 38px;
+    }
+
+    .signup-section {
+        top: 37px;
+        right: 38px;
+    }
+
+    .intro-logo {
+        top: 98px;
+        left: 88px;
+    }
+
+    @keyframes logoAnimation {
+
+        0%,
+        25% {
+            inset: 50% 0 0 50%;
+            width: 274px;
+            height: 334px;
+
+        }
+
+        100% {
+            top: 98px;
+            left: 88px;
+            height: 122px;
+            width: 100px;
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    main {
+        justify-content: space-between !important;
+        gap: 24px;
+    }
+
+    .login-header {
+        min-height: 119px;
+        width: 100%;
+        padding: 37px 0 0 38px;
+    }
+
+    .login-header img {
+        width: 64px;
+        height: 78px;
+        position: static;
+    }
+
+    .signup-section {
+        display: none;
+    }
+
+    .ss-mobile {
+        display: flex !important;
+        position: static;
+    }
+
+    .login-footer {
+        position: static;
+        flex-direction: column;
+        bottom: 22px;
+        gap: 42px;
+        padding-bottom: 22px;
+    }
+
+    .intro-overlay {
+        background-color: #2A3647;
+    }
+
+    .intro-logo {
+        height: 78px;
+        width: 64px;
+        top: 75px;
+        left: 70px;
+    }
+
+    @keyframes logoAnimation {
+
+        0%,
+        25% {
+            inset: 50% 0 0 50%;
+            width: 100px;
+            height: 122px;
+            background-image: url("../../../assets/images/logos/logo-white.svg");
+
+        }
+
+        100% {
+            height: 78px;
+            width: 64px;
+            top: 75px;
+            left: 70px;
+            background-image: url("../../../assets/images/logos/logo-black.svg");
+        }
+    }
+}
