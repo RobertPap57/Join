@@ -1,14 +1,27 @@
-<form class="auth-form" id="auth-form" onsubmit="handleAuthSubmith(event)" novalidate>
-    <header>
-        <h1 id="auth-card-title"></h1>
+<form class="auth-form" id="auth-form" onsubmit="handleAuthSubmit(event)" data-type="login" novalidate>
+    <button id="back-btn" onclick="goBack()" class="back-arrow" type="button" aria-label="Go back" hidden>
+        <img src="../assets/images/global/left-arrow.svg" alt="">
+    </button>
+    <header class="form-header">
+        <h1 id="auth-form-title">Log in</h1>
         <span class="separator"></span>
     </header>
     <section class="inputs-section">
+        <div class="input-container" hidden>
+            <input id="name" type="text" name="name" placeholder="Name" aria-label="Name"
+                aria-describedby="name-validation-msg" aria-required="true">
+            <div class="icon-container d-flex-center">
+                <img src="../assets/images/components/inputs/person.svg" alt="">
+            </div>
+            <p class="validation-msg" hidden aria-live="assertive" id="name-validation-msg">This field is
+                requered
+            </p>
+        </div>
         <div class="input-container">
             <input id="email" type="email" name="email" placeholder="Email" aria-label="Email"
-                aria-describedby="email-validation-msg" aria-required="true">
-            <div class="popup-icon-container d-flex-center">
-                <img src="../assets/images/components/inputs/person.svg" alt="">
+                aria-describedby="email-validation-msg" aria-required="true" autocomplete="username">
+            <div class="icon-container d-flex-center">
+                <img src="../assets/images/components/inputs/mail.svg" alt="">
             </div>
             <p class="validation-msg" hidden aria-live="assertive" id="email-validation-msg">This field is
                 requered
@@ -16,21 +29,42 @@
         </div>
         <div class="input-container">
             <input id="password" type="password" name="password" placeholder="Password" aria-label="Password"
-                aria-describedby="password-validation-msg" aria-required="true">
-            <div class="popup-icon-container d-flex-center">
-                <img src="../assets/images/components/inputs/person.svg" alt="">
-            </div>
+                aria-describedby="password-validation-msg" aria-required="true" autocomplete="current-password"
+                oninput="toggleVisibitilyBtn('password', 'password-btn')">
+            <button type="button" id="password-btn" class="icon-container d-flex-center" disabled
+                onclick="togglePasswordVisibility('password', 'password-btn')">
+                <img src="../assets/images/components/inputs/lock.svg" alt="">
+            </button>
             <p class="validation-msg" hidden aria-live="assertive" id="password-validation-msg">This field is
                 requered
             </p>
         </div>
+        <div class="input-container" hidden>
+            <input id="confirm-password" type="password" name="confirm-password" placeholder="Confirm Password"
+                aria-label="Confirm password" aria-describedby="confirm-password-validation-msg" aria-required="true"
+                oninput="toggleVisibitilyBtn('confirm-password', 'confirm-password-btn')" autocomplete="new-password">
+            <button type="button" id="confirm-password-btn" class="icon-container d-flex-center" disabled
+                onclick="togglePasswordVisibility('confirm-password', 'confirm-password-btn')">
+                <img src="../assets/images/components/inputs/lock.svg" alt="">
+            </button>
+            <p class="validation-msg" hidden aria-live="assertive" id="confirm-password-validation-msg">This field is
+                requered
+            </p>
+        </div>
     </section>
-    <footer class="form-buttons">
-        <button type="submit" form="auth-form" class="primary-btn d-flex-center"
-            id="auth-primary-btn">
+    <div class="checkbox-container d-flex-center">
+        <button type="button" id="auth-checkbox-btn" class="d-flex-center" role="checkbox" aria-checked="false"
+            aria-labelledby="auth-checkbox-label" onclick="toggleCheckbox()">
+            <img id="auth-checkbox" data-checked="false" src="../assets/images/global/checkbox.svg" />
         </button>
-        <button type="button" class="secondary-btn d-flex-center" id="auth-secondary-btn">
+        <p id="auth-checkbox-label" class="checkbox-label">Remember me</p>
+    </div>
+    <footer class="form-buttons">
+        <button type="submit" form="auth-form" class="primary-btn auth-form-btn d-flex-center" id="auth-primary-btn">Log
+            in
+        </button>
+        <button type="button" class="secondary-btn auth-form-btn d-flex-center" id="auth-secondary-btn"
+            onclick="loginAsGuest()">Guest Log in
         </button>
     </footer>
-
 </form>
