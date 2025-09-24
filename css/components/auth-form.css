@@ -1,0 +1,202 @@
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 48px 115px;
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 0px 0px 14px 3px #0000000A;
+    position: relative;
+}
+
+.form-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+}
+
+.form-header h1 {
+    font-size: 61px;
+    font-weight: 700;
+}
+
+.separator {
+    width: 150px;
+    height: 3px;
+    background-color: #29abe2;
+    border-radius: 10px;
+}
+
+.inputs-section {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding-bottom: 6px;
+}
+
+.input-container {
+    position: relative;
+    width: 422px;
+    height: 48px;
+}
+
+input {
+    all: unset;
+    width: 100%;
+    height: 100%;
+    padding: 12px 48px 12px 21px;
+    border-radius: 10px;
+    border: 1px solid #d1d1d1;
+    font-size: 20px;
+}
+
+input::placeholder {
+    color: #d1d1d1;
+    opacity: 1;
+}
+
+input:focus {
+    outline: none;
+    border-color: #29ABE2;
+}
+
+.icon-container {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 12px;
+    right: 21px;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 35px;
+    justify-content: center;
+}
+
+.auth-form-btn {
+    height: 48px;
+    padding-inline: 24px;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.checkbox-container div {
+    width: 24px;
+    height: 24px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.checkbox-container div:hover {
+    background-color: #EDF2FA;
+}
+
+.checkbox-label {
+    font-size: 16px;
+    color: #2A3647;
+    font-weight: 600;
+}
+
+.checkbox-label-signup {
+    color: #A8A8A8 !important;
+    font-weight: 400 !important;
+}
+
+.checkbox-label-signup a {
+    color: #29ABE2;
+    margin-right: 1.5px;
+}
+.checkbox-label-signup a:hover {
+    text-decoration: underline;
+    font-weight: 500;
+    margin-right: 0;
+}
+
+.back-arrow {
+    position: absolute;
+    padding: 4px 4px 0px 4px;
+    border-radius: 100px;
+    top: 64px;
+    left: 48px;
+}
+
+.back-arrow:hover {
+    cursor: pointer;
+    background-color: rgba(238, 238, 238, 1);
+    transform: scale(1.2);
+}
+
+.back-arrow img {
+    height: 20.74px;
+    width: 21.33px;
+}
+
+
+
+@media screen and (max-width: 767px) {
+    form {
+        width: 396px;
+        padding: 32px 16px;
+    }
+
+    .form-header h1 {
+        font-size: 47px;
+    }
+
+    .separator {
+        width: 88px;
+    }
+
+    .inputs-section {
+        padding-bottom: 22px;
+    }
+
+    .input-container {
+        width: 364px;
+    }
+
+    .form-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 21px;
+    }
+
+    .auth-form-btn {
+        height: 51px;
+        width: 180px;
+        padding-inline: 0;
+        font-size: 16px;
+    }
+
+    .back-arrow {
+        top: 40px;
+        left: 40px;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    form {
+        width: calc(100vw - 32px);
+
+    }
+
+    .input-container {
+        width: 100%;
+    }
+
+    input {
+        font-size: 18px;
+    }
+
+    .back-arrow {
+        left: 16px;
+    }
+}
