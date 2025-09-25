@@ -1,5 +1,6 @@
 let validationElements = {};
 let eventListeners = {};
+let isSingup = false;
 
 const validationMessages = {
     name: {
@@ -94,7 +95,7 @@ function validateEmail() {
     if (!emailRegex.test(email)) {
         return { isValid: false, message: validationMessages.email.invalid };
     }
-    if (users && isEmailTaken()) {
+    if (isSingup && isEmailTaken()) {
         return { isValid: false, message: "This email is already in use." };
     }
     return { isValid: true, message: '' };
@@ -271,6 +272,7 @@ function validateInput(input) {
  */
 function validateForm(form, type) {
     if (type === 'my-account') return true;
+    if (type === 'signup') isSingup = true;
     const inputs = Array.from(form.querySelectorAll('input'));
     let allValid = true;
     for (const input of inputs) {
