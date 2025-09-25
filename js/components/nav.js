@@ -1,8 +1,4 @@
 /**
- * Navigation component functionality and link management
- */
-
-/**
  * Highlights the navigation bar link with the given id.
  * @param {string} link - Id of the link to be highlighted.
  */

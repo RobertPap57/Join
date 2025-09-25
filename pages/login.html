@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -7,19 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link id="favicon" rel="icon" href="../favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/styles.css" />
-    <link rel="stylesheet" href="../css/pages/login.css" />
+    <link rel="stylesheet" href="../css/pages/auth-pages.css" />
     <link rel="stylesheet" href="../css/components/auth-form.css" />
     <script src="../js/script.js"></script>
-    <script src="../js/pages/login.js"></script>
+    <script src="../js/pages/auth-pages.js"></script>
     <script src="../js/utils/form-validation.js"></script>
     <script src="../js/components/auth-form.js"></script>
     <title>Log in</title>
 </head>
 
-<body onload="initLogin()">
+<body onload="initAuthPage('login')">
     <main class="d-flex-center">
         <header class="login-header">
-            <img class="header-logo d-none" src="../assets/images/logos/logo-black.svg" alt="Logo" />
+            <img class="header-logo" src="../assets/images/logos/logo-black.svg" alt="Logo" />
             <section class="signup-section d-flex-center">
                 <p>Not a Join User?</p>
                 <a href="signup.html" class="primary-btn">Sign Up</a>
@@ -39,7 +38,7 @@
             </nav>
         </footer>
     </main>
-    <section aria-hidden="true">
+    <section id="animation-section" class="d-none" aria-hidden="true">
         <div class="intro-overlay"></div>
         <div class="intro-logo" role="img"></div>
     </section>

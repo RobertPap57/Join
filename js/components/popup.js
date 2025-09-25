@@ -89,6 +89,7 @@ async function handleSubmit(event) {
         phone: formData.get('phone')?.trim() || '',
     };
     const type = form.dataset.type;
+    if (!validateForm(form, type)) return;
     await setUpSubmitActions(type, formValues);
 }
 
