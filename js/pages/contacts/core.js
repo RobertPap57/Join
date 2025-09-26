@@ -1,8 +1,4 @@
 /**
- * Core initialization and main logic for Contacts page
- */
-
-/**
  * Initializes the contacts by including HTML, highlighting contacts, reading data, loading tasks, updating header profile initials, and rendering contacts.
  * @returns {Promise<void>} A promise that resolves when all the initialization steps are completed.
  */
@@ -67,7 +63,7 @@ function slideToastMsg() {
     setTimeout(() => {
         container.classList.remove('toast-msg-slide-out');
         container.classList.add('toast-msg-slide-in');
-    }, 500);
+    }, 300);
     setTimeout(() => {
         container.classList.remove('toast-msg-slide-in');
         container.classList.add('toast-msg-slide-out');

@@ -1,22 +1,34 @@
-/**
- * Contact display and UI management functions
- */
+let lastFocusedContact = null;
 
 /**
- * Displays a contact by ID, rendering the contact card in the display area.
- * @param {number} id - The ID of the contact to display.
+ * Displays a contact with the given ID.
+ * @param {number|string} id - The ID of the contact to display.
  */
 function displayContact(id) {
     const contact = contacts.find(contact => contact.id === id);
     if (!contact) return;
-    const contactDetailsContainer = document.getElementById('contact-displayed');
-    contactDetailsContainer.innerHTML = getDisplayContactHtml(contact);
+    lastFocusedContact = id;
+    const container = document.getElementById('contact-displayed');
+    container.innerHTML = getDisplayContactHtml(contact);
     displayProfileAvatar(contact, `displayed-avatar-${contact.id}`);
+    displayContactActions(id, container);
+    container.firstElementChild.focus();
+}
+
+/**
+ * Displays the contact actions for a given contact ID and container.
+ * If the window width is less than or equal to 768, it opens the mobile contact view and initializes the contact menu close events.
+ * Otherwise, it marks the contact as selected and slides the container into view.
+ * @param {number} id - The ID of the contact to display actions for.
+ * @param {HTMLElement} container - The container element to display the contact actions in.
+ */
+function displayContactActions(id, container) {
     if (window.innerWidth <= 768) {
         openMobileContact();
+        initContactMenuCloseEvents();
     } else {
         selectedContact(id);
-        slideContact(contactDetailsContainer);
+        slideContact(container);
     }
 }
 
@@ -100,39 +112,36 @@ function scrollToContact(id) {
  * Opens the contact menu in mobile view.
  */
 function openContactMenu() {
-    const mobileModal = document.getElementById('mobile-modal');
     const contactMenu = document.getElementById('contact-menu');
-    if (mobileModal && contactMenu) {
-        mobileModal.classList.remove('d-none');
-        contactMenu.classList.remove('show');
-        void contactMenu.offsetWidth;
-        contactMenu.classList.add('show');
-    }
+    if (!contactMenu) return;
+    contactMenu.showModal();
+    setTimeout(() => {
+        contactMenu.classList.add('contact-menu-slide-in');
+    }, 10);
 }
 
 /**
  * Closes the contact menu in mobile view.
  */
 function closeContactMenu() {
-    const mobileModal = document.getElementById('mobile-modal');
     const contactMenu = document.getElementById('contact-menu');
-    if (mobileModal && contactMenu) {
-        contactMenu.classList.remove('show');
-        setTimeout(() => {
-            mobileModal.classList.add('d-none');
-        }, 125); 
-    }
+    if (!contactMenu) return;
+    contactMenu.classList.remove('contact-menu-slide-in');
+    setTimeout(() => {
+        contactMenu.close();
+    }, 125);
 }
 
-/**
- * Closes the contact menu when clicking outside of it.
- * @param {Event} event - The click event.
- */
-function closeContactMenuOnClick(event) {
-    const mobileModal = document.getElementById('mobile-modal');
-    if (event.target === mobileModal) {
+function initContactMenuCloseEvents() {
+    const contactMenu = document.getElementById('contact-menu');
+    if (!contactMenu) return;
+    if (contactMenu.dataset.eventsApplied === "true") return;
+    contactMenu.addEventListener('cancel', (event) => {
+        event.preventDefault();
         closeContactMenu();
-    }
+    });
+    closeDialogOnClickOutside(contactMenu, closeContactMenu);
+    contactMenu.dataset.eventsApplied = "true";
 }
 
 /**
@@ -182,6 +191,9 @@ function openMobileContact() {
  */
 function closeMobileContact() {
     document.getElementById('main-container').style.display = 'none';
+    const selectedListItem = document.getElementById(lastFocusedContact);
+    if (!selectedListItem) return;
+    selectedListItem.focus();   
 }
 
 /**
@@ -234,4 +246,11 @@ function adjustMainContainerDisplay() {
 
 window.addEventListener('resize', deselectContactOnMobile);
 window.addEventListener('resize', adjustMainContainerDisplay);
-window.addEventListener('click', closeContactMenuOnClick);
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const selectedListItem = document.getElementById(lastFocusedContact);
+        if (!selectedListItem) return;
+        if (window.innerWidth <= 768) closeMobileContact();
+        else selectedListItem.focus();
+    }
+});

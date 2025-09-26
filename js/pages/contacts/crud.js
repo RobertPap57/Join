@@ -1,8 +1,4 @@
 /**
- * Contact CRUD operations and data management
- */
-
-/**
  * Adds a new contact to the list of contacts by creating a new contact object, saving the contact to the database, and updating the UI after adding the contact.
  * @param {Object} contact - The contact object to be added.
  * @returns {Promise<void>} A promise that resolves when the contact is successfully added.

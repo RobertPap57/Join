@@ -46,7 +46,8 @@
     margin-left: 24px;
 }
 
-.add-contact-btn p {
+.add-contact-btn span {
+    font-weight: 700;
     color: white;
     font-size: 21px;
 }
@@ -110,6 +111,7 @@
 .contact-data {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 5px;
     overflow: hidden;
 }
@@ -118,7 +120,7 @@
     font-size: 20px;
 }
 
-.contact-data a {
+.contact-data span {
     color: rgba(0, 124, 238, 1);
 }
 
@@ -133,7 +135,7 @@ a {
     flex-direction: column;
     gap: 25px;
     width: 100%;
-    height: 100vh;
+    height: max-content;
     padding: 206px 0px 0px 743px;
     max-width: 1440px;
 }
@@ -201,10 +203,7 @@ a {
 .contact-displayed {
     top: 0px;
     left: 0px;
-    transition: transform 125ms ease-in-out;
-    display: flex;
-    flex-direction: column;
-    gap: 21px;
+    transition: transform 75ms ease-out;
     overflow-x: hidden;
 }
 
@@ -220,6 +219,12 @@ a {
 
 .d-flex-visible {
     display: flex;
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
 }
 
 .contact-header {
@@ -271,22 +276,22 @@ a {
     width: 18.28px;
 }
 
-.contact-btns div:hover {
+.contact-btns button:hover {
     cursor: pointer;
     color: #29abe2;
     font-weight: 700;
 }
 
-.contact-btns div:hover img {
+.contact-btns button:hover img {
     filter: invert(45%) sepia(43%) saturate(2123%) hue-rotate(162deg) brightness(95%) contrast(102%);
 }
 
-.contact-info-p {
+.contact-info-heading {
     display: flex;
     align-items: center;
     height: 74px;
     font-size: 20px;
-    margin-left: 7px
+    font-weight: 400;
 }
 
 .contact-info {
@@ -300,10 +305,6 @@ a {
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
-
-.contact-info div p {
-    font-weight: 700;
 }
 
 .contact-info div a {
@@ -338,32 +339,29 @@ a {
     transform: translateX(2000%);
 }
 
-.contact-menu.show {
-    transform: translateX(0);
-}
-
-.mobile-modal {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    z-index: 10;
-    top: 0;
-    left: 0;
-}
-
 .contact-menu {
-    position: fixed;
-    bottom: 100px;
-    right: 10px;
+    inset: auto 10px 100px auto;
+    margin: 0;
+    border: none;
+    transform: translateX(250%);
     width: 116px;
-    display: flex;
     flex-direction: column;
     border-radius: 20px 20px 0px 20px;
     padding: 10px;
     background-color: white;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    transform: translateX(250%);
     transition: transform 125ms ease-out;
+}
+
+.contact-menu[open] {
+    display: flex;
+}
+.contact-menu::backdrop {
+    background-color: transparent;
+}
+
+.contact-menu-slide-in {
+    transform: translateX(0);
 }
 
 .font-w-400 {
