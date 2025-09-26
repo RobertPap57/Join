@@ -61,10 +61,14 @@ function handleIntroAnimation() {
  * Shows the confirmation popup dialog for user registration.
  * The dialog is shown after a short delay to allow for a smooth animation.
  */
-function showConfirmationPopup() {
-    const dialog = document.getElementById('signup-dialog');
-    dialog.showModal();
+function showToastMsg() {
+    const wrapper = document.getElementById('toast-msg-wrapper');
+    const toastMsg = document.querySelector('.toast-msg');
+    const modal = document.querySelector('.toast-modal');
+    wrapper.classList.remove('d-none');
     setTimeout(() => {
-        dialog.classList.add('dialog-slide-in');
-    }, 50);
+        toastMsg.classList.add('toast-msg-slide-in');
+        modal.classList.add('show');
+    }, 10);
+
 };

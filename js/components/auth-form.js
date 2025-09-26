@@ -259,10 +259,10 @@ async function signup({ name, email, password }) {
     const newUser = createNewUser(name, email, password);
     await addData('/users', newUser);
     localStorage.removeItem('currentUser');
-    showConfirmationPopup();
+    showToastMsg();
     setTimeout(() => {
         redirectTo('login.html');
-    }, 1200);
+    }, 1100);
 
 }
 
