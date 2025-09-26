@@ -134,7 +134,7 @@ function goBack() {
 function isMobileOrTablet() {
 	const ua = navigator.userAgent;
 	const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-	const isSmallScreen = Math.min(window.screen.width, window.screen.height) <= 1280;
+	const isSmallScreen = Math.min(window.screen.width, window.screen.height) <= 1024;
 	const isMobileOS = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
 
 	return isTouchDevice && (isMobileOS || isSmallScreen);

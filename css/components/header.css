@@ -100,10 +100,7 @@
 }
 
 .sub-menu {
-    top: 96px;
-    right: 20px;
-    left: auto;
-    bottom: auto;
+    inset: 96px 20px auto auto;
     margin: 0;
     border: none;
     transform: translateX(0);
