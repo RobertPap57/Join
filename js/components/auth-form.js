@@ -258,6 +258,7 @@ async function setUpSubmitActions(type, formInputs) {
 async function signup({ name, email, password }) {
     const newUser = createNewUser(name, email, password);
     await addData('/users', newUser);
+    localStorage.removeItem('currentUser');
     showConfirmationPopup();
     setTimeout(() => {
         redirectTo('login.html');
