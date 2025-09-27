@@ -12,7 +12,7 @@ function displayContact(id) {
     container.innerHTML = getDisplayContactHtml(contact);
     displayProfileAvatar(contact, `displayed-avatar-${contact.id}`);
     displayContactActions(id, container);
-    container.firstElementChild.focus();
+    container.querySelector('h2').focus();
 }
 
 /**

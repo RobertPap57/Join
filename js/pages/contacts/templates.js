@@ -52,13 +52,13 @@ function getContactsSeparatorHtml(letter) {
  */
 function getDisplayContactHtml(contact) {
     return `
-        <article class="contact-details" tabindex="-1">
-        <p class="sr-only">Press Escape to return to the contacts list.</p>
+        <article class="contact-details">
         <header class="contact-header">
             <div class="profile-avatar font-w-400 contact-img-mobile d-flex-center" id="displayed-avatar-${contact.id}" aria-hidden="true">
             </div>
             <div class="contact-name">
-                <h2>${contact.name}</h2>
+                <h2 tabindex="-1">${contact.name}</h2>
+                <p class="sr-only">Press Escape to return to the contacts list.</p>
                 <section class="contact-btns" aria-label="Contact actions">
                     <div>
                         <button type="button" onclick="editContact('${contact.id}')" class="edit-contact">
