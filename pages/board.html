@@ -39,10 +39,6 @@
 
 <body onload="initBoard()">
     <div w3-include-html="../templates/header.html"></div>
-    <div w3-include-html="../templates/nav.html"></div>
-    <div w3-include-html="../templates/popup.html"></div>
-    <div w3-include-html="../templates/image-viewer.html"></div>
-
     <div class="main-wrapper">
         <main class="main">
             <header class="board-header">
@@ -107,7 +103,6 @@
                     </ul>
                 </section>
             </section>
-
             <dialog class="detailed-task-dialog" id="detailed-task-dialog" aria-label="Detailed task view" role="dialog" aria-labelledby="detailed-task-title">
             </dialog>
         </main>
@@ -120,6 +115,9 @@
         </div>
         <div w3-include-html="../templates/task-form.html"></div>
     </dialog>
+    <div w3-include-html="../templates/nav.html"></div>
+    <div w3-include-html="../templates/popup.html"></div>
+    <div w3-include-html="../templates/image-viewer.html"></div>
 </body>
 
 </html>
