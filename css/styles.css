@@ -108,6 +108,7 @@ button {
   margin: 0;
   font: inherit;
   cursor: pointer;
+  transition: all 125ms ease-in-out;
 }
 
 ul {

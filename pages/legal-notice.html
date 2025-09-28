@@ -25,83 +25,89 @@
 <body onload="initLegalNotice()">
     <div w3-include-html="../templates/header.html"></div>
     <main class="text-content">
-        <div>
+        <header>
             <h1>Legal Notice</h1>
             <h2>Imprint</h2>
-        </div>
-        <div>
-            <div class="dots">
-                <div>&bull;</div>
-                <p>Florin-Robert Pap</p>
-            </div>
-            <div class="dots">
-                <div>&bull;</div>
-                <p>Norsinger Str. 15</p>
-            </div>
-            <div class="dots">
-                <div>&bull;</div>
-                <p>79189 Bad Krozingen</p>
-            </div>
-        </div>
-        <div>
-            <h3>Exploring the Bord</h3>
-            <p>Email: <a href="mailto: info@robert-pap.de">info@robert-pap.de</a></p>
-        </div>
-        <div>
-            <h3>Acceptance of terms</h3>
-            <p>By accessing and using <a href="https://www.robert-pap.de/projects/Join">Join</a> (Product), you
-                acknowledge and agree to the following terms and conditions, and any policies, guidelines, or amendments
-                thereto that may be presented to you from time to time. We, the listed students, may update or change
-                the terms and conditions from time to time without notice.</p>
-        </div>
-        <div>
-            <h3>Scope and ownership of the product</h3>
-            <p><a href="https://www.robert-pap.de/projects/Join">Join</a> has been developed as part of a student group
-                project in a web development bootcamp at the <a href="https://developerakademie.com/">Developer Akademie
-                    GmbH</a>. It has an educational purpose and is not intended for extensive personal & business usage.
-                As such, we cannot guarantee consistent availability, reliability, accuracy, or any other aspect of
-                quality regarding this Product.</p>
-        </div>
-        <p>The design of <a href="#">Join</a> is owned by the <a href="https://developerakademie.com/">Developer
-                Akademie GmbH</a>. Unauthorized use, reproduction, modification, distribution, or replication of the
-            design is strictly prohibited.</p>
-        <div>
-            <h3>Proprietary right</h3>
-            <p>Aside from the design owned by <a href="https://developerakademie.com/">Developer Akademie GmbH</a>, we,
-                the listed students, retain all proprietary rights in <a
-                    href="https://www.robert-pap.de/projects/Join">Join</a>, including any associated copyrighted
-                material, trademarks, and other proprietary information.</p>
-        </div>
-        <div>
-            <h3>Use of the Product</h3>
-            <p><a href="https://www.robert-pap.de/projects/Join">Join</a> is intended to be used for lawful purposes
-                only, in accordance with all applicable laws and regulations. Any use of Join for illegal activities, or
-                to harass, harm, threaten, or intimidate another person, is strictly prohibited. You are solely
-                responsible for your interactions with other users of <a
-                    href="https://www.robert-pap.de/projects/Join">Join</a>.</p>
-        </div>
-        <div>
-            <h3>Disclaimer of warranties and limitation of liability</h3>
-            <p><a href="https://www.robert-pap.de/projects/Join">Join</a> is provided "as is" without warranty of any
-                kind, whether express or implied, including but not limited to the implied warranties of
-                merchantability, fitness for a particular purpose, and non-infringement. In no event will we, the listed
-                students, or the Developer Akademie, be liable for any direct, indirect, incidental, special,
-                consequential or exemplary damages, including but not limited to, damages for loss of profits, goodwill,
-                use, data, or other intangible losses, even if we have been advised of the possibility of such damages,
-                arising out of or in connection with the use or performance of <a
-                    href="https://www.robert-pap.de/projects/Join">Join</a>.</p>
-        </div>
-        <div>
-            <h3>Indemnity</h3>
-            <p>You agree to indemnify, defend and hold harmless us, the listed students, the <a
-                    href="https://developerakademie.com/">Developer Akademie</a>, and our affiliates, partners,
-                officers, directors, agents, and employees, from and against any claim, demand, loss, damage, cost, or
-                liability (including reasonable legal fees) arising out of or relating to your use of <a
-                    href="https://www.robert-pap.de/projects/Join">Join</a> and/or your breach of this Legal Notice.</p>
-        </div>
-        <p>For any questions or notices, please contact us at <a
-                href="mailto: info@robert-pap.de">info@robert-pap.de</a>.</p>
-        <p class="end-space">Date: March 8, 2025</p>
+        </header>
+
+        <section aria-labelledby="owner-info">
+            <address>
+                <div class="dots">
+                    <span>&bull;</span>
+                    <p>Florin-Robert Pap</p>
+                </div>
+                <div class="dots">
+                    <span>&bull;</span>
+                    <p>Norsinger Str. 15</p>
+                </div>
+                <div class="dots">
+                    <span>&bull;</span>
+                    <p>79189 Bad Krozingen</p>
+                </div>
+                <div class="dots">
+                    <span>&bull;</span>
+                    <p>Email: <a href="mailto:info@robert-pap.de">info@robert-pap.de</a></p>
+                </div>
+            </address>
+        </section>
+
+        <section aria-labelledby="exploring-board">
+            <h3 id="exploring-board">Exploring the Board</h3>
+            <p>Email: <a href="mailto:info@robert-pap.de">info@robert-pap.de</a></p>
+        </section>
+
+        <section aria-labelledby="acceptance">
+            <h3 id="acceptance">Acceptance of Terms</h3>
+            <p>By accessing and using <span>Join</span> (Product), you
+                acknowledge and agree to the terms and conditions, including any policies, guidelines, or amendments
+                that may be presented from time to time. We, the listed students, may update the terms without notice.
+            </p>
+        </section>
+
+        <section aria-labelledby="scope-ownership">
+            <h3 id="scope-ownership">Scope and Ownership of the Product</h3>
+            <p><span>Join</span> was developed as part of a student project at
+                <a href="https://developerakademie.com/">Developer Akademie GmbH</a>. It is intended for educational
+                purposes and not for extensive personal or business use. We cannot guarantee availability, reliability,
+                or accuracy of the Product.</p>
+            <p>The design of <span>Join</span> is owned by <a href="https://developerakademie.com/">Developer
+                    Akademie GmbH</a>. Unauthorized use, reproduction, modification, distribution, or replication is
+                strictly prohibited.</p>
+        </section>
+
+        <section aria-labelledby="proprietary-right">
+            <h3 id="proprietary-right">Proprietary Rights</h3>
+            <p>Except for the design owned by <a href="https://developerakademie.com/">Developer Akademie GmbH</a>, we,
+                the listed students, retain all rights in <span>Join</span>,
+                including copyrighted material, trademarks, and other proprietary information.</p>
+        </section>
+
+        <section aria-labelledby="use-product">
+            <h3 id="use-product">Use of the Product</h3>
+            <p><span>Join</span> may only be used lawfully. Illegal activities,
+                harassment, or harm to others are strictly prohibited. You are responsible for your interactions with
+                other users.</p>
+        </section>
+
+        <section aria-labelledby="disclaimer">
+            <h3 id="disclaimer">Disclaimer of Warranties and Limitation of Liability</h3>
+            <p><span>Join</span> is provided "as is" without warranty of any
+                kind. We, the students, or the Developer Akademie are not liable for direct, indirect, incidental,
+                special, consequential, or exemplary damages, even if advised of the possibility of such damages.</p>
+        </section>
+
+        <section aria-labelledby="indemnity">
+            <h3 id="indemnity">Indemnity</h3>
+            <p>You agree to indemnify and hold harmless us, the students, the <a
+                    href="https://developerakademie.com/">Developer Akademie</a>, and our affiliates from any claims,
+                losses, damages, costs, or liabilities arising from your use of <span>Join</span> or breach of this Legal Notice.</p>
+        </section>
+
+        <footer class="text-section">
+            <p>For any questions or notices, please contact us at <a
+                    href="mailto:info@robert-pap.de">info@robert-pap.de</a>.</p>
+            <p>Date: <time datetime="2025-03-08">March 8, 2025</time></p>
+        </footer>
     </main>
     <div w3-include-html="../templates/nav.html"></div>
     <div w3-include-html="../templates/popup.html"></div>

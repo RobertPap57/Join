@@ -16,93 +16,211 @@
     <script src="../js/pages/info-pages.js"></script>
     <script src="../js/components/header.js"></script>
     <script src="../js/components/nav.js"></script>
-    <script src="../js/components/popup.js"></script>
     <script src="../js/utils/form-validation.js"></script>
     <script src="../js/utils/image-handler.js"></script>
     <script src="../js/utils/dialog-utils.js"></script>
+    <script src="../js/components/popup.js"></script>
 </head>
 
 <body onload="initHelp()">
     <div w3-include-html="../templates/header.html"></div>
-    <main class="text-content">
-        <h1>Help</h1>
-        <p>Welcome to the help page for <a href="#"> Join</a>, your guide to using our kanban project management tool.
-            Here, we'll provide an overview of what <a href="#"> Join</a> is, how it can benefit you, and how to use it.
-        </p>
-        <h2>What is Join?</h2>
-        <p><a href="#"> Join</a> is a kanban-based project management tool designed and built by a group of dedicated
-            students as part of their web development bootcamp at the Developer Akademie.</p>
-        <p>Kanban, a Japanese term meaning "billboard", is a highly effective method to visualize work, limit
-            work-in-progress, and maximize efficiency (or flow). <a href="#"> Join</a> leverages the principles of
-            kanban to help users manage their tasks and projects in an intuitive, visual interface.</p>
-        <p>It is important to note that <a href="#"> Join</a> is designed as an educational exercise and is not intended
-            for extensive business usage. While we strive to ensure the best possible user experience, we cannot
-            guarantee consistent availability, reliability, accuracy, or other aspects of quality regarding <a href="#">
-                Join</a>.</p>
-        <h2>How to use it</h2>
-        <p>Here is a step-by-step guide on how to use <a href="#"> Join</a>:</p>
-        <div class="step">
-            <div>
-                <h2>1.</h2>
-            </div>
-            <div>
-                <h3>Exploring the Board</h3>
-                <p>When you log in to <a href="#"> Join</a>, you'll find a default board. This board represents your
-                    project and contains four default lists: "To Do", "In Progress", “Await feedback” and "Done".</p>
-            </div>
-        </div>
-        <div class="step">
-            <div>
-                <h2>2.</h2>
-            </div>
-            <div>
-                <h3>Creating Contacts</h3>
-                <p>In <a href="#"> Join</a>, you can add contacts to collaborate on your projects. Go to the "Contacts"
-                    section, click on "New contact", and fill in the required information. Once added, these contacts
-                    can be assigned tasks and they can interact with the tasks on the board.</p>
-            </div>
-        </div>
-        <div class="step">
-            <div>
-                <h2>3.</h2>
-            </div>
-            <div>
-                <h3>Adding Cards</h3>
-                <p>Now that you've added your contacts, you can start adding cards. Cards represent individual tasks.
-                    Click the "+" button under the appropriate list to create a new card. Fill in the task details in
-                    the card, like task name, description, due date, assignees, etc.</p>
-            </div>
-        </div>
-        <div class="step">
-            <div>
-                <h2>4.</h2>
-            </div>
-            <div>
-                <h3>Moving Cards</h3>
-                <p>As the task moves from one stage to another, you can reflect that on the board by dragging and
-                    dropping the card from one list to another.</p>
-            </div>
-        </div>
-        <div class="step">
-            <div>
-                <h2>5.</h2>
-            </div>
-            <div>
-                <h3>Deleting Cards</h3>
-                <p>Once a task is completed, you can either move it to the "Done" list or delete it. Deleting a card
-                    will permanently remove it from the board. Please exercise caution when deleting cards, as this
-                    action is irreversible.</p>
-            </div>
-        </div>
-        <p>Remember that using <a href="#"> Join</a> effectively requires consistent updates from you and your team to
-            ensure the board reflects the current state of your project.</p>
-        <p>Have more questions about <a href="#"> Join</a>? Feel free to contact us at [Your Contact Email]. We're here
-            to help you!</p>
-        <h2 class="end-space">Enjoy using Join!</h2>
-    </main>
-    <button onclick="goBack()" class="back-arrow">
+    <button onclick="goBack()" class="back-arrow" aria-label="Go back">
         <img src="../assets/images/global/left-arrow.svg" alt="">
     </button>
+    <main class="text-content">
+        <h1>Help</h1>
+        <p>Welcome to the help page for <span> Join</span>, your guide to using our kanban project management tool.
+            Here, we'll provide an overview of what <span> Join</span> is, how it can benefit you, and how to use it.
+        </p>
+        <section class="text-section" aria-labelledby="what-is-join">
+            <h2 id="what-is-join">What is Join?</h2>
+            <p>
+                <span> Join</span> is a kanban-based project management tool designed and built by a group of dedicated
+                students as part of their web development bootcamp at the Developer Akademie.
+            </p>
+            <p>
+                Kanban, a Japanese term meaning "billboard", is a highly effective method to visualize work, limit
+                work-in-progress, and maximize efficiency (or flow). <span> Join</span> leverages the principles of
+                kanban to help users manage their tasks and projects in an intuitive, visual interface.
+            </p>
+            <p>
+                It is important to note that <span> Join</span> is designed as an educational exercise and is not
+                intended
+                for extensive business usage. While we strive to ensure the best possible user experience, we cannot
+                guarantee consistent availability, reliability, accuracy, or other aspects of quality regarding <span>
+                    Join</span>.
+            </p>
+        </section>
+        <section class="text-section" aria-labelledby="how-to-use">
+            <h2 class=".m-bottom-8 " id="how-to-use">How to use it</h2>
+            <p>Here is a step-by-step guide on how to use <span>Join</span>:</p>
+
+            <ul class="instrunctions-list">
+                <li>
+                    <article class="step">
+                        <span class="step-number">1.</span>
+                        <div>
+                            <h3>Exploring the Board</h3>
+                            <p>
+                                When you log in to <span>Join</span>, you'll find a default board. This board
+                                represents
+                                your
+                                project and contains four default lists: "To Do", "In Progress", “Await feedback” and
+                                "Done".
+                            </p>
+                        </div>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="step">
+                        <span class="step-number">2.</span>
+                        <div>
+                            <h3>Creating Contacts</h3>
+                            <p>
+                                In <span>Join</span>, you can add contacts to collaborate on your projects. Go to the
+                                "Contacts"
+                                section, click on "New contact", and fill in the required information. Once added, these
+                                contacts
+                                can be assigned tasks and they can interact with the tasks on the board.
+                            </p>
+                        </div>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="step">
+                        <span class="step-number">3.</span>
+                        <div>
+                            <h3>Adding Cards</h3>
+                            <p>
+                                Now that you've added your contacts, you can start adding cards. Cards represent
+                                individual
+                                tasks.
+                                Click the "+" button under the appropriate list to create a new card. Fill in the task
+                                details in
+                                the card, like task name, description, due date, assignees, etc.
+                            </p>
+                        </div>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="step">
+                        <span class="step-number">4.</span>
+                        <div>
+                            <h3>Moving Cards</h3>
+                            <p>
+                                As the task moves from one stage to another, you can reflect that on the board by
+                                dragging
+                                and
+                                dropping the card from one list to another.
+                            </p>
+                        </div>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="step">
+                        <span class="step-number">5.</span>
+                        <div>
+                            <h3>Deleting Cards</h3>
+                            <p>
+                                Once a task is completed, you can either move it to the "Done" list or delete it.
+                                Deleting a
+                                card
+                                will permanently remove it from the board. Please exercise caution when deleting cards,
+                                as
+                                this
+                                action is irreversible.
+                            </p>
+                        </div>
+                    </article>
+                </li>
+
+                <li>
+                    <article aria-labelledby="mobile-version" class="step">
+                        <span class="step-number">6.</span>
+                        <div>
+                            <h3 id="mobile-version">Using Join on Mobile</h3>
+                            <p>
+                                For the best experience, use <span>Join</span> in portrait mode.
+                                On mobile, the kanban board is displayed differently:
+                            </p>
+                            <ul class="step-list">
+                                <li>Lists are stacked vertically.</li>
+                                <li>Cards inside each list are arranged horizontally.</li>
+                            </ul>
+                            <p>You can interact with the board by:</p>
+                            <ul class="step-list">
+                                <li>Swiping left or right to scroll through cards in a list.</li>
+                                <li>Scrolling up or down to move between lists.</li>
+                                <li>Tapping a card to open it.</li>
+                                <li>Long-pressing a card to drag it into another list.</li>
+                            </ul>
+                        </div>
+                    </article>
+                </li>
+
+                <li>
+                    <article aria-labelledby="keyboard-navigation" class="step">
+                        <span class="step-number">7.</span>
+                        <div>
+
+                            <h3 id="keyboard-navigation">Keyboard Navigation</h3>
+                            <p>
+                                <span>Join</span> supports standard browser navigation with
+                                <kbd>Tab</kbd> and <kbd>Shift+Tab</kbd>.
+                                Additionally, you can use custom keyboard shortcuts in specific areas:
+                            </p>
+
+                            <section aria-labelledby="board-nav">
+                                <h4 id="board-nav">Board</h4>
+                                <ul class="step-list">
+                                    <li><kbd>Tab</kbd> — Move focus through cards.</li>
+                                    <li><kbd>Enter</kbd> — Open the focused card.</li>
+                                    <li><kbd>Space</kbd> — Enter drag mode for the selected card.</li>
+                                    <li><kbd>←</kbd> / <kbd>→</kbd> or <kbd>↑</kbd> / <kbd>↓</kbd>
+                                        — While in drag mode, move the card to a different list (arrows depend on list
+                                        orientation).
+                                    </li>
+                                    <li><kbd>Space</kbd> again — Drop the card.</li>
+                                    <li><kbd>Esc</kbd> — Cancel drag mode.</li>
+                                </ul>
+                            </section>
+
+                            <section aria-labelledby="contacts-nav">
+                                <h4 id="contacts-nav">Contacts</h4>
+                                <ul class="step-list">
+                                    <li><kbd>Tab</kbd> — Navigate through the contact list.</li>
+                                    <li><kbd>Enter</kbd> — Open the selected contact in the main content area.</li>
+                                    <li><kbd>Esc</kbd> — Return focus to the contact list.</li>
+                                </ul>
+                            </section>
+
+                            <section aria-labelledby="add-task-nav">
+                                <h4 id="add-task-nav">Add Task</h4>
+                                <ul class="step-list">
+                                    <li><kbd>Tab</kbd> — Navigate through form fields.</li>
+                                    <li><kbd>Enter</kbd> — Open a dropdown menu.</li>
+                                    <li><kbd>Tab</kbd> — Move between dropdown options.</li>
+                                    <li><kbd>Enter</kbd> — Select the highlighted option.</li>
+                                    <li><kbd>Esc</kbd> — Close the dropdown.</li>
+                                </ul>
+                            </section>
+                        </div>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <p>Remember that using <span> Join</span> effectively requires consistent updates from you and your team to
+            ensure the board reflects the current state of your project.</p>
+        <p>Have more questions about <span> Join</span>? Feel free to contact us at <a
+                href="mailto:info@robert-pap.de">info@robert-pap.de</a>. We're here
+            to help you!</p>
+        <h2>Enjoy using Join!</h2>
+    </main>
     <div w3-include-html="../templates/nav.html"></div>
     <div w3-include-html="../templates/popup.html"></div>
 
