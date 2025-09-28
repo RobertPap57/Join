@@ -809,6 +809,7 @@ function openDetailedTaskView(taskId) {
     renderAttachments();
     dialog.showModal();
     blockDragOnDownloadBtn();
+    trapFocusInDialogEvent();
 }
 
 function formatDate(dateString) {

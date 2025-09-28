@@ -33,6 +33,7 @@ function initPopup() {
     uploadBtnHoverListener();
     initImageHandler();
     enableDialogKeyboardButtons();
+    trapFocusInDialogEvent();
 }
 
 /**

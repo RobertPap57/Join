@@ -1,0 +1,127 @@
+/**
+ * Traps focus inside a dialog element when the Tab key is pressed.
+ * - Prevents focus from leaving the dialog when Tab is pressed with the Shift key.
+ * - Prevents focus from leaving the dialog when Tab is pressed without the Shift key.
+ * - Focuses the first focusable element inside the dialog when Tab is pressed with the Shift key and the user is currently focused on the last focusable element.
+ * - Focuses the last focusable element inside the dialog when Tab is pressed without the Shift key and the user is currently focused on the first focusable element.
+ */
+function trapFocusInDialogEvent() {
+    const dialogs = document.querySelectorAll('dialog');
+    if (dialogs.length === 0) return;
+    console.log(dialogs);
+    dialogs.forEach((dialog) => {
+        const focusable = getFocusableElements(dialog);
+        console.log(focusable , 'for dialog ' , dialog);
+        if (focusable.length === 0) return;
+        bindEventListenerOnce(dialog, 'keydown', (e)=> trapFocusInDialog(e, focusable), 'trap_focus');
+    });
+
+}
+
+/**
+ * Returns an array of focusable elements within a given container element.
+ * Elements that are disabled, have aria-hidden="true", or are not visible will be excluded.
+ * @param {Element} container - The container element to search for focusable elements.
+ * @returns {Array<Element>} - An array of focusable elements within the given container element.
+ */
+function getFocusableElements(container) {
+  return Array.from(
+    container.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )
+  ).filter(el => !(el.disabled || el.getAttribute("aria-hidden") === "true" || !isVisible(el)));
+}
+
+/**
+ * Returns true if the given element is visible, false otherwise.
+ * An element is considered visible if its display CSS property is not "none" and its visibility CSS property is not "hidden".
+ * @param {Element} el - The element to check for visibility.
+ * @returns {boolean} - True if the element is visible, false otherwise.
+ */
+function isVisible(el) {
+  const style = window.getComputedStyle(el);
+  return style.display !== "none" && style.visibility !== "hidden";
+}
+
+/**
+ * Traps the focus in the dialog when the Tab key is pressed.
+ * If the Shift key is pressed and the user is currently focused on the first focusable element, it will move the focus to the last focusable element.
+ * If the Shift key is not pressed and the user is currently focused on the last focusable element, it will move the focus to the first focusable element.
+ * @param {KeyboardEvent} e - The event triggered by the Tab key press.
+ * @param {Array<Element>} focusable - An array of focusable elements within the dialog.
+ */
+function trapFocusInDialog(e, focusable) {
+    if (e.key === 'Tab') {
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+            if (document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            }
+        } else {
+            if (document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        }
+    }
+}
+
+/**
+ * Prevents dialogs from closing when pressing Enter or Space on buttons inside
+ * any <dialog> element, and triggers the button's click event instead.
+ * This works for both existing and dynamically added dialogs/buttons.
+*/
+function enableDialogKeyboardButtons() {
+    document.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target instanceof HTMLButtonElement) {
+            const dialog = e.target.closest('dialog');
+            if (dialog) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.target.dispatchEvent(new MouseEvent("click", {
+                    bubbles: false,
+                    cancelable: true,
+                    view: window
+                }));
+            }
+        }
+    });
+}
+
+/**
+ * Attaches an event listener to a dialog element that closes the dialog when a click occurs outside its bounds.
+ *
+ * @param {HTMLElement} dialog - The dialog element to monitor for outside clicks.
+ * @param {Function} onClose - The callback function to execute when a click outside the dialog is detected.
+ */
+function closeDialogOnClickOutside(dialog, onClose) {
+    dialog.addEventListener('click', (e) => {
+        const rect = dialog.getBoundingClientRect();
+        const clickedInside =
+            e.clientX >= rect.left &&
+            e.clientX <= rect.right &&
+            e.clientY >= rect.top &&
+            e.clientY <= rect.bottom;
+
+        if (!clickedInside) {
+            onClose();
+        }
+    });
+}
+
+/**
+ * Attaches an event listener to a dialog element to handle the 'cancel' event (typically triggered by pressing the Escape key).
+ * Prevents the default dialog close behavior and calls the provided onClose callback instead.
+ *
+ * @param {HTMLDialogElement} dialog - The dialog element to attach the event listener to.
+ * @param {Function} onClose - The callback function to execute when the dialog is requested to close.
+ */
+function closeDialogOnEsc(dialog, onClose) {
+    if (!dialog) return;
+    dialog.addEventListener('cancel', (e) => {
+        e.preventDefault();
+        onClose();
+    });
+}

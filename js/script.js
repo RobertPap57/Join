@@ -352,44 +352,6 @@ function bindEventListenerOnce(element, event, handler, boundKey) {
 	element.addEventListener(event, handler);
 }
 
-
-/**
- * Attaches an event listener to a dialog element that closes the dialog when a click occurs outside its bounds.
- *
- * @param {HTMLElement} dialog - The dialog element to monitor for outside clicks.
- * @param {Function} onClose - The callback function to execute when a click outside the dialog is detected.
- */
-function closeDialogOnClickOutside(dialog, onClose) {
-	dialog.addEventListener('click', (e) => {
-		const rect = dialog.getBoundingClientRect();
-		const clickedInside =
-			e.clientX >= rect.left &&
-			e.clientX <= rect.right &&
-			e.clientY >= rect.top &&
-			e.clientY <= rect.bottom;
-
-		if (!clickedInside) {
-			onClose();
-		}
-	});
-}
-
-/**
- * Attaches an event listener to a dialog element to handle the 'cancel' event (typically triggered by pressing the Escape key).
- * Prevents the default dialog close behavior and calls the provided onClose callback instead.
- *
- * @param {HTMLDialogElement} dialog - The dialog element to attach the event listener to.
- * @param {Function} onClose - The callback function to execute when the dialog is requested to close.
- */
-function closeDialogOnEsc(dialog, onClose) {
-	if (!dialog) return;
-	dialog.addEventListener('cancel', (e) => {
-		e.preventDefault();
-		onClose();
-	});
-}
-
-
 /**
  * Prevents form submission when the Enter key is pressed inside any input field,
  * except for textarea elements, for all forms on the page.
@@ -411,28 +373,6 @@ function preventFormSubmitOnEnter() {
 	});
 }
 
-/**
- * Prevents dialogs from closing when pressing Enter or Space on buttons inside
- * any <dialog> element, and triggers the button's click event instead.
- * This works for both existing and dynamically added dialogs/buttons.
-*/
-function enableDialogKeyboardButtons() {
-	document.addEventListener('keydown', (e) => {
-		// Check: was Enter or Space pressed AND is the target a button inside a dialog?
-		if ((e.key === 'Enter' || e.key === ' ') && e.target instanceof HTMLButtonElement) {
-			const dialog = e.target.closest('dialog');
-			if (dialog) {
-				e.preventDefault();
-				e.stopPropagation();
-				e.target.dispatchEvent(new MouseEvent("click", {
-					bubbles: false,
-					cancelable: true,
-					view: window
-				}));
-			}
-		}
-	});
-}
 
 window.addEventListener('keydown', e => {
 	if (e.key === 'Tab') {
