@@ -8,10 +8,8 @@
 function trapFocusInDialogEvent() {
     const dialogs = document.querySelectorAll('dialog');
     if (dialogs.length === 0) return;
-    console.log(dialogs);
     dialogs.forEach((dialog) => {
         const focusable = getFocusableElements(dialog);
-        console.log(focusable , 'for dialog ' , dialog);
         if (focusable.length === 0) return;
         bindEventListenerOnce(dialog, 'keydown', (e)=> trapFocusInDialog(e, focusable), 'trap_focus');
     });

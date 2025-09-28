@@ -45,7 +45,7 @@ function setUpPopup(type, user) {
     setUpTitle(type);
     setUpPopupForm(type, user);
     setUpSecondaryButtonAction(type, user)
-    setUpProfileImage(user);
+    setUpProfileAvatar(user);
     setInputsUneditable(type);
     setUpButtons(type);
     if (type !== 'my-account') {
@@ -251,18 +251,33 @@ function setUpTitle(type) {
  * Sets up the profile image display based on user data.
  * @param {Object} user - The user object containing image, name, and color properties.
  */
-function setUpProfileImage(user) {
+function setUpProfileAvatar(user) {
     if (user) {
         if (!user.image && user.name) {
             popupElements.profileImg.innerHTML = `${createNameInitials(user.name)}`;
             popupElements.profileImg.style.backgroundColor = user.color;
             return;
         } if (user.image) {
-            popupElements.profileImg.innerHTML = `<img class="profile-image" src="${user.image}" alt="Profile picture">`;
+            setUpProfileImage(user);
         }
     } else {
         popupElements.profileImg.style.backgroundColor = '#D9D9D9';
         popupElements.profileImg.innerHTML = `<img src="../assets/images/components/popup/person-white.svg" alt="Profile picture" class="person-icon">`;
+    }
+}
+
+/**
+ * Sets up the profile image display based on user data.
+ * If the window width is larger than 1250px, the box shadow is set to none.
+ * Otherwise, the box shadow is set to a white shadow with a 3px spread radius and 4px blur radius.
+ * @param {Object} user - The user object containing the image property.
+ */
+function setUpProfileImage(user) {
+    popupElements.profileImg.innerHTML = `<img class="profile-image" src="${user.image}" alt="Profile picture">`;
+    if (window.innerWidth > 1250) {
+        popupElements.profileImg.style.boxShadow = 'none';
+    } else {
+        popupElements.profileImg.style.boxShadow = '0px 0px 0px 3px #ffffff, 0px 0px 4px 3px #0000001A';
     }
 }
 

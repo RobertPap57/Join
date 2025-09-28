@@ -11,8 +11,24 @@ function displayContact(id) {
     const container = document.getElementById('contact-displayed');
     container.innerHTML = getDisplayContactHtml(contact);
     displayProfileAvatar(contact, `displayed-avatar-${contact.id}`);
+    removeAvatarBorder(contact);
     displayContactActions(id, container);
     container.querySelector('h2').focus();
+}
+
+/**
+ * Removes the avatar border if the avatar is an image and the window width is greater than 767px.
+ * Otherwise, it sets the avatar border to a white box shadow.
+ * @param {Object} contact - The contact object containing the contact's information.
+ */
+function removeAvatarBorder(contact) {
+    const avatar = document.getElementById(`displayed-avatar-${contact.id}`);
+    const isImage = avatar.querySelector('img');
+    if (isImage && window.innerWidth > 767) {
+        avatar.style.boxShadow = 'none';
+    } else {
+        avatar.style.boxShadow = '0px 0px 0px 3px #ffffff, 0px 0px 4px 3px #0000001A';
+    }
 }
 
 /**
@@ -23,7 +39,7 @@ function displayContact(id) {
  * @param {HTMLElement} container - The container element to display the contact actions in.
  */
 function displayContactActions(id, container) {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 767) {
         openMobileContact();
         initContactMenuCloseEvents();
     } else {
@@ -64,7 +80,7 @@ function showContactDisplay() {
  * @returns {Promise<void>}
  */
 async function hideContactDisplay(container) {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 767) {
         container.classList.remove('contact-slide-out');
         closeMobileContact();
     } else {
@@ -193,7 +209,7 @@ function closeMobileContact() {
     document.getElementById('main-container').style.display = 'none';
     const selectedListItem = document.getElementById(lastFocusedContact);
     if (!selectedListItem) return;
-    selectedListItem.focus();   
+    selectedListItem.focus();
 }
 
 /**
@@ -225,7 +241,7 @@ function scrollToSmooth(element, top) {
  */
 function deselectContactOnMobile() {
     const selectedContact = document.querySelectorAll('.contact');
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 767) {
         selectedContact.forEach(contactElement => {
             contactElement.classList.remove('contact-selected');
         });
@@ -237,7 +253,7 @@ function deselectContactOnMobile() {
  */
 function adjustMainContainerDisplay() {
     const mainContainer = document.getElementById('main-container');
-    if (window.innerWidth > 768) {
+    if (window.innerWidth > 767) {
         mainContainer.style.display = 'flex';
     } else {
         mainContainer.style.display = 'none';
@@ -250,7 +266,7 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         const selectedListItem = document.getElementById(lastFocusedContact);
         if (!selectedListItem) return;
-        if (window.innerWidth <= 768) closeMobileContact();
+        if (window.innerWidth <= 767) closeMobileContact();
         else selectedListItem.focus();
     }
 });

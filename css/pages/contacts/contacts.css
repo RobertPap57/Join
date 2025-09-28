@@ -136,8 +136,10 @@ a {
     gap: 25px;
     width: 100%;
     height: max-content;
+    min-height: 100vh;
     padding: 206px 0px 0px 743px;
     max-width: 1440px;
+    z-index: 1;
 }
 
 .back-arrow {
