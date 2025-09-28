@@ -98,6 +98,9 @@
 .step-list {
     padding-left: 16px;
 }
+.mobile-only {
+    display: none !important;
+}
 
 @media (max-width: 1023px) {
     .text-content {
@@ -107,6 +110,9 @@
     .back-arrow {
         top: 160px;
         right: 40px;
+    }
+    .mobile-only {
+        display: flex !important;
     }
 }
 
