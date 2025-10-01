@@ -6,8 +6,8 @@ let attachments = [];
  *
  * @param {Event} [e] - Optional event to prevent default and stop propagation.
  */
-function openFilePicker(e) {
-    const filePicker = document.getElementById('file-picker');
+function openFilePicker(e, id) {
+    const filePicker = document.getElementById(id);
 
     if (e) {
         e.preventDefault();   

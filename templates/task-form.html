@@ -91,7 +91,7 @@
                         </button>
                     </div>
                     <button type="button" class="drag-attachment-container d-flex-center" aria-label="Add a file"
-                        aria-labelledby="attachments-label"  aria-describedby="attachments-instructions" onclick="getElementById('attachments-input').click()"
+                        aria-labelledby="attachments-label"  aria-describedby="attachments-instructions" onclick="openFilePicker(event, 'attachments-input')"
                         ondragover="handleFileDragOver(event)" ondragleave="handleFileDragLeave(event)"
                         ondrop="handleFileDrop(event)">
                         <span></span>
