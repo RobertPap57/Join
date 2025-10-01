@@ -48,6 +48,8 @@ function scrollToDropdown(contactsList) {
  */
 function toggleSelectedContactsList(isOpen) {
     const selectedContactsDiv = document.querySelector('.selected-contacts-list');
+    const contactsList = document.getElementById('contacts-list');
+    if (contactsList) contactsList.ariaExpanded = isOpen ? 'true' : 'false';
     if (selectedContactsDiv) {
         selectedContactsDiv.style.display = isOpen ? 'none' : 'flex';
     }
@@ -92,7 +94,7 @@ function setupInputToggle(contactsList, input) {
  * @param {Element} input - Input element
  */
 function setupDivToggle(contactsList, input) {
-    bindEventListenerOnce(contactsList, 'mousedown', (event) => {
+    bindEventListenerOnce(contactsList, 'click', (event) => {
         if (event.target.closest('.arrow-down') || event.target === input) return;
         contactsList.classList.add('show-menu', 'blue-border');
         toggleSelectedContactsList(true);
@@ -291,8 +293,9 @@ function closeContactListOnOutsideClick() {
     bindEventListenerOnce(document, 'click', function (event) {
         const selectBtnContainer = document.getElementById('contacts-list');
         const listItemsContainer = document.querySelector('.list-items');
-
-        if (!selectBtnContainer.contains(event.target) && !listItemsContainer.contains(event.target)) {
+        if (selectBtnContainer.getAttribute('aria-expanded') !== 'true') return;
+        if (!selectBtnContainer.contains(event.target) &&
+            !listItemsContainer.contains(event.target)) {
             closeContactList();
         }
     }, 'documentClickAssigned');
