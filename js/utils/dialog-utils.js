@@ -11,7 +11,7 @@ function trapFocusInDialogEvent() {
     dialogs.forEach((dialog) => {
         const focusable = getFocusableElements(dialog);
         if (focusable.length === 0) return;
-        bindEventListenerOnce(dialog, 'keydown', (e)=> trapFocusInDialog(e, focusable), 'trap_focus');
+        bindEventListenerOnce(dialog, 'keydown', (e) => trapFocusInDialog(e, focusable), 'trap_focus');
     });
 
 }
@@ -23,11 +23,11 @@ function trapFocusInDialogEvent() {
  * @returns {Array<Element>} - An array of focusable elements within the given container element.
  */
 function getFocusableElements(container) {
-  return Array.from(
-    container.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    )
-  ).filter(el => !(el.disabled || el.getAttribute("aria-hidden") === "true" || !isVisible(el)));
+    return Array.from(
+        container.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+    ).filter(el => !(el.disabled || el.getAttribute("aria-hidden") === "true" || !isVisible(el)));
 }
 
 /**
@@ -37,8 +37,8 @@ function getFocusableElements(container) {
  * @returns {boolean} - True if the element is visible, false otherwise.
  */
 function isVisible(el) {
-  const style = window.getComputedStyle(el);
-  return style.display !== "none" && style.visibility !== "hidden";
+    const style = window.getComputedStyle(el);
+    return style.display !== "none" && style.visibility !== "hidden";
 }
 
 /**
@@ -93,16 +93,15 @@ function enableDialogKeyboardButtons() {
  *
  * @param {HTMLElement} dialog - The dialog element to monitor for outside clicks.
  * @param {Function} onClose - The callback function to execute when a click outside the dialog is detected.
- */
+*/
 function closeDialogOnClickOutside(dialog, onClose) {
-    dialog.addEventListener('click', (e) => {
+    bindEventListenerOnce(dialog, 'click', (e) => {
         const rect = dialog.getBoundingClientRect();
         const clickedInside =
             e.clientX >= rect.left &&
             e.clientX <= rect.right &&
             e.clientY >= rect.top &&
             e.clientY <= rect.bottom;
-
         if (!clickedInside) {
             onClose();
         }
@@ -123,3 +122,6 @@ function closeDialogOnEsc(dialog, onClose) {
         onClose();
     });
 }
+
+
+

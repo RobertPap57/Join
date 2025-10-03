@@ -27,15 +27,23 @@
     <script src="../js/utils/form-validation.js"></script>
     <script src="../js/utils/horizontal-scroll.js"></script>
     <script src="../js/pages/board/core.js"></script>
+    <script src="../js/pages/board/drag-drop/mouse.js"></script>
+    <script src="../js/pages/board/drag-drop/touch.js"></script>
+    <script src="../js/pages/board/drag-drop/keyboard.js"></script>
+    <script src="../js/pages/board/drag-drop/core.js"></script>
+    <script src="../js/pages/board/dialogs.js"></script>
     <script src="../js/pages/board/templates.js"></script>
+    <script src="../js/pages/board/task/task-card.js"></script>
+    <script src="../js/pages/board/task/task-detail-dialog.js"></script>
+    <script src="../js/pages/board/task/task-form-dialog.js"></script>
     <script src="../js/components/image-viewer.js"></script>
-    <script src="../js/components/task-form/priority-category.js"></script>
     <script src="../js/components/task-form/templates.js"></script>
+    <script src="../js/components/task-form/components/attachments.js"></script>
+    <script src="../js/components/task-form/components/contacts.js"></script>
+    <script src="../js/components/task-form/components/priority-category.js"></script>
+    <script src="../js/components/task-form/components/subtasks.js"></script>
     <script src="../js/components/task-form/validation.js"></script>
-    <script src="../js/components/task-form/subtasks.js"></script>
-    <script src="../js/components/task-form/attachments.js"></script>
     <script src="../js/components/task-form/core.js"></script>
-    <script src="../js/components/task-form/contacts.js"></script>
 </head>
 
 <body onload="initBoard()">
@@ -46,7 +54,8 @@
                 <h1>Board</h1>
                 <div class="toolbar d-flex-center" role="region" aria-label="Page actions">
                     <form class="search-form" role="search" aria-label="Search tasks">
-                        <input type="search" name="search" placeholder="Find Task" aria-label="Find Task" aria-describedby="search-error-message"/>
+                        <input type="search" name="search" placeholder="Find Task" aria-label="Find Task"
+                            aria-describedby="search-error-message" />
                         <div class="submit-btn-wrapper">
                             <button type="submit" class="d-flex-center" aria-label="Search">
                                 <img src="../assets/images/pages/boards/search.svg" alt="">
@@ -66,7 +75,8 @@
                 <section class="task-group">
                     <header class="task-group-header padl-12">
                         <h2>To do</h2>
-                        <button onclick="openTaskFormDialog('add-task-dialog', { status: 'to-do' })" aria-label="Add task in 'to do' group">
+                        <button onclick="openTaskFormDialog('add-task-dialog', { status: 'to-do' })"
+                            aria-label="Add task in 'to do' group">
                             <img src="../assets/images/pages/boards/add.svg" alt="">
                             <img src="../assets/images/pages/boards/add-mobile.svg" alt="">
                         </button>
@@ -77,7 +87,8 @@
                 <section class="task-group">
                     <header class="task-group-header">
                         <h2>In progress</h2>
-                        <button onclick="openTaskFormDialog('add-task-dialog', { status: 'in-progress' })" aria-label="Add task in 'in progress' group">
+                        <button onclick="openTaskFormDialog('add-task-dialog', { status: 'in-progress' })"
+                            aria-label="Add task in 'in progress' group">
                             <img src="../assets/images/pages/boards/add.svg" alt="">
                             <img src="../assets/images/pages/boards/add-mobile.svg" alt="">
                         </button>
@@ -88,7 +99,8 @@
                 <section class="task-group">
                     <header class="task-group-header">
                         <h2>Await feedback</h2>
-                        <button onclick="openTaskFormDialog('add-task-dialog', { status: 'await-feedback' })" aria-label="Add task in 'await feedback' group">
+                        <button onclick="openTaskFormDialog('add-task-dialog', { status: 'await-feedback' })"
+                            aria-label="Add task in 'await feedback' group">
                             <img src="../assets/images/pages/boards/add.svg" alt="">
                             <img src="../assets/images/pages/boards/add-mobile.svg" alt="">
                         </button>
@@ -104,13 +116,15 @@
                     </ul>
                 </section>
             </section>
-            <dialog class="detailed-task-dialog" id="detailed-task-dialog" aria-label="Detailed task view" role="dialog" aria-labelledby="detailed-task-title">
+            <dialog class="detailed-task-dialog" id="detailed-task-dialog" aria-label="Detailed task view" role="dialog"
+                aria-labelledby="detailed-task-title">
             </dialog>
         </main>
     </div>
     <dialog class="task-form-dialog scroll-container" id="task-form-dialog" aria-label="Add or edit task">
         <div class="close-btn-wrapper-task-form-dialog">
-            <button class="d-flex-center close-btn close-task-form-dialog-btn" onclick="closeTaskFormDialog()" aria-label="Close dialog">
+            <button class="d-flex-center close-btn close-task-form-dialog-btn" onclick="closeTaskFormDialog()"
+                aria-label="Close dialog">
                 <img src="../assets/images/global/close.svg" alt="">
             </button>
         </div>

@@ -22,6 +22,7 @@ function getTaskCardHTML(task) {
 </li>`;
 }
 
+
 /**
  * Generates the HTML for the detailed task view.
  * @param {Object} task - The task object.
@@ -35,7 +36,7 @@ function getDetailedTaskHTML(task) {
                 <span>${task.category}</span>
             </div>
             <button class="close-btn d-flex-center detailed-task-close-btn" aria-label="Close dialog"
-                onclick="document.getElementById('detailed-task-dialog').close()">
+                onclick="closeDetaliedTaskDialog()">
                 <img src="../assets/images/global/close.svg" alt="">
             </button>
             <h2 id="detailed-task-title">${task.title}</h2>
@@ -85,6 +86,7 @@ function getDetailedTaskHTML(task) {
     </article>`;
 }
 
+
 /**
  * Generates the HTML for a single subtask item in the detailed view.
  * @param {object} subtask - The subtask object.
@@ -103,6 +105,7 @@ function getSubtaskItemHTML(subtask, taskId) {
         </li>
     `;
 }
+
 
 /**
  * Generates HTML for a progress bar displaying completed and total subtasks.

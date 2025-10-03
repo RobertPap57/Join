@@ -1,0 +1,144 @@
+/**
+ * Opens a task dialog modal and optionally adds an animation class to it.
+ * @param {HTMLElement} dialog - The task dialog element to open.
+ * @param {boolean} [animate=false] - Whether to add an animation class to the dialog.
+ */
+function openTaskDialog(dialog, animate = false) {
+    if (!dialog) return;
+    if (animate) dialog.classList.add('animate-dialog');
+    else dialog.classList.remove('animate-dialog');
+    dialog.showModal();
+    dialog.classList.add('open-dialog');
+}
+
+
+/**
+ * Closes a task dialog modal and optionally removes an animation class from it.
+ * @param {HTMLElement} dialog - The task dialog element to close.
+ */
+function closeTaskDialog(dialog) {
+    console.log(dialog.classList.contains('animate-dialog'));
+    if (dialog.classList.contains('animate-dialog')) {
+        dialog.classList.remove('open-dialog');
+        setTimeout(() => {
+            dialog.close();
+            dialog.classList.remove('animate-dialog');
+        }, 125);
+    } else {
+        dialog.classList.remove('open-dialog');
+        dialog.close();
+    }
+}
+
+
+/**
+ * Attaches an event listener to a dialog element to handle the Escape key press event.
+ * When the Escape key is pressed, it will prevent the default dialog close behavior and call the provided onClose callback instead.
+ * However, if the subtask input is in edit mode or if the category or assigned-to dropdowns are expanded, it will not close the dialog.
+ * @param {HTMLElement} dialog - The dialog element to attach the event listener to.
+ * @param {Function} onClose - The callback function to execute when the dialog is requested to close.
+ */
+function closeTaskFormDialogOnEsc(dialog, onClose) {
+    if (!dialog) return;
+    bindEventListenerOnce(dialog, 'keydown', (e) => {
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            if (!allowTaskFormDialogCloseOnEsc()) {
+                return;
+            }
+            onClose();
+        }
+    }, 'close_dialog_on_esc');
+}
+
+
+/**
+ * Sets up event listeners to close the task form dialog when clicking outside of it or pressing the Escape key.
+ * @param {HTMLElement} dialog - The task form dialog element to set up event listeners for.
+ */
+function setupTaskFormDialogClosingListeners(dialog) {
+    closeDialogOnClickOutside(dialog, () => {
+        closeTaskDialog(dialog);
+    });
+    closeTaskFormDialogOnEsc(dialog, () => {
+        closeTaskDialog(dialog);
+    });
+}
+
+
+/**
+ * Closes the task form dialog by calling closeTaskDialog with the task form dialog element.
+ * This function is a wrapper around closeTaskDialog that provides a more convenient way to close the task form dialog.
+ * @see closeTaskDialog
+ */
+function closeTaskFormDialog() {
+    const dialog = document.getElementById('task-form-dialog');
+    closeTaskDialog(dialog);
+}
+
+
+/**
+ * Checks if the dialog can be closed by pressing the Escape key.
+ * Returns true if the dialog can be closed, false otherwise.
+ * The dialog cannot be closed if the subtask input is in edit mode or if the category or assigned-to dropdowns are expanded.
+ * @returns {boolean} - True if the dialog can be closed by pressing the Escape key, false otherwise.
+ */
+function allowTaskFormDialogCloseOnEsc() {
+    const subtaskContainer = document.querySelector('.subtask-input-container');
+    const categoryDropdown = document.getElementById('category-container');
+    const assignedDropdown = document.getElementById('contacts-list');
+    if (subtaskContainer?._editMode) return false;
+    if (categoryDropdown?.getAttribute('aria-expanded') === 'true') return false;
+    if (assignedDropdown?.getAttribute('aria-expanded') === 'true') return false;
+    else return true;
+
+}
+
+
+/**
+ * Opens the detailed task dialog for a given task.
+ * If the window width is greater than 1023px, it will open in a non-mobile dialog.
+ * Otherwise, it will open in a mobile dialog.
+ * @param {HTMLElement} dialog - The detailed task dialog element to open.
+ */
+function openDetaliedTaskDialog(dialog) {
+    if (window.innerWidth > 1023) {
+        openTaskDialog(dialog, false);
+    } else {
+        openTaskDialog(dialog, true);
+    }
+}
+
+
+/**
+ * Attaches event listeners to the detailed task dialog to close it when clicking outside of it or pressing the Escape key.
+ * When the detailed task dialog is requested to close, it will call the closeTaskDialog function with the detailed task dialog element.
+ */
+function closeDetaliedTaskDialogListeners() {
+    const dialog = document.getElementById('detailed-task-dialog');
+    if (!dialog) return;
+    closeDialogOnClickOutside(dialog, () => closeTaskDialog(dialog));
+    closeDialogOnEsc(dialog, () => closeTaskDialog(dialog));
+}
+
+
+/**
+ * Closes the detailed task dialog by calling closeTaskDialog with the detailed task dialog element.
+ * This function is a wrapper around closeTaskDialog that provides a more convenient way to close the detailed task dialog.
+ */
+function closeDetaliedTaskDialog() {
+    const dialog = document.getElementById('detailed-task-dialog');
+    closeTaskDialog(dialog);
+}
+
+
+
+
+
+
+
+
+
+
+
+

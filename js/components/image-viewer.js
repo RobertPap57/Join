@@ -119,6 +119,7 @@ function imageViewerEventListeners() {
                 closeImageViewer();
             }
         });
+        closeDialogOnEsc(imageDialog, closeImageViewer);
     }
 }
 
