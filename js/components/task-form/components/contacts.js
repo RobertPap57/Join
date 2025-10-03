@@ -241,7 +241,7 @@ function sortContactsAlphabetically(contacts) {
  * @private
  */
 function addCurentUserToContacts() {
-    if (currentUser) {
+    if (currentUser && filteredContacts.every(contact => contact.id !== currentUser.id)) {
         const thisCurrentUser = currentUser;
         thisCurrentUser.name = currentUser.name + ' (You)';
         contacts.push(thisCurrentUser);
