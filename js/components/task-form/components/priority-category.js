@@ -128,7 +128,7 @@ function disableCategoryDropdown(type) {
 /**
  * Show and handle the category dropdown.
  */
-function showCategoryDropdown() {
+function setupCategoryDropdown() {
     const selectBtnCategory = document.querySelector('.select-btn.category');
     const categoryDisplayed = document.getElementById('category-displayed');
     const listItems = document.querySelectorAll('.list-item.category');

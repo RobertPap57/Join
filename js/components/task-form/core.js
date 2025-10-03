@@ -7,11 +7,13 @@ function initTaskForm(type, options = {}) {
     setupTaskFormContext(type, options);
     setupTaskActionBtns(type);
     setupTaskFormTitle(type);
+    clearTask();
     handleFilter();
-    filterContacts();
+    filterContactsListener();
     setMinDateToToday();
-    showAssignedToDropdown();
-    showCategoryDropdown();
+    setupAssignedToDropdown();
+    setupCategoryDropdown();
+    disableCategoryDropdown(type);
     changePrioBtn();
     styleSubtaskInput();
     closeContactListOnOutsideClick();
@@ -19,6 +21,7 @@ function initTaskForm(type, options = {}) {
     createCustomResizeHandle();
     initHorizontalScroll('.attachments-list');
     fileInputListener();
+    adjustTextareaPaddingListener();
 }
 
 /**
@@ -64,7 +67,7 @@ async function saveTaskChanges(taskId, updatedTask) {
         await updateData("/tasks", taskId, updatedTask);
         updateLocalTaskData(taskId, updatedTask);
         closeTaskFormDialog();
-        openDetailedTaskView(taskId);
+        showDetailedTask(taskId);
     } catch (error) {
         console.error('Error updating task:', error);
     }
@@ -220,8 +223,12 @@ function adjustTextareaPadding() {
     textarea.style.paddingRight = hasVerticalScroll ? '0px' : '16px';
 }
 
-document.getElementById('description')?.addEventListener('input', adjustTextareaPadding);
 
+function adjustTextareaPaddingListener() {
+    const textarea = document.getElementById('description');
+    if (!textarea) return;
+        bindEventListenerOnce(textarea, 'input', adjustTextareaPadding, 'descriptionInput');
+}
 
 function setupTaskFormTitle(type) {
     const taskFormHeading = document.getElementById('task-form-heading');

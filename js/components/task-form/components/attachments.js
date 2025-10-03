@@ -111,4 +111,3 @@ async function downloadBase64File(base64Data, fileName, event) {
     link.click();
     URL.revokeObjectURL(link.href);
 }
-

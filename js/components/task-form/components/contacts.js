@@ -4,7 +4,7 @@ let filteredContacts = contacts;
 /**
  * Sets up the assigned to dropdown functionality.
  */
-function showAssignedToDropdown() {
+function setupAssignedToDropdown() {
     const contactsList = document.getElementById('contacts-list');
     const arrowDown = contactsList.querySelector('.arrow-down');
     const assignedToList = document.getElementById('assigned-to-list');
@@ -84,6 +84,7 @@ function setupInputToggle(contactsList, input) {
         event.stopPropagation();
         contactsList.classList.add('show-menu', 'blue-border');
         toggleSelectedContactsList(true);
+        input.focus();
         scrollToDropdown(contactsList);
     }, 'inputFocusAssigned');
 }
@@ -151,7 +152,7 @@ function preventAssignedDropdownClose(assignedToList) {
 /**
  * Filter contacts based on user input.
  */
-function filterContacts() {
+function filterContactsListener() {
     const selectBtnInput = document.querySelector('.select-btn-input');
     if (selectBtnInput) {
         bindEventListenerOnce(selectBtnInput, 'input', () => handleFilter(selectBtnInput), 'selectBtnInputInputAssigned');

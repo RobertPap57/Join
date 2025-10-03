@@ -156,6 +156,7 @@ function addSubtaskClickListeners(subtaskElements) {
  */
 function renderSubtasks() {
     const subtasksList = document.querySelector('.subtasks-list');
+    togleInputEditFlag(false);
     subtasksList.innerHTML = '';
     if (subtasks.length === 0) {
         subtasksList.classList.add('d-none');
@@ -194,6 +195,7 @@ function editSubTask() {
 function editSubtaskItem(item) {
     let input = item.querySelector('.edit-subtask-input');
     if (!input) {
+        togleInputEditFlag(true);
         let liText = item.querySelector('.li-text');
         item.innerHTML = getEditSubtaskHTML(liText.textContent.trim());
         item.classList.add('subtask-list-item-edit');
@@ -271,7 +273,23 @@ function confirmSubtaskEdit(input, subtaskId) {
         const subtask = subtasks.find(s => s.id === subtaskId);
         if (subtask) {
             subtask.content = input.value;
+            togleInputEditFlag(false);
             renderSubtasks();
         }
+    }
+}
+
+/**
+ * Toggles the edit mode of the subtask container element.
+ * If the state is true, sets the edit mode to true.
+ * If the state is false, sets the edit mode to false after a delay of 100ms.
+ * @param {boolean} state - The state to toggle the edit mode to.
+ */
+function togleInputEditFlag(state) {
+    const subtaskContainer = document.querySelector('.subtask-input-container');
+    if (state === true) {
+        subtaskContainer._editMode = true;
+    } else {
+        setTimeout(() => subtaskContainer._editMode = false, 100);
     }
 }
