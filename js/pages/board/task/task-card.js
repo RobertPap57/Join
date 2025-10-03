@@ -40,7 +40,7 @@ function generateProgressHTML(task) {
 function generateAssignedAvatarsHTML(assignedToIds, taskId, context) {
     if (!assignedToIds || assignedToIds.length === 0) return '';
     const maxVisible = 6;
-    const validIds = assignedToIds.filter(id => contacts.some(c => c.id === id));
+    const validIds = assignedToIds.filter(id => contacts.some(c => c.id === id) || id === currentUser.id);
     const html = validIds.map((id, index) => createAvatarDiv(id, taskId, context, index, maxVisible)).join('');
     const hasOverflow = context === 'card' && validIds.length > maxVisible;
     return hasOverflow ? html + createOverflowAvatar(validIds.length - maxVisible, maxVisible) : html;

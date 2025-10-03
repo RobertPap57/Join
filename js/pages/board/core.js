@@ -173,7 +173,10 @@ function getCategoryColor(category) {
  * @returns {Object|null} The contact object or null if not found
  */
 function findContactById(contactId) {
-    return contacts.find(contact => contact.id === contactId) || null;
+    const contact = contacts.find(c => c.id === contactId);
+    if (contact) return contact;
+    if (currentUser && currentUser.id === contactId) return currentUser;
+    return null;
 }
 
 

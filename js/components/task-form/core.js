@@ -8,11 +8,10 @@ function initTaskForm(type, options = {}) {
     setupTaskActionBtns(type);
     setupTaskFormTitle(type);
     clearTask();
-    handleFilter();
-    filterContactsListener();
     setMinDateToToday();
-    setupAssignedToDropdown();
+    initContacts();
     filterContactsListener();
+    setupAssignedToDropdown();
     setupCategoryDropdown();
     disableCategoryDropdown(type);
     changePrioBtn();

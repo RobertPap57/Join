@@ -1,5 +1,7 @@
 const selectedContacts = [];
-let filteredContacts = contacts;
+let sorteredContacts = [];
+let filteredContacts = [];
+
 
 /**
  * Sets up the assigned to dropdown functionality.
@@ -14,6 +16,7 @@ function setupAssignedToDropdown() {
     setupAssignedDropdownClose(contactsList, assignedToList, input)
 }
 
+
 /**
  * Sets up all toggle events for the assigned dropdown.
  * @param {Element} contactsList - Contacts list container element
@@ -25,6 +28,7 @@ function setupAssignedDropdownToggles(contactsList, arrowDown, input) {
     setupInputToggle(contactsList, input);
     setupDivToggle(contactsList, input);
 }
+
 
 /**
  * Scrolls to dropdown position when opened.
@@ -42,6 +46,7 @@ function scrollToDropdown(contactsList) {
     }, 100);
 }
 
+
 /**
  * Toggles the visibility of selected contacts div.
  * @param {boolean} isOpen - Whether dropdown is open
@@ -54,6 +59,7 @@ function toggleSelectedContactsList(isOpen) {
         selectedContactsDiv.style.display = isOpen ? 'none' : 'flex';
     }
 }
+
 
 /**
  * Sets up arrow toggle functionality for dropdown.
@@ -74,6 +80,7 @@ function setupArrowToggle(contactsList, arrowDown, input) {
     }, 'arrowDownClickAssigned');
 }
 
+
 /**
  * Sets up input click toggle functionality.
  * @param {Element} contactsList - Contacts list container element
@@ -88,6 +95,7 @@ function setupInputToggle(contactsList, input) {
         scrollToDropdown(contactsList);
     }, 'inputFocusAssigned');
 }
+
 
 /**
  * Sets up div click toggle functionality.
@@ -104,6 +112,7 @@ function setupDivToggle(contactsList, input) {
     }, 'contactsListClickAssigned');
 }
 
+
 /**
  * Toggles blue border class based on dropdown state.
  * @param {Element} contactsList - Contacts list container element
@@ -116,6 +125,7 @@ function toggleBlueBorder(contactsList, isOpen) {
         contactsList.classList.remove('blue-border');
     }
 }
+
 
 /**
  * Closes the assigned-to dropdown when clicking outside or pressing Escape.
@@ -139,6 +149,7 @@ function setupAssignedDropdownClose(contactsList, assignedToList, input) {
     }, 'assignedDropdownEsc');
 }
 
+
 /**
  * Prevents assigned dropdown from closing when clicked inside.
  * @param {Element} assignedToList - Assigned to list element
@@ -148,6 +159,7 @@ function preventAssignedDropdownClose(assignedToList) {
         event.stopPropagation();
     }, 'assignedToListClickAssigned');
 }
+
 
 /**
  * Filter contacts based on user input.
@@ -159,23 +171,36 @@ function filterContactsListener() {
     }
 }
 
+
 /**
  * Handle filter and render contacts based on input value.
  * @param {Element} input - Input element for filtering
  */
 function handleFilter(input) {
     if (!input) {
-        filteredContacts = contacts;
+        filteredContacts = sorteredContacts;
     } else {
         const filterValue = input.value.toLowerCase().trim();
         if (filterValue === '') {
-            filteredContacts = contacts;
+            filteredContacts = sorteredContacts;
         } else {
-            filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(filterValue));
+            filteredContacts = sorteredContacts.filter(contact => contact.name.toLowerCase().includes(filterValue));
         }
     }
     renderContacts();
 }
+
+
+/**
+ * Initializes the contacts by sorting them alphabetically, setting the
+ * filtered contacts to the sorted contacts, and rendering the contacts.
+ */
+function initContacts() {
+    sorteredContacts = sortContactsAlphabetically(contacts);
+    filteredContacts = sorteredContacts;
+    renderContacts();
+}
+
 
 /**
  * Render the list of filtered contacts.
@@ -183,7 +208,6 @@ function handleFilter(input) {
 function renderContacts() {
     const assignedToList = document.getElementById('assigned-to-list');
     assignedToList.innerHTML = '';
-
     filteredContacts.forEach(contact => {
         const isSelected = selectedContacts.includes(contact);
         assignedToList.innerHTML += getContactHTML(contact, isSelected);
@@ -191,6 +215,39 @@ function renderContacts() {
     });
     selectListItems();
 }
+
+
+/**
+ * Sorts contacts alphabetically, ensuring that the current user is always
+ * first in the sorted list if they are included in the contacts.
+ * @param {Array<Object>} contacts - The array of contacts to be sorted.
+ * @returns {Array<Object>} - The sorted array of contacts.
+ */
+function sortContactsAlphabetically(contacts) {
+    addCurentUserToContacts();
+    return [...contacts].sort((a, b) => {
+        const aIsCurrent = a.name.includes('(You)');
+        const bIsCurrent = b.name.includes('(You)');
+        if (aIsCurrent && !bIsCurrent) return -1;
+        if (!aIsCurrent && bIsCurrent) return 1;
+        return a.name.localeCompare(b.name);
+    });
+}
+
+
+/**
+ * Adds the current user to the contacts list, appending '(You)' to their name.
+ * This is used to make it clear that the current user is included in the assigned contacts.
+ * @private
+ */
+function addCurentUserToContacts() {
+    if (currentUser) {
+        const thisCurrentUser = currentUser;
+        thisCurrentUser.name = currentUser.name + ' (You)';
+        contacts.push(thisCurrentUser);
+    }
+}
+
 
 /**
  * Add event listeners to list items for selection.
@@ -224,6 +281,7 @@ function handleContactSelection(item, i) {
     renderSelectedContactsBelow();
 }
 
+
 /**
  * Adds a contact to selectedContacts if not already present.
  * @param {Object} contact
@@ -244,6 +302,7 @@ function removeContactFromSelected(contact) {
         selectedContacts.splice(index, 1);
     }
 }
+
 
 /**
  * Renders the selected contacts below the input field.
@@ -286,6 +345,7 @@ function deselectContacts() {
 function closeContactList() {
     document.getElementById('contacts-list').classList.remove('show-menu');
 }
+
 
 /**
  * Close the contact list when clicking outside of it.
