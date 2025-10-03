@@ -12,6 +12,7 @@ function initTaskForm(type, options = {}) {
     filterContactsListener();
     setMinDateToToday();
     setupAssignedToDropdown();
+    filterContactsListener();
     setupCategoryDropdown();
     disableCategoryDropdown(type);
     changePrioBtn();
@@ -227,7 +228,7 @@ function adjustTextareaPadding() {
 function adjustTextareaPaddingListener() {
     const textarea = document.getElementById('description');
     if (!textarea) return;
-        bindEventListenerOnce(textarea, 'input', adjustTextareaPadding, 'descriptionInput');
+    bindEventListenerOnce(textarea, 'input', adjustTextareaPadding, 'descriptionInput');
 }
 
 function setupTaskFormTitle(type) {
@@ -287,60 +288,30 @@ function setupFormSecondaryBtnActions(type) {
 
 function setupFormSecondaryBtn(type) {
     const secondaryBtn = document.getElementById('task-form-secondary-btn');
-    secondaryBtn.innerHTML = '';
+    const btnText = secondaryBtn.querySelector('.btn-text');
     secondaryBtn.classList.remove('d-none');
     switch (type) {
         case 'edit-task':
             secondaryBtn.classList.add('d-none');
             break;
         case 'add-task-dialog':
-            secondaryBtn.innerHTML = getSecondaryBtnHtml('add-task-dialog');
+            btnText.innerText = "Cancel";
             break;
         default:
-            secondaryBtn.innerHTML = getSecondaryBtnHtml();
+            btnText.innerText = "Clear";
             break;
     }
 }
 
 function setupFormPrimaryBtn(type) {
     const primaryBtn = document.getElementById('task-form-primary-btn');
-    primaryBtn.innerHTML = '';
+    const btnText = primaryBtn.querySelector('.btn-text');
     switch (type) {
         case 'edit-task':
-            primaryBtn.innerHTML = getPrimaryBtnHtml('edit-task');
+            btnText.innerText = "Ok";
             break;
         default:
-            primaryBtn.innerHTML = getPrimaryBtnHtml();
+            btnText.innerText = "Create Task";
             break;
-    }
-}
-
-
-
-
-function getSecondaryBtnHtml(type) {
-    switch (type) {
-        case 'add-task-dialog': return `Cancel
-                <div class="popup-icon-container d-flex-center">
-                    <img src="../assets/images/global/close.svg" alt="">
-                </div>`;
-        default: return `Clear
-        <div class="popup-icon-container d-flex-center">
-                    <img src="../assets/images/global/close.svg" alt="">
-                </div>`;
-    }
-}
-
-
-function getPrimaryBtnHtml(type) {
-    switch (type) {
-        case 'edit-task': return `Ok
-                <div class="popup-icon-container d-flex-center">
-                    <img src="../assets/images/global/check-white.svg" alt="">
-                </div>`;
-        default: return `Create Task
-                <div class="popup-icon-container d-flex-center">
-                    <img src="../assets/images/global/check-white.svg" alt="">
-                </div>`;
     }
 }
