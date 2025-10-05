@@ -31,10 +31,10 @@ function setupAssignedDropdownToggles(contactsList, arrowDown, input) {
 
 
 /**
- * Scrolls to dropdown position when opened.
- * @param {Element} contactsList - Contacts list container element
+ * Smoothly scrolls the window to bring the specified dropdown into view.
+ * @param {HTMLElement} contactsList - The dropdown element to scroll to.
  */
-function scrollToDropdown(contactsList) {
+function scrollWindowToDropdown(contactsList) {
     setTimeout(() => {
         const rect = contactsList.getBoundingClientRect();
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -43,7 +43,38 @@ function scrollToDropdown(contactsList) {
             top: targetY,
             behavior: 'smooth'
         });
+    }, 60);
+}
+
+
+/**
+ * Smoothly scrolls the dialog with id 'task-form-dialog' to bring the specified dropdown into view.
+ * @param {HTMLElement} contactsList - The dropdown element inside the dialog.
+ */
+function scrollDialogToDropdown(contactsList) {
+    setTimeout(() => {
+        const dialog = document.getElementById('task-form-dialog');
+        if (!dialog) return;
+        const dialogRect = dialog.getBoundingClientRect();
+        const itemRect = contactsList.getBoundingClientRect();
+        const offsetTop = itemRect.top - dialogRect.top + dialog.scrollTop - 100;
+        dialog.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+        });
     }, 100);
+}
+
+
+/**
+ * Scrolls to the specified dropdown either in a dialog or in the window.
+ * Chooses the appropriate scroll method based on whether the dialog exists.
+ * @param {HTMLElement} contactsList - The dropdown element to scroll to.
+ */
+function scrollToDropdown(contactsList) {
+    const dialog = document.getElementById('task-form-dialog');
+    if (dialog) scrollDialogToDropdown(contactsList);
+    else scrollWindowToDropdown(contactsList);
 }
 
 

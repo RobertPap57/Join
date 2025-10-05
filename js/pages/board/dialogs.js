@@ -17,7 +17,6 @@ function openTaskDialog(dialog, animate = false) {
  * @param {HTMLElement} dialog - The task dialog element to close.
  */
 function closeTaskDialog(dialog) {
-    console.log(dialog.classList.contains('animate-dialog'));
     if (dialog.classList.contains('animate-dialog')) {
         dialog.classList.remove('open-dialog');
         setTimeout(() => {
