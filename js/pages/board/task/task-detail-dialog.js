@@ -2,14 +2,14 @@
  * Opens the detailed task view modal with the specified task's details.
  * @param {string} taskId - The ID of the task to display.
  */
-function showDetailedTask(taskId) {
+function showDetailedTask(taskId, edit = false) {
     if (cardDisabled) return;
     dialog = document.getElementById('detailed-task-dialog');
     const task = tasks.find(t => t.id === taskId);
     if (!task || isDragging) return;
     dialog.innerHTML = getDetailedTaskHTML(task);
     renderDetaliedTaskComponents(task)
-    openDetaliedTaskDialog(dialog);
+    openDetaliedTaskDialog(dialog, edit);
     blockDragOnDownloadBtn();
     trapFocusInDialogEvent();
 }

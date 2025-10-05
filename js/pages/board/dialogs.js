@@ -101,8 +101,8 @@ function allowTaskFormDialogCloseOnEsc() {
  * Otherwise, it will open in a mobile dialog.
  * @param {HTMLElement} dialog - The detailed task dialog element to open.
  */
-function openDetaliedTaskDialog(dialog) {
-    if (window.innerWidth > 1023) {
+function openDetaliedTaskDialog(dialog, edit = false) {
+    if (window.innerWidth > 1023 || edit) {
         openTaskDialog(dialog, false);
     } else {
         openTaskDialog(dialog, true);
@@ -132,7 +132,21 @@ function closeDetaliedTaskDialog() {
 }
 
 
+function handleDialogsOnEditTask(taskId) {
+    const editDialog = document.querySelector('.task-form-dialog-edit');
+    const detailDialog = document.getElementById('detailed-task-dialog');
+    editDialog.classList.remove('animate-dialog');
+    closeTaskFormDialog();
+    if (window.innerWidth < 1023) {
+        showDetailedTask(taskId, edit = true);
+        setTimeout(() => {
+            detailDialog.classList.add('animate-dialog');
+        }, 10);
+    } else {
+        showDetailedTask(taskId);
+    }
 
+}
 
 
 

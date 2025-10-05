@@ -39,19 +39,12 @@ async function addTask(type) {
  */
 async function updateTaskData() {
     const taskData = getTaskData();
-    console.log('taskData', taskData);
-
     if (!taskData.id) return;
-
     const task = tasks.find(t => t.id === taskData.id);
-    console.log('task', task);
-
     if (!task) return;
-
     if (task.status) {
         taskData.status = task.status;
     }
-
     await saveTaskChanges(taskData.id, taskData);
 }
 
@@ -62,12 +55,10 @@ async function updateTaskData() {
  * @param {Object} updatedTask - The updated task data
  */
 async function saveTaskChanges(taskId, updatedTask) {
-
     try {
         await updateData("/tasks", taskId, updatedTask);
         updateLocalTaskData(taskId, updatedTask);
-        closeTaskFormDialog();
-        showDetailedTask(taskId);
+        handleDialogsOnEditTask(taskId);
     } catch (error) {
         console.error('Error updating task:', error);
     }
