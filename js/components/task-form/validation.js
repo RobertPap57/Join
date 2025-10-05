@@ -1,13 +1,16 @@
+
+
 /**
  * Validates the form fields and shows error messages if necessary.
  * @returns {boolean} True if form is valid, false otherwise
  */
 function validateForm() {
     let isValid = true;
-    isValid = validateRequiredFields() && isValid;
-    isValid = validateDateField() && isValid;
+    if (!validateRequiredFields()) isValid = false;
+    if (!validateDateField()) isValid = false;
     return isValid;
 }
+
 
 /**
  * Validates required form fields.
@@ -24,6 +27,7 @@ function validateRequiredFields() {
     });
     return isValid;
 }
+
 
 /**
  * Gets array of validation field configurations.
@@ -46,6 +50,7 @@ function getValidationFields() {
     ];
 }
 
+
 /**
  * Sets error state for a validation field.
  * @param {Object} field - Field configuration object
@@ -54,6 +59,7 @@ function setFieldError(field) {
     field.element.classList.add(field.errorClass);
     field.message.hidden = false;
 }
+
 
 /**
  * Validates the date field for required and future date.
@@ -72,6 +78,8 @@ function validateDateField() {
     }
     return true;
 }
+
+
 /**
  * Checks if the given date is today or in the future (ignores time).
  * @param {string} dateValue - Date value to check
@@ -85,6 +93,7 @@ function isFutureDate(dateValue) {
     return selectedDate.getTime() >= now.getTime();
 }
 
+
 /**
  * Sets error state for date field.
  * @param {Element} dueDateInput - Date input element
@@ -97,6 +106,7 @@ function setDateError(dueDateInput, dateMessage, message) {
     dateMessage.hidden = false;
 }
 
+
 /**
  * Clears validation messages for a specific field.
  * @param {string} fieldType - Type of field ('title', 'date', 'category')
@@ -108,6 +118,7 @@ function clearValidationMessage(fieldType) {
         clearFieldError(config, fieldType);
     }
 }
+
 
 /**
  * Gets field configuration object for validation.
@@ -133,6 +144,7 @@ function getFieldConfig() {
     };
 }
 
+
 /**
  * Clears error styling and messages for a field.
  * @param {Object} config - Field configuration object
@@ -146,6 +158,7 @@ function clearFieldError(config, fieldType) {
     }
 }
 
+
 /**
  * Adds event listeners to form fields to clear validation messages on focus/click.
  */
@@ -158,10 +171,24 @@ function addValidationEventListeners() {
     bindEventListenerOnce(dueDateInput, 'focus', () => clearValidationMessage('date'), 'clearValidationMsg');
     bindEventListenerOnce(categoryContainer, 'click', () => clearValidationMessage('category'), 'clearValidationMsg');
     bindEventListenerOnce(categoryBtn, 'click', () => clearValidationMessage('category'), 'clearValidationMsg');
-
-
-
+    bindEventListenerOnce(titleInput, 'input', () => disableSubmitButtonOnEmptyForm(), 'disableSubmitButton');
+    bindEventListenerOnce(dueDateInput, 'input', () => disableSubmitButtonOnEmptyForm(), 'disableSubmitButton');
 }
+
+
+function disableSubmitButtonOnEmptyForm() {
+    const dueDateInput = document.getElementById('due-date-input');
+    const fields = getValidationFields();
+    const anyEmptyField = fields.some(field => field.isEmpty());
+    const isDueDateEmpty = dueDateInput.value.trim() === '';
+    disableSubmitButton(anyEmptyField || isDueDateEmpty);
+}
+
+function disableSubmitButton(state = false) {
+    const submitButton = document.getElementById('task-form-primary-btn');
+    submitButton.disabled = state;
+}
+
 
 /**
  * Handles the form submit event with dynamic submission behavior.
@@ -170,11 +197,13 @@ function addValidationEventListeners() {
 function handleFormSubmit(event) {
     event.preventDefault();
     if (!validateForm()) return;
-
+    if (event.submitter.disabled) return;
+    console.log('trigger');
+    
     const form = event.target;
     const formType = form.dataset.formType || 'add-task';
-
     submitFormByType(formType, form);
+    disableSubmitButton(true);
 }
 
 /**
@@ -188,16 +217,12 @@ function submitFormByType(formType, form) {
             const taskId = form.dataset.taskId;
             if (taskId) updateTaskData(taskId);
             break;
-        case 'add-task-dialog':
-            addTask(formType);
-            tasks.push(newTask);
-            renderTasks();
-            break;
         default:
             addTask(formType);
             break;
     }
 }
+
 
 /**
  * Prevents default form submission and validates the form fields.
@@ -223,6 +248,7 @@ function setMinDateToToday() {
     updateDateTextColor(dateInput);
 }
 
+
 /**
  * Adds focus and blur event listeners to date input for styling.
  * @param {Element} dateInput - Date input element
@@ -238,6 +264,7 @@ function updateDateTextColor(dateInput) {
     }, 'textColor');
 }
 
+
 /**
  * Clear the task form and reset all fields.
  */
@@ -249,6 +276,7 @@ function clearTask() {
     document.getElementById('due-date-input').classList.add('color-grey');
 }
 
+
 /**
  * Resets all form fields to their default state.
  */
@@ -259,6 +287,7 @@ function resetFormFields() {
     });
 }
 
+
 /**
  * Clears all data arrays.
  */
@@ -267,6 +296,7 @@ function clearArrays() {
     subtasks.length = 0;
     attachments.length = 0;
 }
+
 
 /**
  * Resets UI elements to their default state.
@@ -279,6 +309,7 @@ function resetUIElements() {
     selectMediumPriority();
     resetCategory();
 }
+
 
 /**
  * Clears all validation messages.

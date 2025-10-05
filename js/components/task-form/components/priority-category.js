@@ -191,6 +191,7 @@ function setupCategorySelection(listItems, selectBtnCategory, categoryDisplayed)
                 selectBtnCategory.ariaExpanded = "false";
                 categoryDisplayed.textContent = selectedItemText;
                 categoryDisplayed.dataset.selected = selectedItemText;
+                disableSubmitButtonOnEmptyForm();
             },
             'categoryItemClick'
         );

@@ -22,6 +22,7 @@ function initTaskForm(type, options = {}) {
     initHorizontalScroll('.attachments-list');
     fileInputListener();
     adjustTextareaPaddingListener();
+    disableSubmitButtonOnEmptyForm();
 }
 
 /**
@@ -31,6 +32,10 @@ async function addTask(type) {
     let newTask = getTaskData();
     newTask = await addData('/tasks', newTask);
     showTaskAddedMessage(type);
+    if (type === 'add-task-dialog') {
+        tasks.push(newTask);
+        renderTasks();
+    }
 }
 
 /**

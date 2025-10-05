@@ -71,7 +71,10 @@ function addEditTaskClasses(dialog, closeButton, formBottom) {
 function populateTaskFormIfNeeded(options, type) {
     if (options.taskId) {
         const task = tasks.find(t => t.id === options.taskId);
-        if (task) setTimeout(() => populateTaskForm(task, type), 0);
+        if (task) setTimeout(() => {
+            populateTaskForm(task, type);
+            disableSubmitButtonOnEmptyForm();
+        }, 0);
     }
 }
 
