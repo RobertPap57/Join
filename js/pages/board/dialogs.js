@@ -132,6 +132,12 @@ function closeDetaliedTaskDialog() {
 }
 
 
+/**
+ * Handles the task form dialog and detailed task dialog when the edit task button is clicked.
+ * Closes the task form dialog and opens the detailed task dialog with the specified task ID.
+ * If the window width is less than 1023px, it will add an animation class to the detailed task dialog after a 10ms delay.
+ * @param {string|number} taskId - The ID of the task to edit.
+ */
 function handleDialogsOnEditTask(taskId) {
     const editDialog = document.querySelector('.task-form-dialog-edit');
     const detailDialog = document.getElementById('detailed-task-dialog');
