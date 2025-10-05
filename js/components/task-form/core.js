@@ -88,13 +88,12 @@ function updateLocalTaskData(taskId, updatedTask) {
  */
 function getTaskData() {
     const form = document.getElementById('task-form');
-    const defaultStatus = 'to-do';
     return {
         id: form?.dataset.taskId || '',
         title: document.getElementById('title')?.value || '',
         description: document.getElementById('description')?.value || '',
         category: document.getElementById('category-displayed')?.textContent || '',
-        status: form?.dataset.status || defaultStatus,
+        status: form?.dataset.status || getTaskStatus(),
         dueDate: document.getElementById('due-date-input')?.value || '',
         priority: getSelectedPriority() || '',
         assignedTo: (selectedContacts || []).map(item => item.id),
@@ -102,6 +101,20 @@ function getTaskData() {
         attachments: attachmentsToFirebaseObject(attachments || []),
         timestamp: Date.now()
     };
+}
+ 
+/**
+ * Retrieves the task status from session storage, removes it if it exists, and returns the status.
+ * If no status is found, returns 'to-do'.
+ * @returns {string} The task status ('to-do', 'in-progress', 'await-feedback', 'done')
+ */
+function getTaskStatus() {
+      const status = sessionStorage.getItem('newTaskStatus');
+    if (status) {
+        sessionStorage.removeItem('newTaskStatus');
+        return status;
+    }
+    return 'to-do';
 }
 
 /**

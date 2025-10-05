@@ -180,3 +180,17 @@ function findContactById(contactId) {
 }
 
 
+/**
+ * Opens the task form dialog for adding a task with the given status.
+ * If the window width is greater than 1023px, it will open the dialog in the current page.
+ * If the window width is less than or equal to 1023px, it will set the new task status in session storage and redirect to the 'add-task.html' page.
+ * @param {string} status - The status of the task to add (to-do, in-progress, await-feedback, done)
+ */
+function addTaskFromBoard(status) {
+if(window.innerWidth > 1023) {
+   openTaskFormDialog('add-task-dialog', { status: status });
+} else {
+     sessionStorage.setItem('newTaskStatus', status);
+        redirectTo('add-task.html');
+}
+}
