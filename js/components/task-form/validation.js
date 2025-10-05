@@ -4,7 +4,7 @@
  * Validates the form fields and shows error messages if necessary.
  * @returns {boolean} True if form is valid, false otherwise
  */
-function validateForm() {
+function validateTaskForm() {
     let isValid = true;
     if (!validateRequiredFields()) isValid = false;
     if (!validateDateField()) isValid = false;
@@ -196,7 +196,7 @@ function disableSubmitButton(state = false) {
  */
 function handleFormSubmit(event) {
     event.preventDefault();
-    if (!validateForm()) return;
+    if (!validateTaskForm()) return;
     if (event.submitter.disabled) return;
     console.log('trigger');
     

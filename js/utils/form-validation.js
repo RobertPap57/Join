@@ -310,6 +310,7 @@ function removeInputActive(input) {
 function updateButtonState() {
     const button = validationElements.validationBtn;
     if (!button) return;
+    if (button.form && button.form.id === 'task-form') return;
     if (areInputsEmpty() || checkSignupCheckbox()) {
         button.disabled = true;
     } else {
