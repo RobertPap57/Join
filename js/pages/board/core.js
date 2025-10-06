@@ -13,6 +13,7 @@ async function initBoard() {
     await getTasks();
     await getContacts();
     setupBoard();
+    reloadOnPointerChange();
 }
 
 /**
@@ -187,10 +188,29 @@ function findContactById(contactId) {
  * @param {string} status - The status of the task to add (to-do, in-progress, await-feedback, done)
  */
 function addTaskFromBoard(status) {
-if(window.innerWidth > 1023) {
-   openTaskFormDialog('add-task-dialog', { status: status });
-} else {
-     sessionStorage.setItem('newTaskStatus', status);
+    if (window.innerWidth > 1023) {
+        openTaskFormDialog('add-task-dialog', { status: status });
+    } else {
+        sessionStorage.setItem('newTaskStatus', status);
         redirectTo('add-task.html');
+    }
 }
+
+
+/**
+ * Reloads the page when the primary pointer type changes (e.g., switching
+ * between touch and mouse in DevTools or on hybrid devices).
+ *
+ * This ensures that drag-and-drop and click-outside logic work correctly,
+ * since the touch-specific behavior (triggering on touchend instead of click)
+ * requires the input type to be set correctly at page load.
+ *
+ * Note: This is mainly needed for DevTools testing or hybrid devices; on
+ * normal devices, the pointer type won’t change during a session.
+ */
+function reloadOnPointerChange() {
+    const mq = window.matchMedia('(pointer: coarse)');
+    mq.addEventListener('change', () => {
+        window.location.reload();
+    });
 }

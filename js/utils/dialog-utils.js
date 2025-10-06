@@ -95,20 +95,44 @@ function enableDialogKeyboardButtons() {
  * @param {Function} onClose - The callback function to execute when a click outside the dialog is detected.
 */
 function closeDialogOnClickOutside(dialog, onClose) {
-    const eventType = 'ontouchstart' in window ? 'touchstart' : 'click';
-    bindEventListenerOnce(dialog, eventType, (e) => {
-        const rect = dialog.getBoundingClientRect();
-        const clickedInside =
-            e.clientX >= rect.left &&
-            e.clientX <= rect.right &&
-            e.clientY >= rect.top &&
-            e.clientY <= rect.bottom;
-        if (!clickedInside) {
-            onClose();
-        }
-    });
+     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
+    if (isTouchDevice) {
+        bindEventListenerOnce(dialog, 'touchstart', (e) => {
+            detectTouchOutside(dialog, onClose, e);
+        });
+    } else {
+        bindEventListenerOnce(dialog, 'click', (e) => {
+            detectClickOutide(dialog, onClose, e);
+        });
+    }
 }
+
+function detectTouchOutside(dialog, onClose, e) {
+    const rect = dialog.getBoundingClientRect();
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    const y = e.touches ? e.touches[0].clientY : e.clientY;
+    const clickedInside =
+        x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    if (!clickedInside) {
+        console.log('click outside');
+        onClose();
+    }
+}
+
+function detectClickOutide(dialog, onClose, e) {
+    const rect = dialog.getBoundingClientRect();
+    const clickedInside =
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom;
+    if (!clickedInside) {
+        onClose();
+    }
+}
+
+
 
 /**
  * Attaches an event listener to a dialog element to handle the 'cancel' event (typically triggered by pressing the Escape key).
