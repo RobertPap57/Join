@@ -95,7 +95,8 @@ function enableDialogKeyboardButtons() {
  * @param {Function} onClose - The callback function to execute when a click outside the dialog is detected.
 */
 function closeDialogOnClickOutside(dialog, onClose) {
-    bindEventListenerOnce(dialog, 'click', (e) => {
+    const eventType = 'ontouchstart' in window ? 'touchstart' : 'click';
+    bindEventListenerOnce(dialog, eventType, (e) => {
         const rect = dialog.getBoundingClientRect();
         const clickedInside =
             e.clientX >= rect.left &&
@@ -106,6 +107,7 @@ function closeDialogOnClickOutside(dialog, onClose) {
             onClose();
         }
     });
+
 }
 
 /**

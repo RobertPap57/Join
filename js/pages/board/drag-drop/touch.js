@@ -77,7 +77,7 @@ function touchEndDrag(event) {
     if (!checkLongHold(event)) return;
     const touch = event.changedTouches[0];
     const targetContainer = getTouchTargetContainer(touch);
-    handleDrop(targetContainer);
+    handleDropInContainer(targetContainer);
     cleanupDrag(event);
 }
 
@@ -122,7 +122,7 @@ function getTouchTargetContainer(touch) {
  * If the task card is dropped to the same container as it was dragged from, it is simply cancelled.
  * @param {HTMLElement} targetContainer - The target container element that the task card was dropped in.
  */
-function handleDrop(targetContainer) {
+function handleDropInContainer(targetContainer) {
     if (targetContainer && draggedTaskId) {
         if (targetContainer.id !== draggedTaskStatus) {
             updateTaskStatus(draggedTaskId, targetContainer);
