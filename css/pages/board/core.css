@@ -601,7 +601,7 @@
         width: 440px;
     }
 
-    .task-form-dialog .form-col-middle {
+    .task-form-dialog .form-separator {
         display: block;
     }
 
@@ -683,7 +683,7 @@
         padding: 0 0 0 24px;
     }
 
-    .task-form-dialog .form-col-middle {
+    .task-form-dialog .form-separator {
         display: none;
     }
 
@@ -702,7 +702,8 @@
     .task-form-dialog {
         padding: 0;
         width: 80%;
-        height: 90vh;
+        max-height: 90vh;
+        height: fit-content;
         scrollbar-gutter: stable;
     }
 
@@ -828,7 +829,7 @@
     }
 
     .task-form-dialog {
-        width: 100%;
+        width: 90%;
     }
 
     .detailed-task-dialog {
@@ -887,10 +888,13 @@
 
 }
 
-@media screen and (max-width: 415px) {
+@media screen and (max-width: 426px) {
 
     .task-form-dialog .prio-buttons {
         flex-direction: column;
         gap: 8px;
+    }
+    .detailed-task-dialog {
+        width: 90vw;
     }
 }
