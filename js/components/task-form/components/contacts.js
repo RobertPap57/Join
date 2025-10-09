@@ -89,6 +89,8 @@ function toggleSelectedContactsList(isOpen) {
     if (selectedContactsDiv) {
         selectedContactsDiv.style.display = isOpen ? 'none' : 'flex';
     }
+    console.log('selected contacts toggled', isOpen);
+
 }
 
 
@@ -118,7 +120,7 @@ function setupArrowToggle(contactsList, arrowDown, input) {
  * @param {Element} input - Input element
  */
 function setupInputToggle(contactsList, input) {
-    bindEventListenerOnce(input, 'focus', (event) => {
+    bindEventListenerOnce(input, 'click', (event) => {
         event.stopPropagation();
         contactsList.classList.add('show-menu', 'blue-border');
         toggleSelectedContactsList(true);
@@ -165,7 +167,7 @@ function toggleBlueBorder(contactsList, isOpen) {
  * @param {HTMLInputElement} input - The search input inside the dropdown
  */
 function setupAssignedDropdownClose(contactsList, assignedToList, input) {
-    bindEventListenerOnce(document, 'click', (event) => {
+    bindEventListenerOnce(document, 'pointerup', (event) => {
         if (!contactsList.contains(event.target) && !assignedToList.contains(event.target)) {
             contactsList.classList.remove('show-menu', 'blue-border');
             toggleSelectedContactsList(false);
