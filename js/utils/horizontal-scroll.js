@@ -13,6 +13,7 @@ function initHorizontalScroll(container) {
     });
 }
 
+
 /**
  * Starts the drag operation for the attachments list.
  * @param {Event} e - Mouse or touch event
@@ -27,6 +28,7 @@ function startDrag(e, dragContainer) {
     addDragListeners();
 
 }
+
 
 /**
  * Handles the drag movement for the attachments list.
@@ -47,6 +49,7 @@ function dragMove(e) {
     }
 }
 
+
 /**
  * Stops the drag operation and starts inertia scrolling.
  */
@@ -55,6 +58,7 @@ function stopDrag() {
     removeDragListeners();
     inertia();
 }
+
 
 /**
  * Handles inertia scrolling animation.
@@ -66,12 +70,14 @@ function inertia() {
     inertiaId = requestAnimationFrame(inertia);
 }
 
+
 /**
  * Stops the inertia scrolling animation.
  */
 function stopInertia() {
     if (inertiaId) cancelAnimationFrame(inertiaId);
 }
+
 
 /**
  * Gets the X coordinate from mouse or touch event.
@@ -82,6 +88,7 @@ function getPageX(e) {
     return e.touches ? e.touches[0].pageX : e.pageX;
 }
 
+
 /**
  * Adds event listeners for drag operations.
  */
@@ -91,6 +98,7 @@ function addDragListeners() {
     document.addEventListener('touchmove', dragMove);
     document.addEventListener('touchend', stopDrag);
 }
+
 
 /**
  * Removes event listeners for drag operations.

@@ -16,6 +16,7 @@ function setUpAuthForm(type) {
     updateButtonState();
 }
 
+
 /**
  * Sets up form inputs based on type.
  * If type is not 'login', show the name and confirm password input fields.
@@ -29,6 +30,7 @@ function setUpFormInputs(type) {
         confirmPassowrdInput.parentElement.hidden = false;
     }
 }
+
 
 /**
  * Sets up form padding and gap based on type.
@@ -44,6 +46,7 @@ function setUpFormPaddingAndGap(type) {
         inputsSection.classList.add('gap24');
     }
 }
+
 
 /**
  * Sets up the form buttons based on the type of form.
@@ -63,6 +66,7 @@ function setUpFormButtons(type) {
     }
 }
 
+
 /**
  * Sets up the form title and data type based on the type of form.
  * If type is not 'login', sets the form title to 'Sign up' and the form data type to 'signup'.
@@ -77,6 +81,7 @@ function setUpFormTitleAndType(type) {
     }
 }
 
+
 /**
  * Sets up the checkbox label based on the type of form.
  * If type is not 'login', sets the checkbox label to 'I accept the <a href="../pages/privacy-policy.html">Privacy policy</a>'
@@ -89,8 +94,8 @@ function setUpCheckboxLabel(type) {
         checkboxLabel.innerHTML = `I accept the <a href="../pages/privacy-policy.html">Privacy policy</a>`;
         checkboxLabel.classList.add('checkbox-label-signup');
     }
-
 }
+
 
 /**
  * Sets up the login form with remembered user credentials from localStorage
@@ -113,6 +118,7 @@ function setUpRememberedUser(type) {
         toggleVisibitilyBtn('password', 'password-btn');
     }
 }
+
 
 /**
  * Toggles password visibility in an input field and updates the associated visibility icon
@@ -137,6 +143,7 @@ function togglePasswordVisibility(inputId, btnId) {
     }
 }
 
+
 /**
  * Toggles the visibility button state and icon based on input value
  * @param {string} inputId - The ID of the input element
@@ -157,6 +164,7 @@ function toggleVisibitilyBtn(inputId, btnId) {
     }
 }
 
+
 /**
  * Toggles the state of a checkbox button and updates its visual representation
  * by switching the checkbox image and aria-checked attribute.
@@ -166,13 +174,13 @@ function toggleCheckbox() {
     const btn = document.getElementById('auth-checkbox-btn');
     const checkbox = document.getElementById('auth-checkbox');
     const isChecked = btn.getAttribute('aria-checked') === 'true';
-
     btn.setAttribute('aria-checked', String(!isChecked));
     checkbox.src = !isChecked
         ? '../assets/images/global/checkbox-checked.svg'
         : '../assets/images/global/checkbox.svg';
     updateButtonState();
 }
+
 
 /**
  * Creates a guest user object with default values.
@@ -188,6 +196,7 @@ function createGuestUser() {
     };
 }
 
+
 /**
  * Logs in a user as a guest, creates a guest account, saves it to session storage, 
  * removes any existing user from local storage, and redirects to summary page.
@@ -198,6 +207,7 @@ function loginAsGuest() {
     localStorage.removeItem('currentUser');
     redirectTo('summary.html');
 }
+
 
 /**
  * Creates a new user object with basic properties
@@ -216,6 +226,7 @@ function createNewUser(name, email, password) {
     };
 }
 
+
 /**
  * Saves the current user object to session storage.
  * @param {object} user - The user object to be saved.
@@ -224,6 +235,7 @@ function saveCurrentUserToSession(currentUser) {
     if (!currentUser) return;
     sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
 }
+
 
 /**
  * Handles the submission of authentication forms
@@ -239,6 +251,12 @@ function handleAuthSubmit(event) {
     setUpSubmitActions(type, formInputs);
 }
 
+
+/**
+ * Executes the appropriate submit action based on the form type.
+ * @param {string} type - The type of form action ('login' or 'signup').
+ * @param {Object} formInputs - The input data collected from the form.
+ */
 async function setUpSubmitActions(type, formInputs) {
     if (type === 'login') {
         login(formInputs);
@@ -246,6 +264,7 @@ async function setUpSubmitActions(type, formInputs) {
         signup(formInputs);
     }
 }
+
 
 /**
  * Handles user registration process
@@ -263,8 +282,8 @@ async function signup({ name, email, password }) {
     setTimeout(() => {
         redirectTo('login.html');
     }, 1100);
-
 }
+
 
 /**
  * Handles user login by validating credentials and managing user session
@@ -287,6 +306,7 @@ function login({ email, password }) {
         localStorage.removeItem('currentUser');
     }
 }
+
 
 /**
  * Validates user login credentials against stored users

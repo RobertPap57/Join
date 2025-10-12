@@ -1,5 +1,3 @@
-
-
 /**
  * Validates the form fields and shows error messages if necessary.
  * @returns {boolean} True if form is valid, false otherwise
@@ -176,6 +174,9 @@ function addValidationEventListeners() {
 }
 
 
+/** 
+ * Disables the submit button if any form field or the due date input is empty. 
+ */
 function disableSubmitButtonOnEmptyForm() {
     const dueDateInput = document.getElementById('due-date-input');
     const fields = getValidationFields();
@@ -184,6 +185,10 @@ function disableSubmitButtonOnEmptyForm() {
     disableSubmitButton(anyEmptyField || isDueDateEmpty);
 }
 
+/** 
+ * Enables or disables the submit button based on the given state. 
+ * @param {boolean} [state=false] - Whether the submit button should be disabled.
+ */
 function disableSubmitButton(state = false) {
     const submitButton = document.getElementById('task-form-primary-btn');
     submitButton.disabled = state;
@@ -198,13 +203,12 @@ function handleFormSubmit(event) {
     event.preventDefault();
     if (!validateTaskForm()) return;
     if (event.submitter.disabled) return;
-    console.log('trigger');
-    
     const form = event.target;
     const formType = form.dataset.formType || 'add-task';
     submitFormByType(formType, form);
     disableSubmitButton(true);
 }
+
 
 /**
  * Routes form submission to the appropriate handler function.

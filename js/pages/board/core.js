@@ -29,14 +29,9 @@ function setupBoard() {
 }
 
 
-window.addEventListener('resize', () => {
-    renderTasks();
-});
-
-
 /**
  * Sets up search functionality for task filtering.
- */
+*/
 function setupSearchFunctionality() {
     const searchInput = document.querySelector('input[name="search"]');
     const searchForm = document.querySelector('.search-form');
@@ -52,7 +47,7 @@ function setupSearchFunctionality() {
 /**
  * Handles search input events and filters tasks in real-time.
  * @param {Event} event - The input event
- */
+*/
 function handleSearchInput(event) {
     searchQuery = event.target.value;
     renderTasks();
@@ -62,7 +57,7 @@ function handleSearchInput(event) {
 /**
  * Handles search form submission and prevents page reload.
  * @param {Event} event - The form submit event
- */
+*/
 function handleSearchSubmit(event) {
     event.preventDefault();
     const searchInput = document.querySelector('input[name="search"]');
@@ -76,7 +71,7 @@ function handleSearchSubmit(event) {
 /**
  * Filters tasks based on current search query.
  * @returns {Array} Array of tasks matching the search criteria
- */
+*/
 function getFilteredTasks() {
     let result = tasks;
     if (searchQuery.trim()) {
@@ -93,7 +88,7 @@ function getFilteredTasks() {
 
 /**
  * Shows search error styling when no results found.
- */
+*/
 function showSearchError() {
     const searchInput = document.querySelector('input[name="search"]');
     const errorMessage = document.querySelector('.search-error-message');
@@ -108,7 +103,7 @@ function showSearchError() {
 
 /**
  * Hides search error styling when results found or input empty.
- */
+*/
 function hideSearchError() {
     const searchInput = document.querySelector('input[name="search"]');
     const errorMessage = document.querySelector('.search-error-message');
@@ -123,7 +118,7 @@ function hideSearchError() {
 
 /**
  * Shows empty message for containers that have no task cards.
- */
+*/
 function showEmptyContainer() {
     containerIds.forEach((id) => {
         const container = document.getElementById(id);
@@ -141,7 +136,7 @@ function showEmptyContainer() {
  * Renders tasks in the task containers based on the current search query.
  * Shows empty message for containers that have no task cards, and search error styling when no results found.
  * Hides search error styling when results found or input empty.
- */
+*/
 function renderFilteredTasks() {
     const filteredTasks = getFilteredTasks();
     if (filteredTasks.length === 0 && searchQuery.trim() !== '') {
@@ -159,10 +154,10 @@ function renderFilteredTasks() {
 
 /**
  * Returns the color code associated with a given category.
- *
- * @param {string} category - The name of the category.
- * @returns {string} The hex color code for the specified category.
- */
+*
+* @param {string} category - The name of the category.
+* @returns {string} The hex color code for the specified category.
+*/
 function getCategoryColor(category) {
     return category === 'Technical Task' ? '#1FD7C1' : '#0038FF';
 }
@@ -172,7 +167,7 @@ function getCategoryColor(category) {
  * Finds a contact by ID in the contacts array.
  * @param {string} contactId - The ID of the contact to find
  * @returns {Object|null} The contact object or null if not found
- */
+*/
 function findContactById(contactId) {
     const contact = contacts.find(c => c.id === contactId);
     if (contact) return contact;
@@ -200,13 +195,13 @@ function addTaskFromBoard(status) {
 /**
  * Reloads the page when the primary pointer type changes (e.g., switching
  * between touch and mouse in DevTools or on hybrid devices).
- *
- * This ensures that drag-and-drop and click-outside logic work correctly,
- * since the touch-specific behavior (triggering on touchend instead of click)
- * requires the input type to be set correctly at page load.
- *
- * Note: This is mainly needed for DevTools testing or hybrid devices; on
- * normal devices, the pointer type won’t change during a session.
+*
+* This ensures that drag-and-drop and click-outside logic work correctly,
+* since the touch-specific behavior (triggering on touchend instead of click)
+* requires the input type to be set correctly at page load.
+*
+* Note: This is mainly needed for DevTools testing or hybrid devices; on
+* normal devices, the pointer type won’t change during a session.
  */
 function reloadOnPointerChange() {
     const mq = window.matchMedia('(pointer: coarse)');
@@ -214,3 +209,8 @@ function reloadOnPointerChange() {
         window.location.reload();
     });
 }
+
+
+window.addEventListener('resize', () => {
+    renderTasks();
+});

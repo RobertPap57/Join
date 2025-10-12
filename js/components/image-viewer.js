@@ -13,32 +13,56 @@ let dragStartY = 0;
 let currentX = 0;
 let currentY = 0;
 
+
 /**
- * Opens the image viewer dialog for the specified image index.
- * Initializes viewer elements, resets zoom and position, and displays the image.
- * @param {number} index - The index of the image to display from currentAttachments.
+ * Opens the image viewer dialog for a given attachment index.
+ * It sets up the viewer state and then shows the current image.
+ * @param {number} index The index of the attachment to open in the viewer.
  */
 function openImageViewer(index) {
+    setupViewerState(index);
+    showCurrentImage();
+}
+
+
+/**
+ * Sets up the viewer state for a given attachment index.
+ * It sets the current attachments array, current index, and DOM elements for the viewer.
+ * It also resets the viewer zoom level, image position, and adds event listeners for the viewer.
+ * @param {number} index The index of the attachment to open in the viewer.
+ */
+function setupViewerState(index) {
     currentAttachments = attachments;
     currentIndex = index;
     viewerImg = document.getElementById('viewer-img');
     imageDialog = document.getElementById('image-viewer-dialog');
     viewerTitle = document.getElementById('viewer-title');
+    if (!viewerImg || !imageDialog || !viewerTitle) return;
     viewerImg.classList.remove('slide-in-left', 'slide-in-right');
     imageDialog.classList.remove('slide-down');
     currentZoomLevel = 1;
     applyZoom();
     resetImagePosition();
     imageViewerEventListeners();
-    if (viewerImg) {
-        if (currentAttachments[currentIndex]) {
-            viewerTitle.innerHTML = `${currentAttachments[currentIndex].name} / ${currentAttachments[currentIndex].size}KB`;
-            viewerImg.src = currentAttachments[currentIndex].base64;
-            viewerImg.alt = currentAttachments[currentIndex].name;
-            imageDialog.showModal();
-        }
-    }
 }
+
+
+/**
+ * Shows the currently selected attachment in the image viewer dialog.
+ * It sets the image src, alt, and title, and shows the dialog.
+ * If the viewer elements or the current attachment are not available, it does nothing.
+ * @returns {void}
+ */
+function showCurrentImage() {
+    if (!viewerImg || !imageDialog) return;
+    const attachment = currentAttachments[currentIndex];
+    if (!attachment) return;
+    viewerTitle.innerHTML = `${attachment.name} / ${attachment.size}KB`;
+    viewerImg.src = attachment.base64;
+    viewerImg.alt = attachment.name;
+    imageDialog.showModal();
+}
+
 
 /**
  * Handles the click event to open an image viewer for an attachment.
@@ -57,6 +81,7 @@ function openViewer(event, index) {
     openImageViewer(index);
 }
 
+
 /**
  * Closes the image viewer dialog with a slide-down animation.
  */
@@ -69,6 +94,7 @@ function closeImageViewer() {
     }
 }
 
+
 /**
  * Advances to the next image in the currentAttachments array and triggers a rightward animation.
  */
@@ -77,6 +103,7 @@ function showNextImage() {
     animateImage('right');
 }
 
+
 /**
  * Displays the previous image in the attachments list and triggers a left animation.
  */
@@ -84,6 +111,7 @@ function showPreviousImage() {
     currentIndex = (currentIndex - 1 + currentAttachments.length) % currentAttachments.length;
     animateImage('left');
 }
+
 
 /**
  * Animates the image transition in the viewer based on the given direction.
@@ -97,13 +125,13 @@ function animateImage(direction) {
     currentZoomLevel = 1;
     applyZoom();
     resetImagePosition();
-
     if (currentAttachments[currentIndex]) {
         viewerTitle.innerHTML = `${currentAttachments[currentIndex].name} / ${currentAttachments[currentIndex].size}KB`;
         viewerImg.src = currentAttachments[currentIndex].base64;
         viewerImg.classList.add(direction === 'right' ? 'slide-in-right' : 'slide-in-left');
     }
 }
+
 
 /**
  * Adds event listeners for image viewer interactions, including dragging the image
@@ -123,17 +151,14 @@ function imageViewerEventListeners() {
     }
 }
 
+
 /**
  * Downloads the currently displayed image in the viewer.
  */
 function downloadCurrentImage() {
-    if (!currentAttachments || currentAttachments.length === 0) {
-        return;
-    }
+    if (!currentAttachments || currentAttachments.length === 0) return;
     const currentAttachment = currentAttachments[currentIndex];
-    if (!currentAttachment || !currentAttachment.base64) {
-        return;
-    }
+    if (!currentAttachment || !currentAttachment.base64) return;
     const downloadLink = document.createElement('a');
     downloadLink.href = currentAttachment.base64;
     downloadLink.download = currentAttachment.name || `image-${currentIndex}.jpg`;
@@ -141,6 +166,7 @@ function downloadCurrentImage() {
     downloadLink.click();
     document.body.removeChild(downloadLink);
 }
+
 
 /**
  * Zooms in on the currently displayed image.
@@ -151,6 +177,7 @@ function zoomIn() {
         applyZoom();
     }
 }
+
 
 /**
  * Zooms out of the currently displayed image.
@@ -163,6 +190,7 @@ function zoomOut() {
     }
 }
 
+
 /**
  * Applies the current zoom level to the image.
  */
@@ -171,6 +199,7 @@ function applyZoom() {
     applyTransform();
     updateZoomButtonStates();
 }
+
 
 /**
  * Handles the dragging movement with boundary constraints.
@@ -187,6 +216,7 @@ function drag(e) {
     applyTransform();
 }
 
+
 /**
  * Ends the image dragging operation.
  */
@@ -194,6 +224,7 @@ function endDrag() {
     isDraggingImage = false;
     viewerImg.style.cursor = 'grab';
 }
+
 
 /**
  * Applies boundary constraints to the dragged position.
@@ -216,6 +247,7 @@ function applyDragBounds(x, y) {
     return { x, y };
 }
 
+
 /**
  * Gets dimensions needed for boundary calculations.
  * @returns {Object} Object containing dimension information
@@ -232,6 +264,7 @@ function getViewerDimensions() {
     };
 }
 
+
 /**
  * Initiates dragging of the zoomed image.
  * @param {MouseEvent} e - The mouse event
@@ -243,6 +276,7 @@ function startDraggingImage(e) {
     viewerImg.style.cursor = 'grabbing';
 }
 
+
 /**
  * Resets the image position to center.
  */
@@ -252,12 +286,14 @@ function resetImagePosition() {
     applyTransform();
 }
 
+
 /**
  * Applies zoom and position transform to the image.
  */
 function applyTransform() {
     viewerImg.style.transform = `scale(${currentZoomLevel}) translate(${currentX / currentZoomLevel}px, ${currentY / currentZoomLevel}px)`;
 }
+
 
 /**
  * Updates the state of zoom buttons based on current zoom level.

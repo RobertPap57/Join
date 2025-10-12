@@ -1,6 +1,5 @@
-
 /**
- * Dummy data for resetting and testing purposes
+ * This file is only for resetting dummy data in the Firebase database purposes
  */
 
 const dummyContacts = {
@@ -77,6 +76,15 @@ const dummyContacts = {
 		"phone": "+49 9999 999 99 9",
 		"id": "8",
 		"color": "#9327FF",
+	},
+
+	"me": {
+		"name": "Robert Pap",
+		"email": "info@robert-pap.de",
+		"phone": "+49 173 5326667",
+		"id": "me",
+		"color": "#3dcfb6",
+		"image": "../assets/images/profile-photos/me.jpg"
 	},
 
 };
@@ -181,6 +189,7 @@ const dummyTasks = {
 		"timestamp": 1723957140000
 	},
 };
+
 
 const dummyUsers = {
 	"guest": {

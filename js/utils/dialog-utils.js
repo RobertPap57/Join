@@ -13,8 +13,8 @@ function trapFocusInDialogEvent() {
         if (focusable.length === 0) return;
         bindEventListenerOnce(dialog, 'keydown', (e) => trapFocusInDialog(e, focusable), 'trap_focus');
     });
-
 }
+
 
 /**
  * Returns an array of focusable elements within a given container element.
@@ -30,6 +30,7 @@ function getFocusableElements(container) {
     ).filter(el => !(el.disabled || el.getAttribute("aria-hidden") === "true" || !isVisible(el)));
 }
 
+
 /**
  * Returns true if the given element is visible, false otherwise.
  * An element is considered visible if its display CSS property is not "none" and its visibility CSS property is not "hidden".
@@ -40,6 +41,7 @@ function isVisible(el) {
     const style = window.getComputedStyle(el);
     return style.display !== "none" && style.visibility !== "hidden";
 }
+
 
 /**
  * Traps the focus in the dialog when the Tab key is pressed.
@@ -66,6 +68,7 @@ function trapFocusInDialog(e, focusable) {
     }
 }
 
+
 /**
  * Prevents dialogs from closing when pressing Enter or Space on buttons inside
  * any <dialog> element, and triggers the button's click event instead.
@@ -88,6 +91,7 @@ function enableDialogKeyboardButtons() {
     });
 }
 
+
 /**
  * Attaches an event listener to a dialog element that closes the dialog when a click occurs outside its bounds.
  *
@@ -108,6 +112,13 @@ function closeDialogOnClickOutside(dialog, onClose) {
     }
 }
 
+
+/**
+ * Detects touch events outside a given dialog element and triggers the onClose callback.
+ * @param {HTMLElement} dialog - The dialog element to detect touches outside of.
+ * @param {Function} onClose - Callback function executed when a touch occurs outside the dialog.
+ * @param {TouchEvent|MouseEvent} e - The event object from the touch or mouse interaction.
+ */
 function detectTouchOutside(dialog, onClose, e) {
     const rect = dialog.getBoundingClientRect();
     const x = e.touches ? e.touches[0].clientX : e.clientX;
@@ -115,11 +126,17 @@ function detectTouchOutside(dialog, onClose, e) {
     const clickedInside =
         x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
     if (!clickedInside) {
-        console.log('click outside');
         onClose();
     }
 }
 
+
+/**
+ * Detects click events outside a given dialog element and triggers the onClose callback.
+ * @param {HTMLElement} dialog - The dialog element to detect clicks outside of.
+ * @param {Function} onClose - Callback function executed when a click occurs outside the dialog.
+ * @param {MouseEvent} e - The mouse event object.
+ */
 function detectClickOutide(dialog, onClose, e) {
     const rect = dialog.getBoundingClientRect();
     const clickedInside =
@@ -131,7 +148,6 @@ function detectClickOutide(dialog, onClose, e) {
         onClose();
     }
 }
-
 
 
 /**

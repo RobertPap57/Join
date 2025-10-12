@@ -23,6 +23,7 @@ function getPopupElements() {
     }
 }
 
+
 /**
  * Initializes popup functionality by setting up elements and event listeners.
 */
@@ -35,6 +36,7 @@ function initPopup() {
     enableDialogKeyboardButtons();
     trapFocusInDialogEvent();
 }
+
 
 /**
  * Sets up the popup configuration and content.
@@ -54,6 +56,7 @@ function setUpPopup(type, user) {
     }
 }
 
+
 /**
  * Sets up the popup form with user data and type information.
  * @param {string} type - The type of popup (add-contact, edit-contact, etc.).
@@ -70,6 +73,7 @@ function setUpPopupForm(type, user = {}) {
     form.elements['email'].value = user.email || '';
     form.elements['phone'].value = user.phone || '';
 }
+
 
 /**
  * Handles form submission for popup forms.
@@ -94,6 +98,7 @@ async function handleSubmit(event) {
     await setUpSubmitActions(type, formValues);
 }
 
+
 /**
  * Sets up submit actions based on popup type.
  * @param {string} type - The type of popup action.
@@ -116,6 +121,7 @@ async function setUpSubmitActions(type, user) {
             break;
     }
 }
+
 
 /**
  * Sets up secondary button actions based on popup type.
@@ -140,6 +146,7 @@ function setUpSecondaryButtonAction(type, user) {
     }
 }
 
+
 /**
  * Sets up all popup buttons based on the popup type.
  * @param {string} type - The type of popup.
@@ -152,6 +159,7 @@ function setUpButtons(type) {
     popupElements.uploadBtn.classList.toggle('d-none', type === 'my-account');
     popupElements.primaryBtn.disabled = false;
 }
+
 
 /**
  * Sets up the primary button text and behavior based on popup type.
@@ -170,6 +178,7 @@ function setUpPrimaryButton(type) {
             break;
     }
 }
+
 
 /**
  * Sets up the secondary button text based on popup type.
@@ -197,6 +206,7 @@ function setUpSecondaryButton(type) {
     }
 }
 
+
 /**
  * Sets up button icons based on popup type.
  * @param {string} type - The type of popup.
@@ -213,6 +223,7 @@ function setUpButtonIcon(type) {
     } else return;
 }
 
+
 /**
  * Sets up hover effects for the upload button.
 */
@@ -225,6 +236,7 @@ function uploadBtnHoverListener() {
         photoIcon.src = "../assets/images/components/popup/photo.svg";
     });
 }
+
 
 /**
  * Sets up the popup title based on the popup type.
@@ -247,6 +259,7 @@ function setUpTitle(type) {
     }
 }
 
+
 /**
  * Sets up the profile image display based on user data.
  * @param {Object} user - The user object containing image, name, and color properties.
@@ -266,11 +279,10 @@ function setUpProfileAvatar(user) {
     }
 }
 
+
 /**
- * Sets up the profile image display based on user data.
- * If the window width is larger than 1250px, the box shadow is set to none.
- * Otherwise, the box shadow is set to a white shadow with a 3px spread radius and 4px blur radius.
- * @param {Object} user - The user object containing the image property.
+ * Sets up the profile image display based on screen size.
+ * @param {Object} user - The user object containing image, name, and color properties.
  */
 function setUpProfileImage(user) {
     popupElements.profileImg.innerHTML = `<img class="profile-image" src="${user.image}" alt="Profile picture">`;
@@ -280,6 +292,7 @@ function setUpProfileImage(user) {
         popupElements.profileImg.style.boxShadow = '0px 0px 0px 3px #ffffff, 0px 0px 4px 3px #0000001A';
     }
 }
+
 
 /**
  * Updates the popup profile image with the provided base64 image
@@ -292,6 +305,7 @@ function updatePopupProfileImage(base64Image) {
     }
 }
 
+
 /**
 * Sets input fields as editable or read-only based on popup type.
 * @param {string} type - The type of popup.
@@ -303,6 +317,7 @@ function setInputsUneditable(type) {
         input.readOnly = readOnly;
     });
 }
+
 
 /**
  * Clears all input values in popup form fields.
@@ -322,6 +337,7 @@ function openPopup(type, user) {
     showPopup();
 }
 
+
 /**
  * Closes the popup and cleans up form data.
  */
@@ -330,6 +346,7 @@ function closePopup() {
     clearInputs();
     clearFormValidation();
 }
+
 
 /**
  * Shows the popup with animation.
@@ -342,6 +359,7 @@ function showPopup() {
     }, 10);
 }
 
+
 /**
  * Hides the popup with animation.
  */
@@ -353,6 +371,7 @@ function hidePopup() {
     }, 125);
 }
 
+
 /**
  * Adds click outside listeners to dialogs and closes them.
  */
@@ -362,6 +381,7 @@ function closePopupDialogsOnClickOutsideListener() {
     closeDialogOnClickOutside(popupElements.popupDialog, () => closePopup());
 }
 
+
 /**
  * Adds ESC key listeners to dialogs and closes them on ESC.
  */
@@ -370,6 +390,7 @@ function closePopupDialogsOnEscListener() {
     closeDialogOnEsc(popupElements.warningDialog, () => closeToastDialog('warningDialog'));
     closeDialogOnEsc(popupElements.popupDialog, () => closePopup());
 }
+
 
 /**
  * Opens a toast dialog modal and applies a slide-in animation.
@@ -383,6 +404,7 @@ function openToastDialog(key) {
     }, 50);
 };
 
+
 /**
  * Closes the toast dialog for the given key.
  * @param {string} key - The key identifying the toast dialog element in popupElements.
@@ -394,6 +416,7 @@ function closeToastDialog(key) {
         toastDialog.close();
     }, 125);
 }
+
 
 /**
  * Opens a delete user confirmation message.
@@ -407,6 +430,7 @@ async function openDeleteUserMsg(id) {
     };
 }
 
+
 /**
  * Updates the current user data in storage and display.
  * @param {Object} user - User object with updated information
@@ -417,6 +441,7 @@ async function updateUser(user) {
     sessionStorage.setItem('currentUser', JSON.stringify(user));
     await updateData('/users', user.id, user);
 }
+
 
 /**
  * Deletes a user from the system and logs out.

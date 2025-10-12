@@ -6,14 +6,15 @@ let tasks = [];
 let currentUser = loadCurrentUser();
 let isTabbing = false;
 
+
 /**
  * Fetches the users from the database and assigns them to the global users variable.
  * @returns {Promise<void>} Resolves when the users are fetched and assigned to the global variable.
  */
 async function getUsers() {
 	users = await getData("/users");
-	console.log(users);
 }
+
 
 /**
  * Fetches the tasks from the database and assigns them to the global tasks variable.
@@ -21,8 +22,8 @@ async function getUsers() {
  */
 async function getTasks() {
 	tasks = await getData("/tasks");
-	console.log(tasks);
 }
+
 
 /**
  * Fetches the contacts from the database and assigns them to the global contacts variable.
@@ -30,8 +31,8 @@ async function getTasks() {
  */
 async function getContacts() {
 	contacts = await getData("/contacts");
-	console.log(contacts);
 }
+
 
 /**
  * Initializes the index page by checking for a logged-in user.
@@ -40,6 +41,7 @@ async function getContacts() {
 function initIndex() {
 	checkForCurrentUser() ? redirectTo('summary.html') : redirectTo('login.html');
 }
+
 
 /**
  * Updates the favicon based on the user's system color scheme (light or dark).
@@ -50,6 +52,7 @@ function updateFavicon() {
 	favicon.href = isDarkMode ? '/assets/images/logos/logo-white.svg' : '/assets/images/logos/logo-black.svg';
 }
 
+
 /**
  * Adds event listeners after the DOM content is fully loaded.
  * Updates the favicon immediately and when the color scheme changes.
@@ -58,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	updateFavicon();
 	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateFavicon);
 });
+
 
 /**
  * Dynamically loads and injects HTML content into elements with the `w3-include-html` attribute.
@@ -78,6 +82,7 @@ async function includeHTML() {
 	}
 }
 
+
 /**
  * Loads the current user from sessionStorage.
  * Returns a default user object if no user is found.
@@ -94,6 +99,7 @@ function loadCurrentUser() {
 	const user = sessionStorage.getItem('currentUser');
 	return user ? JSON.parse(user) : defaultUser;
 }
+
 
 /**
  * Checks if a valid current user is stored in sessionStorage.
@@ -112,6 +118,7 @@ function checkForCurrentUser() {
 	}
 }
 
+
 /**
  * Redirects the browser to the specified page.
  * @param {string} page - The path or filename of the page to redirect to.
@@ -120,12 +127,14 @@ function redirectTo(page) {
 	window.location.href = page;
 }
 
+
 /**
  * Redirects the browser to the last visited page.
  */
 function goBack() {
 	window.history.back();
 }
+
 
 /**
  * Determines if the current device is a mobile or tablet.
@@ -136,9 +145,9 @@ function isMobileOrTablet() {
 	const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 	const isSmallScreen = Math.min(window.screen.width, window.screen.height) <= 1024;
 	const isMobileOS = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
-
 	return isTouchDevice && (isMobileOS || isSmallScreen);
 }
+
 
 /**
  * Checks if the current window orientation is landscape.
@@ -147,6 +156,7 @@ function isMobileOrTablet() {
 function isLandscape() {
 	return window.matchMedia("(orientation: landscape)").matches;
 }
+
 
 /**
  * Shows or hides the "portrait-warning" overlay based on device type and screen orientation.
@@ -162,28 +172,27 @@ function checkScreenOrientation() {
 	}
 }
 
-window.addEventListener('resize', checkScreenOrientation);
-window.addEventListener("orientationchange", checkScreenOrientation);
+
 
 /**
  * Generates a unique identifier string based on the current timestamp and a random component.
- *
  * @returns {string} A unique ID string.
- */
+*/
 function createUniqueId() {
 	return Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
 }
 
+
 /**
  * Capitalizes the first letter of the given string and converts the rest to lowercase.
- *
  * @param {string} str - The string to capitalize.
  * @returns {string} The string with the first letter capitalized and the rest in lowercase.
- */
+*/
 function capitalizeFirstLetter(string) {
 	if (!string) return '';
 	return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
+
 
 /**
  * Creates a string of initials from a name string.
@@ -192,7 +201,7 @@ function capitalizeFirstLetter(string) {
  * name, followed by the first letter of the last name if it exists.
  * @param {string} name - The user's name as a string.
  * @returns {string} The user's initials as a string.
- */
+*/
 function createNameInitials(name) {
 	const cleanName = name.replace(/\s*\(You\)$/, '').trim();
 	const names = cleanName.split(' ');
@@ -201,10 +210,11 @@ function createNameInitials(name) {
 	return firstNameInitial + lastNameInitial;
 }
 
+
 /**
  * Returns a random color from a predefined set of hex color codes.
  * @returns {string} A random color hex code from the allowed list.
- */
+*/
 function getRandomColor() {
 	const colors = [
 		'#9747FF', '#FF7A00', '#FF5EB3', '#6E52FF',
@@ -215,6 +225,7 @@ function getRandomColor() {
 	const index = Math.floor(Math.random() * colors.length);
 	return colors[index];
 }
+
 
 /**
  * Displays a profile avatar for a user in the specified DOM element.
@@ -237,11 +248,12 @@ function displayProfileAvatar(user, userAvatarId) {
 	}
 }
 
+
 /**
  * Fetches data from the database and returns it as an array of objects.
  * @param {string} path - The database path from which to fetch data.
  * @returns {Promise<Array<Object>>} An array of data objects. Returns an empty array if no data is found or an error occurs.
- */
+*/
 async function getData(path = "") {
 	try {
 		const response = await fetch(BASE_URL + path + ".json");
@@ -254,12 +266,13 @@ async function getData(path = "") {
 	}
 }
 
+
 /**
  * Sends a POST request to add new data to the database.
  * @param {string} path - The database path where the data should be stored.
  * @param {Object} data - The data object to be stored.
  * @returns {Promise<Object|null>} The saved data object with the generated `id` property, or `null` if an error occurs.
- */
+*/
 async function addData(path = "", data = {}) {
 	try {
 		const response = await fetch(BASE_URL + path + ".json", {
@@ -282,13 +295,14 @@ async function addData(path = "", data = {}) {
 	}
 }
 
+
 /**
  * Updates specific data at a given path and ID in the database using PATCH.
  * @param {string} path - The database path where the data is located.
  * @param {string} id - The unique ID of the data object to update.
  * @param {Object} data - The partial data object with fields to update.
  * @returns {Promise<void>} Resolves when the data is updated, or logs an error.
- */
+*/
 async function updateData(path = "", id = "", data = {}) {
 	try {
 		await fetch(BASE_URL + path + "/" + id + ".json", {
@@ -301,12 +315,13 @@ async function updateData(path = "", id = "", data = {}) {
 	}
 }
 
+
 /**
  * Deletes data from the database at the specified path and ID.
  * @param {string} path - The database path where the data is located.
  * @param {string} id - The unique ID of the data object to delete.
  * @returns {Promise<void>} Resolves when the data is deleted, or logs an error.
- */
+*/
 async function deleteData(path = "", id = "") {
 	try {
 		await fetch(BASE_URL + path + "/" + id + ".json", {
@@ -317,13 +332,14 @@ async function deleteData(path = "", id = "") {
 	}
 }
 
+
 /**
  * Overwrites data at the specified Firebase path using HTTP PUT.
  * This is typically used to reset or replace entire collections with dummy data.
  * @param {string} path - The Firebase path (e.g., "/users").
  * @param {Object|Array} data - The data to store at the specified path.
  * @returns {Promise<void>} Resolves when the operation completes and logs the response.
- */
+*/
 async function putData(path = "", data = {}) {
 	await fetch(BASE_URL + path + ".json", {
 		method: "PUT",
@@ -338,12 +354,12 @@ async function putData(path = "", data = {}) {
 /**
  * Attaches an event listener to an element only once for a specific event and handler.
  * Ensures the same handler is not bound multiple times by using a unique key stored in the element's dataset.
- *
- * @param {HTMLElement} element - The DOM element to bind the event listener to.
- * @param {string} event - The event type to listen for (e.g., 'click', 'mouseover').
- * @param {Function} handler - The event handler function to execute when the event occurs.
- * @param {string} boundKey - A unique key to identify this binding in the element's dataset.
- */
+*
+* @param {HTMLElement} element - The DOM element to bind the event listener to.
+* @param {string} event - The event type to listen for (e.g., 'click', 'mouseover').
+* @param {Function} handler - The event handler function to execute when the event occurs.
+* @param {string} boundKey - A unique key to identify this binding in the element's dataset.
+*/
 function bindEventListenerOnce(element, event, handler, boundKey) {
 	element._boundEvents = element._boundEvents || {};
 	const key = `${event}_${boundKey}`;
@@ -351,6 +367,7 @@ function bindEventListenerOnce(element, event, handler, boundKey) {
 	element._boundEvents[key] = true;
 	element.addEventListener(event, handler);
 }
+
 
 /**
  * Prevents form submission when the Enter key is pressed inside any input field,
@@ -381,9 +398,14 @@ window.addEventListener('keydown', e => {
 	}
 });
 
+
 window.addEventListener('mousedown', () => {
 	if (isTabbing) {
 		document.body.classList.remove('user-is-tabbing');
 		isTabbing = false;
 	}
 });
+
+
+window.addEventListener('resize', checkScreenOrientation);
+window.addEventListener("orientationchange", checkScreenOrientation);

@@ -1,4 +1,3 @@
-
 /**
  * Initializes an authentication page (login or signup).
  *
@@ -18,6 +17,7 @@ async function initAuthPage(page) {
     setUpAuthForm(page);
 }
 
+
 /**
  * Checks if the users, contacts, or tasks databases are empty.
  * If any are empty, resets the database and reloads the data.
@@ -36,6 +36,7 @@ async function checkIfDatabaseIsEmpty() {
         return;
     }
 };
+
 
 /**
  * Handles the intro animation by hiding the overlay and intro logo,

@@ -1,0 +1,52 @@
+.separator {
+    width: 2px;
+    height: 102px;
+    border-radius: 10px;
+    background-color: #D1D1D1;
+}
+
+.urgent-link {
+    gap: 61px !important;
+}
+
+.urgent-link .urgent-container {
+    flex-direction: row;
+    gap: 18px;
+}
+
+.urgent-link .upcoming-deadline-container {
+    gap: 13px;
+    align-items: flex-start;
+}
+
+.urgent-link .upcoming-deadline-container span {
+    font-size: 21px;
+    font-weight: 700;
+    color: #2A3647;
+    text-align: center;
+}
+
+.urgent-link .upcoming-deadline-container p {
+    font-size: 16px;
+    color: #2A3647;
+}
+
+.greeting {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    text-align: center;
+}
+
+.greeting p {
+    font-size: 47px;
+    font-weight: 500;
+    color: #2A3647;
+}
+
+.greeting span {
+    font-size: 64px;
+    font-weight: 700;
+    color: #29ABE2;
+}

@@ -1,0 +1,37 @@
+.contact-slide-out {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+.contact-slide-in {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast-msg {
+    z-index: 10;
+    display: flex;
+    left: 743px;
+    bottom: 100px;
+    position: fixed;
+    transition: transform 125ms ease-in-out;
+    width: 326px;
+    height: 74px;
+    border-radius: 20px;
+    font-size: 20px;
+    color: white;
+    background-color: rgba(42, 54, 71, 1);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+}
+
+.toast-msg-slide-in {
+    transform: translateX(0);
+}
+
+.toast-msg-slide-out {
+    transform: translateX(2000%);
+}
+
+.contact-menu-slide-in {
+    transform: translateX(0);
+}

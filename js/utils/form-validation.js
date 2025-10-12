@@ -2,6 +2,7 @@ let validationElements = {};
 let eventListeners = {};
 let isSingup = false;
 
+
 const validationMessages = {
     name: {
         required: 'Please enter a full name.',
@@ -29,6 +30,7 @@ const validationMessages = {
     }
 };
 
+
 /**
  * Gets validation elements from the DOM.
  * @returns {Object} Object containing form validation elements.
@@ -43,6 +45,7 @@ function getValidationElements() {
         validationBtn: document.querySelector('button[type="submit"]')
     };
 }
+
 
 /**
  * Initializes form validation by setting up elements and listeners.
@@ -59,6 +62,7 @@ function initFormValidation() {
 function clearFormValidation() {
     clearInvalidInputs();
 }
+
 
 /**
  * Validates a name input field.
@@ -82,6 +86,7 @@ function validateName() {
     return { isValid: true, message: '' };
 }
 
+
 /**
  * Validates an email input field.
  * @returns {Object} Validation result with isValid boolean and message string.
@@ -101,6 +106,7 @@ function validateEmail() {
     return { isValid: true, message: '' };
 }
 
+
 /**
  * Checks if the entered email already exists in the users list.
  * @returns {boolean} True if the email is already taken, false otherwise.
@@ -109,6 +115,7 @@ function isEmailTaken() {
     const emailValue = validationElements.email.value.trim().toLowerCase();
     return users.some(user => user.email === emailValue);
 }
+
 
 /**
  * Validates a phone input field.
@@ -130,7 +137,6 @@ function validatePhone() {
     if (digitsOnly.length > 15) {
         return { isValid: false, message: validationMessages.phone.long };
     }
-
     return { isValid: true, message: '' };
 }
 
@@ -166,6 +172,7 @@ function validatePassword() {
     return { isValid: true, message: '' };
 }
 
+
 /**
  * Validates a confirm password input field against the original password.
  * @returns {Object} Validation result with isValid boolean and message string.
@@ -181,6 +188,7 @@ function validateConfirmPassword() {
     }
     return { isValid: true, message: '' };
 }
+
 
 /**
  * Shows validation error for an input element.
@@ -198,6 +206,7 @@ function showValidationError(input, message) {
     }
 }
 
+
 /**
  * Clears validation error for an input element.
  * @param {HTMLInputElement} input - The input element to clear error for.
@@ -211,6 +220,7 @@ function clearValidationError(input) {
         validationMsg.hidden = true;
     }
 }
+
 
 /**
  * Sets up validation event listeners for form inputs.
@@ -265,7 +275,6 @@ function validateInput(input) {
 
 /**
  * Validates all relevant input fields in a form based on the form type.
- *
  * @param {HTMLFormElement} form - The form element to validate.
  * @param {string} type - The type of form ('login', 'my-account', etc.).
  * @returns {boolean} True if all required inputs are valid, otherwise false.
@@ -286,6 +295,7 @@ function validateForm(form, type) {
     return allValid;
 }
 
+
 /**
  * Sets an input element to active state with visual styling.
  * @param {HTMLInputElement} input - The input element to set as active.
@@ -295,6 +305,7 @@ function setInputActive(input) {
     input.style.borderColor = '#29ABE2';
 }
 
+
 /**
  * Removes active state from an input element.
  * @param {HTMLInputElement} input - The input element to remove active state from.
@@ -303,6 +314,7 @@ function removeInputActive(input) {
     if (!input) return;
     input.style.borderColor = '';
 }
+
 
 /**
  * Updates the button state based on validation status.
@@ -318,6 +330,7 @@ function updateButtonState() {
     }
 }
 
+
 function checkSignupCheckbox() {
     const checkbox = document.getElementById('auth-checkbox-btn');
     if (!checkbox) return false;
@@ -327,6 +340,7 @@ function checkSignupCheckbox() {
     if (!isChecked && isSignup) return true;
     else return false;
 }
+
 
 /**
  * Clears validation errors from all invalid inputs.
@@ -355,6 +369,7 @@ function areInputsEmpty() {
         return input.value.trim() === '';
     });
 }
+
 
 /**
  * Highlights email and password fields with an error color and displays a login failure message.

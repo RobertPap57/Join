@@ -16,6 +16,14 @@ function initTaskForm(type, options = {}) {
     disableCategoryDropdown(type);
     changePrioBtn();
     styleSubtaskInput();
+    setupTaskFormListeners();
+}
+
+
+/**
+ * Attaches the runtime listeners used to manage the task form UI.
+ */
+function setupTaskFormListeners() {
     closeContactListOnOutsideClick();
     preventDefaultValidation();
     createCustomResizeHandle();
@@ -24,6 +32,7 @@ function initTaskForm(type, options = {}) {
     adjustTextareaPaddingListener();
     disableSubmitButtonOnEmptyForm();
 }
+
 
 /**
  * Save the task and push it to the database.
@@ -37,6 +46,7 @@ async function addTask(type) {
         renderTasks();
     }
 }
+
 
 /**
  * Updates an existing task with edited form data.
@@ -69,6 +79,7 @@ async function saveTaskChanges(taskId, updatedTask) {
     }
 }
 
+
 /**
  * Updates the task in the local tasks array.
  * @param {string} taskId - ID of the task to update
@@ -81,6 +92,7 @@ function updateLocalTaskData(taskId, updatedTask) {
         renderTasks();
     }
 }
+
 
 /**
  * Gathers all task data from the form.
@@ -102,14 +114,13 @@ function getTaskData() {
         timestamp: Date.now()
     };
 }
- 
+
+
 /**
- * Retrieves the task status from session storage, removes it if it exists, and returns the status.
- * If no status is found, returns 'to-do'.
- * @returns {string} The task status ('to-do', 'in-progress', 'await-feedback', 'done')
+ * Resolves the initial status for a newly created task.
  */
 function getTaskStatus() {
-      const status = sessionStorage.getItem('newTaskStatus');
+    const status = sessionStorage.getItem('newTaskStatus');
     if (status) {
         sessionStorage.removeItem('newTaskStatus');
         return status;
@@ -117,34 +128,49 @@ function getTaskStatus() {
     return 'to-do';
 }
 
+
 /**
- * Shows a task added message by adding a CSS class to the element with the class 'task-added-msg'.
- * After 3 seconds, it adds another CSS class to slide in the message. After another 2 seconds, it redirects to the board.
- *
- * @return {void} 
+ * Displays the success feedback for a submitted task.
  */
 function showTaskAddedMessage(type) {
     const messageElement = document.querySelector('.task-added-msg');
     switch (type) {
         case 'add-task':
-            messageElement.classList.add('d-flex-visible');
-            setTimeout(() => {
-                messageElement.classList.add('task-added-msg-slide-in');
-            }, 50);
-            setTimeout(() => {
-                redirectTo('board.html');
-            }, 1200);
+            showToastMsgPage(messageElement);
             break;
         default:
-            messageElement.classList.add('task-added-msg-slide-in');
-            messageElement.classList.add('d-flex-visible');
-            setTimeout(() => {
-                messageElement.classList.remove('d-flex-visible');
-                document.getElementById('task-form-dialog').close();
-            }, 1000);
+            showToastMsgDialog(messageElement);
             break;
     }
 }
+
+
+/**
+ * Animates the task-added toast on the full page view.
+ */
+function showToastMsgPage(messageElement) {
+    messageElement.classList.add('d-flex-visible');
+    setTimeout(() => {
+        messageElement.classList.add('task-added-msg-slide-in');
+    }, 50);
+    setTimeout(() => {
+        redirectTo('board.html');
+    }, 1200);
+}
+
+
+/**
+ * Animates the task-added toast inside the dialog flow.
+ */
+function showToastMsgDialog(messageElement) {
+    messageElement.classList.add('task-added-msg-slide-in');
+    messageElement.classList.add('d-flex-visible');
+    setTimeout(() => {
+        messageElement.classList.remove('d-flex-visible');
+        document.getElementById('task-form-dialog').close();
+    }, 1000);
+}
+
 
 /**
  * Creates a custom resize handle for the textarea
@@ -156,12 +182,9 @@ function createCustomResizeHandle() {
     setupResizeEvents(textarea, resizeHandle);
 }
 
+
 /**
- * Sets up custom resize events for a textarea using a resize handle element.
- * Allows the user to click and drag the handle to resize the textarea vertically.
- *
- * @param {HTMLTextAreaElement} textarea - The textarea element to be resized.
- * @param {HTMLElement} resizeHandle - The element used as the resize handle.
+ * Configures mouse and keyboard handlers for textarea resizing.
  */
 function setupResizeEvents(textarea, resizeHandle) {
     let isResizing = false, startY = 0, startHeight = 0;
@@ -177,10 +200,15 @@ function setupResizeEvents(textarea, resizeHandle) {
     bindEventListenerOnce(document, 'mouseup', () => stopResizing(() => isResizing = false), 'documentMouseUpResize');
 }
 
+
+/**
+ * Handles the resizing of a textarea element based on keyboard input.
+ * @param {KeyboardEvent} e - The keyboard event triggered during resizing.
+ * @param {HTMLTextAreaElement} textarea - The textarea element being resized.
+ */
 function handleKeyboardResize(e, textarea) {
     const step = 20; // px per arrow press
     const currentHeight = parseInt(getComputedStyle(textarea).height);
-
     if (e.key === 'ArrowUp') {
         textarea.style.height = Math.max(120, currentHeight - step) + 'px';
         e.preventDefault();
@@ -191,9 +219,9 @@ function handleKeyboardResize(e, textarea) {
     }
 }
 
+
 /**
  * Handles the resizing of a textarea element based on mouse movement.
- *
  * @param {MouseEvent} e - The mouse event triggered during resizing.
  * @param {HTMLTextAreaElement} textarea - The textarea element being resized.
  * @param {boolean} isResizing - Indicates if the resizing operation is active.
@@ -210,20 +238,16 @@ function handleResize(e, textarea, isResizing, startY, startHeight) {
 
 
 /**
- * Stops the resizing process by setting the isResizing flag to false
- * and removing the 'resizing' class from the document body.
- *
- * @param {boolean} isResizing - Indicates if resizing is currently active.
+ * Ends an active resize cycle and clears state styles.
  */
 function stopResizing(callback) {
     callback();
     document.body.classList.remove('resizing');
 }
 
+
 /**
- * Adjusts the right padding of the textarea with the ID 'description'
- * based on the presence of a vertical scrollbar. If a vertical scrollbar
- * is visible, the right padding is set to 0px; otherwise, it is set to 16px.
+ * Toggles textarea padding to account for scrollbar presence.
  */
 function adjustTextareaPadding() {
     const textarea = document.getElementById('description');
@@ -233,12 +257,19 @@ function adjustTextareaPadding() {
 }
 
 
+/**
+ * Registers the textarea listener that updates padding on input.
+ */
 function adjustTextareaPaddingListener() {
     const textarea = document.getElementById('description');
     if (!textarea) return;
     bindEventListenerOnce(textarea, 'input', adjustTextareaPadding, 'descriptionInput');
 }
 
+
+/**
+ * Updates the task form heading to match the current mode.
+ */
 function setupTaskFormTitle(type) {
     const taskFormHeading = document.getElementById('task-form-heading');
     taskFormHeading.classList.remove('d-none');
@@ -252,6 +283,7 @@ function setupTaskFormTitle(type) {
     }
 }
 
+
 /**
  * Sets up the task form context with data attributes.
  * @param {string} type - Type of form
@@ -260,18 +292,20 @@ function setupTaskFormTitle(type) {
 function setupTaskFormContext(type, options = {}) {
     const form = document.getElementById('task-form');
     if (!form) return;
-
     form.dataset.formType = type;
-
     if (options.taskId) {
         form.dataset.taskId = options.taskId;
     }
-
     if (options.status) {
         form.dataset.status = options.status;
     }
 }
 
+
+/**
+ * Sets up the task form action buttons based on the type of form.
+ * @param {string} type - Type of form ('add-task', 'edit-task', etc.)
+ */
 function setupTaskActionBtns(type) {
     setupFormPrimaryBtn(type);
     setupFormSecondaryBtn(type);
@@ -279,6 +313,9 @@ function setupTaskActionBtns(type) {
 }
 
 
+/**
+ * Binds the secondary button behavior based on the form type.
+ */
 function setupFormSecondaryBtnActions(type) {
     const secondaryBtn = document.getElementById('task-form-secondary-btn');
     bindEventListenerOnce(secondaryBtn, 'click', () => {
@@ -294,6 +331,9 @@ function setupFormSecondaryBtnActions(type) {
 
 }
 
+/**
+ * Configures the secondary button label and visibility.
+ */
 function setupFormSecondaryBtn(type) {
     const secondaryBtn = document.getElementById('task-form-secondary-btn');
     const btnText = secondaryBtn.querySelector('.btn-text');
@@ -311,6 +351,9 @@ function setupFormSecondaryBtn(type) {
     }
 }
 
+/**
+ * Configures the primary button label for the form mode.
+ */
 function setupFormPrimaryBtn(type) {
     const primaryBtn = document.getElementById('task-form-primary-btn');
     const btnText = primaryBtn.querySelector('.btn-text');

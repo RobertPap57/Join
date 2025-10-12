@@ -7,13 +7,16 @@
     <title>Board</title>
     <link id="favicon" rel="icon" href="../favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/pages/board/core.css">
+    <link rel="stylesheet" href="../css/pages/board/buttons.css">
+    <link rel="stylesheet" href="../css/pages/board/components.css">
+    <link rel="stylesheet" href="../css/pages/board/layout.css">
     <link rel="stylesheet" href="../css/components/image-viewer.css">
-    <link rel="stylesheet" href="../css/pages/board/responsive.css">
     <link rel="stylesheet" href="../css/components/header.css">
     <link rel="stylesheet" href="../css/components/nav.css">
-    <link rel="stylesheet" href="../css/components/popup/popup.css">
-    <link rel="stylesheet" href="../css/components/popup/popup-responsive.css">
+    <link rel="stylesheet" href="../css/components/popup/buttons.css">
+    <link rel="stylesheet" href="../css/components/popup/components.css">
+    <link rel="stylesheet" href="../css/components/popup/features.css">
+    <link rel="stylesheet" href="../css/components/popup/layout.css">
     <link rel="stylesheet" href="../css/components/task-form/features.css">
     <link rel="stylesheet" href="../css/components/task-form/layout.css">
     <link rel="stylesheet" href="../css/components/task-form/components.css">
@@ -75,8 +78,7 @@
                 <section class="task-group">
                     <header class="task-group-header padl-12">
                         <h2>To do</h2>
-                        <button onclick="addTaskFromBoard('to-do')"
-                            aria-label="Add task in 'to do' group">
+                        <button onclick="addTaskFromBoard('to-do')" aria-label="Add task in 'to do' group">
                             <img src="../assets/images/pages/boards/add.svg" alt="">
                             <img src="../assets/images/pages/boards/add-mobile.svg" alt="">
                         </button>
@@ -87,8 +89,7 @@
                 <section class="task-group">
                     <header class="task-group-header">
                         <h2>In progress</h2>
-                        <button onclick="addTaskFromBoard('in-progress')"
-                            aria-label="Add task in 'in progress' group">
+                        <button onclick="addTaskFromBoard('in-progress')" aria-label="Add task in 'in progress' group">
                             <img src="../assets/images/pages/boards/add.svg" alt="">
                             <img src="../assets/images/pages/boards/add-mobile.svg" alt="">
                         </button>

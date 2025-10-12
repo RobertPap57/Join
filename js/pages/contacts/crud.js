@@ -7,6 +7,7 @@ async function addContact(contact) {
     await saveContactToDatabase(contact);
 }
 
+
 /**
  * Saves a new contact to the database.
  * @param {Object} newContact - The new contact to be saved.
@@ -19,6 +20,7 @@ async function saveContactToDatabase(newContact) {
         updateUIAfterAddingContact(contactWithId)
     } 
 }
+
 
 /**
  * Updates the UI after adding a new contact.
@@ -33,6 +35,7 @@ async function updateUIAfterAddingContact(newContact) {
     slideToastMsg();
 }
 
+
 /**
  * Edits a contact by finding the contact with the given ID, populating the edit contact container with the contact's details, opening the edit contact pop-up window, and adding input event listeners.
  * @param {number} id - The ID of the contact to edit.
@@ -42,6 +45,7 @@ function editContact(id) {
     if (!contact) return;
     openPopup('edit-contact', contact);
 }
+
 
 /**
  * Updates a contact by finding the contact with the given ID, updating the contact's information locally and in the database, rendering the updated contact in the UI, and closing the edit contact pop-up window.
@@ -59,6 +63,7 @@ async function updateContact(contact) {
     scrollToContact(contact.id);
     closePopup();
 }
+
 
 /**
  * Deletes a contact by ID from the contacts array and database, then updates the UI.

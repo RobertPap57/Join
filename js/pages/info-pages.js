@@ -1,9 +1,4 @@
 /**
- * Initialization functions for various informational pages.
- * This file contains functions to set up the legal notice, privacy policy, and help pages.
- */
-
-/**
  * Initializes the legal notice page by including HTML content,
  * hiding navigation and header icons, and highlighting the legal notice link.
  */
@@ -14,6 +9,7 @@ async function initLegalNotice() {
     checkForCurrentUser() ? initHeader() : hideHeaderActions();
     highlightLink('legal-notice');
 }
+
 
 /**
  * Initializes the privacy policy page by including HTML content,
@@ -26,6 +22,7 @@ async function initPrivacyPolicy() {
     checkForCurrentUser() ? initHeader() : hideHeaderActions();
     highlightLink('privacy-policy');
 }
+
 
 /**
  * Initializes the help section by including HTML content,

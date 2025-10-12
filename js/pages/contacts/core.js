@@ -14,6 +14,7 @@ async function initContacts() {
     preventFormSubmitOnEnter();
 }
 
+
 /**
  * Renders contacts if there are any, otherwise displays a message.
  */
@@ -22,6 +23,7 @@ function renderContacts() {
     const sortedContacts = contacts.sort((a, b) => a.name.localeCompare(b.name));
     renderSortedContacts(sortedContacts);
 }
+
 
 /**
  * Checks if the contacts array is empty and updates the contacts list container accordingly.
@@ -34,6 +36,7 @@ function checkIfArrayIsEmpty() {
     }
 }
 
+
 /**
  * Renders the sorted contacts in the contacts list container, with each contact
  * separated by a separator line based on the first letter of their name.
@@ -43,7 +46,6 @@ function renderSortedContacts(sortedContacts) {
     const contactsListContainer = document.getElementById('contacts-list');
     contactsListContainer.innerHTML = '';
     let currentLetter = '';
-
     sortedContacts.forEach(contact => {
         const firstLetter = contact.name.charAt(0).toUpperCase();
         if (firstLetter !== currentLetter) {
@@ -54,6 +56,7 @@ function renderSortedContacts(sortedContacts) {
         displayProfileAvatar(contact, `avatar-${contact.id}`);
     });
 }
+
 
 /**
  * Slides the toast message notification.

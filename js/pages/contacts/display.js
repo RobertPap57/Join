@@ -1,5 +1,6 @@
 let lastFocusedContact = null;
 
+
 /**
  * Displays a contact with the given ID.
  * @param {number|string} id - The ID of the contact to display.
@@ -16,6 +17,7 @@ function displayContact(id) {
     container.querySelector('h2').focus();
 }
 
+
 /**
  * Removes the avatar border if the avatar is an image and the window width is greater than 767px.
  * Otherwise, it sets the avatar border to a white box shadow.
@@ -30,6 +32,7 @@ function removeAvatarBorder(contact) {
         avatar.style.boxShadow = '0px 0px 0px 3px #ffffff, 0px 0px 4px 3px #0000001A';
     }
 }
+
 
 /**
  * Displays the contact actions for a given contact ID and container.
@@ -48,6 +51,7 @@ function displayContactActions(id, container) {
     }
 }
 
+
 /**
  * Marks a contact as active by updating the visual selection state.
  * @param {number} id - The ID of the contact to mark as active.
@@ -65,6 +69,7 @@ function markContactAsActive(id) {
     });
 }
 
+
 /**
  * Shows the contact display container for mobile view.
  */
@@ -73,6 +78,7 @@ function showContactDisplay() {
     container.style.display = 'flex';
     container.style.transform = 'translateX(0)';
 }
+
 
 /**
  * Hides the contact display container with animation.
@@ -90,6 +96,7 @@ async function hideContactDisplay(container) {
     await clearContainerContent(container);
 }
 
+
 /**
  * Clears the content of a container element after a delay.
  * @param {HTMLElement} container - The container element to clear.
@@ -103,6 +110,7 @@ function clearContainerContent(container) {
         }, 75);
     });
 }
+
 
 /**
  * Scrolls to a specific contact in the list.
@@ -124,6 +132,7 @@ function scrollToContact(id) {
     }
 }
 
+
 /**
  * Opens the contact menu in mobile view.
  */
@@ -135,6 +144,7 @@ function openContactMenu() {
         contactMenu.classList.add('contact-menu-slide-in');
     }, 10);
 }
+
 
 /**
  * Closes the contact menu in mobile view.
@@ -148,6 +158,7 @@ function closeContactMenu() {
     }, 125);
 }
 
+
 function initContactMenuCloseEvents() {
     const contactMenu = document.getElementById('contact-menu');
     if (!contactMenu) return;
@@ -160,6 +171,7 @@ function initContactMenuCloseEvents() {
     contactMenu.dataset.eventsApplied = "true";
 }
 
+
 /**
  * Returns to the contacts list view in mobile mode.
  */
@@ -167,6 +179,7 @@ function returnToContactsList() {
     const container = document.getElementById('contact-displayed');
     hideContactDisplay(container);
 }
+
 
 /**
  * Slides the contact container in and out of view.
@@ -180,6 +193,7 @@ function slideContact(container) {
         container.classList.add('contact-slide-in');
     }, 175);
 }
+
 
 /**
  * Selects a contact element by its ID and adds the 'contact-selected' class to it.
@@ -195,12 +209,14 @@ function selectedContact(id) {
     }
 }
 
+
 /**
  * Sets the display style of the main container element to 'flex' to open the mobile contact view.
  */
 function openMobileContact() {
     document.getElementById('main-container').style.display = 'flex';
 }
+
 
 /**
  * Sets the display style of the main container element to 'none' to close the mobile contact view.
@@ -211,6 +227,7 @@ function closeMobileContact() {
     if (!selectedListItem) return;
     selectedListItem.focus();
 }
+
 
 /**
  * Calculates the position of the element relative to its container.
@@ -227,6 +244,7 @@ function calculatePositions(container, element) {
     return { contactTopRelativeToContainer, contactBottomRelativeToContainer, containerHeight };
 }
 
+
 /**
  * Scrolls the element smoothly to the specified position.
  * @param {Element} element - The element to scroll.
@@ -235,6 +253,7 @@ function calculatePositions(container, element) {
 function scrollToSmooth(element, top) {
     element.scrollTo({ top: top, behavior: 'smooth' });
 }
+
 
 /**
  * Deselects all mobile contact elements by removing the 'contact-selected' class.
@@ -248,6 +267,7 @@ function deselectContactOnMobile() {
     }
 }
 
+
 /**
  * Adjusts the main container display based on the window width.
  */
@@ -259,6 +279,7 @@ function adjustMainContainerDisplay() {
         mainContainer.style.display = 'none';
     }
 }
+
 
 window.addEventListener('resize', deselectContactOnMobile);
 window.addEventListener('resize', adjustMainContainerDisplay);

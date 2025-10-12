@@ -1,3 +1,130 @@
+.popup-dialog {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 125ms ease-in-out;
+    border-radius: 30px;
+}
+
+.popup-dialog[open],
+.error-dialog[open],
+.warning-dialog[open] {
+    display: flex;
+}
+
+.popup-banner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 594px;
+    width: 467px;
+    padding: 66px 48px;
+    border-radius: 30px 0px 0px 30px;
+    background-color: #2a3647;
+}
+
+.popup-banner-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: white;
+}
+
+.popup-banner-content h1 {
+    font-size: 61px;
+}
+
+.popup-banner-content p {
+    font-size: 27px;
+}
+
+.popup-banner-content::after {
+    content: '';
+    width: 90px;
+    height: 3px;
+    background-color: #29abe2;
+    border-radius: 10px;
+    margin-top: 8px;
+}
+
+.popup-content {
+    position: relative;
+    width: 745px;
+    height: 594px;
+    background-color: white;
+    border-radius: 0px 30px 30px 0px;
+}
+
+.popup-content-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding: 135px 48px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 72px;
+}
+
+.popup-profile-container {
+    position: relative;
+    margin-bottom: 132px;
+}
+
+
+.popup-icon-container {
+    width: 24px;
+    height: 24px;
+}
+
+.error-dialog {
+    flex-direction: column;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(1000%);
+    padding: 16px 50px 16px 27px;
+    border-radius: 20px;
+    color: white;
+    background-color: #FF3E3E;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+    transition: transform 125ms ease-in-out;
+}
+
+.error-dialog p {
+    font-size: 20px;
+    margin: 0;
+    text-align: center;
+}
+
+.error-dialog span {
+    font-size: 14px;
+    margin: 0;
+    font-weight: 400;
+    text-align: center;
+}
+
+.warning-dialog {
+    width: 339px;
+    height: 177px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.15);
+    background-color: white;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 11px;
+    padding-block: 14px 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(1000%);
+    transition: transform 125ms ease-in-out, opacity 125ms ease-in-out;
+}
+
+.warning-dialog p {
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+}
+
 @media screen and (max-width:1250px) {
 
     .popup-banner {

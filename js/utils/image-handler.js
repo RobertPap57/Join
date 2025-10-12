@@ -1,25 +1,24 @@
 let attachments = [];
 
+
 /**
  * Opens the file picker dialog by programmatically triggering a click event.
  * Prevents default behavior and stops propagation if an event is provided.
- *
  * @param {Event} [e] - Optional event to prevent default and stop propagation.
  */
 function openFilePicker(e, id) {
     const filePicker = document.getElementById(id);
-
     if (e) {
         e.preventDefault();   
         e.stopPropagation();  
     }
-
     filePicker.dispatchEvent(new MouseEvent("click", {
         bubbles: false,    
         cancelable: true,
         view: window
     }));
 }
+
 
 /**
  * Handles drag over event for file drop functionality.
@@ -29,6 +28,7 @@ function handleFileDragOver(event) {
     event.preventDefault();
 }
 
+
 /**
  * Handles drag leave event for file drop functionality.
  * @param {Event} event - Drag event
@@ -36,6 +36,7 @@ function handleFileDragOver(event) {
 function handleFileDragLeave(event) {
     event.preventDefault();
 }
+
 
 /**
  * Handles file drop event and processes allowed files.
@@ -49,6 +50,7 @@ function handleFileDrop(event) {
         handleFiles(allowed);
     }
 }
+
 
 /**
  * Validates if a file is allowed based on type and size.
@@ -73,6 +75,7 @@ function isAllowedFile(file) {
     return true;
 }
 
+
 /**
  * Compresses an image file to specified dimensions and quality.
  * @param {File} file - The image file to compress
@@ -89,6 +92,7 @@ function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 1) {
         reader.readAsDataURL(file);
     });
 }
+
 
 /**
  * Processes the image data for compression.
@@ -109,6 +113,7 @@ function processImageForCompression(event, maxWidth, maxHeight, quality, resolve
     img.onerror = () => reject('Error loading the file.');
     img.src = event.target.result;
 }
+
 
 /**
  * Calculates new dimensions while maintaining aspect ratio.
@@ -131,6 +136,7 @@ function calculateNewDimensions(width, height, maxWidth, maxHeight) {
     return { width, height };
 }
 
+
 /**
  * Creates a compressed canvas from image data.
  * @param {HTMLImageElement} img - Source image element
@@ -148,6 +154,7 @@ function createCompressedCanvas(img, width, height, quality) {
     return canvas.toDataURL('image/jpeg', quality);
 }
 
+
 /**
  * Changes the error message content based on error type.
  * @param {string} message - Error type ('format' or 'size')
@@ -156,6 +163,7 @@ function changeErrorMsg(message) {
     const errorParagraph = document.querySelector('.error-dialog p');
     errorParagraph.innerHTML = getErrorMsgHtml(message);
 }
+
 
 /**
  * Returns the error message HTML based on error type.
@@ -172,6 +180,7 @@ function getErrorMsgHtml(message) {
     }
     return '';
 }
+
 
 /**
  * Sets up event listeners for file input attachments.
@@ -191,6 +200,7 @@ function fileInputListener() {
     }
 }
 
+
 /**
  * Processes multiple files by compressing and adding them to attachments.
  * @param {File[]} files - Array of files to process
@@ -206,14 +216,13 @@ async function handleFiles(files) {
         };
         attachments.push(attachment);
         renderAttachments();
-
-        // Scroll all attachment lists to the end
         const attachmentsLists = document.querySelectorAll('.attachments-list');
         attachmentsLists.forEach(list => {
             list.scrollLeft = list.scrollWidth;
         });
     }
 }
+
 
 /**
  * Handles image file processing for profile pictures.
@@ -229,6 +238,7 @@ async function handleImageFile(file) {
         return null;
     }
 }
+
 
 /**
  * Initializes the file picker for popup profile images.

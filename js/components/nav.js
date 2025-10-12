@@ -9,6 +9,7 @@ function highlightLink(link) {
     } else return;
 }
 
+
 /**
  * Hides the navigation bar links if no current user is logged in.
  */

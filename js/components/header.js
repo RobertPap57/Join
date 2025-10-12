@@ -1,8 +1,3 @@
-
-/**
- * Header component functionality and sub-menu management
-*/
-
 /**
  * Initializes the header section by displaying the current user's profile avatar,
  * setting up the user's initials in the font size, and closing any open submenus.
@@ -13,6 +8,7 @@ function initHeader() {
     closeSubMenuListeners();
     positionateSubMenu();
 }
+
 
 /**
  * Opens the sub-menu dialog and applies visual effects to the header avatar.
@@ -33,12 +29,12 @@ function openSubMenu() {
     }
 }
 
+
 /**
  * Positions the sub-menu dialog relative to its parent element.
  * If the window's inner height exceeds 1920 pixels, adjusts the 'right' style property
  * of the sub-menu dialog to align it with the right edge of the parent element,
  * adding a 20px offset.
- *
  * Assumes the parent element has the class 'header-content' and the sub-menu dialog
  * has the ID 'sub-menu'.
  */
@@ -50,6 +46,7 @@ function positionateSubMenu() {
         dialog.style.right = ((window.innerWidth - rect.right) + 20) + "px";
     }
 }
+
 
 /**
  * Attaches event listeners to the sub-menu element to handle closing.
@@ -80,6 +77,7 @@ function closeSubMenu() {
     } else subMenu.close();
 }
 
+
 /**
  * Hides the header actions by adding the 'd-none' class to the element with id 'header-actions'.
 */
@@ -87,12 +85,14 @@ function hideHeaderActions() {
     document.getElementById('header-actions').classList.add('d-none');
 }
 
+
 /**
  * Hides the help icon element.
 */
 function hideHelpIcon() {
     document.getElementById('help-icon').classList.add('d-none');
 }
+
 
 /**
  * Toggles the 'single-digit-font' CSS class on the header avatar element
@@ -108,6 +108,7 @@ function setupInitialsFS() {
     }
 }
 
+
 /**
  * Logs out the current user by removing 'currentUser' and 'greeting' from sessionStorage,
  * then redirects the user to the login page.
@@ -117,6 +118,7 @@ function logOut() {
     sessionStorage.removeItem('greeting');
     redirectTo('login.html');
 }
+
 
 window.addEventListener('resize', () => {
     positionateSubMenu();

@@ -215,8 +215,6 @@ label {
     color: #2A3647;
 }
 
-
-
 @media screen and (max-width: 560px) {
     .list-item.category {
         height: 43px;
@@ -247,7 +245,6 @@ label {
         padding: 10.5px 21px;
     }
 }
-
 
 .custom-resize-handle {
     position: absolute;

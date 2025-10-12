@@ -21,6 +21,7 @@ function getSubtaskListItemHTML(item) {
     `;
 }
 
+
 /**
  * Generates HTML for editing a subtask.
  * @param {string} text - Current subtask text
@@ -36,6 +37,7 @@ function getEditSubtaskHTML(text) {
     </div>
     `;
 }
+
 
 /**
  * Returns HTML for an attachment item.
@@ -70,6 +72,7 @@ function getAttachmentHtml(attachment, index, buttonType) {
     `;
 }
 
+
 /**
  * Generates an HTML string for a contact list item, including selection state.
 *
@@ -94,6 +97,7 @@ function getContactHTML(contact, isSelected) {
     </li>
     `;
 }
+
 
 /**
  * Returns HTML for a selected contact avatar.

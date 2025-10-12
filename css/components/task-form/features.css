@@ -426,9 +426,6 @@
     width: 30px;
 }
 
-
-
-
 @media screen and (max-width: 560px) {
     .drag-attachment-container span::before {
         content: "Upload file";

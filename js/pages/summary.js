@@ -4,6 +4,7 @@ const summaryIcons = [
   { id: 'urgent-icon', base: '../assets/images/pages/summary/urgent.svg' }
 ];
 
+
 /**
  * Initializes the summary page by including HTML, checking orientation,
  * verifying the current user, initializing the header, highlighting the summary link,
@@ -23,13 +24,12 @@ async function initSummary() {
   preventFormSubmitOnEnter();
 }
 
+
 /**
- * Renders the summary section by counting tasks based on specific status and priority mappings,
- * updating the summary display with these counts, the total number of tasks, and the upcoming deadline.
-*
-* Iterates through predefined mappings for task statuses and priorities, counts the number of tasks
-* matching each mapping, and updates the summary UI accordingly.
-*/
+ * Renders the summary page by counting tasks based on their status and priority.
+ * Then renders the counts to the respective summary items.
+ * Finally, renders the upcoming deadline.
+ */
 function renderSummary() {
   const mappings = [
     { key: "status", value: "to-do" },
@@ -46,9 +46,9 @@ function renderSummary() {
   renderUpcomingDeadline();
 }
 
+
 /**
  * Counts the number of tasks where the specified key matches the given value (case-insensitive).
-*
  * @param {string} key - The property name of the task object to compare.
  * @param {string} value - The value to match against the task's property.
  * @returns {number} The count of tasks matching the specified key and value.
@@ -57,9 +57,9 @@ function countTasks(key, value) {
   return tasks.filter(task => task[key].toLowerCase() === value.toLowerCase()).length;
 }
 
+
 /**
  * Updates the inner text of a DOM element with the specified ID to display a given number.
-*
  * @param {string} id - The ID of the DOM element to update.
  * @param {number} number - The number to display in the element.
 */
@@ -70,9 +70,9 @@ function renderDataToSummary(id, number) {
   }
 }
 
+
 /**
  * Returns the most urgent task with the earliest due date from a list of tasks.
-*
  * @param {Array<Object>} tasks - The array of task objects to search through.
  * @param {string} tasks[].priority - The priority level of the task (e.g., 'urgent').
  * @param {string|Date} tasks[].dueDate - The due date of the task.
@@ -86,9 +86,9 @@ function getMostUrgentTask(tasks) {
   }, null);
 }
 
+
 /**
  * Formats a date string into a human-readable format (e.g., "January 1, 2024").
- *
  * @param {string} dateString - The date string to format.
  * @returns {string} The formatted date string in "Month Day, Year" format.
 */
@@ -98,15 +98,14 @@ function formatDateString(dateString) {
   return date.toLocaleDateString('en-US', options);
 }
 
+
 /**
- * Renders the due date of the most urgent upcoming task.
- * If there are no urgent tasks, displays a message indicating so.
-*
-* Depends on:
- * - getMostUrgentTask(tasks): Returns the most urgent task object or null/undefined.
- * - formatDateString(date): Formats a date string for display.
- * - renderData(elementId, data): Renders data to a specified element.
-*/
+ * Renders the most urgent task with the earliest due date in the summary page.
+ * If no urgent tasks are found, renders a message indicating no urgent tasks.
+ * @param {Array<Object>} tasks - The array of task objects to search through.
+ * @param {string} tasks[].priority - The priority level of the task (e.g., 'urgent').
+ * @param {string|Date} tasks[].dueDate - The due date of the task.
+ */
 function renderUpcomingDeadline() {
   const mostUrgentTask = getMostUrgentTask(tasks);
   if (mostUrgentTask) {
@@ -117,17 +116,15 @@ function renderUpcomingDeadline() {
   }
 }
 
+
 /**
- * Updates the `src` attribute of an image element based on its ID, the current window width, 
- * and an optional state (e.g., 'hover'). 
- * 
- * - For images other than 'urgent-icon', if the window width is less than 767px, 
- *   the source is modified to use the '-mobile.svg' or '-mobile-hover.svg' variant.
- * - If the state is 'hover', the source is modified to use the '-hover.svg' or '-mobile-hover.svg' variant.
- * 
- * @param {HTMLImageElement} img - The image element whose source will be updated.
- * @param {string} basePath - The base path of the image source (should end with '.svg').
- * @param {string} [state=''] - Optional state, e.g., 'hover', to determine the image variant.
+ * Updates the source of an icon based on the screen size and state (hover or not).
+ * If the screen size is below 768px and the icon is not the urgent icon, appends '-mobile.svg' to the base path.
+ * If the state is 'hover' and the screen size is below 768px, appends '-mobile-hover.svg' to the base path.
+ * If the state is 'hover' and the screen size is not below 768px, appends '-hover.svg' to the base path.
+ * @param {HTMLElement} img - The icon element to update.
+ * @param {string} basePath - The base path of the icon image.
+ * @param {string} [state=''] - The state of the icon (either 'hover' or empty string).
  */
 function updateIconSrc(img, basePath, state = '') {
   let newSrc = basePath;
@@ -144,17 +141,18 @@ function updateIconSrc(img, basePath, state = '') {
   img.src = newSrc;
 }
 
+
 /**
- * Sets the source of summary icon images and attaches event listeners to their parent elements
- * to update the icon source on hover and touch interactions.
- * 
- * Iterates over the `summaryIcons` array, finds each icon's image element by ID,
- * and updates its source using `updateIconSrc`. For each icon (except 'urgent-icon'),
- * adds event listeners to the parent element to change the icon's source on mouse and touch events.
- *
- * Dependencies:
- * - `summaryIcons`: Array of icon objects with `id` and `base` properties.
- * - `updateIconSrc(img: HTMLElement, base: string, state?: string)`: Function to update the image source.
+ * Sets up the icon source images based on the screen size and state (hover or not) for
+ * the icons in the summary page.
+ * If the screen size is below 768px and the icon is not the urgent icon, appends
+ * '-mobile.svg' to the base path.
+ * If the state is 'hover' and the screen size is below 768px, appends '-mobile-hover.svg'
+ * to the base path.
+ * If the state is 'hover' and the screen size is not below 768px, appends '-hover.svg' to
+ * the base path.
+ * @param {string} icon.base - The base path of the icon image.
+ * @param {string} [state=''] - The state of the icon (either 'hover' or empty string).
  */
 function setIconSrc() {
   summaryIcons.forEach(icon => {
@@ -170,6 +168,7 @@ function setIconSrc() {
   });
 }
 
+
 /**
  * Checks if a greeting has already been shown in the current session.
  * If not, updates the greeting text, triggers the greeting animation,
@@ -184,6 +183,7 @@ function checkForGreeting() {
   }
 }
 
+
 function setGreetingAnimation() {
   const greeting = document.getElementById('greeting');
   greeting.style.display = 'flex';
@@ -191,6 +191,7 @@ function setGreetingAnimation() {
     greeting.style.display = 'none';
   }, 1800);
 }
+
 
 /**
  * Updates the greeting text and user name displayed on the summary page.
@@ -206,16 +207,12 @@ function updateGreetingText() {
   setCurrentUserName(userName);
 }
 
+
 /**
- * Sets the greeting message text based on the current time of day and user status.
- *
- * @param {HTMLElement} greetingMessage - The DOM element where the greeting text will be displayed.
- *
- * The function uses the current hour to determine whether to display "Good morning", "Good afternoon", or "Good evening".
- * If the current user is 'Guest', it appends an exclamation mark; otherwise, it appends a comma.
- *
- * @global
- * @requires currentUser - The current logged-in user object.
+ * Sets the greeting text based on the current time of day.
+ * If the user is a guest, appends an exclamation mark to the end of the greeting.
+ * If the user is not a guest, appends a comma to the end of the greeting.
+ * @param {HTMLElement} greetingMessage - The element to update with the greeting text.
  */
 function setGreetingText(greetingMessage) {
   const greetings = {
@@ -231,6 +228,7 @@ function setGreetingText(greetingMessage) {
     greetingMessage.innerText = greeting + ','
   }
 }
+
 
 /**
  * Sets the display name of the current user in the provided DOM element.
@@ -248,5 +246,6 @@ function setCurrentUserName(userName) {
     }
   }
 }
+
 
 window.addEventListener('resize', setIconSrc);
