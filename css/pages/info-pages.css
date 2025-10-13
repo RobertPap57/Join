@@ -112,7 +112,7 @@
         right: 40px;
     }
     .mobile-only {
-        display: flex !important;
+        display: block !important;
     }
 }
 
