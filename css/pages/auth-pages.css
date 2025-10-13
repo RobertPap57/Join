@@ -78,7 +78,7 @@ main {
     height: 122px;
     width: 100px;
     z-index: 200;
-    background-image: url("../../../assets/images/logos/logo-black.svg");
+    background-image: url("/projects/Join/assets/images/logos/logo-black.svg");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
@@ -246,7 +246,7 @@ main {
             inset: 50% 0 0 50%;
             width: 100px;
             height: 122px;
-            background-image: url("../../../assets/images/logos/logo-white.svg");
+            background-image: url("/projects/Join/assets/images/logos/logo-white.svg");
 
         }
 
@@ -255,7 +255,7 @@ main {
             width: 64px;
             top: 75px;
             left: 70px;
-            background-image: url("../../../assets/images/logos/logo-black.svg");
+            background-image: url("/projects/Join/assets/images/logos/logo-black.svg");
         }
     }
 }

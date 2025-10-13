@@ -39,7 +39,7 @@ async function getContacts() {
  * Redirects to the summary page if a user exists, otherwise to the login page.
  */
 function initIndex() {
-	checkForCurrentUser() ? redirectTo('summary.html') : redirectTo('login.html');
+	checkForCurrentUser() ? redirectTo('pages/summary.html') : redirectTo('pages/login.html');
 }
 
 
@@ -47,9 +47,9 @@ function initIndex() {
  * Updates the favicon based on the user's system color scheme (light or dark).
  */
 function updateFavicon() {
-	favicon.href = '/assets/images/logos/logo-black.svg';
+	favicon.href = '../assets/images/logos/logo-black.svg';
 	const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-	favicon.href = isDarkMode ? '/assets/images/logos/logo-white.svg' : '/assets/images/logos/logo-black.svg';
+	favicon.href = isDarkMode ? '../assets/images/logos/logo-white.svg' : '../assets/images/logos/logo-black.svg';
 }
 
 

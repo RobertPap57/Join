@@ -1,11 +1,9 @@
-@charset "UTF-8";
-
 @font-face {
   font-family: "Inter";
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url("/assets/fonts/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+  src: url("/projects/Join/assets/fonts/Inter-VariableFont_opsz,wght.ttf") format("truetype");
 }
 
 @font-face {
@@ -13,7 +11,7 @@
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url("/assets/fonts/OpenSans-VariableFont_wdth,wght.ttf") format("truetype");
+  src: url("/projects/Join/assets/fonts/OpenSans-VariableFont_wdth,wght.ttf") format("truetype");
 }
 
 
@@ -197,6 +195,31 @@ button:disabled:hover {
   background-color: #EEEEEE;
 }
 
+.back-btn {
+  position: fixed;
+  top: 128px;
+  left: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.back-btn img {
+  height: 20.74px;
+  width: 21.33px;
+}
+
+.back-btn:hover {
+  cursor: pointer;
+  background-color: #EEEEEE;
+}
+
+.back-btn:hover img {
+  width: 23.93px;
+}
+
+
+
 .profile-avatar {
   font-size: 47px;
   font-weight: 500;
@@ -261,12 +284,12 @@ button:disabled:hover {
 }
 
 .scroll-container::-webkit-scrollbar-button:single-button:vertical:decrement {
-  background-image: url('../assets/images/components/scrollbar/scroll-up.svg');
+  background-image: url('/projects/Join/assets/images/components/scrollbar/scroll-up.svg');
   background-position: center bottom;
 }
 
 .scroll-container::-webkit-scrollbar-button:single-button:vertical:increment {
-  background-image: url('../assets/images/components/scrollbar/scroll-down.svg');
+  background-image: url('/projects/Join/assets/images/components/scrollbar/scroll-down.svg');
   background-position: center top;
 }
 
