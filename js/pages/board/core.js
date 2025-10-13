@@ -4,6 +4,7 @@ let searchQuery = '';
  * Initializes the board page with necessary setup and data loading.
  */
 async function initBoard() {
+    showLoader();
     await includeHTML();
     checkScreenOrientation();
     checkForCurrentUser() ? "" : redirectTo('login.html');
@@ -14,6 +15,7 @@ async function initBoard() {
     await getContacts();
     setupBoard();
     reloadOnPointerChange();
+    hideLoader();
 }
 
 /**

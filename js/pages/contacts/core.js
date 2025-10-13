@@ -3,6 +3,7 @@
  * @returns {Promise<void>} A promise that resolves when all the initialization steps are completed.
  */
 async function initContacts() {
+    showLoader();
     await includeHTML();
     checkScreenOrientation();
     checkForCurrentUser() ? "" : redirectTo('login.html');
@@ -12,6 +13,7 @@ async function initContacts() {
     renderContacts();
     initPopup();
     preventFormSubmitOnEnter();
+    hideLoader();
 }
 
 

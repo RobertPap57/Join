@@ -30,6 +30,10 @@
 </head>
 
 <body onload="initAddTask()">
+    <section id="loader-overlay" role="status" aria-live="polite" aria-label="Loading content">
+        <div class="loader" aria-hidden="true"></div>
+        <p class="sr-only">Loading...</p>
+    </section>
     <div w3-include-html="../templates/header.html"></div>
     <main class="add-task-container">
         <div w3-include-html="../templates/task-form.html"></div>

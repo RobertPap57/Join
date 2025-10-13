@@ -31,6 +31,10 @@
 </head>
 
 <body onload="initContacts()">
+    <section id="loader-overlay" role="status" aria-live="polite" aria-label="Loading content">
+        <div class="loader" aria-hidden="true"></div>
+        <p class="sr-only">Loading...</p>
+    </section>
     <div w3-include-html="../templates/header.html"></div>
     <main id="main-container" class="main-container">
         <button type="button" aria-label="Go back" onclick="closeMobileContact()" class="back-arrow d-flex-center">

@@ -12,6 +12,7 @@ const summaryIcons = [
  * Redirects to the login page if no current user is found.
  */
 async function initSummary() {
+  showLoader();
   checkForCurrentUser() ? checkForGreeting() : redirectTo('login.html');
   await includeHTML();
   checkScreenOrientation();
@@ -22,6 +23,7 @@ async function initSummary() {
   renderSummary();
   setIconSrc();
   preventFormSubmitOnEnter();
+  hideLoader();
 }
 
 

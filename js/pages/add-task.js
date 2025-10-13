@@ -7,6 +7,7 @@
  * @return {Promise<void>} A promise that resolves when the initialization is complete.
  */
 async function initAddTask() {
+    showLoader();
     await includeHTML();
     checkScreenOrientation();
     checkForCurrentUser() ? "" : redirectTo('login.html');
@@ -16,4 +17,5 @@ async function initAddTask() {
     initPopup();
     initTaskForm('add-task');
     preventFormSubmitOnEnter();
+    hideLoader();
 }
