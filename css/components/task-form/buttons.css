@@ -17,7 +17,7 @@
     gap: 8px;
     background-color: white;
     border-radius: 10px;
-    border: 1px solid #D1D1D1;
+    box-shadow: 0px 0px 4px 0px #0000001A;
     flex: 1;
     cursor: pointer;
     height: 56px;
