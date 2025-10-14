@@ -314,6 +314,13 @@ button:disabled:hover {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.7s ease;
+}
+
+#loader-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .loader {

@@ -1,5 +1,3 @@
-
-
 const BASE_URL = "https://join-database-6441e-default-rtdb.europe-west1.firebasedatabase.app/";
 
 let users = [];
@@ -394,17 +392,20 @@ function preventFormSubmitOnEnter() {
 
 
 function showLoader() {
-  const loader = document.getElementById('loader-overlay');
-  if (loader) loader.style.display = 'flex';
+	const loader = document.getElementById('loader-overlay');
+	if (loader) loader.style.display = 'flex';
 }
 
 function hideLoader() {
-  const loader = document.getElementById('loader-overlay');
-  if (loader) {
-	setTimeout(() => {
-		loader.style.display = 'none';
-	}, 500);
-  }
+	const loader = document.getElementById('loader-overlay');
+	if (loader) {
+		setTimeout(() => {
+			loader.classList.add('hidden');
+			setTimeout(() => {
+				loader.style.display = 'none';
+			}, 700);
+		}, 500);
+	}
 }
 
 
