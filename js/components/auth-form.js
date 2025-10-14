@@ -156,10 +156,12 @@ function toggleVisibitilyBtn(inputId, btnId) {
     if (!input) return;
     if (input.value.length > 0) {
         btn.disabled = false;
+        btn.ariaHidden = false;
         icon.src = '../assets/images/components/inputs/visibility-off.svg';
         btn.ariaLabel = 'Show passoword';
     } else {
         btn.disabled = true;
+        btn.ariaHidden = true;
         icon.src = '../assets/images/components/inputs/lock.svg';
     }
 }

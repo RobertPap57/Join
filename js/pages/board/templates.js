@@ -12,11 +12,11 @@ function getTaskCardHTML(task) {
     <p class="task-card-desc">${task.description}</p>
     ${generateProgressHTML(task)}
     <footer class="task-card-footer">
-        <div class="assigned-avatars">
+        <ul class="assigned-avatars">
             ${generateAssignedAvatarsHTML(task.assignedTo, task.id, 'card')}
-        </div>
-        <div class="task-priority d-flex-center" aria-label="Priority: ${task.priority}">
-            <img src="../assets/images/global/${task.priority}.svg" alt="">
+        </ul>
+        <div class="task-priority d-flex-center">
+            <img src="../assets/images/global/${task.priority}.svg" alt="Priority: ${task.priority}">
         </div>
     </footer>
 </li>`;
@@ -95,10 +95,10 @@ function getDetailedTaskHTML(task) {
 function getSubtaskItemHTML(subtask, taskId) {
     const checkboxImg = subtask.completed ? 'checkbox-checked.svg' : 'checkbox.svg';
     return `
-        <li class="detailed-task-subtask-item" data-task-id="${taskId}" data-subtask-id="${subtask.id}"
-        role="checkbox" aria-checked="${subtask.completed ? 'true' : 'false'}"
-        tabindex="0" aria-labelledby="subtask-${subtask.id}-label">
-            <div class="d-flex-center subtask-checkbox-container">
+        <li class="detailed-task-subtask-item" data-task-id="${taskId}" data-subtask-id="${subtask.id}">
+            <div class="d-flex-center subtask-checkbox-container"
+            role="checkbox" aria-checked="${subtask.completed ? 'true' : 'false'}"
+            tabindex="0" aria-labelledby="subtask-${subtask.id}-label">
                 <img class="detailed-task-subtask-checkbox" src="../assets/images/global/${checkboxImg}" alt="">
             </div>
             <p id="subtask-${subtask.id}-label">${subtask.content}</p>
@@ -116,7 +116,7 @@ function getSubtaskItemHTML(subtask, taskId) {
  * @returns {string} HTML string representing the progress bar.
  */
 function getProgressbarHTML(totalSubtasks, completedSubtasks, progressPercentage) {
-    return `<div class="task-progress" role="progressbar" aria-valuenow="${completedSubtasks}" aria-valuemin="0" aria-valuemax="${totalSubtasks}">
+    return `<div class="task-progress" role="progressbar" aria-label="Subtasks progress" aria-valuenow="${completedSubtasks}" aria-valuemin="0" aria-valuemax="${totalSubtasks}">
         <span class="progress-bar"><span class="progress" style="width: ${progressPercentage}%;"></span></span>
         ${completedSubtasks}/${totalSubtasks} Subtasks
     </div>`;

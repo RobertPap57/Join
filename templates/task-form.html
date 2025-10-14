@@ -30,13 +30,14 @@
                         required</p>
                 </section>
                 <section class="form-group priority-mobile">
-                    <h2 class="form-group-label" id="prio-label">Prio</h2>
-                    <div class="prio-buttons" role="radiogroup" aria-labelledby="prio-label">
-                        <button type="button" id="urgent" class="prio-btn urgent" aria-checked="false">Urgent<img
-                                src="../assets/images/global/urgent.svg" alt=""></button>
-                        <button type="button" id="medium" class="prio-btn active" aria-checked="true">Medium<img
-                                src="../assets/images/global/medium-white.svg" alt=""></button>
-                        <button type="button" id="low" class="prio-btn low" aria-checked="false">Low<img
+                    <h2 class="form-group-label">Prio</h2>
+                    <div class="prio-buttons" role="radiogroup" aria-label="Priority selection">
+                        <button type="button" role="radio" id="urgent" class="prio-btn urgent"
+                            aria-checked="false">Urgent<img src="../assets/images/global/urgent.svg" alt=""></button>
+                        <button type="button" role="radio" id="medium" class="prio-btn active"
+                            aria-checked="true">Medium<img src="../assets/images/global/medium-white.svg"
+                                alt=""></button>
+                        <button type="button" role="radio" id="low" class="prio-btn low" aria-checked="false">Low<img
                                 src="../assets/images/global/low.svg" alt=""></button>
                     </div>
                 </section>
@@ -47,7 +48,7 @@
                             aria-controls="category-listbox" aria-expanded="false" role="combobox"
                             aria-labelledby="category-label category-displayed" aria-haspopup="listbox">
                             <span id="category-displayed" class="btn-text">Select task category</span>
-                            <span id="category-btn" class="arrow-down">
+                            <span id="category-btn" class="arrow-down" aria-hidden="true">
                                 <img src="../assets/images/global/arrow-down.svg" alt="">
                             </span>
                         </div>
@@ -112,7 +113,7 @@
                     <div class="subtask-input-container">
                         <input id="subtask" name="subtask" class="form-input subtask-input placeholder-color"
                             type="text" placeholder="Add new subtask" aria-labelledby="subtask-label">
-                        <button type="button" tabindex="-1" class="subtask-btn add">
+                        <button type="button" tabindex="-1" class="subtask-btn add" aria-label="Add subtask">
                             <span class="subtask-add">
                                 <img src="../assets/images/global/plus-black.svg" alt="">
                             </span>
@@ -142,7 +143,7 @@
                             <input class="select-btn-input back-placeholder" type="text"
                                 placeholder="Select contacts to assign" aria-labelledby="assigned-to-label"
                                 aria-controls="assigned-to-list" aria-describedby="contacts-instructions">
-                            <button type="button" tabindex="-1" class="arrow-down">
+                            <button type="button" tabindex="-1" class="arrow-down" aria-hidden="true">
                                 <img src="../assets/images/global/arrow-down.svg" alt="">
                             </button>
                         </div>

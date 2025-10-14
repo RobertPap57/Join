@@ -32,7 +32,7 @@
                 aria-describedby="password-validation-msg" aria-required="true" autocomplete="current-password"
                 oninput="toggleVisibitilyBtn('password', 'password-btn')">
             <button type="button" id="password-btn" class="icon-container d-flex-center" disabled
-                onclick="togglePasswordVisibility('password', 'password-btn')">
+                onclick="togglePasswordVisibility('password', 'password-btn')" aria-hidden="true">
                 <img src="../assets/images/components/inputs/lock.svg" alt="">
             </button>
             <p class="validation-msg" hidden aria-live="assertive" id="password-validation-msg">This field is
@@ -44,7 +44,7 @@
                 aria-label="Confirm password" aria-describedby="confirm-password-validation-msg" aria-required="true"
                 oninput="toggleVisibitilyBtn('confirm-password', 'confirm-password-btn')" autocomplete="new-password">
             <button type="button" id="confirm-password-btn" class="icon-container d-flex-center" disabled
-                onclick="togglePasswordVisibility('confirm-password', 'confirm-password-btn')">
+                onclick="togglePasswordVisibility('confirm-password', 'confirm-password-btn')" aria-hidden="true">
                 <img src="../assets/images/components/inputs/lock.svg" alt="">
             </button>
             <p class="validation-msg" hidden aria-live="assertive" id="confirm-password-validation-msg">This field is
@@ -55,7 +55,7 @@
     <div class="checkbox-container d-flex-center">
         <button type="button" id="auth-checkbox-btn" class="d-flex-center" role="checkbox" aria-checked="false"
             aria-labelledby="auth-checkbox-label" onclick="toggleCheckbox()">
-            <img id="auth-checkbox" data-checked="false" src="../assets/images/global/checkbox.svg" />
+            <img id="auth-checkbox" data-checked="false" src="../assets/images/global/checkbox.svg" alt=""/>
         </button>
         <p id="auth-checkbox-label" class="checkbox-label">Remember me</p>
     </div>
