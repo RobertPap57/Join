@@ -166,4 +166,33 @@ function closeDialogOnEsc(dialog, onClose) {
 }
 
 
+/**
+ * Opens a dialog with optional animation.
+ * @param {HTMLDialogElement} dialog - The dialog element.
+ * @param {boolean} [animate=false] - Whether to add an animation class.
+ */
+function openDialog(dialog, animate = false) {
+    if (!dialog) return;
+    if (animate) dialog.classList.add('animate-dialog');
+    else dialog.classList.remove('animate-dialog');
+    dialog.showModal();
+    dialog.classList.add('open-dialog');
+}
 
+
+/**
+ * Closes a dialog and removes animation classes if present.
+ * @param {HTMLDialogElement} dialog - The dialog element.
+ */
+function closeDialog(dialog) {
+    if (dialog.classList.contains('animate-dialog')) {
+        dialog.classList.remove('open-dialog');
+        setTimeout(() => {
+            dialog.close();
+            dialog.classList.remove('animate-dialog');
+        }, 125);
+    } else {
+        dialog.classList.remove('open-dialog');
+        dialog.close();
+    }
+}

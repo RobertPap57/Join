@@ -1,36 +1,4 @@
 /**
- * Opens a task dialog modal and optionally adds an animation class to it.
- * @param {HTMLElement} dialog - The task dialog element to open.
- * @param {boolean} [animate=false] - Whether to add an animation class to the dialog.
- */
-function openTaskDialog(dialog, animate = false) {
-    if (!dialog) return;
-    if (animate) dialog.classList.add('animate-dialog');
-    else dialog.classList.remove('animate-dialog');
-    dialog.showModal();
-    dialog.classList.add('open-dialog');
-}
-
-
-/**
- * Closes a task dialog modal and optionally removes an animation class from it.
- * @param {HTMLElement} dialog - The task dialog element to close.
- */
-function closeTaskDialog(dialog) {
-    if (dialog.classList.contains('animate-dialog')) {
-        dialog.classList.remove('open-dialog');
-        setTimeout(() => {
-            dialog.close();
-            dialog.classList.remove('animate-dialog');
-        }, 125);
-    } else {
-        dialog.classList.remove('open-dialog');
-        dialog.close();
-    }
-}
-
-
-/**
  * Attaches an event listener to a dialog element to handle the Escape key press event.
  * When the Escape key is pressed, it will prevent the default dialog close behavior and call the provided onClose callback instead.
  * However, if the subtask input is in edit mode or if the category or assigned-to dropdowns are expanded, it will not close the dialog.
@@ -57,22 +25,21 @@ function closeTaskFormDialogOnEsc(dialog, onClose) {
  */
 function setupTaskFormDialogClosingListeners(dialog) {
     closeDialogOnClickOutside(dialog, () => {
-        closeTaskDialog(dialog);
+        closeDialog(dialog);
     });
     closeTaskFormDialogOnEsc(dialog, () => {
-        closeTaskDialog(dialog);
+        closeDialog(dialog);
     });
 }
 
 
 /**
- * Closes the task form dialog by calling closeTaskDialog with the task form dialog element.
- * This function is a wrapper around closeTaskDialog that provides a more convenient way to close the task form dialog.
- * @see closeTaskDialog
+ * Closes the task form dialog by calling closeDialog with the task form dialog element.
+ * This function is a wrapper around closeDialog that provides a more convenient way to close the task form dialog.
  */
 function closeTaskFormDialog() {
     const dialog = document.getElementById('task-form-dialog');
-    closeTaskDialog(dialog);
+    closeDialog(dialog);
 }
 
 
@@ -102,32 +69,32 @@ function allowTaskFormDialogCloseOnEsc() {
  */
 function openDetaliedTaskDialog(dialog, edit = false) {
     if (window.innerWidth > 1023 || edit) {
-        openTaskDialog(dialog, false);
+        openDialog(dialog, false);
     } else {
-        openTaskDialog(dialog, true);
+        openDialog(dialog, true);
     }
 }
 
 
 /**
  * Attaches event listeners to the detailed task dialog to close it when clicking outside of it or pressing the Escape key.
- * When the detailed task dialog is requested to close, it will call the closeTaskDialog function with the detailed task dialog element.
+ * When the detailed task dialog is requested to close, it will call the closeDialog function with the detailed task dialog element.
  */
 function closeDetaliedTaskDialogListeners() {
     const dialog = document.getElementById('detailed-task-dialog');
     if (!dialog) return;
-    closeDialogOnClickOutside(dialog, () => closeTaskDialog(dialog));
-    closeDialogOnEsc(dialog, () => closeTaskDialog(dialog));
+    closeDialogOnClickOutside(dialog, () => closeDialog(dialog));
+    closeDialogOnEsc(dialog, () => closeDialog(dialog));
 }
 
 
 /**
- * Closes the detailed task dialog by calling closeTaskDialog with the detailed task dialog element.
- * This function is a wrapper around closeTaskDialog that provides a more convenient way to close the detailed task dialog.
+ * Closes the detailed task dialog by calling closeDialog with the detailed task dialog element.
+ * This function is a wrapper around closeDialog that provides a more convenient way to close the detailed task dialog.
  */
 function closeDetaliedTaskDialog() {
     const dialog = document.getElementById('detailed-task-dialog');
-    closeTaskDialog(dialog);
+    closeDialog(dialog);
 }
 
 

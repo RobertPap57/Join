@@ -334,7 +334,7 @@ function clearInputs() {
  */
 function openPopup(type, user) {
     setUpPopup(type, user);
-    showPopup();
+    showPopup(type);
 }
 
 
@@ -351,12 +351,15 @@ function closePopup() {
 /**
  * Shows the popup with animation.
 */
-function showPopup() {
-    popupElements.popupDialog.showModal();
-    setTimeout(() => {
-        popupElements.popupDialog.classList.remove('popup-close');
-        popupElements.popupDialog.classList.add('popup-open');
-    }, 10);
+function showPopup(type) {
+    const popupDialog = popupElements.popupDialog;
+    if (!popupDialog) return;
+    if (type === 'add-contact' || type === 'edit-contact') {
+        openDialog(popupDialog, true);
+    } else {
+        openDialog(popupDialog, false);
+    }
+
 }
 
 
@@ -364,11 +367,9 @@ function showPopup() {
  * Hides the popup with animation.
  */
 function hidePopup() {
-    popupElements.popupDialog.classList.remove('popup-open');
-    popupElements.popupDialog.classList.add('popup-close');
-    setTimeout(() => {
-        popupElements.popupDialog.close();
-    }, 125);
+    const popupDialog = popupElements.popupDialog;
+    if (!popupDialog) return;
+    closeDialog(popupDialog);
 }
 
 

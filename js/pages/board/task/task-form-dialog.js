@@ -43,7 +43,7 @@ function openEditTaskDialog(dialog, closeButton, formBottom, options) {
     addEditTaskClasses(dialog, closeButton, formBottom);
     initTaskForm('edit-task', options);
     populateTaskFormIfNeeded(options, 'edit-task');
-    openTaskDialog(dialog, false);
+    openDialog(dialog, false);
     animateEditTaskDialogOnMobile(dialog);
     setupTaskFormDialogClosingListeners(dialog);
     document.getElementById('detailed-task-dialog').close();
@@ -104,7 +104,7 @@ function openAddTaskDialog(dialog, options) {
         return;
     }
     initTaskForm('add-task-dialog', options);
-    openTaskDialog(dialog, true);
+    openDialog(dialog, true);
     setupTaskFormDialogClosingListeners(dialog);
 }
 

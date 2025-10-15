@@ -120,6 +120,14 @@ dialog {
   z-index: 1000;
 }
 
+.animate-dialog {
+    transition: all 125ms ease-in-out;
+}
+
+.open-dialog {
+    transform: translate(-50%, -50%) translate(0, 0) !important;
+}
+
 .validation-msg {
   position: absolute;
   bottom: -16px;
