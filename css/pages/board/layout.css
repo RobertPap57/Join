@@ -296,7 +296,6 @@
         width: 396px;
     }
 
-
     .detailed-task-category {
         padding: 4px 16px;
         font-size: 16px;
@@ -313,7 +312,6 @@
     .detailed-task-assigned h3 {
         align-self: center;
     }
-
 
     .detailed-task-dialog h3,
     .detailed-task-priority span,

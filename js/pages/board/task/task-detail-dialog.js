@@ -25,6 +25,13 @@ function renderDetaliedTaskComponents(task) {
     renderTaskAttachments(task);
 }
 
+
+/**
+ * Renders the attachments section of a detailed task view.
+ * If the task has no attachments, shows a placeholder message instead.
+ * @param {Object} task - The task object containing attachments data.
+ * @param {Object[]} [task.attachments] - Optional array or object of attachments.
+ */
 function renderTaskAttachments(task) {
     if (!task.attachments || task.attachments.length === 0) {
         attachmentsEmpty();
@@ -35,25 +42,36 @@ function renderTaskAttachments(task) {
 }
 
 
+/**
+ * Displays a placeholder message in the "Assigned to" section
+ * when no user is assigned to the task.
+ */
 function assignedToEmpty() {
     const assignedToSection = document.querySelector('.detailed-task-assigned');
     assignedToSection.innerHTML = `<h3> Assigned to<span class="detailed-task-dialog-placeholder">Not assigned</span></h3>`
 }
 
+
+/**
+ * Displays a placeholder message in the "Subtasks" section
+ * when the task has no subtasks.
+ */
 function subtasksEmpty() {
     const subtasksSection = document.querySelector('.detailed-task-subtasks');
     subtasksSection.innerHTML = '<h3>Subtasks<span class="detailed-task-dialog-placeholder">No subtasks</span></h3>';
 }
 
+/**
+ * Displays a responsive placeholder message in the "Attachments" section
+ * when the task has no attachments.
+ * On desktop, shows "Attachments / No attachments".
+ * On mobile, shows "Uploaded files / No files".
+ */
 function attachmentsEmpty() {
     const attachmentsSection = document.querySelector('.detailed-task-attachments');
     if (window.innerWidth > 560) {
-        console.log('attachments empty');
-        
         attachmentsSection.innerHTML = '<h3>Attachments<span class="detailed-task-dialog-placeholder">No attachments</span></h3>';
     } else {
-        console.log('files empty');
-        
         attachmentsSection.innerHTML = '<h3>Uploaded files<span class="detailed-task-dialog-placeholder">No files</span></h3>';
     }
 }
@@ -86,9 +104,6 @@ function renderTaskSubtasks(task) {
         addSubtaskClickHandlers();
     }
 }
-
-
-
 
 
 /**
