@@ -89,8 +89,6 @@ function toggleSelectedContactsList(isOpen) {
     if (selectedContactsDiv) {
         selectedContactsDiv.style.display = isOpen ? 'none' : 'flex';
     }
-    console.log('selected contacts toggled', isOpen);
-
 }
 
 

@@ -107,7 +107,8 @@ function setUpRememberedUser(type) {
     let currentUser = null;
     try {
         currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    } catch {
+    } catch (error) {
+        console.error(error);         
     }
     if (currentUser) {
         const emailInput = document.getElementById('email');

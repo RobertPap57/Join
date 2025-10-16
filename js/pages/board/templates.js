@@ -61,8 +61,7 @@ function getDetailedTaskHTML(task) {
             </ul>
         </section>
         <section class="detailed-task-attachments">
-            <h3>Attachments</h3>
-            <h3 class="uploaded-files-title">Uploaded files</h3>
+            <h3>${window.innerWidth > 560 ? 'Attachments' : 'Uploaded files'}</h3>
             <div id="detailed-task-attachments-list-wrapper" class="attachments-list-wrapper">
                 <ul class="attachments-list" id="detailed-task-attachments-list" aria-label="Uploaded files"></ul>
             </div>

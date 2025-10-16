@@ -310,39 +310,16 @@
         font-size: 32px;
     }
 
+    .detailed-task-assigned h3 {
+        align-self: center;
+    }
+
+
+    .detailed-task-dialog h3,
+    .detailed-task-priority span,
+    .detailed-task-due-date span,
     .detailed-task-desc {
         font-size: 16px;
-    }
-
-    .detailed-task-due-date span,
-    .detailed-task-due-date h3 {
-        font-size: 16px;
-    }
-
-    .detailed-task-priority span,
-    .detailed-task-priority h3 {
-        font-size: 16px;
-    }
-
-
-    .detailed-task-assigned h3 {
-        font-size: 16px;
-        padding-block: 12px;
-    }
-
-    .detailed-task-attachments h3 {
-        display: none;
-    }
-
-    .uploaded-files-title {
-        display: block !important;
-        font-size: 16px !important;
-    }
-
-    .detailed-task-subtasks h3 {
-        font-size: 16px;
-        font-weight: 700;
-        ;
     }
 
 }
@@ -353,6 +330,7 @@
         flex-direction: column;
         gap: 8px;
     }
+
     .detailed-task-dialog {
         width: 90vw;
     }

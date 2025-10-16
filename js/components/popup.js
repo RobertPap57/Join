@@ -349,7 +349,7 @@ function closePopup() {
 
 
 /**
- * Shows the popup with animation.
+ * Shows the popup with animation based on the popup type.
 */
 function showPopup(type) {
     const popupDialog = popupElements.popupDialog;
@@ -364,7 +364,7 @@ function showPopup(type) {
 
 
 /**
- * Hides the popup with animation.
+ * Hides the popup with animation if the dialog has animate class.
  */
 function hidePopup() {
     const popupDialog = popupElements.popupDialog;

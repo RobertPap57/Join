@@ -22,8 +22,40 @@ function showDetailedTask(taskId, edit = false) {
 function renderDetaliedTaskComponents(task) {
     renderTaskSubtasks(task);
     renderTaskAvatars(task, 'modal');
-    attachments = task.attachments ? Object.values(task.attachments) : [];
-    renderAttachments();
+    renderTaskAttachments(task);
+}
+
+function renderTaskAttachments(task) {
+    if (!task.attachments || task.attachments.length === 0) {
+        attachmentsEmpty();
+    } else {
+        attachments = task.attachments ? Object.values(task.attachments) : [];
+        renderAttachments();
+    }
+}
+
+
+function assignedToEmpty() {
+    const assignedToSection = document.querySelector('.detailed-task-assigned');
+    assignedToSection.innerHTML = `<h3> Assigned to<span class="detailed-task-dialog-placeholder">Not assigned</span></h3>`
+}
+
+function subtasksEmpty() {
+    const subtasksSection = document.querySelector('.detailed-task-subtasks');
+    subtasksSection.innerHTML = '<h3>Subtasks<span class="detailed-task-dialog-placeholder">No subtasks</span></h3>';
+}
+
+function attachmentsEmpty() {
+    const attachmentsSection = document.querySelector('.detailed-task-attachments');
+    if (window.innerWidth > 560) {
+        console.log('attachments empty');
+        
+        attachmentsSection.innerHTML = '<h3>Attachments<span class="detailed-task-dialog-placeholder">No attachments</span></h3>';
+    } else {
+        console.log('files empty');
+        
+        attachmentsSection.innerHTML = '<h3>Uploaded files<span class="detailed-task-dialog-placeholder">No files</span></h3>';
+    }
 }
 
 
@@ -45,12 +77,18 @@ function formatDate(dateString) {
 function renderTaskSubtasks(task) {
     const subtaskList = document.querySelector('.detailed-task-subtasks-list');
     subtaskList.innerHTML = '';
-    if (!task.subtasks || task.subtasks.length === 0) return;
-    task.subtasks.forEach(subtask => {
-        subtaskList.innerHTML += getSubtaskItemHTML(subtask, task.id);
-    });
-    addSubtaskClickHandlers();
+    if (!task.subtasks || task.subtasks.length === 0) {
+        subtasksEmpty();
+    } else {
+        task.subtasks.forEach(subtask => {
+            subtaskList.innerHTML += getSubtaskItemHTML(subtask, task.id);
+        });
+        addSubtaskClickHandlers();
+    }
 }
+
+
+
 
 
 /**
@@ -135,3 +173,8 @@ function deleteTask(taskId) {
         })
         .catch(error => console.error('Error deleting task:', error));
 }
+
+window.addEventListener('resize', () => {
+    const attachmentTitle = document.querySelector('.detailed-task-attachments h3');
+  attachmentTitle.textContent = window.innerWidth > 560 ? 'Attachments' : 'Uploaded files';
+});

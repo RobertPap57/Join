@@ -140,6 +140,9 @@ function renderTaskInContainer(task) {
  */
 function renderTaskAvatars(task, context) {
     if (!task.assignedTo || task.assignedTo.length === 0) {
+        if (context === 'modal') {
+            assignedToEmpty();
+        }
         return;
     }
     task.assignedTo.forEach(contactId => {
