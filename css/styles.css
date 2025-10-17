@@ -14,8 +14,6 @@
   src: url("/projects/Join/assets/fonts/OpenSans-VariableFont_wdth,wght.ttf") format("truetype");
 }
 
-
-
 * {
   margin: 0;
   padding: 0;
@@ -226,8 +224,6 @@ button:disabled:hover {
   width: 23.93px;
 }
 
-
-
 .profile-avatar {
   font-size: 47px;
   font-weight: 500;
@@ -400,3 +396,4 @@ button:disabled:hover {
     transform: scale(1.4, 1);
   }
 }
+

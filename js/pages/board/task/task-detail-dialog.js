@@ -191,5 +191,6 @@ function deleteTask(taskId) {
 
 window.addEventListener('resize', () => {
     const attachmentTitle = document.querySelector('.detailed-task-attachments h3');
-  attachmentTitle.textContent = window.innerWidth > 560 ? 'Attachments' : 'Uploaded files';
+    if (!attachmentTitle) return;
+    attachmentTitle.textContent = window.innerWidth > 560 ? 'Attachments' : 'Uploaded files';
 });
