@@ -7,6 +7,7 @@ const svgMappings = {
     'low-active': '../assets/images/global/low-white.svg'
 };
 
+
 /**
  * Add event listeners to priority buttons to change their state.
  */
@@ -21,6 +22,7 @@ function changePrioBtn() {
         );
     });
 }
+
 
 /**
  * Handles individual priority button click.
@@ -38,6 +40,7 @@ function handlePriorityButtonClick(button, buttons) {
         }
     });
 }
+
 
 /**
  * Toggles button active state.
@@ -57,6 +60,7 @@ function toggleButtonState(btn, prio, img) {
     }
 }
 
+
 /**
  * Deactivates a priority button.
  * @param {Element} btn - Button element
@@ -68,6 +72,7 @@ function deactivateButton(btn, prio, img) {
     img.src = svgMappings[prio];
     btn.ariaChecked = "false";
 }
+
 
 /**
  * Gets the selected priority from priority buttons.
@@ -83,6 +88,7 @@ function getSelectedPriority() {
     });
     return priority;
 }
+
 
 /**
  * Set the medium priority button as active.
@@ -103,6 +109,7 @@ function selectMediumPriority() {
         }
     });
 }
+
 
 /**
  * Enables or disables the category dropdown based on the provided type.
@@ -125,6 +132,7 @@ function disableCategoryDropdown(type) {
     }
 }
 
+
 /**
  * Show and handle the category dropdown.
  */
@@ -138,6 +146,7 @@ function setupCategoryDropdown() {
     setupCategorySelection(listItems, selectBtnCategory, categoryDisplayed);
     addCategoryDropdownOutsideListener(selectBtnCategory, categoryList);
 }
+
 
 /**
  * Sets up category dropdown toggle functionality.
@@ -159,6 +168,7 @@ function setupCategoryDropdownToggles(selectBtnCategory) {
         }, 'selectBtnCategoryClick');
 }
 
+
 /**
  * Prevents category dropdown from closing when clicked inside.
  * @param {Element} categoryList - Category list element
@@ -173,6 +183,7 @@ function preventCategoryDropdownClose(categoryList) {
         );
     }
 }
+
 
 /**
  * Sets up category selection functionality.
@@ -198,6 +209,7 @@ function setupCategorySelection(listItems, selectBtnCategory, categoryDisplayed)
     });
 }
 
+
 /**
  * Adds outside click listener for category dropdown.
  * @param {Element} selectBtnCategory - Category select button
@@ -215,6 +227,7 @@ function addCategoryDropdownOutsideListener(selectBtnCategory, categoryList) {
         }
     }, 'categoryOutsideClick');
 }
+
 
 /**
  * Reset the category display to the default text.

@@ -11,7 +11,7 @@
     bottom: -16px;
     left: 0;
     color: #FF8190;
-    font-size: 12px;
+    font-size: 14px;
     display: none;
 }
 
@@ -143,7 +143,7 @@
     display: flex;
     align-items: center;
     gap: 11px;
-    font-size: 12px;
+    font-size: 14px;
     margin-bottom: 16px;
     height: 16px;
 }
@@ -176,7 +176,7 @@
 
 .task-card-avatar {
     border: 1.2px solid white;
-    font-size: 12px;
+    font-size: 14px;
     width: 32px;
     height: 32px;
     min-width: 32px;

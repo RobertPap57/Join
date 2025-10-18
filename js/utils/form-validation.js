@@ -331,6 +331,10 @@ function updateButtonState() {
 }
 
 
+/**
+ * Checks if the signup checkbox is unchecked during signup.
+ * @returns {boolean} True if it's a signup and the checkbox is unchecked, otherwise false.
+ */
 function checkSignupCheckbox() {
     const checkbox = document.getElementById('auth-checkbox-btn');
     if (!checkbox) return false;

@@ -390,11 +390,18 @@ function preventFormSubmitOnEnter() {
 }
 
 
+/**
+ * Displays the loader overlay.
+ */
 function showLoader() {
 	const loader = document.getElementById('loader-overlay');
 	if (loader) loader.style.display = 'flex';
 }
 
+
+/**
+ * Hides the loader overlay with a fade-out delay.
+ */
 function hideLoader() {
 	const loader = document.getElementById('loader-overlay');
 	if (loader) {
@@ -424,5 +431,5 @@ window.addEventListener('mousedown', () => {
 });
 
 
-window.addEventListener('resize', checkScreenOrientation);
-window.addEventListener("orientationchange", checkScreenOrientation);
+// window.addEventListener('resize', checkScreenOrientation);
+// window.addEventListener("orientationchange", checkScreenOrientation);

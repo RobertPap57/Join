@@ -119,12 +119,3 @@ function handleDialogsOnEditTask(taskId) {
     }
 
 }
-
-
-
-
-
-
-
-
-

@@ -159,6 +159,10 @@ function closeContactMenu() {
 }
 
 
+/**
+ * Initializes close events for the contact menu dialog.
+ * Prevents duplicate event bindings.
+ */
 function initContactMenuCloseEvents() {
     const contactMenu = document.getElementById('contact-menu');
     if (!contactMenu) return;

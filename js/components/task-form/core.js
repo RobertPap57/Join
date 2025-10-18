@@ -331,6 +331,7 @@ function setupFormSecondaryBtnActions(type) {
 
 }
 
+
 /**
  * Configures the secondary button label and visibility.
  */
@@ -350,6 +351,7 @@ function setupFormSecondaryBtn(type) {
             break;
     }
 }
+
 
 /**
  * Configures the primary button label for the form mode.

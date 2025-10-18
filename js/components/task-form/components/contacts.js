@@ -290,6 +290,7 @@ function selectListItems() {
     });
 }
 
+
 /**
  * Handles selection/deselection of a contact list item.
  * @param {Element} item - The clicked list item element
@@ -323,6 +324,7 @@ function addContactToSelected(contact) {
     }
 }
 
+
 /**
  * Removes a contact from selectedContacts if present.
  * @param {Object} contact
@@ -347,6 +349,7 @@ function renderSelectedContactsBelow() {
     });
 }
 
+
 /**
  * Deselect all list items and update the display.
  */
@@ -369,6 +372,7 @@ function deselectContacts() {
     closeContactList();
     renderSelectedContactsBelow();
 }
+
 
 /**
  * Close the contact list menu.

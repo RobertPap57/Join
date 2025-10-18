@@ -15,6 +15,7 @@ function renderAttachments() {
     initHorizontalScroll('.attachments-list');
 }
 
+
 /**
  * Updates the visibility of the delete all button based on attachments count.
  */
@@ -27,6 +28,7 @@ function updateDeleteAllButtonVisibility() {
     });
 }
 
+
 /**
  * Updates the visibility of the attachments wrapper based on attachments count.
  */
@@ -38,6 +40,7 @@ function updateAttachmentsWrapperVisibility() {
         }
     });
 }
+
 
 /**
  * Deletes a specific attachment from the attachments array.
@@ -68,6 +71,7 @@ function deleteAllAttachments() {
     updateAttachmentsWrapperVisibility();
 }
 
+
 /**
  * Converts an array of attachment objects into an object suitable for Firebase storage,
  * assigning each attachment a unique ID as the key.
@@ -90,6 +94,10 @@ function attachmentsToFirebaseObject(attachments) {
     return obj;
 }
 
+
+/**
+ * Clears all attachments and updates the UI.
+ */
 function resetAttachments() {
     attachments = [];
     renderAttachments();
@@ -97,6 +105,13 @@ function resetAttachments() {
     updateAttachmentsWrapperVisibility();
 }
 
+
+/**
+ * Downloads a file from base64 data.
+ * @param {string} base64Data - Base64 file data.
+ * @param {string} fileName - Name for the downloaded file.
+ * @param {Event} event - Triggering event.
+ */
 async function downloadBase64File(base64Data, fileName, event) {
     if (isDragging) {
         event.preventDefault();

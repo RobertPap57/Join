@@ -12,6 +12,7 @@ function styleSubtaskInput() {
     setupSubtaskClickOutside(subtaskElements);
 }
 
+
 /**
  * Retrieves DOM elements related to subtask input and controls.
  * @returns {Object} An object containing references to subtask input and button elements.
@@ -31,6 +32,7 @@ function getSubtaskElements() {
     };
 }
 
+
 /**
  * Sets up the "Add Subtask" button by binding a click event listener.
  * @param {Object} subtaskElements - The elements related to subtasks.
@@ -40,6 +42,7 @@ function setupSubtaskBtnAdd(subtaskElements) {
         toggleSubtaskActionsBtn(true, subtaskElements),
         'subtaskBtnAddClick');
 }
+
 
 /**
  * Sets up event listeners for the subtask input element to handle focus and keydown events.
@@ -56,6 +59,7 @@ function setupSubtaskInputListeners(subtaskElements) {
         if (event.key === 'Escape') clearSubtaskInput(subtaskElements);
     }, 'subtaskInputKeydown');
 }
+
 
 /**
  * Sets up a one-time click outside event listener for subtask input interactions.
@@ -79,6 +83,7 @@ function setupSubtaskClickOutside(subtaskElements) {
     }, 'subtaskInputClickOutside');
 }
 
+
 /**
  * Sets up the cancel button for a subtask input, clearing and refocusing the input on click.
  * @param {Object} subtaskElements - Elements related to the subtask.
@@ -91,6 +96,7 @@ function setupSubtaskCancelBtn(subtaskElements) {
     }, 'subtaskCancelBtnClick');
 }
 
+
 /**
  * Clears the value of the subtask input field and sets focus to it.
  * @param {Object} subtaskElements - Contains references to subtask input elements.
@@ -99,6 +105,7 @@ function clearSubtaskInput(subtaskElements) {
     subtaskElements.subtaskInput.value = '';
     subtaskElements.subtaskInput.focus();
 }
+
 
 /**
  * Adds a new subtask to the subtasks list if the input is not empty.
@@ -120,6 +127,7 @@ function addSubtask(subtaskElements) {
     }
 }
 
+
 /**
  * Toggles the visibility and focus of subtask action buttons and input.
  *
@@ -140,6 +148,7 @@ function toggleSubtaskActionsBtn(state, subtaskElements) {
     }
 }
 
+
 /**
  * Adds event listeners to subtask elements for adding subtasks via button click or Enter key.
  * @param {Object} subtaskElements - The elements related to subtasks (button and input).
@@ -148,6 +157,7 @@ function addSubtaskClickListeners(subtaskElements) {
     bindEventListenerOnce(subtaskElements.subtaskBtnCheck, 'click', () =>
         addSubtask(subtaskElements), 'subtaskBtnCheckAddSubtask');
 }
+
 
 /**
  * Renders the list of subtasks in the DOM.
@@ -174,6 +184,7 @@ function renderSubtasks() {
     deleteSubtask();
 }
 
+
 /**
  * Attaches edit event listeners to each subtask list item.
  * Listens for click on edit button and double-click on the item itself to trigger editing.
@@ -186,6 +197,7 @@ function editSubTask() {
         bindEventListenerOnce(item, 'dblclick', () => editSubtaskItem(item), 'editSubtaskItemDblClick_' + item.getAttribute('data-id'));
     });
 }
+
 
 /**
  * Enables editing mode for a subtask list item.
@@ -207,6 +219,7 @@ function editSubtaskItem(item) {
     }
 }
 
+
 /**
  * Attaches click event listeners to all subtask delete buttons.
  * Removes the corresponding subtask from the list and re-renders subtasks on delete.
@@ -227,6 +240,7 @@ function deleteSubtask() {
     });
 }
 
+
 /**
  * Sets up event listeners for editing subtasks in the subtask list.
  * Finds all editable subtask list items and attaches edit listeners.
@@ -240,6 +254,7 @@ function setupSubtaskEditActions() {
         subtaskEditListeners(confirmSubtaskEditBtn, input, subtaskId);
     });
 }
+
 
 /**
  * Adds event listeners for editing a subtask, including confirm, cancel, and close actions.
@@ -262,6 +277,7 @@ function subtaskEditListeners(confirmSubtaskEditBtn, input, subtaskId) {
     }, 'closeSubtaskEditOnEsc_' + subtaskId);
 }
 
+
 /**
  * Updates the content of a subtask if the input value is not empty and re-renders the subtasks.
  *
@@ -278,6 +294,7 @@ function confirmSubtaskEdit(input, subtaskId) {
         }
     }
 }
+
 
 /**
  * Toggles the edit mode of the subtask container element.
