@@ -92,23 +92,28 @@ function enableDialogKeyboardButtons() {
 }
 
 
-/**
- * Attaches an event listener to a dialog element that closes the dialog when a click occurs outside its bounds.
- *
- * @param {HTMLElement} dialog - The dialog element to monitor for outside clicks.
- * @param {Function} onClose - The callback function to execute when a click outside the dialog is detected.
-*/
-function closeDialogOnClickOutside(dialog, onClose) {
-     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-    if (isTouchDevice) {
+/**
+ * Attaches event listeners to a dialog element to close it when clicked outside.
+ * If the device is a touch device and the current page is the board page, it uses the touchstart event to detect clicks outside the dialog.
+ * Otherwise, it uses the click event.
+ * @param {HTMLElement} dialog - The dialog element to attach the event listener to.
+ * @param {Function} onClose - The callback function to execute when the dialog is requested to close.
+ */
+function closeDialogOnClickOutside(dialog, onClose) {
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const currentPage = window.location.pathname;
+    if (isTouchDevice && currentPage.endsWith('board.html')) {
         bindEventListenerOnce(dialog, 'touchstart', (e) => {
             detectTouchOutside(dialog, onClose, e);
+
         });
+        console.log('touch', dialog, onClose);
     } else {
         bindEventListenerOnce(dialog, 'click', (e) => {
-            detectClickOutide(dialog, onClose, e);
+            detectClickOutside(dialog, onClose, e);
         });
+        console.log('click', dialog, onClose);
     }
 }
 
@@ -128,6 +133,8 @@ function detectTouchOutside(dialog, onClose, e) {
     if (!clickedInside) {
         onClose();
     }
+    console.log(rect, dialog);
+
 }
 
 
@@ -137,7 +144,7 @@ function detectTouchOutside(dialog, onClose, e) {
  * @param {Function} onClose - Callback function executed when a click occurs outside the dialog.
  * @param {MouseEvent} e - The mouse event object.
  */
-function detectClickOutide(dialog, onClose, e) {
+function detectClickOutside(dialog, onClose, e) {
     const rect = dialog.getBoundingClientRect();
     const clickedInside =
         e.clientX >= rect.left &&
@@ -147,6 +154,8 @@ function detectClickOutide(dialog, onClose, e) {
     if (!clickedInside) {
         onClose();
     }
+    console.log(rect, dialog);
+
 }
 
 

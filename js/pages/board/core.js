@@ -14,7 +14,7 @@ async function initBoard() {
     await getTasks();
     await getContacts();
     setupBoard();
-    reloadOnPointerChange();
+    // reloadOnPointerChange();
     hideLoader();
 }
 
