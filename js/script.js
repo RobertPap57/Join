@@ -34,18 +34,13 @@ async function getContacts() {
 }
 
 
-/**
- * Initializes the index page by checking for a logged-in user.
- * Redirects to the summary page if a user exists, otherwise to the login page.
- */
+/** Initializes the index page by redirecting to summary if logged in, otherwise to login. */
 function initIndex() {
 	checkForCurrentUser() ? redirectTo('pages/summary.html') : redirectTo('pages/login.html');
 }
 
 
-/**
- * Updates the favicon based on the user's system color scheme (light or dark).
- */
+/** Updates the favicon based on the user's system color scheme (light or dark). */
 function updateFavicon() {
 	favicon.href = '../assets/images/logos/logo-black.svg';
 	const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -54,18 +49,7 @@ function updateFavicon() {
 
 
 /**
- * Adds event listeners after the DOM content is fully loaded.
- * Updates the favicon immediately and when the color scheme changes.
-*/
-document.addEventListener('DOMContentLoaded', () => {
-	updateFavicon();
-	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateFavicon);
-});
-
-
-/**
- * Dynamically loads and injects HTML content into elements with the `w3-include-html` attribute.
- * Used for including shared HTML components like headers or sidebars.
+ * Loads and injects HTML into elements with the `w3-include-html` attribute for shared components.
  * @returns {Promise<void>} Resolves after all HTML includes are processed.
  */
 async function includeHTML() {
@@ -84,8 +68,7 @@ async function includeHTML() {
 
 
 /**
- * Loads the current user from sessionStorage.
- * Returns a default user object if no user is found.
+ * Loads the current user from sessionStorage or returns a default user object.
  * @returns {Object} The current user object or a default fallback user object.
  */
 function loadCurrentUser() {
@@ -128,9 +111,7 @@ function redirectTo(page) {
 }
 
 
-/**
- * Redirects the browser to the last visited page.
- */
+/** Redirects the browser to the last visited page. */
 function goBack() {
 	window.history.back();
 }
@@ -158,10 +139,7 @@ function isLandscape() {
 }
 
 
-/**
- * Shows or hides the "portrait-warning" overlay based on device type and screen orientation.
- * Displays the overlay if on a mobile/tablet device in landscape mode.
- */
+/** Toggles the "portrait-warning" overlay on mobile/tablet devices in landscape mode. */
 function checkScreenOrientation() {
 	const overlay = document.getElementById("landscape-warning");
 	if (!overlay) return;
@@ -171,7 +149,6 @@ function checkScreenOrientation() {
 		overlay.classList.add("d-none");
 	}
 }
-
 
 
 /**
@@ -195,13 +172,10 @@ function capitalizeFirstLetter(string) {
 
 
 /**
- * Creates a string of initials from a name string.
- * The function takes a string of a user's name and returns a string of their
- * initials. The returned string is made up of the first letter of the first
- * name, followed by the first letter of the last name if it exists.
- * @param {string} name - The user's name as a string.
- * @returns {string} The user's initials as a string.
-*/
+ * Creates uppercase initials from a given name (e.g., "John Doe" → "JD"), removing "(You)" if present.
+ * @param {string} name - The full name to convert.
+ * @returns {string} The uppercase initials.
+ */
 function createNameInitials(name) {
 	const cleanName = name.replace(/\s*\(You\)$/, '').trim();
 	const names = cleanName.split(' ');
@@ -334,12 +308,11 @@ async function deleteData(path = "", id = "") {
 
 
 /**
- * Overwrites data at the specified Firebase path using HTTP PUT.
- * This is typically used to reset or replace entire collections with dummy data.
- * @param {string} path - The Firebase path (e.g., "/users").
- * @param {Object|Array} data - The data to store at the specified path.
- * @returns {Promise<void>} Resolves when the operation completes and logs the response.
-*/
+ * Sends data to the specified path using a PUT request.
+ * @param {string} [path=""] - The endpoint path.
+ * @param {Object} [data={}] - The data to send as JSON.
+ * @returns {Promise<void>} Resolves when the request completes.
+ */
 async function putData(path = "", data = {}) {
 	await fetch(BASE_URL + path + ".json", {
 		method: "PUT",
@@ -352,8 +325,7 @@ async function putData(path = "", data = {}) {
 
 
 /**
- * Attaches an event listener to an element only once for a specific event and handler.
- * Ensures the same handler is not bound multiple times by using a unique key stored in the element's dataset.
+* Attaches an event listener to an element only once, preventing duplicate bindings using a unique key in the element's dataset.
 * @param {HTMLElement} element - The DOM element to bind the event listener to.
 * @param {string} event - The event type to listen for (e.g., 'click', 'mouseover').
 * @param {Function} handler - The event handler function to execute when the event occurs.
@@ -369,9 +341,7 @@ function bindEventListenerOnce(element, event, handler, boundKey) {
 
 
 /**
- * Prevents form submission when the Enter key is pressed inside any input field,
- * except for textarea elements, for all forms on the page.
- * Attaches a keydown event listener to each form element.
+ * Prevents Enter key from submitting forms, except in textareas.
  */
 function preventFormSubmitOnEnter() {
 	document.querySelectorAll("form").forEach((form) => {
@@ -390,18 +360,14 @@ function preventFormSubmitOnEnter() {
 }
 
 
-/**
- * Displays the loader overlay.
- */
+/** Displays the loader overlay. */
 function showLoader() {
 	const loader = document.getElementById('loader-overlay');
 	if (loader) loader.style.display = 'flex';
 }
 
 
-/**
- * Hides the loader overlay with a fade-out delay.
- */
+/** Hides the loader overlay with a fade-out delay. */
 function hideLoader() {
 	const loader = document.getElementById('loader-overlay');
 	if (loader) {
@@ -414,22 +380,21 @@ function hideLoader() {
 	}
 }
 
-
 window.addEventListener('keydown', e => {
 	if (e.key === 'Tab') {
 		document.body.classList.add('user-is-tabbing');
 		isTabbing = true;
 	}
 });
-
-
 window.addEventListener('mousedown', () => {
 	if (isTabbing) {
 		document.body.classList.remove('user-is-tabbing');
 		isTabbing = false;
 	}
 });
-
-
-// window.addEventListener('resize', checkScreenOrientation);
-// window.addEventListener("orientationchange", checkScreenOrientation);
+document.addEventListener('DOMContentLoaded', () => {
+	updateFavicon();
+	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateFavicon);
+});
+window.addEventListener('resize', checkScreenOrientation);
+window.addEventListener("orientationchange", checkScreenOrientation);
