@@ -8,6 +8,7 @@ async function initLegalNotice() {
     hideHelpIcon();
     checkForCurrentUser() ? initHeader() : hideHeaderActions();
     highlightLink('legal-notice');
+    initPopup();
 }
 
 
@@ -21,6 +22,7 @@ async function initPrivacyPolicy() {
     hideHelpIcon();
     checkForCurrentUser() ? initHeader() : hideHeaderActions();
     highlightLink('privacy-policy');
+    initPopup();
 }
 
 
@@ -35,4 +37,5 @@ async function initHelp() {
     hideHelpIcon();
     checkForCurrentUser() ? null : redirectTo('login.html');
     initHeader();
+    initPopup();
 }
