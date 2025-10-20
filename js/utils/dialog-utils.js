@@ -108,12 +108,10 @@ function closeDialogOnClickOutside(dialog, onClose) {
             detectTouchOutside(dialog, onClose, e);
 
         });
-        console.log('touch', dialog, onClose);
     } else {
         bindEventListenerOnce(dialog, 'click', (e) => {
             detectClickOutside(dialog, onClose, e);
         });
-        console.log('click', dialog, onClose);
     }
 }
 
@@ -133,8 +131,6 @@ function detectTouchOutside(dialog, onClose, e) {
     if (!clickedInside) {
         onClose();
     }
-    console.log(rect, dialog);
-
 }
 
 
@@ -154,8 +150,6 @@ function detectClickOutside(dialog, onClose, e) {
     if (!clickedInside) {
         onClose();
     }
-    console.log(rect, dialog);
-
 }
 
 
