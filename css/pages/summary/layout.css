@@ -324,7 +324,7 @@
     }
 
     .summary-list li a p {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .separator {
@@ -344,7 +344,7 @@
     }
 
     .urgent-link .upcoming-deadline-container p {
-        font-size: 14px;
+        font-size: 16px;
     }
 }
 
