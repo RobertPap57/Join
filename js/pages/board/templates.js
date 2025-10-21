@@ -56,7 +56,7 @@ function getDetailedTaskHTML(task) {
         </section>
         <section class="detailed-task-assigned">
             <h3>Assigned To:</h3>
-            <ul class="detailed-task-assigned-avatars d-flex-center" aria-label="Assigned contacts">
+            <ul class="detailed-task-assigned-avatars" aria-label="Assigned contacts">
                 ${generateAssignedAvatarsHTML(task.assignedTo, task.id, 'modal')}
             </ul>
         </section>

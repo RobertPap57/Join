@@ -282,14 +282,25 @@
 }
 
 .detailed-task-assigned {
-    display: flex;
-    gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;  
 }
 
+.detailed-task-assigned h3 {
+      flex: 0 0 auto;
+      align-self: center;
+}
+
+
+
 .detailed-task-assigned-avatars {
-    gap: 8px;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+  display: contents;
+}
+
+.detailed-task-assigned-avatars li {
+  flex: 0 0 auto;  
 }
 
 .detailed-task-attachments {
@@ -308,6 +319,8 @@
     display: flex;
     flex-direction: column-reverse;
     gap: 4px;
+    max-height: 104px;
+    overflow: auto;
 }
 
 .detailed-task-subtask-item {
@@ -373,4 +386,3 @@
     align-items: flex-end !important;
     padding-block: 24px 0 !important;
 }
- 
