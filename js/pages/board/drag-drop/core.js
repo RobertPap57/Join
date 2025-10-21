@@ -185,6 +185,7 @@ function scrollOnDragMove(e) {
     const windowHeight = window.innerHeight;
     const distBottom = windowHeight - y;
     const distTop = y;
+    if (draggedTaskId === null) return;
     if (distBottom < 150) {
         const extraSpeed = (150 - distBottom) * 1;
         const speed = 100 + extraSpeed;
