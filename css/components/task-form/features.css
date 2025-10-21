@@ -270,6 +270,9 @@
     flex-direction: column;
     gap: 8px;
     list-style: none;
+    max-height: 116px;
+    overflow: auto;
+
 }
 
 .subtask-list-item {
@@ -348,8 +351,9 @@
 
 .subtask-list-item:has(.edit-subtask-btn:focus-visible),
 .subtask-list-item:has(.delete-subtask-btn:focus-visible) {
-  background-color: #EEEEEE;
+    background-color: #EEEEEE;
 }
+
 .subtask-edit-icon-div:has(.edit-subtask-btn:focus-visible),
 .subtask-edit-icon-div:has(.delete-subtask-btn:focus-visible) {
     opacity: 1;
