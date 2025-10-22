@@ -145,7 +145,7 @@
 
 @keyframes slide-up {
   from {
-    transform: translateY(125%);
+    transform: translateY(100vh);
   }
 
   to {
@@ -163,7 +163,7 @@
   }
 
   to {
-    transform: translateY(125%);
+    transform: translateY(100vh);
   }
 }
 

@@ -14,6 +14,7 @@ function closeTaskFormDialogOnEsc(dialog, onClose) {
                 return;
             }
             onClose();
+            enableScroll();
         }
     }, 'close_dialog_on_esc');
 }
@@ -40,6 +41,7 @@ function setupTaskFormDialogClosingListeners(dialog) {
 function closeTaskFormDialog() {
     const dialog = document.getElementById('task-form-dialog');
     closeDialog(dialog);
+    enableScroll();
 }
 
 
@@ -95,6 +97,7 @@ function closeDetaliedTaskDialogListeners() {
 function closeDetaliedTaskDialog() {
     const dialog = document.getElementById('detailed-task-dialog');
     closeDialog(dialog);
+    enableScroll();
 }
 
 

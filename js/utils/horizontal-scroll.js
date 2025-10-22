@@ -35,7 +35,6 @@ function startDrag(e, dragContainer) {
  * @param {Event} e - Mouse or touch event
  */
 function dragMove(e) {
-    if (draggedTaskId) return;
     if (!currentDragContainer) return;
     const moveDistance = Math.abs(getPageX(e) - lastX);
     if (!isDragging && moveDistance > 5) {

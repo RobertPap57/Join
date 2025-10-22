@@ -56,6 +56,7 @@ function closePopup() {
     hidePopup();
     clearInputs();
     clearFormValidation();
+    enableScroll();
 }
 
 
@@ -70,7 +71,6 @@ function showPopup(type) {
     } else {
         openDialog(popupDialog, false);
     }
-
 }
 
 

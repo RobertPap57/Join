@@ -79,6 +79,7 @@ function openViewer(event, index) {
         return;
     }
     openImageViewer(index);
+    disableScroll();
 }
 
 
@@ -90,7 +91,8 @@ function closeImageViewer() {
         imageDialog.classList.add('slide-down');
         setTimeout(() => {
             imageDialog.close();
-        }, 280);
+            enableScroll();
+        }, 250);
     }
 }
 

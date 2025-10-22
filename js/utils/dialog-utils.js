@@ -130,6 +130,7 @@ function detectTouchOutside(dialog, onClose, e) {
         x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
     if (!clickedInside) {
         onClose();
+        enableScroll();
     }
 }
 
@@ -149,6 +150,7 @@ function detectClickOutside(dialog, onClose, e) {
         e.clientY <= rect.bottom;
     if (!clickedInside) {
         onClose();
+        enableScroll();
     }
 }
 
@@ -165,6 +167,7 @@ function closeDialogOnEsc(dialog, onClose) {
     dialog.addEventListener('cancel', (e) => {
         e.preventDefault();
         onClose();
+        enableScroll();
     });
 }
 
@@ -180,6 +183,7 @@ function openDialog(dialog, animate = false) {
     else dialog.classList.remove('animate-dialog');
     dialog.showModal();
     dialog.classList.add('open-dialog');
+    disableScroll();
 }
 
 
@@ -197,5 +201,24 @@ function closeDialog(dialog) {
     } else {
         dialog.classList.remove('open-dialog');
         dialog.close();
+        enableScroll();
     }
 }
+
+
+function disableScroll() {
+    const scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
+    
+}
+
+function enableScroll() {
+    const scrollY = document.body.style.top;
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+}
+

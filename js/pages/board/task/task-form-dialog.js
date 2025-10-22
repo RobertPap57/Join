@@ -47,6 +47,7 @@ function openEditTaskDialog(dialog, closeButton, formBottom, options) {
     animateEditTaskDialogOnMobile(dialog);
     setupTaskFormDialogClosingListeners(dialog);
     document.getElementById('detailed-task-dialog').close();
+    setTimeout(() => disableScroll(), 0);
 }
 
 
