@@ -35,17 +35,19 @@ function startDrag(e, dragContainer) {
  * @param {Event} e - Mouse or touch event
  */
 function dragMove(e) {
-    if (!currentDragContainer) return;
-    const moveDistance = Math.abs(getPageX(e) - lastX);
-    if (!isDragging && moveDistance > 5) {
-        isDragging = true;
-    } if (isDragging) {
-        const x = getPageX(e) - currentDragContainer.offsetLeft;
-        const walk = (x - startX) * -1;
-        velocity = getPageX(e) - lastX;
-        lastX = getPageX(e);
-        currentDragContainer.scrollLeft = scrollLeft + walk;
-    }
+    if (!draggedTaskId) {
+        if (!currentDragContainer) return;
+        const moveDistance = Math.abs(getPageX(e) - lastX);
+        if (!isDragging && moveDistance > 5) {
+            isDragging = true;
+        } if (isDragging) {
+            const x = getPageX(e) - currentDragContainer.offsetLeft;
+            const walk = (x - startX) * -1;
+            velocity = getPageX(e) - lastX;
+            lastX = getPageX(e);
+            currentDragContainer.scrollLeft = scrollLeft + walk;
+        }
+    } else return;
 }
 
 
